@@ -21,7 +21,8 @@ Completeness – Does it cover all key aspects of the topic?
 Readability – Is the language clear and concise?
 Novelty – Does the report provide new insights or perspectives?
 
-
+# Required to run this script 
+ transformers torch autogen json5 numpy textstat sentence-transformers nltk huggingface_hub python-dotenv datasets peft faiss-cpu
 
 # Steps
 
