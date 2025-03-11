@@ -594,14 +594,18 @@ def review_report(sections: Dict[str, str]) -> Dict:
         "final_report": final_report
     }
 
-def load_report_from_json(json_path: str) -> Dict:
-    """Load a report from a JSON file."""
+def load_report_from_json(review_number: int) -> Dict:
+    """Load a review context from the output directory's review folder."""
+    output_dir = Path("output")
+    review_dir = output_dir / f"review_{review_number:02d}"
+    review_path = review_dir / "final_points.json"
+    
     try:
-        with open(json_path, 'r', encoding='utf-8') as f:
+        with open(review_path, 'r', encoding='utf-8') as f:
             report_data = json.load(f)
         return report_data
     except Exception as e:
-        print(f"Error loading JSON file: {e}")
+        print(f"Error loading review file from {review_path}: {e}")
         raise
 
 def save_review_results(results: Dict, output_dir: Path):
@@ -663,58 +667,67 @@ def save_review_results(results: Dict, output_dir: Path):
         print("No points found to save!")
 
 def main():
-    # Load the report from JSON
-    json_path = "litreviews/review_01_1739874785.json"
-    report_data = load_report_from_json(json_path)
+    output_dir = Path("output")
+    review_folders = sorted(output_dir.glob("review_[0-9][0-9]"))
     
-    # Get sections directly from the report data
-    sections = report_data.get("sections", {})
-    
-    # Define the order of sections to process
-    section_order = ["INTRODUCTION", "METHODOLOGY", "RESULTS", "DISCUSSION", "CONCLUSION"]
-    
-    # Dictionary to store all results
-    all_results = {}
-    
-    # Process each section in order
-    for section_name in section_order:
-        if section_name in sections:
-            print(f"\n{'='*70}")
-            print(f"Processing {section_name} section...")
-            print(f"{'='*70}")
-            
-            # Create a single-section dictionary for processing
-            section_dict = {section_name: sections[section_name]}
-            results = review_report(section_dict)
-            
-            # Store the results
-            all_results.update(results["section_reviews"])
-            
-            print(f"\n{section_name} review completed successfully!")
-        else:
-            print(f"\nWarning: {section_name} section not found in the report.")
-    
-    # Save all results
-    if all_results:
-        output_dir = Path("output")
+    for review_folder in review_folders:
+        # Extract review number from foldername
+        review_number = int(review_folder.name.split('_')[1])
         
-        # Create a results dictionary in the format expected by save_review_results
-        final_results = {
-            "section_reviews": all_results,
-            "final_report": "\n\n".join([
-                f"## {section_name}\n\n"
-                f"### Original Content\n{result['original_content']}\n\n"
-                f"### Reviews and Guidance\n{result['guidance']}"
-                for section_name, result in all_results.items()
-            ])
-        }
-        
-        save_review_results(final_results, output_dir)
-        
-        print("\nAll sections processed and results saved successfully!")
-    else:
-        print("\nError: No sections were processed successfully.")
-        print("Available sections:", list(sections.keys()))
+        # Load the report from JSON
+        try:
+            report_data = load_report_from_json(review_number)
+            sections = report_data  # The loaded report data becomes the sections
+            
+            # Define the order of sections to process
+            section_order = ["INTRODUCTION", "METHODOLOGY", "RESULTS", "DISCUSSION", "CONCLUSION"]
+            
+            # Dictionary to store all results
+            all_results = {}
+            
+            # Process each section in order
+            for section_name in section_order:
+                if section_name in sections:
+                    print(f"\n{'='*70}")
+                    print(f"Processing {section_name} section...")
+                    print(f"{'='*70}")
+                    
+                    # Create a single-section dictionary for processing
+                    section_dict = {section_name: sections[section_name]}
+                    results = review_report(section_dict)
+                    
+                    # Store the results
+                    all_results.update(results["section_reviews"])
+                    
+                    print(f"\n{section_name} review completed successfully!")
+                else:
+                    print(f"\nWarning: {section_name} section not found in the report.")
+            
+            # Save all results
+            if all_results:
+                # Use the same review folder for output
+                output_dir = review_folder
+                
+                # Create a results dictionary in the format expected by save_review_results
+                final_results = {
+                    "section_reviews": all_results,
+                    "final_report": "\n\n".join([
+                        f"## {section_name}\n\n"
+                        f"### Original Content\n{result['original_content']}\n\n"
+                        f"### Reviews and Guidance\n{result['guidance']}"
+                        for section_name, result in all_results.items()
+                    ])
+                }
+                
+                save_review_results(final_results, output_dir)
+                print(f"\nResults saved successfully for {review_folder.name}!")
+            else:
+                print(f"\nError: No sections were processed successfully for {review_folder.name}.")
+                print("Available sections:", list(sections.keys()))
+                
+        except Exception as e:
+            print(f"Error processing {review_folder.name}: {e}")
+            continue
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from huggingface_hub import login
 import os
 from dotenv import load_dotenv  # Add this import
+import re
 
 # Load environment variables
 load_dotenv()
@@ -91,42 +92,83 @@ def load_model():
         return model, tokenizer
 
 def load_review_data():
-    """Load the original review and recommendations data"""
-    # Load original review
-    with open('litreviews/review_01_1739874785.json', 'r') as f:
-        review_data = json.load(f)
+    """Load all review data and their corresponding recommendations"""
+    review_data_list = []
     
-    # Load rewrite actions from final_points.json
-    with open('output/final_points.json', 'r') as f:
-        rewrite_data = json.load(f)  # Load all sections' actions
+    # Get all review files directly in litreviews folder
+    litreviews_path = Path('litreviews')
+    review_patterns = [f'review_{str(i).zfill(2)}*.json' for i in range(1, 21)]
+    review_files = []
+    for pattern in review_patterns:
+        review_files.extend(litreviews_path.glob(pattern))
     
-    return review_data, rewrite_data
+    # Sort files to process in order
+    review_files.sort()
+    
+    for review_path in review_files:
+        print(f"Checking file: {review_path}")
+        
+        # Get the base name without extension for finding the corresponding output folder
+        review_base = review_path.stem  # e.g., 'review_01_1234567'
+        
+        # Find corresponding final_points.json in output directory
+        final_points_path = Path('output') / review_base / 'final_points.json'
+        
+        if not final_points_path.exists():
+            print(f"No final_points.json found for {review_base}")
+            continue
+            
+        try:
+            # Load review data
+            with open(review_path, 'r') as f:
+                review_data = json.load(f)
+                
+            # Load rewrite points
+            with open(final_points_path, 'r') as f:
+                rewrite_data = json.load(f)
+                
+            review_data_list.append({
+                'review_path': review_path,
+                'review_data': review_data,
+                'rewrite_data': rewrite_data
+            })
+            print(f"Successfully loaded data for {review_base}")
+            
+        except Exception as e:
+            print(f"Error loading data for {review_base}: {str(e)}")
+            continue
+    
+    if not review_data_list:
+        raise FileNotFoundError("No valid review data found")
+        
+    return review_data_list
 
 def generate_rewrite_prompt(section_name: str, original_text: str, improvement_points: list) -> str:
-    """Generate a prompt for rewriting any section based on improvement points"""
-    formatted_points = "\n".join(f"   {point}" for point in improvement_points)
+    """Generate a more specific and directive prompt"""
+    section_purpose = get_section_purpose(section_name)
+    formatted_points = "\n".join(f"- {point}" for point in improvement_points)
     
-    prompt = f"""<s>[INST] Rewrite the following {section_name} section while maintaining its original structure. Address these specific improvement points:
+    prompt = f"""As a technical writing expert, rewrite this {section_name} section. This section's primary purpose is to {section_purpose}.
 
-{formatted_points}
-
-Original text:
+ORIGINAL TEXT:
 {original_text}
 
-Please provide a rewrite that:
-1. Maintains the same basic structure and technical depth
-2. Addresses the improvement points listed above
-3. Uses clear, accessible language while preserving technical accuracy
-4. Ensures smooth transitions between ideas
-5. Maintains proper citations and technical terminology
+REQUIRED IMPROVEMENTS:
+{formatted_points}
 
-[/INST]"""
-    
+IMPORTANT REQUIREMENTS:
+1. The rewritten text MUST be longer and more detailed than the original
+2. MUST address EVERY improvement point listed above
+3. MUST maintain all original citations [X] and technical terminology
+4. MUST maintain proper academic/technical writing style
+5. MUST end with complete sentences and proper paragraph structure
+
+REWRITTEN TEXT:
+"""
     return prompt
 
 def rewrite_section(model, tokenizer, section_name: str, original_text: str, improvement_points: list) -> str:
     """Rewrite any section using the LLM based on improvement points"""
-    # Existing rewrite_introduction function logic, but generalized for any section
     prompt = generate_rewrite_prompt(section_name, original_text, improvement_points)
     
     try:
@@ -135,49 +177,33 @@ def rewrite_section(model, tokenizer, section_name: str, original_text: str, imp
         with torch.no_grad():
             outputs = model.generate(
                 **inputs,
-                max_new_tokens=800,     # Longer context
-                temperature=0.2,        # More focused
-                top_k=20,              # More conservative
-                do_sample=False,       # Deterministic
-                num_beams=4,          # More beam search
+                max_new_tokens=1000,
+                temperature=0.7,
+                top_k=50,
+                do_sample=True,
+                num_beams=4,
                 no_repeat_ngram_size=3,
                 early_stopping=True,
                 pad_token_id=tokenizer.eos_token_id
             )
         
         response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        response = response.split('[/INST]')[-1].strip()
         
-        # Enhanced cleanup
-        response = response.replace('\n\n\n', '\n\n')
-        response = response.replace('  ', ' ')
-        response = response.replace('**', '').replace('*', '').replace('#', '')
+        # Add debugging
+        print(f"\nRaw response for {section_name}:")
+        print(response)
         
-        # Remove section headers and titles
-        lines = response.split('\n')
-        cleaned_lines = []
-        for line in lines:
-            if not any(line.startswith(prefix) for prefix in ['Title:', 'Introduction:', 'Definition and Background:', '###', '####', '---']):
-                cleaned_lines.append(line)
+        # Extract the rewritten text
+        response = response.split("REWRITTEN TEXT:")[-1].strip()
         
-        response = '\n'.join(cleaned_lines)
+        print(f"\nExtracted response for {section_name}:")
+        print(response)
         
-        # Ensure proper paragraph structure
-        paragraphs = [p.strip() for p in response.split('\n\n') if p.strip()]
-        if len(paragraphs) > 3:
-            paragraphs = [paragraphs[0], '\n\n'.join(paragraphs[1:-1]), paragraphs[-1]]
+        # Clean up the response
+        response = clean_response(response)
         
-        response = '\n\n'.join(paragraphs)
-        
-        # Clean up special characters and encoding issues
-        response = ''.join(char for char in response if ord(char) < 65536)
-        
-        # Validate response
-        if not response or len(response.split()) < 50:  # Basic validation
-            raise ValueError("Generated response is too short or empty")
-            
         return response
-        
+            
     except Exception as e:
         print(f"Error during text generation for {section_name}: {str(e)}")
         return original_text
@@ -189,64 +215,162 @@ def validate_technical_terms(original_text, new_text, terms_to_check):
             return False
     return True
 
+def get_section_purpose(section_name: str) -> str:
+    """Return the primary purpose of each section"""
+    purposes = {
+        "INTRODUCTION": "Provide context, state the problem, and outline the report's structure",
+        "METHODOLOGY": "Detail the research methods, procedures, and analytical approaches used",
+        "RESULTS": "Present the key findings and data without interpretation",
+        "DISCUSSION": "Interpret the results, compare with literature, and discuss implications",
+        "CONCLUSION": "Summarize key findings and their significance"
+    }
+    return purposes.get(section_name, "Present information clearly and accurately")
+
+def validate_rewritten_section(original: str, rewritten: str, improvement_points: list) -> bool:
+    """Validate that the rewritten section meets quality criteria"""
+    
+    # Relax the length check - should be at least 80% of original length
+    if len(rewritten.split()) < len(original.split()) * 0.8:
+        print("Failed length validation")
+        return False
+        
+    # Check for truncation (ending mid-sentence)
+    if rewritten.rstrip()[-1] not in ".!?":
+        print("Failed sentence ending validation")
+        return False
+        
+    # Ensure at least 50% of original citations are preserved
+    original_citations = re.findall(r'\[\d+\]', original)
+    rewritten_citations = re.findall(r'\[\d+\]', rewritten)
+    if len(original_citations) > 0 and len(rewritten_citations) < len(original_citations) * 0.5:
+        print("Failed citation preservation validation")
+        return False
+        
+    # Relax technical terms check - at least 50% should be preserved
+    technical_terms = extract_technical_terms(original)
+    if technical_terms:
+        preserved_terms = sum(1 for term in technical_terms if term.lower() in rewritten.lower())
+        if preserved_terms < len(technical_terms) * 0.5:
+            print("Failed technical terms validation")
+            return False
+    
+    return True
+
+def extract_technical_terms(text: str) -> set:
+    """Extract important technical terms from text"""
+    # This is a simple implementation - could be enhanced with NLP
+    words = text.split()
+    technical_terms = set()
+    
+    # Look for capitalized terms and terms in parentheses
+    for i, word in enumerate(words):
+        if (word[0].isupper() and i > 0) or '(' in word or ')' in word:
+            technical_terms.add(word.strip('().,'))
+            
+    return technical_terms
+
+def clean_response(text: str) -> str:
+    """Clean up the generated response"""
+    # Remove any remaining prompt text
+    text = re.sub(r'^.*?REWRITTEN TEXT:', '', text, flags=re.DOTALL)
+    
+    # Clean up formatting
+    text = text.replace('\n\n\n', '\n\n')
+    text = text.replace('  ', ' ')
+    text = text.replace('**', '').replace('*', '')
+    
+    # Remove section headers and titles
+    lines = text.split('\n')
+    cleaned_lines = [line for line in lines if not line.strip().startswith(('Title:', 'Introduction:', '###', '####', '---'))]
+    
+    # Rejoin and ensure proper spacing
+    text = '\n'.join(cleaned_lines)
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    
+    return text.strip()
+
 def main():
     # Load the model
     model, tokenizer = load_model()
     
-    # Load review data and recommendations
-    review_data, rewrite_data = load_review_data()
+    # Load all review data and recommendations
+    review_data_list = load_review_data()
     
     # Create output directory for rewritten reports
     rewritten_dir = Path("rewritten_reports")
     rewritten_dir.mkdir(exist_ok=True)
     
-    # Initialize the improved report structure
-    improved_report = {
-        "metadata": {
-            "timestamp": time.strftime("%Y%m%d_%H%M%S"),
-            "original_file": "litreviews/review_01_1739874785.json",
-            "improvement_points": rewrite_data
-        },
-        "sections": {}
-    }
-    
-    # List of sections to process (excluding References)
-    sections_to_process = [
-        section for section in review_data['sections'].keys() 
-        if section != 'REFERENCES'
-    ]
-    
-    # Process each section
-    for section_name in sections_to_process:
-        print(f"\nRewriting {section_name}...")
-        
-        original_text = review_data['sections'][section_name]
-        improvement_points = rewrite_data.get(section_name, [])
-        
-        if improvement_points:  # Only rewrite if we have improvement points
-            improved_text = rewrite_section(
-                model,
-                tokenizer,
-                section_name,
-                original_text,
-                improvement_points
-            )
-        else:
-            improved_text = original_text
-            print(f"No improvement points found for {section_name}, keeping original")
-        
-        # Add to improved report
-        improved_report['sections'][section_name] = {
-            "original": original_text,
-            "improved": improved_text
-        }
-    
-    # Save the improved report
-    output_path = rewritten_dir / f"improved_report_{time.strftime('%Y%m%d_%H%M%S')}.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(improved_report, f, indent=2, ensure_ascii=False)
-    
-    print(f"\nImproved report saved to {output_path}")
+    # Process each review
+    for review_item in review_data_list:
+        try:
+            review_path = review_item['review_path']
+            review_data = review_item['review_data']
+            rewrite_data = review_item['rewrite_data']
+            
+            print(f"\nProcessing review: {review_path}")
+            
+            improved_report = {
+                "metadata": {
+                    "timestamp": time.strftime("%Y%m%d_%H%M%S"),
+                    "original_file": str(review_path),
+                    "improvement_points": rewrite_data,
+                    "processing_status": {}  # Track success/failure of each section
+                },
+                "sections": {}
+            }
+            
+            sections_to_process = [
+                section for section in review_data['sections'].keys() 
+                if section != 'REFERENCES'
+            ]
+            
+            for section_name in sections_to_process:
+                try:
+                    print(f"  Rewriting {section_name}...")
+                    
+                    original_text = review_data['sections'][section_name]
+                    improvement_points = rewrite_data.get(section_name, [])
+                    
+                    if improvement_points:
+                        improved_text = rewrite_section(
+                            model,
+                            tokenizer,
+                            section_name,
+                            original_text,
+                            improvement_points
+                        )
+                        status = "improved"
+                    else:
+                        improved_text = original_text
+                        status = "no_improvements_needed"
+                    
+                    improved_report['metadata']['processing_status'][section_name] = status
+                    improved_report['sections'][section_name] = {
+                        "original": original_text,
+                        "improved": improved_text
+                    }
+                    
+                except Exception as e:
+                    print(f"Error processing section {section_name}: {str(e)}")
+                    improved_report['metadata']['processing_status'][section_name] = "error"
+                    improved_report['sections'][section_name] = {
+                        "original": original_text,
+                        "improved": original_text,
+                        "error": str(e)
+                    }
+            
+            # Save the improved report with status information
+            output_filename = f"improved_{review_path.stem}_{time.strftime('%Y%m%d_%H%M%S')}.json"
+            output_path = rewritten_dir / output_filename
+            
+            with open(output_path, "w", encoding="utf-8") as f:
+                json.dump(improved_report, f, indent=2, ensure_ascii=False)
+            
+            print(f"  Improved report saved to {output_path}")
+            
+        except Exception as e:
+            print(f"Error processing review {review_path}: {str(e)}")
+            continue
 
 if __name__ == "__main__":
     main()

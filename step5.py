@@ -54,7 +54,7 @@ def prepare_dataset(texts, tokenizer):
     return Dataset.from_dict(encodings)
 
 def load_json_files(directory):
-    """Load all report sections from JSON files in the specified directory."""
+    """Load improved content from JSON files in the specified directory."""
     texts = []
     print(f"Looking for JSON files in directory: {directory}")
     
@@ -78,14 +78,17 @@ def load_json_files(directory):
                     report_text = []
                     for section in sections:
                         if section in data['sections']:
-                            report_text.append(data['sections'][section])
-                            print(f"Successfully extracted {section} from {file}")
+                            section_data = data['sections'][section]
+                            # Extract only the 'improved' content if available
+                            if isinstance(section_data, dict) and 'improved' in section_data:
+                                report_text.append(section_data['improved'])
+                                print(f"Successfully extracted improved {section} from {file}")
                     
                     if report_text:
                         # Join all sections with newlines
                         full_text = "\n\n".join(report_text)
                         texts.append(full_text)
-                        print(f"Successfully combined {len(report_text)} sections from {file}")
+                        print(f"Successfully combined {len(report_text)} improved sections from {file}")
                 else:
                     print(f"Warning: No 'sections' field found in {file}")
                     print(f"Available keys in {file}: {list(data.keys())}")
@@ -105,8 +108,8 @@ def main():
     # Define model and tokenizer
     model_name = "mistralai/Mistral-7B-Instruct-v0.2"
     
-    # Define directories for different datasets
-    directories = ['litreviews', 'files_mmd']
+    # Define directory for rewritten reports
+    directories = ['rewritten_reports']
     
     for directory in directories:
         print(f"\nStarting fine-tuning for {directory}")
@@ -148,11 +151,8 @@ def main():
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         tokenizer.pad_token = tokenizer.eos_token
         
-        # Load texts based on directory type
-        if directory == 'litreviews':
-            texts = load_json_files(directory)
-        else:  # for files_mmd
-            texts = load_text_files(directory)
+        # Load texts from rewritten reports
+        texts = load_json_files(directory)
         
         # Prepare dataset
         dataset = prepare_dataset(texts, tokenizer)

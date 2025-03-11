@@ -1,45 +1,54 @@
 import time
 from types import SimpleNamespace
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 import json
 import os
-from autogen import config_list_from_json, AssistantAgent, UserProxyAgent
+from autogen import config_list_from_json, AssistantAgent, UserProxyAgent, Cache
 from functools import lru_cache
 import gc
-from database_extract import get_paper_context
-
-# Load environment variables
+from database_extract import load_faiss_index, query_similar_papers, get_paper_context
+import tempfile
+from huggingface_hub import login
 from dotenv import load_dotenv
-load_dotenv()
 
 # Clear CUDA cache and set PyTorch memory management
 torch.cuda.empty_cache()
+torch.backends.cuda.max_memory_split_size = 1024 * 1024 * 1024  # 1GB
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512,expandable_segments:True'
 
-# Model configuration
-MODEL_CONFIG = {
-    "model": "mistralai/Mistral-Small-24B-Instruct-2501",
-    "model_client_cls": "CustomLlama2Client",
-    "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
-    "n": 1,
-    "params": {
-        "max_new_tokens": 1000,
-        "top_k": 50,
-        "temperature": 0.1,
-        "do_sample": True,
-    },
-    "memory_config": {
-        "gpu": "70GiB",
-        "cpu": "32GiB"
+# Set up model configuration
+os.environ["OAI_CONFIG_LIST"] = json.dumps([
+    {
+        "model": "mistralai/Mistral-7B-Instruct-v0.2",
+        "model_client_cls": "CustomLlama2Client",
+        "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
+        "n": 1,
+        "params": {
+            "max_new_tokens": 1000,
+            "top_k": 50,
+            "temperature": 0.1,
+            "do_sample": True,
+        },
     }
-}
+])
 
-os.environ["OAI_CONFIG_LIST"] = json.dumps([MODEL_CONFIG])
+# Load environment variables
+load_dotenv()
+hf_token = os.environ.get('HUGGINGFACE_TOKEN')
+if not hf_token:
+    raise ValueError("HUGGINGFACE_TOKEN not found in environment variables")
+login(token=hf_token)
 
-# HuggingFace login
-from huggingface_hub import login
-login(token=os.getenv('HUGGINGFACE_TOKEN'))
+# Create a temporary directory for cache
+cache_dir = os.path.join(tempfile.gettempdir(), 'autogen_cache')
+os.makedirs(cache_dir, exist_ok=True)
+
+# Configure cache
+config_list = config_list_from_json(
+    "OAI_CONFIG_LIST",
+    filter_dict={"model_client_cls": ["CustomLlama2Client"]}
+)
 
 @lru_cache(maxsize=1)
 def load_shared_model(model_name, device):
@@ -49,8 +58,13 @@ def load_shared_model(model_name, device):
         model_name,
         torch_dtype=torch.float16,
         device_map="auto",
-        max_memory={0: MODEL_CONFIG["memory_config"]["gpu"], 
-                   "cpu": MODEL_CONFIG["memory_config"]["cpu"]},
+        quantization_config=BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4"
+        ),
+        max_memory={0: "70GiB", "cpu": "32GiB"},  # Increased for A100 80GB
         offload_folder="offload",
     )
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -143,21 +157,122 @@ def extract_sections(text):
     
     return sections
 
-def validate_report_sections(report):
-    """Validate that all required sections are present in the report"""
-    required_sections = [
-        "## INTRODUCTION",
-        "## METHODOLOGY",
-        "## RESULTS",
-        "## DISCUSSION",
-        "## FUTURE RESEARCH",
-        "## CONCLUSION",
-        "## REFERENCES"
+def generate_report(topic, max_retries=3, num_papers=3):
+    """Generate a report with a limited number of retries"""
+    # Get paper context and limit to 3 papers
+    full_context, all_relevant_papers = get_paper_context(topic)
+    # Take only the first 3 papers
+    relevant_papers = all_relevant_papers[:3]
+    
+    # Store metadata about papers including similarity scores
+    paper_metadata = [
+        {
+            "title": paper.get('title', 'Untitled'),
+            "authors": paper.get('authors', []),
+            "year": paper.get('year', 'n.d.'),
+            "abstract": paper.get('abstract', ''),
+            "similarity": paper.get('similarity', 0),
+            "content": paper.get('content', '') or paper.get('excerpt', ''),
+            "id": paper.get('id', paper.get('filename', 'unknown'))
+        }
+        for paper in relevant_papers
     ]
-    return all(section in report for section in required_sections)
+    
+    # Reconstruct context with only 3 papers
+    context = "\n\n".join([
+        f"Paper: {paper['title']}\n" +
+        f"Abstract: {paper['abstract']}\n" +
+        f"Content: {paper['content']}"
+        for paper in paper_metadata
+    ])
+    
+    # Create a formatted reference list from the actual paper data
+    reference_list = "\n".join([
+        f"[{i+1}] {paper['title']} ({paper['year']})"
+        for i, paper in enumerate(paper_metadata)
+    ])
+    
+    prompt = f"""Write a comprehensive academic report and literature review on: {topic}
+
+{context}
+
+IMPORTANT: You must ONLY use and reference the papers provided above. Do not introduce or reference any other papers or sources.
+
+IMPORTANT GUIDELINES:
+1. Total report length must be approximately 1000 words.
+2. Section lengths should be:
+   - INTRODUCTION: ~150 words
+   - METHODOLOGY: ~150 words
+   - RESULTS: ~400 words
+   - DISCUSSION: ~200 words
+   - CONCLUSION: ~100 words
+   - REFERENCES: Use EXACTLY the papers listed above, no additional references
+
+3. CRITICAL: Only use information from the provided paper excerpts above.
+4. Do not make up or reference any additional papers or research.
+5. Cite papers using [1], [2], etc. based on the order in the reference list.
+6. If the provided papers don't cover certain aspects, acknowledge the limitations rather than making assumptions.
+7. Focus on analyzing and synthesizing the specific findings from the provided papers.
+8. The REFERENCES section must exactly match the papers listed above, with no additions or modifications.
+
+Write the report content starting with ## INTRODUCTION and ending with ## REFERENCES."""
+
+    writer_system_message = """You are a technical writer. Write clear, structured academic reports using markdown headers.
+    Always include the following sections with ## headers:
+    ## INTRODUCTION
+    ## METHODOLOGY
+    ## RESULTS
+    ## DISCUSSION
+    ## CONCLUSION
+    ## REFERENCES"""
+
+    writer = AssistantAgent(
+        name="Writer",
+        system_message=writer_system_message,
+        llm_config={
+            "config_list": config_list,
+            "cache_seed": None,  # Disable caching
+            "timeout": 600,
+            "max_retries": 3,
+            "temperature": 0.1,
+        }
+    )
+
+    user_proxy = UserProxyAgent(
+        name="user_proxy",
+        code_execution_config={"use_docker": False},
+        human_input_mode="NEVER",
+        max_consecutive_auto_reply=1
+    )
+
+    writer.register_model_client(model_client_cls=CustomLlama2Client)
+
+    attempts = 0
+    while attempts < max_retries:
+        try:
+            chat_response = user_proxy.initiate_chat(writer, message=prompt, silent=True)
+            report = user_proxy.last_message()['content']
+            
+            # Clean the response
+            cleaned_report = clean_response(report)
+            
+            # Check if we have a complete report
+            if "## CONCLUSION" in cleaned_report and not cleaned_report.strip().endswith("## CONCLUSION"):
+                return cleaned_report, paper_metadata
+            
+            print(f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
+            attempts += 1
+            
+        except Exception as e:
+            print(f"\nError during attempt {attempts + 1}: {str(e)}")
+            attempts += 1
+    
+    # If we've exhausted retries, return the best response we have
+    print("\nWarning: Could not generate complete report after maximum retries.")
+    return cleaned_report.strip(), paper_metadata
 
 def generate_research_questions(domain):
-    """Generate research questions within a specific domain using direct LLM calls"""
+    """Generate research questions within a specific domain"""
     prompt = f"""You are tasked with generating research questions in {domain}.
 
 Generate 20 specific research questions about current challenges and emerging technologies in {domain}.
@@ -169,16 +284,27 @@ Format your response EXACTLY like this example (but with {domain} questions):
 
 Generate exactly 20 questions, numbered 1-20. Make each question specific and suitable for a literature review."""
 
-    llm_client = CustomLlama2Client(MODEL_CONFIG)
-    
-    response = llm_client.create({
-        "messages": [
-            {"role": "system", "content": "Generate numbered research questions only. No additional text."},
-            {"role": "user", "content": prompt}
-        ]
-    })
-    
-    response_text = llm_client.message_retrieval(response)[0].strip()
+    user_proxy = UserProxyAgent(
+        name="user_proxy",
+        code_execution_config={"use_docker": False},
+        human_input_mode="NEVER",
+        max_consecutive_auto_reply=1
+    )
+
+    question_generator = AssistantAgent(
+        name="QuestionGenerator",
+        system_message="Generate numbered research questions only. No additional text.",
+        llm_config={
+            "config_list": config_list,
+            "cache_seed": None,  # Disable caching
+            "temperature": 0.1,
+        }
+    )
+
+    question_generator.register_model_client(model_client_cls=CustomLlama2Client)
+
+    chat_response = user_proxy.initiate_chat(question_generator, message=prompt, silent=True)
+    response_text = user_proxy.last_message()['content'].strip()
     
     # Extract questions (lines starting with numbers)
     questions = []
@@ -194,117 +320,57 @@ Generate exactly 20 questions, numbered 1-20. Make each question specific and su
         print(f"Warning: Only generated {len(questions)} questions instead of 20")
     elif len(questions) > 20:
         questions = questions[:20]
+        
+    if not questions:
+        # Fallback questions if extraction fails
+        questions = [
+            f"What are the latest advances in {domain}?",
+            f"How can artificial intelligence improve {domain}?",
+            # ... add more fallback questions ...
+        ]
+        print("Warning: Using fallback questions due to parsing error")
     
     return questions
-
-def generate_report(topic, max_retries=3, num_papers=3):
-    """Generate a report with a limited number of retries using direct LLM calls"""
-    context, relevant_papers = get_paper_context(topic, num_papers)
-    
-    reference_list = "\n".join([
-        f"[{i+1}] {paper['title']} ({paper['year']})"
-        for i, paper in enumerate(relevant_papers)
-    ])
-    
-    prompt = f"""Write a comprehensive academic report and literature review on: {topic}
-
-{context}
-
-References to use:
-{reference_list}
-
-IMPORTANT: You must ONLY use and reference the papers provided above. Do not introduce or reference any other papers or sources.
-
-IMPORTANT GUIDELINES:
-1. Total report length must be approximately 1200 words.
-2. Section lengths should be:
-   - INTRODUCTION: ~150 words
-   - METHODOLOGY: ~150 words
-   - RESULTS: ~350 words
-   - DISCUSSION: ~200 words
-   - FUTURE RESEARCH: ~200 words (Identify gaps in current research and suggest promising future research directions)
-   - CONCLUSION: ~150 words
-   - REFERENCES: Use EXACTLY the papers listed above, no additional references
-
-3. CRITICAL: Only use information from the provided paper excerpts above.
-4. Do not make up or reference any additional papers or research.
-5. Cite papers using [1], [2], etc. based on the order in the reference list.
-6. If the provided papers don't cover certain aspects, acknowledge the limitations rather than making assumptions.
-7. Focus on analyzing and synthesizing the specific findings from the provided papers.
-8. In the FUTURE RESEARCH section:
-   - Identify clear gaps in the current research
-   - Suggest specific research questions that could address these gaps
-   - Propose potential methodological approaches for future studies
-   - Highlight emerging trends or technologies that could influence future research
-9. The REFERENCES section must exactly match the papers listed above, with no additions or modifications.
-
-Write the report content starting with ## INTRODUCTION and ending with ## REFERENCES."""
-
-    llm_client = CustomLlama2Client(MODEL_CONFIG)
-    
-    attempts = 0
-    while attempts < max_retries:
-        try:
-            response = llm_client.create({
-                "messages": [
-                    {"role": "system", "content": "You are a technical writer. Write clear, structured academic reports using markdown headers."},
-                    {"role": "user", "content": prompt}
-                ]
-            })
-            
-            report = llm_client.message_retrieval(response)[0]
-            cleaned_report = clean_response(report)
-            
-            if validate_report_sections(cleaned_report):
-                return cleaned_report
-            
-            print(f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
-            attempts += 1
-            
-        except Exception as e:
-            print(f"\nError during attempt {attempts + 1}: {str(e)}")
-            attempts += 1
-    
-    print("\nWarning: Could not generate complete report after maximum retries.")
-    return cleaned_report.strip()
 
 def main():
     domain = "Electronic Engineering"
     print(f"\nGenerating research questions in: {domain}")
     
+    # Create output directory
     output_dir = "litreviews"
     os.makedirs(output_dir, exist_ok=True)
     
+    # Generate research questions
     research_questions = generate_research_questions(domain)
     
+    # Generate review for each question
     for i, question in enumerate(research_questions, 1):
         print(f"\nGenerating review {i}/20: {question}")
         
         try:
-            report = generate_report(question)
+            report, paper_metadata = generate_report(question)  # Now getting both report and metadata
             cleaned_report = clean_response(report)
             
-            _, relevant_papers = get_paper_context(question)
-            
+            # Convert report to JSON structure with complete paper metadata
             report_data = {
                 "question": question,
                 "domain": domain,
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "sections": extract_sections(cleaned_report),
-                "referenced_papers": [
-                    {
-                        "title": paper["title"],
-                        "year": paper.get("year", "N/A"),
-                        "similarity": paper.get("similarity", 0)
-                    }
-                    for paper in relevant_papers
-                ]
+                "referenced_papers": paper_metadata,  # Now includes full paper details with similarity
+                "metadata": {
+                    "total_papers": len(paper_metadata),
+                    "average_similarity": sum(p['similarity'] for p in paper_metadata) / len(paper_metadata) if paper_metadata else 0,
+                    "generation_time": time.strftime("%Y-%m-%d %H:%M:%S")
+                }
             }
             
+            # Save to JSON file
             output_file = os.path.join(output_dir, f"review_{i:02d}_{int(time.time())}.json")
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(report_data, f, indent=2)
-            
+                
+            # Clear some memory
             torch.cuda.empty_cache()
             gc.collect()
             

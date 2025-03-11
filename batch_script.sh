@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -c 4
-#SBATCH --gres=gpu:ampere:1
+#SBATCH --gres=gpu:pascal:1
 #SBATCH -p ug-gpu-small
 #SBATCH --qos=normal
 #SBATCH -t 00-08:00:00
@@ -44,4 +44,4 @@ echo "Method 2: nvidia-debugdump"
 nvidia-debugdump -l || echo "nvidia-debugdump failed"
 echo "======================"
 
-python step1.py
+python step4.py
