@@ -1,0 +1,101 @@
+# Sustainability model for semiconductor manufacturing
+
+Eason Qi, Tienying Luo, Mallory Wick, Helen Armer, Michael Raiford, Tony Marteniz, Sanjiv Mittal
+
+AGS, Applied Materials, Santa Clara, CA
+
+yi_qi@amat.com
+
+###### Abstract
+
+Sustainability is becoming more challenging for semiconductor industry as the size of foundries and complexity of wafer fabrication increase[1, 2]. When we look at the commercial and sustainability side of semiconductor manufacturing, we need to define methods and indicators to measure both. This paper describes a method and model to measure the efficiency for any semiconductor process step. With this model, it is possible to compare, track, and benchmark the sustainability characteristic of a manufacturing process step and flow overall.
+
+Sustainability, efficiency, Energy measurement, energy consumption, Semiconductor device manufacture, semiconductor manufacturing, energy efficiency, carbon footprint, Environment, ESG
+
+## I Introduction
+
+Semiconductor manufacturing (Semi) heavily relies on materials, energy, and utility consumption. It also generates a lot of carbon footprint emissions which impact our environment [1, 2]. While we focus on the commercial side of semiconductor manufacturing, trying to increase the wafer output and throughput, it is equally important to look at its sustainability side, to ensure the materials, energy and utilities are consumed in an efficient and sustainable manner [3]. While SEMI S23 standard provides a guideline to analyze energy, utilities, and materials, and there are many ways to evaluate the sustainability performance for semiconductor manufacturing [4, 5], they often focus on the overall consumption or carbon footprint measurement. We don't have a systematic method to measure the efficiency, especially the efficiency trade-off between production and consumption (or environmental impact.) However, the trade-off between production and consumption (eco) efficiency, is the true measurement of how sustainable a semiconductor manufacture can be achieved.
+
+In this paper, we try to define a method to measure the production and consumption (eco) efficiency for Semi. We will relate the consumption (or the cost) of materials, energy and utility usage to wafer output, tool status, and the intrinsic performance of process and tools. By doing so, we can quantify the production and eco efficiency, and make them comparable, benchmarking and trackable. The relationship between those factors, described by a Production and Eco Efficiency Model ('PnEE'), will also give us insights into how manufacturing efficiency or sustainability can be improved.
+
+## II Model
+
+### _Issue statement_
+
+To demonstrate the problem to be solved, we started from a unit process level and chose a fleet of 5 Applied Materials tools, 10 chambers for a period of 4 months. Those 5 tools were running a mix of two different products (product A and product B), which requires different sequence of production and clean recipes, thus different time duration and consumption matrix. The materials and energy consumption are measured for each chamber and each month through sensors equipped on tools. As we can see from Fig. 0(a), there are a lot of chamber-to-chamber and month-to-month variations for the total consumption and the total wafer output.
+
+Fig. 0(a) Variation in total consumption and wafer output
+
+Fig. 0(b) Weak correlation between chamber consumption and chamber wafer outputHowever, there is no clear correlation between the total consumption and total wafer output (Fig. 1b) or to chamber status (Fig. 1c), making it hard to compare and track. It is difficult to characterize and compare the efficiency of each chamber at different time frames.
+
+### _Model construction_
+
+To find patterns in the data, we defined two parameters: One we refer to as the Production Efficiency or 'Actual throughput' for a given type of product. For a tool or chamber dedicated to one product, the actual throughput is the total wafer output divided by the total tool or chamber time. For a chamber that has a mix of two or more products running, we use the portion of actual production time for one product plus the weighted fraction of non-production time for this product in the actual throughput calculation.
+
+The second parameter we refer to as 'actual consumption per wafer' (its reciprocal is 'Eco Efficiency' for a given product). Similarly, for a tool dedicated to one product, the actual consumption per wafer is simply the total consumption divided by total wafer output. For a tool with mix of more products, we use actual portion of consumption used for running that product, plus the weighted fraction of consumption wasted for non-production in calculation. Table I show those parameters' definition and equation.
+
+Fig. 2 defines the 'Production and Eco Efficiency Model (or PnEE)' and illustrates the relationship between those parameters. As we can see, both production efficiency and eco efficiency are primarily a function of tool status (production and non-production time.) For a given site with established process and chamber performance, its efficiency usually would move along these two curves. However, the slope and position of the curves could change between fabs and sites assuming they run different tools or recipes for the same application. Specifically, the y-intercept of the throughput line is called ideal throughput, which is determined by the recipe and sequence durations for a given product. The y-intercept of the eco efficiency is the minimum or ideal consumption per wafer, which is also decided by the intrinsic performance of the tool and process recipes. The slope of the eco efficiency curve, however, is decided by the consumption rate during non-production (idle or maintenance time.)
+
+### _Model validation_
+
+Fig. 3 shows actual, normalized data we got from the 5 tools, 10 chambers during a 4-month period. For each chamber and every month, chamber utilization (production and non-production time), wafer output, total consumption of chemicals, electricity and utilities are recorded by sensors equipped on the tool and in subfab. We then convert the recording to thruput and consumption per wafer.
+
+As we can see, the production efficiency (thruput) and eco efficiency (reciprocal of consumption per wafer) for each chamber and month fit well to the curves defined by PnEE model.
+
+Fig. 2 defines the 'Production and Eco Efficiency Model (or PnEE)' and illustrates the relationship between those parameters. As we can see, both production efficiency and eco efficiency are primarily a function of tool status (production and non-production time.) For a given site with established process and chamber performance, its efficiency usually would move along these two curves. However, the slope and position of the curves could change between fabs and sites assuming they run different tools or recipes for the same application. Specifically, the y-intercept of the throughput line is called ideal throughput, which is determined by the recipe and sequence durations for a given product. The y-intercept of the eco efficiency is the minimum or ideal consumption per wafer, which is also decided by the intrinsic performance of the tool and process recipes. The slope of the eco efficiency curve, however, is decided by the consumption rate during non-production (idle or maintenance time.)
+
+### _Model validation_
+
+Fig. 3 shows actual, normalized data we got from the 5 tools, 10 chambers during a 4-month period. For each chamber and every month, chamber utilization (production and non-production time), wafer output, total consumption of chemicals, electricity and utilities are recorded by sensors equipped on the tool and in subfab. We then convert the recording to thruput and consumption per wafer.
+
+As we can see, the production efficiency (thruput) and eco efficiency (reciprocal of consumption per wafer) for each chamber and month fit well to the curves defined by PnEE model.
+
+\begin{table}
+\begin{tabular}{l|l} \hline Consumption rate during process (5/yr) & \(cI\) \\ \hline Consumption rate during non process (5/yr) & \(cI\) \\ Total Tool Time (HT) & \(cI\) \\ Non-food Status (N) & \(cI\) \\ Fixed status, [N] & \(cI\) \\ Non-food time (hr) & time+ (_ppm_) \\ For time (hr) & time+ (_ppm_) \\ Total frequency (\(\pm\)1000 production (ppm)) & \\ Wafer Output & 10\({}^{\circ}\)Time (_1-ppm_) \\ _Production efficiency_: Actual Throughput (\(\pm\)1000) & \(\pm\) (_ppm_) \\ Total consumption (\(S\)) & \(cI\) \\ _Eco efficiency_: Actual Consumption per wafer & \(cI\) \\ _total consumption per wafer \& \(cI\) \\ \hline \end{tabular}
+\end{table} TABLE I: Definition of Production and Eco Efficiency
+
+Fig. 2: Model to describe the production and eco efficiency as a function of tool status (production vs non-production time)
+
+## III Application
+
+The PnEE model can be used in many applicable ways to track, compare, and improve the sustainability aspect for semiconductor manufacturing.
+
+### _KPI tracking_
+
+As we illustrated in Fig. 1 example, although we can measure and track the total consumption for a process step, this measurement is mixed with many other factors such as tool utilization and wafer output. The situation becomes more complicated when a tool runs mixed productions with different recipes. By separating different products and decoupling production efficiency and eco efficiency, we can track their changes and reveal what caused the changes easily.
+
+Fig. 4 shows actual thruput and consumption per wafer in bar and line chart. For example, Tool2-ChA has a drop in both production and eco efficiency indicated by both low actual throughput and high consumption per wafer. This change, together with other KPI tracking such as tool utilization data in Fig. 5, we know the efficiency drop for Tool2-ChA is mainly caused by a high non-production time, which may be engineering, idle, or maintenance. The manufacturing owner can look into the causes without more data digging.
+
+### _Benchmarking_
+
+As you have probably noticed, a PnEE model for a given manufacture, tool category, process type, and production application is mostly fixed and the efficiency is dominated by the tool utilization as we have simplified. This won't be true anymore if we compare different manufacturing fabs, different tool vendors for the same process application.
+
+Fig. 5(a) and 5(b) are simulated production data from 2 fabs for same process application. Fab-A thruput appears comparable to Fab-B with larger variation and Fab-A consumption per wafer is higher than Fab-B. However, both thruput and consumption per wafer are greatly affected by the tool utilization so it is hard to compare Fab-A and Fab-B intrinsic difference for their tools and processes.
+
+Fig. 5(c) plots the same data set into PnEE model with tool utilization data. From this, it becomes clear Fab-A tool and process does have higher intrinsic thru-put as the fitted line is higher than Fab-B. Fab-A consumption per wafer is only a little higher than Fab-B tool and process. One can use these data to determine if their tool or process is efficient and sustainable for different utilizations and make proper decision on improvement efforts.
+
+Fig. 5: Non-production time of the fleet
+
+Fig. 3: Experiment data of 10 chamber x 4 months of data fitting into production and eco efficiency model – Product B
+
+### _ECO optimization_
+
+The PnEE model also gives us a guideline on how to improve the production and eco efficiency or sustainability of manufacturing. As shown in Fig. 7, any improvements could fall into 4 categories based on their strategies: 1) Shifting both data towards the left which means reduced non-production time or improved tool utilization time. As a result, the wafer output increases and consumption per wafer decreases. 2) Shifting y-intercept of throughput line upwards. This can be achieved by process recipe or sequence optimization to improve the intrinsic throughput. 3) Shifting consumption per wafer line downwards or minimizing consumption rate during processing. This implies either tool, system, or process improvement in terms of chemical and energy usage. 4) Finally, the consumption per wafer curve can be bent downwards or having reduced slope. This can be achieved by reducing consumption rate during idle or maintenance time.
+
+## IV conclusion
+
+In conclusion, this paper describes a method and model to characterize the production and eco efficiency for semiconductor manufacturing sustainability. The model enables us to compare, track and benchmark a chamber, a tool, or a fleet, from time to time for a given process application step. furthermore, the same method and model can be applied to the entire process flow or whole semiconductor manufacturing process to compare the manufacturing efficiency for making one production wafer throughout its foundry life cycle. The model provides insights into how to improve the production and eco efficiency, so we can make sustainability improvements in a systematic way.
+
+## References
+
+* IEEE 52nd European Solid-State Device Research Conference (ESDERC), Milan, Italy, 2022, pp. 352-355
+* [2] L. Deng and E. Williams, "Measures and trends in energy use of semiconductor manufacturing," 2008 IEEE International Symposium on Electronics and the Environment, San Francisco, CA, USA, 2008, pp. 1-6
+* [3] J. Harland, T. Reichelt and M. Yao, "Environmental sustainability in the semiconductor industry," 2008 IEEE International Symposium on Electronics and the Environment, San Francisco, CA, USA, 2008, pp. 1-6
+* [4] T. J. Dijkman, J. -M. Rodger and N. Bey, "How to assess sustainability in automated manufacturing," 2015 IEEE International Conference on Automation Science and Engineering (CASE), Gothenburg, Sweden, 2015, pp. 1351-1356
+* [5] S. Wibowo and H. Deng, "A fuzzy multicriteria approach for evaluating the sustainability performance of semiconductor companies," 2013 IEEE 8th Conference on Industrial Electronics and Applications (ICIEA), Melbourne, VIC, Australia, 2013, pp. 278-283
+
+Fig. 6a Thruput data from different Fabs for one process application
+
+Fig. 6b Consumption per wafer from different Fabs for same process application
+
+Fig. 7: Strategies for improving production and eco efficiency

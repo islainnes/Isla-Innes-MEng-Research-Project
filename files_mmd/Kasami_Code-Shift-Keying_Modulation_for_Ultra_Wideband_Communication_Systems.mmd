@@ -1,0 +1,162 @@
+# Kasami Code-Shift-Keying Modulation for Ultra Wideband Communication Systems
+
+Yuh-Ren Tsai* and Xiu-Sheng Li
+
+Institute of Communications Engineering
+
+National Tsing Hua University
+
+101, Sec. 2, Kuang-Fu Rd., Hsinchu 300, Taiwan
+
+ytsai@cse.nthu.edu.tw
+
+This work was supported in part by the National Science Council, Taiwan, R.O.C., under Grant NSC 95-2752-E-007-003-PAE and under Grant NSC 94-2219-E-007-006.
+
+###### Abstract
+
+Ultra wideband (UWB) communication systems are generally applied to short-range wireless communications. In order to achieve higher rates or to support multiple access capabilities, direct sequence spread spectrum (DSSS) techniques have been introduced to UWB systems. Furthermore, the concept of \(M\)-ary code shift keying (\(M\)-CSK) was introduced into DSSS systems to achieve higher rates. In this work, we propose an \(M\)-CSK modulation technique based on the large set of Kasami sequences since it possesses good code properties. The modulation and demodulation schemes are developed and the system performance is well investigated. It is found that the Kasami \(M\)-CSK modulation outperforms other \(M\)-CSK modulation techniques or some UWB systems. Furthermore, based on our demodulation scheme, the hardware complexity of receivers can be greatly reduced to \(O(M^{(3)})\) and the implementation for a large \(M\) becomes feasible.
+
+ Modulation; Multiaccess communication; Pseudonoise coded communication. +
+Footnote †: publicationid: pubid: 2020
+
+## I Introduction
+
+Recently, the investigation activities on the issue of ultra wideband (UWB) systems grow up rapidly [1]-[2]. In general, UWB communication systems are applied to short-range wireless communications for their great advantages, such as coexisting with narrowband systems, low probability of interception, low power consumption, and diversity gain of multipath resolution. Impulse radio (IR) technology is originally proposed for UWB systems [3]. However, in order to diminish the interference from other multiple access users, spread spectrum techniques are introduced and applied to UWB systems. For the purpose of achieving higher rates or supporting multiple access capabilities, direct sequence spread spectrum (DSSS) UWB systems have been proposed in [4]-[5]. In recent years, two different proposals are also proposed for the applications of wireless personal area networks (WPANs). One is the multi-band OFDM (MB-OFDM) system [6], and the other is the direct-sequence UWB (DS-UWB) system [7].
+
+To achieve higher rates, the concept of \(M\)-ary code shift keying (\(M\)-CSK) was introduced to DSSS systems [8]-[9]. \(M\)-CSK uses different codes to represent different symbols. There are many choices of code sets, such as orthogonal sets, bounded correlation sets, and random codes. In this work, we make use of Kasami sequences as the alphabet set. Details of the modulation and demodulation schemes are proposed. The system performance, including the hardware complexity, power efficiency and bandwidth efficiency, in additive white Gaussian noise (AWGN) and UWB channels exposed to multiple user interference is well investigated. Compared with the cases employing other code sets, we found that a better bit error rate (BER) performance can be obtained in most situations, and a higher data rate can be achieved. Furthermore, we introduce two possible demodulation schemes: one is the traditional optimal receiver and the other is our proposed scheme which can greatly reduce the hardware complexity.
+
+The rest of this paper is organized as follows. Section II introduces the channel model and the generation of Kasami sequences. Section III describes the modulation and demodulation schemes. Section IV concentrates on the system performance and the comparison with other systems. Finally, this paper is concluded in Section V.
+
+## II Preliminaries
+
+### _Pseudo-Random Sequences_
+
+For DSSS, there are many choices of spreading sequences. Particularly, the sequence length, the cross-correlation and the code set size are major properties concerning spreading sequences. The sequence length, denoted by \(L\), is available only for some specific values. For example, the sequence lengths of Walsh sequences are only available for \(L\!=\!2^{n}\). Furthermore, for any two binary code sequences \(\mathbf{a}\!=\![a_{v},a_{i},\cdots,a_{L-1}]\) and \(\mathbf{b}\!=\![a_{b},a_{i},\cdots,a_{b-1}]\), the discrete periodic cross-correlation function is defined as
+
+\[\theta_{\mathbf{a}\!=\!\frac{1}{L}\!\sum_{i=0}^{L+1}\!(-1)^{n}\!(-1)^{k_{v}} \!. \tag{1}\]
+
+The code set size is defined as the number of available code sequences in a code set.
+
+In practical applications, it is important to distinguish the binary code sequence and the corresponding signal waveform. The relation between a binary code sequence \(\mathbf{a}\!=\![a_{v},a_{i},\cdots,a_{L-1}]\) and the corresponding signal waveform \(\phi(t)\) can be presented by
+
+\[\phi(t)\!=\!\sum_{i,v\!=\!0}^{L+1}\!\!\!\!\!\!\!\!\!\!\!\!\(\mathcal{X}(\bullet)\) to represent the translation from a binary code sequence to the corresponding signal vector, i.e.
+
+\[\mathcal{X}(a_{t})=\left(-1\right)^{a_{t}},\ \ \mathcal{X}(\bullet)=\left(-1 \right)^{a_{t}},\left(-1\right)^{a_{t}},\cdots,\left(-1\right)^{a_{t+1}}. \tag{3}\]
+
+### _Kasami Sequences_
+
+In this work, we employ the large set of Kasami sequences as the symbol alphabet set since it possesses good code properties, including the large code set size and low cross-correlations. In the construction of the large set Kasami sequences with the length \(L=2^{n}-1\), the parameter \(n\) must be an even integer. In this work, we mainly focus on the case of \(n=2\mod 4\), and we briefly introduce how to construct the large set of Kasami sequences below [10].
+
+Let \(\mathbf{u}\) represent a binary \(m\)-sequence vector of the degree \(n\) with the period \(L=2^{n}-1\), \(D\) denote the operator which shifts the code phase of a sequence vector cyclically by one unit, and \(\oplus\) denote the exclusive-OR operator. For \(q=\left(t\right)n=1+2^{\left(m+2\right)^{2}},\ \mathbf{u}^{\prime}= \mathbf{u}|t(n)|\) forms another m-sequence with the period \(L\), and consequently we have a set of Gold sequences
+
+\[G(\mathbf{u},\mathbf{u}^{\prime})=\left\{\mathbf{u},\ \mathbf{u}^{\prime}, \mathbf{u}\oplus\mathbf{u}^{\prime},\mathbf{u}\oplus D\mathbf{u}^{\prime}, \mathbf{u}\oplus D^{2}\mathbf{u}^{\prime},...,\mathbf{u}\oplus D^{L-1} \mathbf{u}^{\prime}\right\}. \tag{4}\]
+
+It is noted that \(G(\mathbf{u},\mathbf{u}^{\prime})\) contains \(S_{{}_{\mathcal{Q}}}=L+2=2^{n}+1\) code sequences with the period \(L\). In addition, for \(q=s(n)=1+2^{n/2}\), \(\mathbf{u}^{\prime}=\mathbf{u}|s(n)|\) forms another m-sequence with the period \(L_{{}_{\dagger}}=2^{n/2}-1\). Now we define a cover sequence \(\mathbf{c}=\left[c_{{}_{0}},c_{{}_{1}},\cdots,c_{{}_{L+1}}\right],\) which is the repetitions of \(\mathbf{u}^{\prime}\), i.e. \(\mathbf{c}_{{}_{\mathcal{Q}},c_{{}_{1}},\cdots,c_{{}_{L+1}}},\)\(\mathbf{c}_{{}_{\mathcal{Q}},c_{{}_{1}},\cdots,c_{{}_{L+1}}}\) is equal to \(\mathbf{u}^{\prime}\) for \(j=0\),\(\cdots\),\(2^{n/2}\). We then define a set of cover sequences as
+
+\[C(\mathbf{u}^{\prime})=\mathbf{0}_{{}_{\mathcal{Q}}}\ \bigcup\left\{\sum_{j=1}^{L}D^{j+1} \mathbf{c}\right\}=\left\{\mathbf{c}_{{}_{\mathcal{Q}},\ j=0,\cdots,L_{{}_{ \dagger}}}\right\}, \tag{5}\]
+
+where \(\cup\) denotes the union of sets, and \(\mathbf{0}_{{}_{\mathcal{Q}}}\) is an all-zero sequence with length \(L\). It is noted that there are \(S_{{}_{\mathcal{Q}}}=L_{{}_{\dagger}}+1=2^{n/2}\) elements in \(C(\mathbf{u}^{\prime})\).
+
+Each element of the large set Kasami sequences, denoted by \(K(\mathbf{u})\), is the exclusive-OR output of an element in \(G(\mathbf{u},\mathbf{u}^{\prime})\) and an element in \(C(\mathbf{u}^{\prime})\). It is noted that the code set size of \(K(\mathbf{u})\) is \(S_{{}_{\mathcal{Q}}}=S_{{}_{\mathcal{Q}}}\times S_{{}_{\mathcal{Q}}}=2^{n/2} \left(2^{n}+1\right).\) The large set of Kasami sequences can also be expressed generator polynomials. Let \(h(x)\), \(h^{\prime}(x)\) and \(h^{\prime}(x)\) denote the generator polynomials of \(\mathbf{u}\), \(\mathbf{u}|t(n)|\) and \(\mathbf{u}|s(n)|\), respectively. Fig. 1 gives an example of the large set Kasami sequences generator.
+
+### _Channel Models_
+
+In this work, we consider two channel models, one is additive white Gaussian noise (AWGN) channel model, and the other is ultra-wideband multipath channel model with \(T_{{}_{c}}=1\,n\,\)sec [11]. In addition, a RAKE receiver with the finger number \(16\) is applied for the UWB channel.
+
+## III Modulation and Demodulation Schemes
+
+We propose in this section the modulation and demodulation schemes for \(M\)-CSK modulation based on the large set of Kasami sequences.
+
+### _Modulation Scheme_
+
+In the \(M\)-CSK modulation, there are \(M\) (\(M=2^{k}\)) different possible symbols, and the transmitter groups the input data stream into \(k\)-bit (\(k=\)log\({}_{2}M\)) symbols with a symbol duration \(T_{{}_{f}}\). Since the code set size \(S_{{}_{\mathcal{Q}}}=2^{n/2}(2^{n}+1)\) of \(K(\mathbf{u})\) is not a power of 2, we select \(M=2^{\lceil n/2\rceil}\), and then we have \(k=1.5n\). We now propose a systematic method for sequences selection and mapping. The input data sequence in a symbol duration is denoted as \(\mathbf{d}=[d_{{}_{\mathcal{Q}}},d_{{}_{\mathcal{U}}},\cdots,d_{{}_{\mathcal{U }}},d_{{}_{\mathcal{U}}},\cdots,d_{{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{ \mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U }},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}}]}\), where \(d_{{}_{\mathcal{U}}}\in\{0,\!1\}\). In Fig. 1, the initial state of \(h(x)\) is fixed to an arbitrary nonzero value, such as \(\mathbf{h}=[0,\cdots,0]\), and the initial states of \(h(x)\) and \(h^{\prime}(x)\) are set to be \(\mathbf{h}=[d_{{}_{\mathcal{Q}}},d_{{}_{\mathcal{U}}},\cdots,d_{{}_{\mathcal{U }}}]\) and \(\mathbf{h}^{\ast}=[d_{{}_{\mathcal{U}}},d_{{}_{\mathcal{U}}},\cdots,d_{{}_{ \mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U }},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{ \mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}},{}_{\mathcal{U}}]}\). The output code sequence is consequently a Kasami sequence of \(K(\mathbf{u})\).
+
+The generated Gold sequences set \(\widetilde{G}(\mathbf{u},\mathbf{u}^{\prime})\) in Fig. 1 is the complete set of original Gold sequences with the code sequence \(\mathbf{u}^{\prime}\) excluded, and it follows that \(S_{{}_{\mathcal{Q}}}=2^{n}=L+1\). Besides, if we define
+
+\[V(\mathbf{u}^{\prime})=\left\{\mathbf{0}_{{}_{\mathcal{U}}},\mathbf{u}^{\prime},D \mathbf{u}^{\prime},D^{\ast}\mathbf{u}^{\prime},\cdots,D^{L-1}\mathbf{u}^{\prime }\right\}=\left\{\mathbf{v}_{{}_{\mathcal{W}}},\ m=0,\cdots,L\right\}, \tag{6}\]
+
+the generated Gold sequence set is composed of \(\mathbf{u}\) and an element from \(V(\mathbf{u}^{\prime})\), i.e.
+
+\[\widetilde{G}(\mathbf{u},\mathbf{u}^{\prime})=\mathbf{u}\oplus V( \mathbf{u}^{\prime}) \tag{7}\] \[=\left\{\mathbf{u},\ \mathbf{u}\oplus\mathbf{u}^{\prime},\mathbf{u}\oplus D \mathbf{u}^{\prime},\mathbf{u}\oplus D^{\ast}\mathbf{u}^{\prime},\cdots,\mathbf{u} \oplus D^{L-1}\mathbf{u}^{\prime}\right\}.\]
+
+We therefore have the set of selected large Kasami code sequences, referred as the reduced set of large Kasami code sequences, being
+
+\[\widetilde{K}\left(\mathbf{u}\right)=\widetilde{G}\left(\mathbf{u},\mathbf{u}^{ \prime}\right)\bigcup\ \left[\bigcup\ \bigcup_{j=1}^{L_{{}_{\dagger}}}\left\{D\ ^{j-1}\mathbf{e}\oplus\widetilde{G}\left(\mathbf{u},\mathbf{u}^{\prime} \right)\right\}\right]\,, \tag{8}\]
+
+where \(D^{j}\mathbf{e}\oplus G(\mathbf{u},\mathbf{u}^{\prime})\) denotes the set \(\{D^{j}\mathbf{e}\oplus\mathbf{g}\cdot\mathbf{g}\in G(\mathbf{u},\mathbf{u}^{ \prime})\}\), and \(S_{{}_{\mathcal{K}}}=2^{n/2}\mathbf{x}^{2}=2^{n/2}.\)
+
+### _Demodulation Schemes_
+
+We propose two demodulation schemes to demodulate the received signal. One is the traditional optimal receiver, and the other is the three-stage demodulation scheme, which can greatly reduce the hardware complexity.
+
+Fig. 1: Large set Kasami sequence generator.
+
+[MISSING_PAGE_FAIL:3]
+
+being transmitted, upper bounded by
+
+\[P_{i}\leq\sum_{j=0,\gamma_{\mu}}^{\times\lambda}P_{i,j}\,,\quad i=0,1,\cdots,M-1, \tag{13}\]
+
+It is noted that the \(P_{i,j}\) of the large set Kasami sequences takes values in the set \(\Re=\{\rho_{i},\rho_{i},\rho_{i},\rho_{i},\rho_{i}\}=\{\,[t(n)-2]/L,\,[s(n)-2]/L,- \,[l/L,-s(n)/L,-t(n)/L\,\}\). According to (12), (13), and assuming that all symbols are equiprobable, we than the BER \(P_{\textit{error}}\) upper bounded by
+
+\[P_{\textit{error}}\leq\frac{1}{2(M-1)}\sum_{i=0}^{5}\beta_{n}\times\mathcal{O} \Big{(}\sqrt{(1-\rho_{n})\times\gamma}\Big{)}, \tag{14}\]
+
+where \(\beta_{n}\), \(1\leq m\leq 5\) denotes the number of signal waveforms pairs \(\big{[}\phi_{i}(t),\phi_{j}(t)\big{]}\), for any \(i\neq j\), \(0\leq i,j\leq M-1\), whose cross-correlation is equal to \(\rho_{n}\in\Re\).
+
+To figure out the upper bound of \(P_{\textit{error}}\), the values of \(\beta_{n}\), \(m=1,\cdots,5\) should be determined. However, there is currently no solution to solve \(\beta_{n}\). By exhaustive searching aided by computers, the exact values of \(\beta_{n}\) can be determined and the bound of \(P_{\textit{error}}\) can be easily obtained from (14).
+
+### _Power Efficiency_
+
+First, we take the case with \(n=6\) as an example for discussion. There are \(6\) m-sequences for \(n=6\), denoted by \(\textbf{u}_{\ast}\), \(\textbf{u}_{\ast}\), \(\textbf{u}_{\ast}\), \(\textbf{u}_{\ast}\), \(\textbf{u}_{\ast}\), \(\textbf{u}_{\ast}\) and \(\textbf{u}_{\ast}\), and the generator polynomials are \(x^{\ast}+x^{\ast}+1\), \(x^{\ast}+x+1\), \(x^{\ast}+x^{\ast}+x^{\ast}+x+1\), \(x^{\ast}+x^{\ast}+x^{\ast}+x+1\), \(x^{\ast}+x^{\ast}+x^{\ast}+x+1\), and \(x^{\ast}+x^{\ast}+x^{\ast}+x^{\ast}+1\), respectively. Each m-sequence can be used to generate a large set of Kasami sequences, and these 6 different sets of large Kasami sequences are denoted by \(K(\textbf{u}_{\ast})\), \(K(\textbf{u}_{\ast})\), \(K(\textbf{u}_{\ast})\), \(K(\textbf{u}_{\ast})\), \(K(\textbf{u}_{\ast})\), \(K(\textbf{u}_{\ast})\), and \(K(\textbf{u}_{\ast})\). The corresponding reduced sets of large Kasami sequences can be obtained and denoted by \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), \(\bar{K}(\textbf{u}_{\ast})\), and \(\bar{K}(\textbf{u}_{\ast})\). Furthermore, the cross-correlation between any two sequences in one large Kasami set takes on values in the set \(\Re=\{15/63,\,7/63,\,-1/63,\,-9/63,\,-17/63\}\). Via computer experiment, we found that the cross-correlation properties are the same for all \(\bar{K}(\textbf{u}_{\ast})\), \(i=0\,\,\text{--}\,5\), and we have \(\beta_{\ast}=0\), \(\beta_{\ast}=96768\), \(\beta_{\ast}=129024\), \(\beta_{\ast}=3584\), and \(\beta_{\ast}=32256\). Therefore, we conclude that these \(6\) reduced sets of large Kasami sequences are equivalent and lead to the same system performance.
+
+#### 1)_Alwgn Channel Model_
+
+Fig. 4 shows the bit error performance \(P_{\textit{error}}\) versus \(E_{\textit{s}}/N_{\textit{s}}\) with \(n=6\) for the Kasami \(M\)-CSK modulation and other \(M\)-CSK modulations in an AWGN channel. The code length for each modulation scheme is \(L=63\), except that the code length is \(L=64\) for the case using orthogonal sequences. However, the symbol alphabet sizes are different for various modulation schemes. For the proposed Kasami \(M\)-CSK modulation we have \(M=512\), for the \(M\)-CSK modulation using orthogonal or Gold sequences we have \(M=64\), and we have \(M=63\) for \(M\)-CSK modulation using m-sequences. The numerical and simulation results show that the Kasami \(M\)-CSK modulation outperforms other \(M\)-CSK modulations, and the improvement in \(E_{\textit{s}}/N_{\textit{s}}\) is about \(1\) dB. We also found that the \(M\)-CSK modulation schemes using orthogonal sequences, Gold sequences or m-sequences have a nearly identical performance, since they have almost the same constellation size \(M\). Furthermore, the numerical result obtained from (14) shows good accuracy for a large value of \(E_{\textit{s}}/N_{\textit{s}}\). More important, our simulation results verify that the performances are the same for demodulation Scheme A and demodulation Scheme B.
+
+In addition, for PPM-UWB systems, the power efficiency is the same as that of the \(M\)-CSK modulation using orthogonal code sequences. Therefore, according to the results shown in Fig. 4, we can conclude that the power efficiency \(\eta_{\textit{r},\textit{x}}\) of Kasami \(M\)-CSK modulation is better than those of other \(M\)-CSK modulations and the PPM-UWB systems in an AWGN channel, i.e.
+
+\[\eta_{\textit{r},\textit{x}}>\eta_{\textit{r},\textit{o}}=\eta_{\textit{r}, \textit{p},\textit{x}}\proposed Kasami _M_-CSK modulation which uses a bounded correlation code set with larger values of cross-correlation. For the case with \(n=8\), these three schemes have almost the same performance, whereas the proposed scheme outperforms other schemes for the case with \(n=10\). Although the proposed Kasami _M_-CSK modulation may be inferior to other schemes for the case with \(n=6\), it must be noted that the proposed scheme is always superior to other schemes in the bandwidth efficiency with a gain of 50 % as shown next.
+
+### _Bandwidth Efficiency_
+
+The bandwidth efficiency \(\eta_{{}_{B,G}}\) is defined as the ratio of the transmission bit rate to the channel bandwidth. For Kasami _M_-CSK modulation, we have the bandwidth efficiency
+
+\[\eta_{{}_{B,K}}=\frac{\log_{2}M/\left(L\,T_{{}_{c}}\right)}{1/T_{{}_{c}}}=\log _{2}\left(2^{3n^{2}}\right)\left(\!2^{n}-1\!\right)=\frac{1.5\,n}{2^{n}}\,. \tag{16}\]
+
+For other _M_-CSK modulations, we have the bandwidth efficiency as : \(\eta_{{}_{B,G}}=n/2^{n}\) (Orthogonal Sequences), \(\eta_{{}_{B,G}}=n/2^{n}\) (Gold Sequences), \(\eta_{{}_{B,G}}=n/2^{n}\) (m-sequences). In addition, for some PPM-UWB systems, the bandwidth efficiency is generally limited to \(\eta_{{}_{B,PM}}=n/2^{n}\). Hence, we conclude that the bandwidth efficiency of Kasami _M_-CSK modulation is 1.5 times better than other _M_-CSK modulations and PPM-UWB systems.
+
+### _Hardware Complexity_
+
+The increase of \(M\) will effectively enhance the BER performance for _M_-CSK modulations, but the receiver suffers from the increase of hardware complexity. The optimal receiver structure, like the demodulation Scheme \(\lambda\), uses a bank of \(M\) correlators. Therefore, the hardware complexity will be \(O(M)=O(2^{3n^{2}})\), and this makes the demodulation Scheme \(\lambda\) infeasible for large \(n\). The implementation becomes feasible for large \(n\) when the demodulation Scheme \(\lambda\) is applied. Now, only \(S_{{}_{C}}=L_{{}_{1}}+1=2^{n^{2}}\)\(\alpha\)-matched filters are needed, and the complexity is greatly reduced to \(O(M^{(3)}=O(2^{n^{2}})\).
+
+When the RAKE receiver is used in UWB multipath channel, the complexity increases proportionally to the finger number. For a large finger number, a better BER performance can be obtained with the cost of an increase in receiver complexity. In general, there is a trade off between system performance and hardware complexity.
+
+### _Multiple Access Environments_
+
+It is possible that two or more users are using the same radio channel for UWB applications, and the multiple access interference (MAI) should be taken into consideration. In our discussion, different users in the same radio channel will use different reduced sets of large Kasami sequences. It is assumed that different users are asynchronous, and the power ratio \(\zeta\), defined as the signal power of an MAI user to the desired signal power, is considered.
+
+The UWB communication systems are generally applied to low-density and short-range transmission, and it is reasonable to consider the power ratio \(\zeta\) is less than 1. Fig. 7 shows the simulation results for two-user and three-user environments in AWGN and UWB channels. The desired user applies \(\bar{K}(\mathbf{u}_{{}_{0}})\) as the alphabet set, the other two MAI users apply \(\bar{K}(\mathbf{u}_{{}_{1}})\) and \(\bar{K}(\mathbf{u}_{{}_{1}})\). The results show that the BER is inversely proportional to \(\zeta\). Furthermore, it is noted that there is no saturation phenomenon for the two-user environment, and the saturation phenomenon due to MAI occurs for the three-user environment in AWGN channel. However, saturation phenomenon occurs in UWB channel, since the multipath interference severely degrades the performance.
+
+## V Conclusions
+
+In this work, we have proposed an _M_-CSK modulation technique based on the large set of Kasami sequences for the applications of DSSS UWB communications. The modulation and demodulation schemes were developed, and the system performance, from the aspects of power efficiency, bandwidth efficiency and hardware complexity, was thoroughly investigated.
+
+For the bandwidth efficiency, the proposed Kasami sequences \(M\)-CSK modulation outperforms other schemes with a gain of 50 %. For the power efficiency, the proposed scheme was found to outperform other schemes with an improvement of 1dB in bit energy-to-noise power spectral density ratio under an AWGN channel; however the power efficiency was found to be almost equivalent under the UWB channel.
+
+In addition, the increase of the alphabet size \(M\) will enhance the transmission data rate but it increases the hardware complexity dramatically. By using the proposed demodulation Scheme B, the hardware complexity can be greatly reduced to \(O(M^{(v)})\), and as a result the implementation of receivers for a very large value of \(M\) becomes feasible. Furthermore, the proposed Kasami \(M\)-CSK modulation can also be applied to asynchronous multiple access environments, and an acceptable bit error rate performance can be obtained if the number of users is small. In conclusion, the proposed Kasami \(M\)-CSK modulation substantially enhances power efficiency and bandwidth efficiency, and is therefore quite suitable for the applications of UWB communications or other wireless communications.
+
+## References
+
+* [1] K. Siwiak, P. Withington, and S. Phelan, "Ultra-wide band radio: the emergence of an important new technology," in _Proc. IEEE Vehicular Technology Conf._ (VTC), vol. 2, 6-9 May 2011, pp. 1169-1172.
+* [2] D. Porcino and W. Hirt, "Ultra-wideband radio technology-- potential and challenges ahead," _IEEE Commun. Magazine_, vol. 41, pp. 66-74, July 2003.
+* [3] M. Z. Win and R. A. Scholtz, "Impulse radio: how it works," _IEEE Commun. Lett._, vol. 2, pp. 36-38, Feb. 1998.
+* [4] J. R. Forster, "The performance of a direct-sequence spread ultra-wideband system in the presence of multipath, narrowband interference, and multiuser interference," in _Proc. IEEE Conf. on Ultra Wideband Systems and Technologies_, 21-23 May 2002, pp. 87-91.
+* [5] V. S. Somayazulu, "Multiple access performance in UWB systems using time hopping vs. direct sequence spreading," in _Proc. IEEE Wireless Commun. and Networking Conf._ (WCNC), vol. 2, 17-21 March 2002, pp. 522 -525.
+* [6] "MERGED PROPOSAL \(\&\)1," [http://grouper.ieee.org/groups/802/15/pubTG3a](http://grouper.ieee.org/groups/802/15/pubTG3a), CFF.html
+* [7] "MERGED PROPOSAL \(\&\)2," [http://grouper.ieee.org/groups/802/15/pubTG3a](http://grouper.ieee.org/groups/802/15/pubTG3a), CFF.html
+* [8] A. G. Burr, "Capacity improvement of CDMA systems using M-ary code shift keying," in _Proc. IEEE Sixth International Conf. on Mobile Radio and Personal Commun._, 9-11 Dec. 1991, pp. 63-67.
+* [9] A. G. Burr, "Spherical codes for M-ary code shift keying," in _Proc. Second IEEE National Conf. on Telecommunications_, 25- Apr 1989, pp. 67-72.
+* [10] D. V. Sarwarte and M. B. Pursley, "Crosscorrelation properties of pseudo-random and related sequences," _Proc. IEEE_, vol. 68, pp. 593-619, May 1980.
+* [11] 02490/07802-15_SGM3a-Channel-Modeling-Subcommittee-Report-Final.do c.
+
+Fig. 6: The bit error probability \(P_{error}\) versus \(E_{3}/N_{6}\) for the single-user environment with several values of \(H\) in the CM1 UWB channel.

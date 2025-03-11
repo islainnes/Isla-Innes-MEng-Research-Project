@@ -1,0 +1,330 @@
+Compatibility Analysis Among Vector Magnetic Circuit Theory, Electrical Circuit Theory, and Electromagnetic Field Theory
+
+ Wei Qin\({}^{\copyright}\)
+
+(Member, IEEE)
+
+MING CHENG\({}^{\copyright}\)
+
+(Fellow, IEEE)
+
+JINGXIA WANG\({}^{\copyright}\)
+
+(Member, IEEE)
+
+XINKAI ZHU\({}^{\copyright}\)
+
+(Member, IEEE)
+
+ZHENG WANG\({}^{\copyright}\)
+
+(Senior Member, IEEE)
+
+AND WEI HUA\({}^{\copyright}\)
+
+(Senior Member, IEEE)
+
+\({}^{\copyright}\)School of Electrical Engineering, Southeast University, Nanjing 120099, China
+
+\({}^{\copyright}\)School of Mechanical Engineering, University of Shanghai for Science and Technology, Shanghai 200993, China
+
+\({}^{\copyright}\)Department of Electric Power Engineering, North China Electric Power University, Baoding 071003, China
+
+Corresponding authors: Ming Cheng (mcheng@seu.edu.cn) and Zheng Wang (zwang@seu.edu.cn)
+
+###### Abstract
+
+Due to the presence of the new magnetic component of magactance (or magnetic-inductance), the traditional scalar magnetic circuit theory is evolved into the vector magnetic circuit theory. Further research is still required to determine whether the vector magnetic circuit theory and the current electromagnetic theory are compatible with one another. In this paper, the reluctance and magductance parameters of the magnetic circuit are derived using electromagnetic field theory, vector magnetic circuit theory, and electrical circuit theory by taking a laminated magnetic core as an example. Additionally, based on the derived general expressions for the magnetic circuit parameters, the law of magnetic circuit parameters changing with magnetic circuit frequency is plotted and summarized, and the compatibility of electromagnetic field theory, vector magnetic circuit theory, and electrical circuit theory is analyzed. Finally, combined with the magnetoelectric power law, the derived general expressions for the magnetic circuit parameters have been verified by the experiments with the Epstein frame.
+
+Magductance, magnetic circuit parameter, vector magnetic circuit theory, compatibility analysis, magnetoelectric power law, laminated magnetic core. +
+Footnote †: The associate editor coordinating the review of this manuscript and approving it for publication was Montserrat Rivas.
+
++
+Footnote †: The associate editor coordinating the review of this manuscript and approving it for publication was Montserrat Rivas.
+
++
+Footnote †: The associate editor coordinating the review of this manuscript and approving it for publication was Montserrat Rivas.
+
+## 1 Introduction
+
+Electrical machine as we are all aware, is a device that utilizes the principles of electromagnetism to perform energy conversion [1]. In general, there exist various forms of three-dimensional alternating electromagnetic fields within electrical machines [2]. It is difficult to accurately understand their spatial distribution and temporal variation of magnetic field for determining the dynamic and steady-state performance of electrical machines [3]. Therefore, in order to simplify the analysis and calculation, the method of "field-to-circuit" is still commonly used in many engineering problems, including the widely used "electrical circuit" [4] and "magnetic circuit" [5]. As a result, electromagnetic field theory can be used to derive electrical circuit theory and magnetic circuit theory [6].
+
+Magnetic circuit theory and electrical circuit theory are both important branches of electrical engineering. Although both involve electromagnetics and engineering, there are some differences between them. Compared with magnetic circuit theory, electrical circuit theory has many advantages including more circuit components, a superior theoretical framework, and a more straightforward calculation procedure, etc. For example, equivalent electrical circuits are still the favored method for analyzing the dynamic response and steady-state characteristics of electrical machines [4], [7]. Beside, Zhu et al. and Hui et al. developed the transmission line modeling method from electrical circuit theory to examine the loss and nonlinear behavior of the magnetic core [8], [9]. However, compared with electrical circuit theory, the behavior of magnetic fields in magnetic circuits, including the magnetic field distribution, magnetic flux etc., can be more precisely reflected by magnetic circuit theory [10]. Nevertheless, as only the reluctance component is included in the traditional magnetic circuit theory, the extent of its applicability is rather limited, as is its use in engineering practice [11]. To change this status quo, Cheng et al. defined the second component in the magnetic circuit, namely magductance, by means of vector magnetic circuit derivation [12]. Moreover, Qin et al. derived the expressions for reluctance and magductance of silicon steel sheets at different frequencies, and completed the preliminary experimental validation using the Epstein frame in the case of the magnetic density of 0.01T [13]. The proposed magductance component rewrites the history of scalar magnetic circuit theory, elevates the status of magnetic circuit theory in the existing physical system, and holds the promise of breaking the limitations of the application of magnetic circuit theory.
+
+Although vector magnetic circuit theory has been proven to be feasible in [12] and [13], there is still much follow-up work to be done, with the most critical being the compatibility with electrical circuit theory and electromagnetic field theory. For a long time, people often choose one of the three theories to analyze electrical machines. Few scholars have explored and studied the relationship between the three theories, let alone the vector magnetic circuit theory involving magductance components. This research may be dated back to 1941, when Roters discovered the resemblance between magnetic circuits and electrical circuits when designing the equivalent magnetic circuit of a transformer [14]. Later in 1948, Cherry conducted a study of the duality of the electrical circuit and magnetic circuit, and concluded that the equivalent electrical circuit of a transformer was derived from the magnetic circuit using the idea of dual topology [15]. Subsequently, Carpenter first applied the duality of magnetic circuits and electrical circuits in the analysis of rotating electromagnetic devices in 1968 [16]. Based on this, Fiennes employed equivalent magnetic circuits in 1973 to theoretically analyze three-phase synchronous motors, three-phase induction motors, and DC motors under steady-state and unexpected short-circuit situations [17]. Due to the limitations of computer technology and experimental conditions, no experiment has ever been able to prove the validity of duality. In 2000, Brown et al. renewed the duality between the electrical circuit and the magnetic circuit and made related applications in the following years [18, 19, 20]. In 2015, Lambert et al. evaluated and reviewed the duality of electrical and magnetic circuits that appeared in the past and proposed a solution for nonplanar magnetic circuits [11]. Despite the fact that the relationship between magnetic circuits and electrical circuits has been extensively investigated and utilized in recent decades [21, 22, 23], the compatibility of electromagnetic field theory, magnetic circuit theory, and electrical circuit theory has always been a challenge.
+
+To overcome the aforementioned existing predicament, this paper employs the laminated magnetic core as a breakthrough to conduct the analysis. Firstly, a magnetic circuit model and an equivalent magnetic circuit of the laminated magnetic core are established based on Thevenin's theorem and Norton's theorem of vector magnetic circuit theory. Secondly, the magnetic field distribution of the laminated magnetic core at different frequencies (uniform magnetic flux distribution and non-uniform magnetic flux distribution) is analyzed using electrical circuit theory and electromagnetic field theory. Further, the expressions of reluctance and magductance are obtained by combining vector magnetic circuit theory, and the regularity of the magnetic circuit parameters changing with frequency is analyzed. Thirdly, the analysis and discussion of the three theoretical compatibilities are carried out with the magnetic circuit parameters as the connection point, proving that the three theories are mutually compatible and applicable to each other. Finally, the expressions of the magnetic circuit parameters of the laminated magnetic core are verified by the experiments, and the feasibility and validity of the vector magnetic circuit theory are proved from the experimental results.
+
+## II Vector magnetic circuit model of the laminated core
+
+The magnetic core is the constituent part of the magnetic circuit and acts as a carrier of the magnetic flux. Its purpose is to provide a predictable and distinct path for the magnetic flux, and to concentrate the magnetic field energy in the magnetic core [6, 24]. By using magnetic cores, the size and weight of electrical machines can be reduced, increasing efficiency and power density. Silicon steel is one of the most commonly used magnetic materials due to its high resistance and low hysteresis loss, making it suitable for electrical machines and other electromagnetic devices [25]. As seen in Fig 1(a), silicon steel is typically formed into sheets to create a laminated magnetic core along the direction of sinusoidal alternating magnetic flux flow, which helps to further reduce eddy current losses. In Fig 1(a), \(\Phi\) denotes the total magnetic flux existing in the laminated magnetic core. \(I\) denotes the equivalent eddy current formed in the laminated magnetic core, and \(n\) denotes the number of silicon steel sheets.
+
+Assuming that the silicon steel sheets in the laminated magnetic core are isolated from one another, the magnetic flux of each silicon steel sheet does not interfere with one another, and the effect of magnetic flux leakage and hysteresis loss are not taken into consideration. When an alternating magnetic flux circulates in the laminated magnetic core, an induced magnetotronic force (eddy current) is formed in each silicon steel sheet to oppose the change in magnetic flux, following Lenz's law. Assuming that the source magemotronic force(MMF) \(\mathcal{F}\) applied at both ends of each silicon steel sheet is the same, the magnetic flux in each silicon steel sheet is determined by both reluctance and magductance. According to the vector magnetic circuit theory [12], the equivalent magnetic circuit of the laminated magnetic core is depicted in Fig. 1(b), where \(\Phi_{1}\), \(\Phi_{2}\dots\Phi_{n}\) denote the magnetic flux flowing through each silicon steel sheet; \(\mathcal{R}_{1}\), \(\mathcal{R}_{2}\dots\mathcal{R}_{n}\) denote the reluctance of each silicon steel sheet; \(\mathcal{L}_{1}\), \(\mathcal{L}_{2}\)...\(\mathcal{L}_{n}\) denote the magductance of each silicon steel sheet; \(\omega\) denotes the angular frequency of the alternating magnetic flux.
+
+For ideal laminated core magnetic circuits, Thevenin's theorem and Norton's theorem convert a complex magnetic circuit to a simpler series or parallel equivalent magnetic circuit for easier analysis [26], which is shown in Fig. 1(c) and Fig. 1(d), respectively, where \(\mathcal{R}_{eq}\) and \(\mathcal{L}_{eq}\) are the equivalent reluctance and equivalent magductance of the laminated magnetic core, respectively. Ideally, when the magnetic circuit parameters of each silicon steel sheet are exactly the same, yielding
+
+\[\left\{\begin{array}{l}\mathcal{R}_{1}=\mathcal{R}_{2}=\ldots=\mathcal{R}_{n }\\ \mathcal{L}_{1}=\mathcal{L}_{2}=\ldots=\mathcal{L}_{n}\end{array}\right. \tag{1}\]
+
+From the laws for magnetic impedances in parallel [12],
+
+\[\frac{1}{\mathcal{R}_{eq}+\mathrm{j}o\mathcal{L}_{eq}} =\frac{1}{\mathcal{R}_{1}+\mathrm{j}o\mathcal{L}_{1}}+\ldots+ \frac{1}{\mathcal{R}_{n}+\mathrm{j}o\mathcal{L}_{n}}\] \[=\frac{n}{\mathcal{R}_{n}+\mathrm{j}o\mathcal{L}_{n}} \tag{2}\]
+
+Hence, the expression for the equivalent reluctance \(\mathcal{R}_{eq}\) is
+
+\[\mathcal{R}_{eq}=\frac{\mathcal{R}_{n}}{n} \tag{3}\]
+
+And the expression for the equivalent magductance \(\mathcal{L}_{eq}\) is
+
+\[\mathcal{L}_{eq}=\frac{\mathcal{L}_{n}}{n} \tag{4}\]
+
+From (4), it is clear that the basis of solving the magnetic circuit parameters of the laminated core is to solve the magnetic circuit parameters of each silicon steel sheet, which necessitates more extensive analysis and derivation.
+
+## III Solution of lumped magnetic circuit parameters for laminated cores
+
+Based on the analysis above, assuming that the magnetic field distribution of each silicon steel sheet of the laminated magnetic core is the same, the parameters of the laminated magnetic core can be calculated by solving the magnetic circuit of the silicon steel sheet. Therefore, the three-dimensional mathematical model of the silicon steel sheet is established, and the center of the silicon steel sheet cross-section is used to create a coordinate system [6], as shown in Fig. 2. The silicon steel sheet is \(a\), \(b\), and \(h\) in thickness, width, and height, respectively.
+
+There are two possible distributions of the magnetic flux in the silicon steel sheet: a uniform distribution of magnetic flux (low-frequency condition) or an uneven distribution of the magnetic flux (high-frequency condition). Therefore, different theories combined with vector magnetic circuit theory are developed to analyze the above two conditions below.
+
+### Uniform magnetic flux distribution
+
+Assuming that a sinusoidal MMF is applied to the laminated magnetic core
+
+\[\mathcal{F}\left(t\right)=\mathcal{F}_{m}\sin\omega t \tag{5}\]
+
+where \(\mathcal{F}_{m}\) denotes the amplitude of the MMF. Due to the existence of reluctance and magductance in the magnetic circuit, according to Kirchhoff's law of the magnetic circuit [12], the resulting magnetic flux is
+
+\[\Phi\left(t\right)=\Phi_{m}\sin\left(\omega t-\theta\right)=haB_{m}\sin\left( \omega t-\theta\right) \tag{6}\]
+
+where \(\Phi_{m}\) and \(\theta\) denote the magnetic flux amplitude and phase, respectively. And \(B_{m}\) denotes the amplitude of magnetic flux density. When the frequency of magnetic flux in the silicon steel sheet is relatively low, according to the definition of skin depth \(\delta\)[6], we can obtain
+
+\[\delta=\sqrt{\frac{2}{\omega\mu\sigma}}\geq a \tag{7}\]
+
+where \(\sigma\) and \(\mu\) refer to the conductivity and permeability of the silicon steel sheet, respectively. In this case, the distribution of magnetic flux \(\Phi(t)\) flowing through the silicon steel sheet can be considered to be uniform. According to the definition of reluctance [5], [26], the expression of reluctance is
+
+\[\mathcal{R}=\frac{b}{\mu ah} \tag{8}\]
+
+Figure 1: Magnetic circuit analysis of the laminated magnetic core.
+
+(a) Ideal laminated magnetic core model. (b) Equivalent magnetic circuit. (d) Thevenin equivalent magnetic circuit. (d) Norton equivalent magnetic circuit.
+
+Figure 2: Mathematical model of the silicon steel sheet.
+
+Taking the yellow loop with thickness \(\mathrm{d}x\) and area \(A=b(\mathrm{d}x)\), as shown in Fig. 2. By Faraday's law, the induced voltage \(e(t)\) is equal to the derivative of the magnetic flux passing through the area enclosed by the yellow loop
+
+\[e\left(t\right) =-\frac{d\ (B\left(t\right)2hx)}{dt}\] \[=e_{m}\cos\left(\omega t\ -\theta\right) \tag{9}\]
+
+where \(e_{m}\) denotes the amplitude of \(e(t)\). Since \(h\gg a\), the resistance of the two short edges in the yellow loop is ignored, According to the definition of resistance [26], the resistance of the yellow loop is approximated as
+
+\[\mathrm{d}r\approx\frac{2h}{\sigma\,\mathrm{d}x} \tag{10}\]
+
+According to the electrical circuit theory, the active power of the yellow loop is
+
+\[\mathrm{d}P=\frac{e_{m}^{2}}{2\mathrm{d}r}=\omega^{2}B_{m}^{2}\sigma\,bhx^{2} \mathrm{d}x \tag{11}\]
+
+Resulting in the active power caused by eddy current in the silicon steel sheet at low frequencies
+
+\[P=\int\limits_{0}^{\frac{\theta}{2}}\mathrm{d}P=\int\limits_{0}^{\frac{\theta} {2}}\omega^{2}B_{m}^{2}\sigma\,bhx^{2}\mathrm{d}x=\frac{\omega^{2}B_{m}^{2} \sigma\,bha^{3}}{24} \tag{12}\]
+
+Considering only the active loss caused by the magductance of the silicon steel sheet, according to the magnetoelectric power law [12], yielding
+
+\[P=\frac{\omega\ (\omega\mathcal{L})\ \Phi_{m}^{2}}{2} \tag{13}\]
+
+Combining (6), (12) and (13), the expression of magductance of the silicon steel sheet is
+
+\[\mathcal{L}=\frac{\sigma\,ab}{12h} \tag{14}\]
+
+Substituting (8) and (14) into (3) and (4), respectively, the expressions for the reluctance and magductance of the laminated magnetic core with uniform magnetic flux distribution are
+
+\[\left\{\begin{aligned} \mathcal{R}_{eq}&=\frac{b}{ \mu ah}\\ \mathcal{L}_{eq}&=\frac{\sigma\,ab}{12h}\end{aligned}\right. \tag{15}\]
+
+### Non-Uniform Magnetic Flux Distribution
+
+As the frequency of the magnetic flux becomes higher, the effect of magductance becomes stronger against the magnetic flux change, i.e., the skin depth \(\delta\) becomes smaller than the thickness of the silicon steel sheet, and the magnetic flux in the silicon steel sheet becomes unevenly distributed. As a result, electromagnetic field theory and vector magnetic circuit theory are used to derive the magnetic circuit parameters.
+
+Typically, the eddy currents of electromagnetic devices belong to the region of quasi-stationary effects. That is to say, the displacement current within conductors may always be neglected with respect to the conductive current [27]. At any frequency, the magnetic field intensity of a silicon steel sheet is described by Maxwell's equations for quasi-stationary electromagnetic fields.
+
+\[\nabla\times\mathbf{H}=\mathbf{J} \tag{16}\]
+
+where \(\mathbf{H}\) and \(\mathbf{J}\) refer to the magnetic field intensity and current density in the magnetic core, respectively. Taking the curl of (16)
+
+\[\nabla\times\nabla\times\mathbf{H}=\nabla\left(\nabla\cdot\mathbf{H}\right)-\nabla^{ 2}\mathbf{H}=\nabla\times\mathbf{J} \tag{17}\]
+
+Considering the material equations
+
+\[\left\{\begin{aligned} \mathbf{J}&=\sigma\mathbf{E}\\ \mathbf{B}&=\mu\mathbf{H}\end{aligned}\right. \tag{18}\]
+
+Substituting (18) into (17) yields the Helmholtz equation
+
+\[\nabla^{2}\mathbf{H}-\mu\sigma\,\frac{\partial\mathbf{H}}{\partial\mathrm{t}}=0 \tag{19}\]
+
+In Fig. 2, the only component of \(\mathbf{H}\) is assumed to be in the \(y\)-axis and is constrained to be a spatial function of \(x\) alone and to vary sinusoidally with time. Thus the eddy currents are induced entirely in the \(z\)-axis [27]. Sinusoidal time variation of the field quantities enables us to substitute \(jo\) for \(\partial/\partial t\)[28], therefore, (19) becomes
+
+\[\frac{\mathrm{d}^{2}H_{y}\left(x\right)}{\mathrm{d}x^{2}}=\mathrm{jo}\mu\sigma \,H_{y}\left(x\right)=\gamma^{2}H_{y}\left(x\right) \tag{20}\]
+
+where
+
+\[\gamma=\sqrt{\mathrm{jo}\mu\sigma}=\frac{1+\mathrm{j}}{\delta} \tag{21}\]
+
+A general solution of (20) is
+
+\[H_{y}\left(x\right)=H_{1}e^{\gamma x}+HThe magnetic flux flowing through the cross-section of the silicon steel sheet is given by
+
+\[\Phi_{y} =\iint\limits_{s}B_{y}\left(x\right)\mathrm{d}S=\int\limits_{0}^{h} \mathrm{d}z\int\limits_{-\frac{a}{2}}^{\frac{a}{2}}\mu H_{y}\left(x\right) \mathrm{d}x\] \[=\frac{2\mu hH_{m}}{\gamma}\tanh\left(\gamma\frac{a}{2}\right) \tag{29}\]
+
+Using
+
+\[\tanh\left(1+j\right)x=\frac{\sinh 2x-j\sin 2x}{\cosh 2x+\cos 2x} \tag{30}\]
+
+we obtain
+
+\[\Phi_{y}=\frac{2\mu hH_{m}\delta}{1+j}\frac{\sinh\frac{a}{2}-j\sin\frac{a}{2}} {\cosh\frac{a}{2}+\cos\frac{a}{2}} \tag{31}\]
+
+According to Kirchhoff's magnetomotive force law (KML) of the vector magnetic circuit, the expression for the magnetic impedance of the silicon steel sheet is
+
+\[\mathcal{Z} =\frac{\mathcal{F}}{\Phi_{y}}=\frac{H_{m}b}{\frac{2\mu hH_{m}}{ \gamma}\tanh\left(\gamma\frac{a}{2}\right)}\] \[=\frac{b}{2\mu h\delta}\left(\frac{\sinh\left(\frac{a}{2}\right)+ \sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a} {2}\right)}+\mathrm{j}\frac{\sinh\left(\frac{a}{2}\right)-\sin\left(\frac{a}{ 2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a}{2}\right)}\right) \tag{32}\]
+
+Thus far, we have effectively employed KML derived from vector magnetic circuit theory in the computation of high-frequency characteristics for laminated magnetic cores. The expression for the reluctance of the silicon steel sheet is
+
+\[\mathcal{R}=\frac{b}{2\mu h\delta}\frac{\sinh\left(\frac{a}{2}\right)+\sin \left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a}{2} \right)} \tag{33}\]
+
+The expression for the magnetic reactance is
+
+\[\mathcal{X}=\frac{b}{2\mu h\delta}\frac{\sinh\left(\frac{a}{2}\right)-\sin \left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a}{2} \right)} \tag{34}\]
+
+The expression for the magmeductance is
+
+\[\mathcal{L}=\frac{\mathcal{X}}{\omega}=\frac{\sigma b\delta}{4h}\frac{\sinh \left(\frac{a}{2}\right)-\sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2} \right)-\cos\left(\frac{a}{2}\right)} \tag{35}\]
+
+Substituting (33) and (35) into (3) and (4), respectively, the expressions for the reluctance and magductance of the laminated magnetic core with non-uniform magnetic flux distribution are
+
+\[\mathcal{R}_{eq} =\frac{b}{2\mu h\delta}\frac{\sinh\left(\frac{a}{2}\right)+\sin \left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a}{2} \right)} \tag{36}\] \[\mathcal{L}_{eq} =\frac{\sigma b\delta}{4nh}\frac{\sinh\left(\frac{a}{2}\right)- \sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a} {2}\right)} \tag{37}\]
+
+## IV Compatibility analysis of three theories
+
+The magnetic circuit parameters are derived for laminated magnetic cores with uniform and non-uniform magnetic flux distributions. In this section, an analysis of the compatibility of electromagnetic field theory, electrical circuit theory, and vector magnetic circuit theory based on the derived expressions is carried out below.
+
+### Electrical circuit theory with non-uniform magnetic flux distribution
+
+By Maxwell's equations, substituting (27) into (16) gives the current density of the silicon steel sheet
+
+\[J_{z}\left(x\right)=\frac{\mathrm{d}H_{y}\left(x\right)}{\mathrm{d}x}=\gamma H _{m}\frac{\sinh\left(\gamma x\right)}{\cosh\left(\gamma\frac{a}{2}\right)} \tag{38}\]
+
+Further, the amplitude of the current density is
+
+\[\left|J_{z}\left(x\right)\right|=\frac{H_{m}}{\delta}\sqrt{\frac{2\left[\cosh \left(\frac{2\gamma}{\delta}\right)-\cos\left(\frac{2\gamma}{\delta}\right) \right]}{\cosh\left(\frac{a}{2}\right)+\cos\left(\frac{a}{2}\right)}} \tag{39}\]
+
+According to the differential form of Joule's law in electrical circuit theory [6, 26], the time-average active power loss dissipated in the silicon steel sheet is
+
+\[P =\iiint\limits_{V}\frac{1}{\sigma}\left(\frac{\left|J_{z}\left(x \right)\right|}{\sqrt{2}}\right)^{2}\mathrm{d}V\] \[=\frac{1}{2}\int_{0}^{h}\mathrm{d}z\int_{0}^{b}\mathrm{d}y\int_{ -\frac{a}{2}}^{\frac{a}{2}}\frac{1}{\sigma}\left|J_{z}\left(x\right)\right|^{2 }\mathrm{d}x\] \[=\frac{H_{m}^{2}hb}{\sigma\delta}\frac{\sinh\left(\frac{a}{2} \right)-\sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)+\cos \left(\frac{a}{2}\right)} \tag{40}\]
+
+According to (31), the amplitude of the magnetic flux is
+
+\[\left|\Phi_{y}\right|=\mu hH_{m}\delta\sqrt{\frac{2\left[\cosh\left(\frac{a}{2 }\right)-\cos\left(\frac{a}{2}\right)\right]}{\cosh\left(\frac{a}{2}\right)+ \cos\left(\frac{a}{2}\right)}} \tag{41}\]
+
+Combined with (13), the expression for the magductance of the silicon steel sheet is
+
+\[\mathcal{L}=\frac{2P}{\omega^{2}\left|\Phi_{y}\right|^{2}}=\frac{\sigma b \delta}{4h}\frac{\sinh\left(\frac{a}{2}\right)-\sin\left(\frac{a}{2}\right)}{ \cosh\left(\frac{a}{2}\right)-\cos\left(\frac{a}{2}\right)} \tag{42}\]
+
+Further, the expression for the magnetic-reactance is
+
+\[\mathcal{X}=\omega\mathcal{L}=\frac{b}{2\mu h\delta}\frac{\sinh\left(\frac{a}{2 }\right)-\sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)-\cos \left(\frac{a}{2}\right)} \tag{43}\]
+
+Next, we derive the expression for the reluctance. Based on (27), the amplitude of the magnetic field intensity is
+
+\[\left|H_{y}\left(x\right)\right|=H_{m}\sqrt{\frac{\cosh\left(\frac{2\gamma}{ \delta}\right)+\cos\left(\frac{2\gamma}{\delta}\right)}{\cosh\left(\frac{a}{2} \right)+\cos\left(\frac{a}{2}\right)}} \tag{44}\]
+
+Assuming that \(\mu\) is uniform for the entire silicon steel sheet, the magnetic energy stored in the magnetic field inside the silicon steel sheet is [1, 29]:
+
+\[W_{\mathrm{m}} =\frac{1}{2}\iiint\limits_{V}\mu\left(\frac{\left|H_{y}\left(x \right)\right|}{\sqrt{2}}\right)^{2}\mathrm{d}V\] \[=\frac{1}{4}\int_{0}^{h}\mathrm{d}z\int_{0}^{b}\mathrm{d}y\int_{- \frac{a}{2}}^{\frac{a}{2}}\mu\left|H_{y}\left(x\right)\right|^{2}\mathrm{d}x\] \[=\frac{\mu H_{m}^{2}hb\delta}{4}\frac{\sinh\left(\frac{a}{2} \right)+\sin\left(\frac{a}{2}\right)}{\cosh\left(\frac{a}{2}\right)+\cos\left( \frac{a}{2}\right)} \tag{45}\]On the other hand, based on electrical circuit theory [26], [30], the magnetic energy stored in the magnetic field inside the silicon steel sheet is given by
+
+\[W_{\rm m}=\frac{1}{2}LI^{2}=\frac{1}{2}\frac{\left(Nl\right)^{2}}{\mathcal{R}}= \frac{1}{2}\frac{\mathcal{F}^{2}}{\mathcal{R}}=\frac{1}{2}\mathcal{R}\Phi^{2} \tag{46}\]
+
+Equating the two expressions for the magnetic energy \(W_{m}\) stored inside the silicon steel sheet, we have
+
+\[\mathcal{R}=\frac{2W_{\rm m}}{\left(\frac{\left|\Phi_{i}\right|}{\sqrt{2}} \right)^{2}}=\frac{b}{2\mu h\delta}\frac{\sinh\left(\frac{a}{\delta}\right)+ \sin\left(\frac{a}{\delta}\right)}{\cosh\left(\frac{a}{\delta}\right)-\cos \left(\frac{a}{\delta}\right)} \tag{47}\]
+
+Easily found that the expressions (33) and (47) for reluctance and (35) and (42) for magductance are completely consistent, thus, the expression of the magnetic circuit parameters of the laminated magnetic core is shown in (36) and (37), proving theoretically that the three theories are fully compatible and complementary to each other.
+
+### Electromagnetic Field Theory with Uniform Magnetic Flux Distribution
+
+Considering that the expansions of the trigonometric and hyperbolic functions found in Dowell's equation into the Maclaurin series for \(-\infty<x<\infty\) are typically as follows [6]:
+
+\[\begin{cases}\sin x=x-\frac{x^{3}}{3!}+\frac{x^{5}}{5!}-\frac{x^{7}}{7!}+ \ldots\\ \cos x=1-\frac{x^{2}}{2!}+\frac{x^{4}}{4!}-\frac{x^{6}}{6!}+\ldots\\ \sinh x=x+\frac{x^{3}}{3!}+\frac{x^{5}}{5!}+\frac{x^{7}}{7!}+\ldots\\ \cosh x=1+\frac{x^{2}}{2!}+\frac{x^{4}}{4!}+\frac{x^{6}}{6!}+\ldots\end{cases} -\infty<x<\infty \tag{48}\]
+
+When the magnetic flux is evenly distributed over each silicon steel sheet of the laminated magnetic core, this indicates that the skin effect is minimal and the flux frequency is low. Based on (7), i.e. \(\delta\gg a\), we obtain
+
+\[x=\frac{a}{\delta}\to 0 \tag{49}\]
+
+Therefore, simply the first two terms of (48) are taken into account, while the higher-order terms are ignored. Substituting (48) into (36) and (37) yields
+
+\[\begin{cases}\mathcal{R}_{eq}=\frac{1}{2}\frac{b}{\mu nah}\frac{a}{\delta} \frac{\left(\frac{a}{\delta}\right)+\frac{1}{3!}\left(\frac{a}{\delta}\right) ^{3}+\left(\frac{a}{\delta}\right)-\frac{1}{3!}\left(\frac{a}{\delta}\right) ^{3}}{1+\frac{1}{2}\left(\frac{a}{\delta}\right)^{2}-1+\frac{1}{2!}\left(\frac {a}{\delta}\right)^{2}}=\frac{b}{\mu nah}
+
+laminated magnetic core constituting the magnetic circuit. Power analyzer (YOKOGAWA WT1806E), interconnected on the primary-side winding, enables real-time monitoring and acquisition of various parameters, including active power, reactive power, primary-side voltage, primary-side current, secondary-side voltage, and other pertinent variables associated with the Epstein frame. Leveraging these measured parameters, computational methods are employed to ascertain the magnetic circuit parameters of the Epstein frame. In addition, the voltage probe (Sapphire Instrument SI-9002) is utilized to capture the waveforms of both the primary-side and secondary-side voltages, while the current probe (Tektronix TCP30SA) is employed to capture the primary-side current waveform. The waveforms generated during the experimental process are recorded using a scope corder (YOKOGAWA DL850E). The primary-side winding temperatures are monitored using a temperature tester (Anbai AT4716) to ensure the temperature of the Epstein frame remains stable at approximately 17\({}^{\circ}\)C before the start of each test, as depicted in Fig. 5.
+
+By following the magnetoelectric power law in [12] and [13], the expressions for the active and reactive power of the laminated magnetic core can be derived as follows:
+
+\[\left\{\begin{aligned} & P=\omega(\omega\mathcal{L}_{total}) \Phi^{2}\\ & Q=\omega\mathcal{R}_{eq}\Phi^{2}\end{aligned}\right. \tag{51}\]
+
+where \(\mathcal{L}_{total}\) is the total equivalent magductance of the laminated magnetic core. By combining the real-time power data obtained from the power analyser, the magnetic circuit parameters of the laminated magnetic core under different magnetic densities with frequency variation can be determined after removing the loss of the primary-side winding, as shown in Fig. 6. As shown in Fig. 6(a), with a constant magnetic flux density, the increasing frequency of the magnetic flux accentuates the skin effect, which in turn reduces the effective cross-sectional area of the magnetic flux. Consequently, this phenomenon leads to an elevated reluctance as the frequency rises.
+
+We have conducted the frequency characteristics of the magductance of the laminated magnetic core for the first time. At lower-frequency, the equivalent magductance of the laminated magnetic core is notably influenced by the magnetic flux density, primarily due to the dominant influence of hysteresis losses on the active power. However, as the frequency increases, the magductance for various magnetic flux densities tends to converge. This convergence can be attributed to the increasing prominence of eddy current losses as the primary component of the active power. At higher-frequency, the magductance exhibit reduced sensitivity to changes in magnetic flux density, which aligns with the findings reported in [12].
+
+Besides, according to (31) and (38), it is evident that as the frequency increases, the laminated magnetic core exhibit not only the skin effect of magnetic flux but also the accompanying skin effect of eddy currents. The skin effect of the magnetic flux reduces the equivalent cross-sectional area of the magnetic circuit, resulting in an increase in the equivalent reluctance of the magnetic circuit, and the skin
+
+Figure 4: The experimental platform for measuring magnetic circuit parameters of Epstein frame.
+
+Figure 5: Variation curve of the magnetic core temperature during the experimental operation.
+
+effect of eddy currents reduces the equivalent magductance of the magnetic circuit, which aligns consistently with the outcomes illustrated in Fig. 6 and further reinforces the earlier discussions.
+
+Based on the experimental results depicted in Fig. 6, we have selected the curve corresponding to the linear region (\(B=0.6\)T) to validate (36) and (37). The results are compared in Fig. 7. It is evident that both the theoretically computed values and the experimentally measured values demonstrate a remarkable level of concordance, thereby validating the efficacy and precision of (36) and (37).
+
+## VI Conclusion
+
+This paper takes laminated magnetic cores as a starting point and conducts a comprehensive analysis and discussion on the compatibility issues among the newly developed vector magnetic circuit theory, and traditional electrical circuit theory, and electromagnetic field theory. Here are the three main points summarized:
+
+1. Vector magnetic circuit theory, electrical circuit theory, and electromagnetic field theory can be derived from each other, compatible with each other, and combined with each other.
+2. Vector magnetic circuit theory is more direct than electrical circuit theory in describing the relationship of variables of a magnetic circuit, is easier to understand than electromagnetic field theory, and is more suitable for actual engineering applications.
+3. Vector magnetic circuit theory incorporates magnetic circuit components such as reluctance and magductance, and also applies to Thevenin's theorem and Norton's theorem.
+4. The constructed experimental platform was utilized to validate magnetoelectric power law and the derived expressions for magnetic circuit parameters. It contributes to the development of the vector magnetic circuit theory system.
+
+## References
+
+* [1] F. T. Ulaby and U. Ravaioli, _Fundamentals of Applied Electro-Magnetics_, 7th ed. Upper Saddle River, NJ, USA: Pearson, 2015.
+* [2] M. Cheng, P. Han, Y. Du, and H. Wen, _General Aitgap Field Modulation Theory for Electrical Machines- Principles and Practice_. Hoboken, NJ, USA: Wiley, 2023.
+* [3] M. Cheng, P. Han, and W. Hua, "General airgap field modulation theory for electrical machines," _IEEE Trans. Ind. Electron._, vol. 64, no. 8, pp. 6063-6074, Aug. 2017.
+* [4] B. S. Guru and H. R. Hinzroglu, _Electric Machinery and Transformers_. New York, NY, USA: Oxford Univ. Press. 2001.
+* [5] V. Ostovior, _Dynamics of Saturated Electric Machines_. New York, NY, USA: Springer-Verlag, 1989.
+* [6] M. K. Kazimierczuk, _High-Frequency Magnetic Components_, 2nd ed. New York, NY, USA: Wiley, 2014.
+* [7] S. K. Sahdev, _Electrical Machines_. Cambridge, U.K.: Cambridge Univ. Press, 2018.
+* [8] J. G. Zhu, S. Y. R. Hui, and V. S. Ramsden, "A generalized dynamic circuit model of magnetic cores for low- and high-frequency applications. I. Theoretical calculation of the equivalent core loss resistance," _IEEE Trans. Power Electron._, vol. 11, no. 2, pp. 246-250, Mar. 1996.
+* [9] S. Y. R. Hui, J. G. Zhu, and V. S. Ramsden, "A generalized dynamic circuit model of magnetic cores for low- and high-frequency applications. II. Circuit model formulation and implementation," _IEEE Trans. Power Electron._, vol. 11, no. 2, pp. 251-295, Mar. 1996.
+* [10] V. Ostovior, "A method for evaluation of transient and steady state performance in saturated square ice induction machines," _IEEE Trans. Energy Convers._, vol. EC-1, no. 3, pp. 190-197, Sep. 1986.
+* [11] M. Lambert, J. Mahseredijan, M. Martinez-Durto, and F. Sirois, "Magnetic circuits within electric circuits: Critical review of existing methods and new monitor implementations," _IEEE Trans. Power Del._, vol. 30, no. 6, pp. 2427-2434, Dec. 2015.
+* [12] M. Cheng, W. Qin, X. Zhu, and Z. Wang, "Magnetic-inductance: Concept, definition, and applications," _IEEE Trans. Power Electron._, vol. 37, no. 10, pp. 12406-12414, Oct. 2022.
+* [13] W. Qin, M. Cheng, S. Zhu, X. Zhu, Z. Wang, and Z. Ma, "Relectance and magductance calculation of laminated core under different frequency for electrical machines," presented at the 25th Int. Conf. Electr. Mach. Syst, Chiang Mai, Thailand, Nov. 2022.
+* [14] H. C. Roters, _Electromagnetic Devices_. New York, NY, USA: Wiley, 1941.
+* [15] E. C. Cherry, "The duality between interlinked electric and magnetic circuits and the formation of transformer equivalent circuits," _Proc. Phys. Soc. B_, vol. 62, no. 2, pp. 101-111, Feb. 1949.
+* [16] C. J. Carpenter, "Magnetic equivalent circuits," _Proc. Inst. Elect. Eng._, vol. 115, no. 10, pp. 1503-1511, Oct. 1968.
+* [17] J. Fennes, "New approach to general theory of electrical machines using magnetic equivalent circuits," _Proc. Inst. Elect. Eng._, vol. 120, no. 1, pp. 97-104, Jan. 1973.
+* [18] A. D. Brown, J. N. Ross, and K. G. Nichols, "Time-domain simulation of mixed nonlinear magnetic and electronic systems," _IEEE Trans. Magn._, vol. 37, no. 1, pp. 522-532, Jan. 2001.
+* [19] A. Davoudi, P. L. Chapman, J. Jatskevich, and A. Khaligh, "Reduced-order modeling of high-fidelity magnetic equivalent circuits," _IEEE Trans. Power Electron._, vol. 24, no. 12, pp. 2847-2855, Dec. 2009.
+* [20] A. Davoudi, P. L. Chapman, J. Jatskevich, and H. Behjati, "Reduced-order dynamic modeling of multiple-winding power electronic magnetic components," _IEEE Trans. Power Electron._, vol. 27, no. 5, pp. 2220-2226, May 2012.
+
+Figure 7: Frequency response of magnetic circuit parameters of the laminated core. (a) reluctance. (b) Magductance.
+
+* [21] M. K. Ranjram, I. Moon, and D. J. Perreault, "Variable-inverter-rectifier-transformer: A hybrid electronic and magnetic structure enabling adjustable high step-down conversion ratios," _IEEE Trans. Power Electron._, vol. 33, no. 8, pp. 6509-6525, Aug. 2018.
+* [22] M. Lambert, M. Martinez-Duro, A. Rezaei-Zare, and J. Mahseredjian, "Topological transformer leakage modeling with losses," _IEEE Trans. Power Del._, vol. 35, no. 6, pp. 2692-2699, Dec. 2020.
+* [23] I. Boldea, _Linear Electric Machines, Drives, and MAGLEVs Handbook_, 2nd ed. Boca Raton, FL, USA: CRC Press, 2023.
+* [24] W. T. Mclynn, _Transformer and Indicator Design Handbook_, 4th ed. Boca Raton, FL, USA: CRC Press, 2011.
+* [25] P. Beckley, _Electrical Stels for Rotating Machines_, 2nd ed. Glasgow, U.K.: Bell & Bain Ltd., 2002.
+* [26] J. Bird, _Electrical Circuit Theory and Technology_, 6th ed. New York, NY, USA: Routledge, 2017.
+* [27] J. Lammerauer and M. Staff, _Eddy Currents_. London, U.K.: Llife Books Ltd, 1966.
+* [28] R. L. Stoll, _The Analysis of Eddy Currents_. London, U.K.: Oxford Univ. Press, 1974.
+* [29] D. C. White and H. H. Woodson, _Electromechanical Energy Conversion_. New York, NY, USA: Wiley, 1959.
+* [30] J. D. Irwin, _Basic Engineering Circuit Analysis_, 2nd ed. New York, NY, USA: Macmillan Publishing Company., 1987.
+* [31] S. Tumanski, _Handbook of Magnetic Measurement_. London, U.K.: CRC Press, 2011.
+* [32] S. Zhu and B. Shi, "Modeling of PWM-induced iron losses with frequency-domain methods and low-frequency parameters," _IEEE Trans. Ind. Electron._, vol. 69, no. 3, pp. 2402-2413, Mar. 2022.
+
+\begin{tabular}{c c}  & Wei Qin (Member, IEEE) received the B.Sc. degree in electrical engineering from Henan Polytechnic University, Jiaozuo, China, in 2016, and the M.Sc. degree in power electronics and electrical drives from the Nanjing University of Science and Technology, Nanjing, China, in 2019. He is currently pursuing the Ph.D. degree in electrical engineering with Southeast University, Nanjing. His current research interests include magnetic circuit theory and magnetic field modulation theory of electromagnetic equipment. \\ \end{tabular} \begin{tabular}{c c}  & Ming Cheng (Fellow, IEEE) received the B.Sc. and M.Sc. degrees in electrical engineering from Southeast University, Nanjing, China, in 1982 and 1987, respectively, and the Ph.D. degree in electrical engineering from The University of Hong Kong, Hong Kong, in 2001. Since 1987, he has been with Southeast University, where he is currently a Chief Professor with the School of Electrical Engineering and the Director of the Research Center for Wind Power Generation. From January 2011 to April 2011, he was a Visiting Professor with the Wisconsin Electric Machine and Power Electronics Consortium, University of Wisconsin-Madison, Madison, WI, USA. His current research interests include electrical machines, motor drives for electric vehicles, renewable energy generation, and servo motor and control. He is the author or country of more than 500 technical articles and seven books and is the holder of 150 patents in his research area. Prof. Cheng is a fellow of the Institution of Engineering and Technology. He has served as the chair and an organizing committee member for many international conferences. He is a Distinguished Lecturer of the IEEE Industry Application Society, from 2015 to 2016. \\ \end{tabular} \begin{tabular}{c c}  & Jingcia Wang (Member, IEEE) received the Ph.D. degree in electrical engineering from the School of Electrical Engineering, Southeast University, Nanjing, China, in 2022. Since 2022, she has been with the University of Shanghai for Science and Technology, Shanghai, China, where she is currently a Lecturer with the School of Mechanical Engineering. Her current research interests include permanent magnet machine design, loss calculation, and multiphysics analysis. \\ \end{tabular} \begin{tabular}{c c}  & Xinhai Zhu (Member, IEEE) received the B.Sc. degree in electrical engineering from the School of Electrical Engineering, Shenyang University of Technology, Shenyang, China, in 2015, and the Ph.D. degree in electrical engineering from the School of Electrical Engineering, Southeast University, Nanjing, China, in 2021. From January 2019 to January 2020, he was a Guest Ph.D. Student with the Center for Electric Power and Energy, Technical University of Denmark, Copenhagen, Denmark, funded by the China Scholarship Council. He is currently a Lecturer with the Department of Electric Power Engineering, North China Electric Power University. His current research interests include the design and analysis of superconducting electrical machines, wind power generation systems, and electromagnetic theory. \\ \end{tabular} \begin{tabular}{c c}  & Zheng Wang (Senior Member, IEEE) received the B.Eng. and M.Eng. degrees in electrical engineering from Southeast University, Nanjing, China, in 2000 and 2003, respectively, and the Ph.D. degree in electrical engineering from The University of Hong Kong, Hong Kong, in 2008. From 2008 to 2009, he was a Postdoctoral Fellow with Ryerson University, Toronto, ON, Canada. He is currently a Full Professor with the School of Electrical Engineering, Southeast University. His current research interests include electric drives, power electronics, and distributed generation. In these fields, he has authored more than 120 internationally refereed articles, one English book by IEEE-Wiley Press, and two English book chapters. Prof. Wang is an IET Fellow. He received the IEEE PES Chapter Outstanding Engineer Award, the First-Class Science and Technology Award of Jiangsu Province in China, and the Outstanding Young Scholar Award of the Jiangsu Natural Science Foundation of China. He is an Associate Editor of IEEE Transactions on Industrial Electronics. \\ \end{tabular} 
+\begin{tabular}{c c}  & Wei Hua (Senior Member, IEEE) received the B.Sc. and Ph.D. degrees in electrical engineering from Southeast University, Nanjing, China, in 2001 and 2007, respectively. From 2004 to 2005, he was with the Department of Electronics and Electrical Engineering, The University of Sheffield, U.K., as a Joint-Supervised Ph.D. Student. Since 2007, he has been with Southeast University, where he is currently a Chief Professor and a Distinguished Professor of Jiangsu Province. Since 2010, he has been with the Yancheng Institute of New Energy Vehicles, Southeast University. He has coauthored more than 150 technical articles. His current research interests include the design, analysis, and control of electrical machines, especially for PM brushless machines and switching reluctance machines. He holds 50 patents in his research area. \\ \end{tabular}

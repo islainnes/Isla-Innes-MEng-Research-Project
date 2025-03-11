@@ -1,0 +1,136 @@
+# Design and Implementation of an Embedded Remote Electronic Measurement System
+
+Ying-Wen Bai and Cheng-Yu Hsu
+
+Department of Electronic Engineering, Fu Jen Catholic University
+
+Taipei, Taiwan, 242, R.O.C., bai@ee.fu.edu.tw
+
+###### Abstract
+
+In this paper, we use the embedded board with interface modules to implement a remote electronic measurement system which includes the power supply, signal generator and oscilloscope. This design uses an embedded board to replace a computer, since the embedded board has the advantages of being easily carried a real-time operation, a low cost, and programmable. In addition, users can operate this measurement system with the help of the operating system and the TCP/IP modules to connect to the Internet. By using the on board operating system, our design provides the step by step function to help user operate, such as keying in the waveform parameters with the embedded board keyboard, providing the waveforms and then connecting the circuit to the embedded electronic measurement system. This design can also show the waveform measured by the embedded measurement system in the embedded board LCM (Liquid Crystal Monitor). Because the file size of measured waveforms is very small, around 1KB, the prototype system shows that the main delay time to receive the measurement waveform at the server site from the client site is within 2.5 seconds. In the server, the observers can observe many waveforms from the different clients. If the client's waveform is error, the observer can also send the required waveforms to the client's embedded measurement system and input these waveforms to the testing circuits and re-observe the circuit measurement and help the user to debug. Finally, we compare our design with the popular data acquisition software, such as LabVIEW, LabWindows/CVI and YEE by showing the advantages and range of application differences.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
++
+Footnote †: Authorized licensed use limited to: University of Durham. Downloaded on November 11,2024 at 12-24:46 UTC from IEEE Xplore. Restrictions apply.
+
+## I Introduction
+
+The network is developing very rapidly recently and as there are advantages in having a fast, synchronous connection to everywhere, the network provides a way for many people to set up distance learning from the remote site [1-5]. Distance learning has many advantages: it is unrestricted in space and place, and people can learn no matter where they are located. In addition, in the digital age, many traditional methods and data are fulfilled by using a digital form. Moreover, the demand by E. E. engineers who need the required training courses such as, electronic circuit experiments are very important. Students can obtain knowledge and apply it in a relevant domain by performing electronic circuit experiments. The instruments operated in electronic circuit experiments are usually in the E. E. Lab. Although there are many distance learning designs, their designs are usually text and video transmissions, and lack relevant discussion or interaction about electronic experiments. Our design can provide different applications, in which any electronic factory can build the design house and the product lines at different locations. The designer can measure the electronic products through the Internet and the necessary interfaces. If there are mistakes in the circuit boards on the production line, our design the engineers can solve these problems through network communications; which will reduce the time and cost. However, the previous design of the remote electronic measurement system has some disadvantages: it requires operation with a computer and it is not portable [6]. In this paper, we propose a design with an embedded board [7-8] to fulfill the remote electronic measurement system, since the configurable resources can satisfy the variation of applications, which can provide a workable portable operation for engineers and can provide the users with a way to learn from electronic experiments conducted at the remote site.
+
+By using our design, users need only key in the waveform and voltage parameters using the embedded keyboard. Then the embedded remote measurement system will output the voltage waveform into testing circuits. The users can then observe the waveforms by means of the oscilloscope interface of the embedded board. The dual channel LCM provides a comparison between the input and response waveforms to determine the characteristics of the testing circuits. The network function of our design can also transfer the measured waveforms to a distant server.
+
+At the present time, the LabVIEW[9], LabWindows/CVI [10] and VEE[11] are the most popular products for data acquisition. LabVIEW and LabWindows/CVI both focus on precise measurement and observation of a long time experiment. These products provide the GUI for users to build operating forms which can be used easily. VEE focuses on signal analysis and has the powerful signal process and analysis functions. In addition, VEE can help users recognize the differences in signal analysis, but the prices of these tools are too expensive for students or many engineers. In addition, these tools are not designed for electronic experiments.
+
+In this paper, Section II, we introduce the hardware design of the embedded remote electronic measurement system. In the Section III, we analyze and discuss the delay time of the waveform transmission. Then we introduce the software design in Section IV, In Section V, we compare our design with the popular instruments. In Section VI, we draw the conclusion.
+
+## II The Hardware and Software Design of the Embedded Remote Electronic Measurement System
+
+The embedded remote electronic measurement system includes the typical instruments used in electronicexperiments, such as a power supply, a signal generator and an oscilloscope. Our design provides not only many traditional instrument functions, but also has many advantages which traditional instruments does not have. Take for example, the digital format of the waveforms, the waveform data storage and transmission. Fig.1 shows the embedded remote measurement system architecture.
+
+Fig. 2 shows the hardware interface modules of the embedded remote electronic measurement system. We can divide the interface modules into three parts, ADC, DAC and the control modules. The function of the ADC module is for the oscilloscope that is used mainly to convert the analog signal to the digital format for the measurement waveform. The function of the DAC module is convert the digital signal to analog signal for outputting, such as power supply and signal generator. The control signals manage the ADC and DAC modules to connect and transfer the measurement waveform data to the embedded board during each time interval to avoid snatching resources from each other.
+
+_(A)_ DAC modules provide the major functions of the power supply and signal generator. The power supply provides stable DC voltage but the signal generator provides all kinds of waveform, like sine, square and triangular waveform.
+
+a. The power supply provides an adjustable DC voltage with varying small drift and noises in the output voltage. In our design, the set-up procedure through the embedded board keyboard, establishes, for example, the voltage values and sends the data to the power supply module. With the current amplification chips, the system can make a maximum current value of up to 2A, which is enough for typical electronic experiments.
+
+b. The signal generator [12] provides the specific waveforms which are based on sampling theory [13]. For example, the waveform samples 500 points in a repeating cycle. The various patterns of the sample points provide some kinds of waveforms for the testing circuit. According to the sampling theory, if the conversion rate is 80MHz, the clear waveform is composed of at least 10 samples, so it only can provide the maximum waveform bandwidth of 8MHz.
+
+In our design, by using a keypad the users can enter all settings of waveform, amplitude and frequency into an embedded board, and then the embedded system will output the waveform to the testing circuit. The operation of our design is more convenient than traditional instruments, since the users can preview the waveforms in LCM. If users are not satisfied with this waveform, they can re-setup another waveform. Fig. 4 shows the signal generation flow chart. As we need to control the signal generator through the GPIO, the new design can save a lot of data flow and increase the output range of the waveform.
+
+_(B)_The ADC module provides the key function of the oscilloscope [14], which converts the analog signal to digital format for the embedded board. Fig. 5 shows the flow chart of analog to digital conversion. According to the sample procedure, the ADC chip samples the value of x(t) every 1/T time and quantizes it in an 8 bits format, so we can get the digital value of the measured waveform. The important specification of an oscilloscope includes the sample rate. According to the sample theory, the sample rate shall be more than twice of the signal bandwidth, but in our design, the sample rate is 10 times to signal bandwidth, because the oscilloscope wants to show the better quality of waveforms for the users. If a waveform is only composed of two or three samples, the triangular waveform is same as the sine waveform, and the users can't recognize what kinds if
+
+Fig. 1: The embedded remote electronic measurement system
+
+Fig. 4: The flow chart of the embedded signal generator module
+
+Fig. 3: The signal generator of the embedded remote electronic measurement system
+
+Fig. 2: The interface module of the embedded remote electronic measurement system waveform it is, so the sample rate must be more than ten times larger than the bandwidth in order to recognize waveforms.
+
+Just like the signal generator, besides the sample rate, the bandwidth limit of the oscilloscope includes the shifting rate of the buffers, and the transferring rate of each chip, Fig. 6 shows one of the interface designs for the bandwidth assignment of each module.
+
+The embedded oscilloscope provides the view of the measurement waveform for the users and transfers the waveform data to the server in the distance for verification. Because the resolution of an embedded board LCM (128X64) is lower than the resolution of a computer monitor, we can only observe a low quality of waveform in the LCM at the client site. If the users want to observe a high quality of waveform, they can transfer the measurement waveform data to a computer by use of the network. From Fig.7, which shows the flow chart of the embedded oscilloscope, we can see that only need to set the sample rate and then we can observe the measurement waveform from the LCM on the embedded board. If we want to send the waveform to a server, we just only have to key in the IP address and the embedded system will send the data to the remote site. Our design provides a very friendly method of operation. In addition, the design also provides the mathematical computation functions for the measurement waveforms and assists users in comparing the input waveform with the response waveform to verify the testing circuit.
+
+_(C)._ The control module provides the control between the memory and the data storage, and I/O to connection. Because the I/O pins are limited, not every extra module can connect to an independent I/O simultaneously. Some of the I/O pins need to be shared or multiplexed. As the embedded board can not recognize which module is connected to it and can not allocate the system resources to an extra module, we need to use a control module to manage every extra module. A control module includes three control chips, which has three I/O ports and a bidirectional data bus which is very convenient for the input and the output.
+
+## III Measurement and Discussion of the Delay Time of the Embedded Remote Measurement System
+
+In this measurement system, we categorize the delay times of each module first and then measure the delay time. This measurement can help us to understand what the major parts of the delay time are and how to reduce it. First, we must define the actions in a cycle. In the power supply, we define the key in voltage parameters until the output results in an action cycle. Of course the artificially delay time is not included. The cycle of the signal generator is as same as power supply. The action cycle of the oscilloscope is from when users press the receive button until the view of the waveform is displayed on the LCM. The above total action cycles are the operation cycle in the client. We ignore the circuit delay time in comparison with the transmission and process time, because it is too small. According to the definition, we measure every step of the delay time as shown in Fig. 8, in which, we can define the DAC parameters in the power supply and the signal generator. The delay time of the power supply is less than the signal generator. According to Table I we learn the data size for the output voltage of the power supply is smaller than the output waveform of the signal generator, since the power supply provides DC voltage, and the signal generator provides multiple waveform data. Hence, the signal generator will spend more time to prepare the different digital values by using many waveform functions than if it only sends a single digital value for a DC voltage.
+
+Fig. 5: The procedure of analog to digital conversion
+
+Fig. 8: The delay time of the embedded remote measurement system
+
+Fig. 6: The bandwidth assignment of each module of the embedded oscilloscope
+
+Fig. 7: The flowchart of the embedded oscilloscope In Table I, although the data size in the signal generator is the same as in the oscilloscope, the transfer rates are different and the delay time is dependent on the conversion rate and the complexity of the processing program. Hence, the delay times of the signal generator will be different from the delay times of the oscilloscope. We can also observe the delay time of the transferring data between the embedded board and the buffer chip. Because the control data size is usually 2bytes, the waveform data are more than 1KB, which causes most of the delay times. Overall, we can reduce the delay times, if we can increase or enhance the transfer rate of GPIO.
+
+## IV The Software Design of the Embedded Electronic Measurement System
+
+The overall performance of an embedded system is poor compared to that of a PC, but the embedded execute a specific application program which require less resources and more reliable than that of a PC. In addition, the embedded system can be designed by using C language in Linux and forms the GUI module for users operation. The advantages of the design it is easy to use and easy to debug the program errors. The embedded system adopts HAL (Hardware Abstraction Layer) and BSP (Board Support Package). HAL provides the advantage of independent on devices, it hides the difference of each interface, and it provides a unified interface to the operating system. In addition, HAL hides all kinds of details about the hardware and provides portability for a different design. Fig. 9 shows the flowchart of the embedded remote electronic measurement system. At first, the users can choose the type of the instruments, and then key in the relative parameters of the instrument. For example, one can key in the voltage values for the power supply, and key in waveform types for the generator module. When the system set up is finished, this system will output the DC voltages and the waveforms. In addition, if the users operate the oscilloscope, they only need to choose the sample rate and one can observe the measurement waveform in LCM. If the users want to send the waveform to the server, they just only need to key in the server IP address. When the transmission is connected, the embedded system will send the data to the server.
+
+Another advantage of the embedded remote electronic measurement system is the server can receive a lot of waveforms from the different client sites. If the observer has some questions to ask one of the clients, the observer can send the defined waveform to that embedded remote electronic measurement system and collect the output waveform again. This function can assist users to debug the distance circuits to both locate and understand the problem of the testing circuit in detail.
+
+## V Function Comparison
+
+Currently, LabVIEW, LabWindows/CVI and VEE are the popular data acquisition system. LabVIEW and LabWindows/CVI can be used in observing the waveform for a long time by using a friendly GUI. The LabWindows/CVI uses ANSI C programming to design the measurement software for the user operations; this programming language reduces unnecessary waste and enhances the efficiency of the software design. By connecting with either DAQ card or a GPIO, the waveform data will show on the computer monitor. In addition, we will also briefly introduce LabVIEW ELVIS which is designed for the learning of electronic experiments.
+
+The VEE focuses on mathematical calculation and database management for the signal process, and it needs to receive the measurement waveform with the assistance of extra instruments.
+
+\begin{table}
+\begin{tabular}{|c|c|c|} \hline \hline  & Parameter Types & Data Size \\ \hline Power Supply & Power Supply Parameter & 2bytes \\ \hline Signal generator & Waveform parameter & 1KB \\ \hline Oscilloscope & Signal parameter & 1KB \\ \hline Control signal & Control Signal & 1bytes \\ \hline \end{tabular}
+\end{table}
+Table I: The data size of the embedded remote electronic measurement system
+
+Figure 9: The flowchart of the embedded remote electronic measurement system
+
+[MISSING_PAGE_FAIL:5]
+
+## VI Conclusion
+
+Our design mainly assists E. E. students to perform electronic experiments in a more convenient way. In the past by using the traditional instruments, the students must use many instruments to perform electronic experiments and as the instruments take a large amount of space, they can not be hand-carried. Our embedded design takes very little space and is easily portable. In addition, the electronic instrument operation is unified as our design use less system resources, increases the operating efficiency and has more functions together with an extra I/O interface. Users can use our design to learn the E. E. Lab at home or at a remote site with a friendly GUI, low cost software modules and the hardware interface modules.
+
+Our design can satisfy the required specification for an electronic experiment in a university. Hence, our design can replace the traditional power supply, signal generator and oscilloscope and integrate the individual instruments into one system. At the server site, the teachers can also easily observe and manage every student's measurement waveforms through the network. When a student has some questions about measuring circuits, the teacher can measure the testing circuit at the student site through the network connection. Our prototype design provides the possibility of remote electronic distance learning.
+
+In addition, our design is very convenient for electronic engineers to remotely measure testing circuits through the network transmission for the measurement waveform. Our design can also help encourage teamwork and cooperation between the circuit designers and circuit board production lines at different places with both a low cost and a satisfactory real time operation.
+
+## References
+
+* [1] Chien Chou and Chuen-Tsai Sun, "A computer-network-supported cooperative distance learning system for technical communication education," Proceedings of the IEEE Transactions on Professional Communication, Volume 39, Issue 4, pp. 205-214 Dec. 1996.
+* [2] K.D.Taylor, J.W.Honchell and W.E.DeWitt, "Distance learning in courses with a laboratory," Proceedings of Frontiers in Education Conference, Volume 1, pp. 44-46, Nov. 1996.
+* [3] H.Kondo, S.Ishijima, Systems, Man, and Cybernetics, "Tool based multimedia distance learning system for engineering education," Proceedings of the IEEE International Conference on Systems, Man, and Cybernetics, Volume 2, pp. 239-242, Oct. 1999.
+* [4] M. J. Callaghan, J. Harkin, T. M. McGinnity and L. P. Maguire, "An Internet-based methodology for remotely accessed embedded systems," Proceedings of the IEEE International Conference on Systems, Man and Cybernetics, Volume 6, pp. 6-12, Oct. 2002
+* [5] Jihong Lee and Baesung Seo, "Real-time remote monitoring system based on personal communication service (PCS)," Proceedings of the 40th SICE Annual Conference, pp. 370-375, July 2001.
+* [6] Ying-Wen Bai, Cheng-Yu Hsu, Yu-Nien Yang, Chih-Tao Lu, Hsiang-Ting Huang and Chien-Yung Cheng, "Design and Implementation of a Remote Electronic Measurement System," 2005 _IEEE Instrumentation and Measurement Technology Conference_, pp. 1617-1622, May 2005.
+* [7] T. Yoshino, J. Munemori, T. Yuizono, Y. Nagasawa, S. Ito, K.Yunokuchi, Parallel Processing, "Development and application of a distance learning support system using personal computers via the Internet Yoshino," Proceedings of 1999 International Conference on Parallel Processing, pp. 395-402, Sept. 1999.
+* [8] Li Xue Ming, "Streaming technique and its application in distance learning system," Proceedings of the 5th International Conference on Signal Processing, Volume 2, pp. 1329-1332, Aug. 2000.
+* [9] A.Gain and M.J.E.Salami, "A LabView Nested data acquisition system for vibration monitoring and analysis," SCORD Student Conference on Research and Development, pp. 62-65, July 2002.
+* [10] J.L.Schmalzel, P.A.Patel, and H.N.Kothari, "Instrumentation curriculum: from ATe to VXI," Proceedings of the 9th IEEE Instrumentation and Measurement Technology Conference, pp. 265-267, May 1992.
+* [11][http://www.hp.com/go/HPVEE](http://www.hp.com/go/HPVEE)
+* [12] Ying-Wen Bai, Hong-Gi Wei, Chung-Yueh Lien and Hsin-Lung Tu, "A Windows-Based Dual-Channel Arbitrary Signal Generator," Proceedings of the IEEE Instrumentation and Measurement Technology Conference, pp. 1425-1430 May 2002.
+* [13] Digital Signal Processing, A Practical Approach, Emmanuel C. Ifenchor, and Barrie W. Jervis, Second Edition, 1996.
+* [14] Ying-Wen Bai and Hong-Gi Wei, "Design and implementation of a wireless remote measurement system," Proceedings of the 19th IEEE Instrumentation and Measurement Technology Conference, IMTC/2002. Volume 2, pp. 937-942, May 2002.
