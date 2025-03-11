@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-11 06:50:10"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": -28.32,
+        "flesch_kincaid_grade": 23.0,
+        "gunning_fog": 26.46,
+        "smog_index": 22.6,
+        "automated_readability_index": 24.0,
+        "coleman_liau_index": 23.21,
+        "dale_chall_readability_score": 14.04,
+        "text_standard": "22nd and 23rd grade",
+        "syllable_stats": {
+          "syllable_count": 175,
+          "polysyllable_count": 35,
+          "avg_syllables_per_word": 2.5
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 23.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 70,
+          "difficult_words": 37
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 70.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 23.333333333333332,
+        "word_count": 70,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.014285714285714285
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 15.0,
+        "flesch_kincaid_grade": 16.7,
+        "gunning_fog": 19.67,
+        "smog_index": 18.2,
+        "automated_readability_index": 18.2,
+        "coleman_liau_index": 17.06,
+        "dale_chall_readability_score": 12.99,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 135,
+          "polysyllable_count": 21,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 22.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 67,
+          "difficult_words": 28
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 67.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 22.333333333333332,
+        "word_count": 67,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 28.23,
+        "flesch_kincaid_grade": 13.7,
+        "gunning_fog": 12.95,
+        "smog_index": 15.0,
+        "automated_readability_index": 13.6,
+        "coleman_liau_index": 13.92,
+        "dale_chall_readability_score": 9.44,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 329,
+          "polysyllable_count": 43,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 10,
+          "avg_sentence_length": 17.6,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 176,
+          "difficult_words": 43
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 4,
+        "avg_paragraph_length": 44.5,
+        "sentence_count": 10,
+        "avg_sentence_length": 17.8,
+        "word_count": 178,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 2,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 10,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 11.31,
+        "flesch_kincaid_grade": 16.1,
+        "gunning_fog": 17.12,
+        "smog_index": 17.5,
+        "automated_readability_index": 16.5,
+        "coleman_liau_index": 17.34,
+        "dale_chall_readability_score": 11.18,
+        "text_standard": "16th and 17th grade",
+        "syllable_stats": {
+          "syllable_count": 256,
+          "polysyllable_count": 44,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 7,
+          "avg_sentence_length": 17.6,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 123,
+          "difficult_words": 45
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 4,
+        "technical_density": 0.008130081300813009
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 61.5,
+        "sentence_count": 7,
+        "avg_sentence_length": 17.571428571428573,
+        "word_count": 123,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.008130081300813009
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 1,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 5,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 31.89,
+        "flesch_kincaid_grade": 12.3,
+        "gunning_fog": 15.31,
+        "smog_index": 14.6,
+        "automated_readability_index": 13.2,
+        "coleman_liau_index": 15.25,
+        "dale_chall_readability_score": 11.32,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 135,
+          "polysyllable_count": 20,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 14.0,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 70,
+          "difficult_words": 26
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.014285714285714285
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 70.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 14.0,
+        "word_count": 70,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.014285714285714285
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 31.78,
+        "flesch_kincaid_grade": 12.3,
+        "gunning_fog": 9.52,
+        "smog_index": 14.4,
+        "automated_readability_index": 13.5,
+        "coleman_liau_index": 14.78,
+        "dale_chall_readability_score": 7.69,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 1478,
+          "polysyllable_count": 210,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 54,
+          "avg_sentence_length": 14.1,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 762,
+          "difficult_words": 116
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 3,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 3,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 10,
+        "technical_density": 0.0039011703511053317
+      },
+      "structure": {
+        "paragraph_count": 15,
+        "avg_paragraph_length": 51.266666666666666,
+        "sentence_count": 57,
+        "avg_sentence_length": 13.491228070175438,
+        "word_count": 769,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 3,
+          "critical_phrase_detail": {
+            "however": 3,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0039011703511053317
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 3,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.4511159658432007
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.45898592472076416
+          },
+          {
+            "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+            "year": "2023",
+            "similarity_score": -0.5517030954360962
+          }
+        ],
+        "avg_similarity": -0.487268328666687,
+        "max_similarity": {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        "min_similarity": {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      },
+      "sentiment": {
+        "positive": 49,
+        "neutral": 8,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 21.9,
+      "flesch_kincaid_grade": 14.1,
+      "gunning_fog": 9.2,
+      "smog_index": 15.3,
+      "automated_readability_index": 14.4,
+      "coleman_liau_index": 15.66,
+      "dale_chall_readability_score": 6.77,
+      "text_standard": "14th and 15th grade",
+      "syllable_stats": {
+        "syllable_count": 2508,
+        "polysyllable_count": 373,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 82,
+        "avg_sentence_length": 15.5,
+        "avg_sentence_per_word": 0.06
+      },
+      "lexical_stats": {
+        "lexicon_count": 1268,
+        "difficult_words": 143
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 5,
+      "technical_terms_detail": {
+        "semiconductor": 0,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 0,
+        "yield": 0,
+        "power": 5,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 22,
+      "technical_density": 0.003915426781519186
+    },
+    "structure": {
+      "paragraph_count": 24,
+      "avg_paragraph_length": 53.208333333333336,
+      "sentence_count": 85,
+      "avg_sentence_length": 15.023529411764706,
+      "word_count": 1277,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 6,
+        "critical_phrase_detail": {
+          "however": 6,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.004698512137823023
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 6,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.4511159658432007
+        },
+        {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.45898592472076416
+        },
+        {
+          "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+          "year": "2023",
+          "similarity_score": -0.5517030954360962
+        }
+      ],
+      "avg_similarity": -0.487268328666687,
+      "max_similarity": {
+        "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+        "year": "2024",
+        "similarity_score": -0.4511159658432007
+      },
+      "min_similarity": {
+        "title": "Research on Bioengineering Algorithm based on Dynamic Fuzzy Neural Network",
+        "year": "2023",
+        "similarity_score": -0.5517030954360962
+      }
+    }
+  }
+}

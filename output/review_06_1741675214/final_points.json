@@ -1,0 +1,57 @@
+{
+  "INTRODUCTION": [
+    "1. Clarify which ML algorithms are being used for power consumption optimization in IoT devices.",
+    "2. Define \"optimize power consumption\" in the context of ML algorithms.",
+    "3. Discuss the impact of data preprocessing and feature engineering on power consumption.",
+    "4. Consider the impact of hardware limitations on ML algorithm performance and power consumption.",
+    "5. Analyze the trade-off between power consumption and model accuracy.",
+    "6. Provide evidence or arguments to support the claim that ML algorithms can optimize power consumption in IoT devices.",
+    "7. Provide examples or specific use cases of how XAI techniques can be applied to power consumption optimization in IoT devices.",
+    "8. Explain how XAI techniques can help identify power consumption patterns or anomalies and how this information can be used to optimize power usage in IoT devices.",
+    "9. Clarify how trustworthiness is relevant to the optimization of power consumption in IoT devices.",
+    "10. Analyze the specific XAI techniques that are most effective for power consumption optimization in IoT devices and discuss their advantages and disadvantages."
+  ],
+  "METHODOLOGY": [
+    "1. Provide more details about the RF models used and how the XAI techniques performed in explaining the predictions of each model.",
+    "2. Provide more details about the datasets used and how the XAI techniques performed in improving the interpretability of each ML algorithm.",
+    "3. Discuss why RF models were chosen over other ML models and how they compare to other ML models in terms of performance and interpretability.",
+    "4. Discuss the computational complexity of using XAI techniques with each ML algorithm and which ones offer the best balance between performance and interpretability.",
+    "5. Discuss the limitations of XAI techniques and how they can be addressed."
+  ],
+  "RESULTS": [
+    "1. Define XAI acronym consistently throughout the document.",
+    "2. Clarify the term \"features\" and define it explicitly.",
+    "3. Provide specific performance metrics to support the claim of negligible impact on Support Vector Machines.",
+    "4. Provide full citations for LIME, SHAP, and DeepLIFT.",
+    "5. Clarify how XAI techniques directly contribute to power consumption optimization.",
+    "6. Improve clarity by stating which results the authors reported specifically.",
+    "7. Provide a clearer transition between the two findings.",
+    "8. Explain XAI techniques for readers who may not be familiar with the term.",
+    "9. Clarify that the identification of features was a result of using XAI techniques.",
+    "10. Provide a more detailed analysis of how XAI techniques affected each algorithm and why some algorithms were more or less affected than others.",
+    "11. Discuss potential limitations or drawbacks of XAI techniques and their application to optimizing power consumption in IoT devices.",
+    "12. Discuss potential sources of error or bias in the data or the XAI techniques themselves."
+  ],
+  "DISCUSSION": [
+    "1. Provide more context about the importance of optimizing power consumption in IoT devices and the role of XAI techniques in achieving this goal.",
+    "2. Compare RF models to other ML models in terms of power consumption and interpretability.",
+    "3. Define what is meant by trustworthiness in this context and how it relates to power consumption optimization.",
+    "4. Provide guidance on how to make the selection of the appropriate XAI technique for the specific ML algorithm and dataset.",
+    "5. Discuss any potential drawbacks or limitations of using XAI techniques for power consumption optimization."
+  ],
+  "CONCLUSION": [
+    "1. Define power consumption metric",
+    "2. Provide more detail on how XAI techniques contribute to optimizing power consumption",
+    "3. Use \"explainability\" instead of \"interpretability\"",
+    "4. Provide more detail on which XAI techniques were analyzed and the specific findings",
+    "5. Consider rephrasing the first sentence for clarity",
+    "6. Clarify the meaning of \"XAI techniques\"",
+    "7. Break up long sentences into shorter, clearer sentences",
+    "8. Provide specific examples or details to suggestions",
+    "9. Revise final sentence for clarity",
+    "10. Discuss potential limitations or weaknesses of XAI techniques",
+    "11. Provide a more detailed discussion of specific XAI techniques used",
+    "12. Evaluate evidence presented in the two papers critically",
+    "13. Provide specific recommendations for selecting appropriate XAI techniques"
+  ]
+}

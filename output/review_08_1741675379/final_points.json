@@ -1,0 +1,54 @@
+{
+  "INTRODUCTION": [
+    "1. Define neuromorphic computing systems and explain their significance in the context of the report.",
+    "2. Narrow the scope of the report to a specific application or problem domain.",
+    "3. Provide concrete examples or case studies to demonstrate the advantages of neuromorphic computing systems.",
+    "4. Define neuromorphic computing systems and compare their design considerations with those of traditional computing systems.",
+    "5. Summarize the key contributions and findings of each source and explain how they will be used in the analysis.",
+    "6. Provide a clear transition from the introduction to the report's purpose.",
+    "7. Avoid using citations within the first paragraph."
+  ],
+  "METHODOLOGY": [
+    "1. Provide clear comparisons of the two systems in Antonyuk, Lobur, and Antonyuk [1], including overall performance, cost, and power consumption.",
+    "2. Justify the claim that the FPGA-based system requires more development effort and resources in Antonyuk, Lobur, and Antonyuk [1] with data or references.",
+    "3. Discuss potential limitations or challenges of the FPGA-based system in Antonyuk, Lobur, and Antonyuk [1] and provide solutions or mitigations.",
+    "4. Provide quantitative data or simulations to support the claims about the performance improvements of pipelined computing in Hahanova, Miroshnychenko, Pobegenko, and Savvutin [2].",
+    "5. Provide insights into the design of pipelined computing units and the challenges of implementing them in digital signal processing systems in Hahanova, Miroshnychenko, Pobegenko, and Savvutin [2].",
+    "6. Compare the three pipelined architectures in Hahanova, Miroshnychenko, Pobegenko, and Savvutin [2] in terms of their performance, cost, and power consumption.",
+    "7. Address limitations or challenges of using the DCT for digital signal processing in Tseng and Aburdene [3] and provide solutions or mitigations.",
+    "8. Include real-world applications or case studies of the DCT in Tseng and Aburdene [3] to demonstrate its benefits.",
+    "9. Compare the DCT with other signal processing techniques, such as the discrete Fourier transform or wavelet transform, in Tseng and Aburdene [3] in terms of their performance, complexity, and applicability."
+  ],
+  "RESULTS": [
+    "1. Clarify that the parallel and pipeline systems process data in parallel and sequentially, respectively, and specify that the parallel system processes multiple data samples in parallel and the pipeline system processes data samples sequentially.",
+    "2. Define pipelining and explain how it works in the context of digital signal processing.",
+    "3. Clarify that the DCT is a functional block used in image processing applications and that the authors are implementing an efficient algorithm for it.",
+    "4. Define acronyms such as DCT and DSP for the benefit of the reader.",
+    "5. Specify which optimization techniques are being discussed and how they are being applied to the DCT implementation.",
+    "6. Provide a more detailed comparison between the parallel and pipeline systems, including their applicability to specific use cases and real-world applications.",
+    "7. Discuss potential drawbacks or limitations of pipelining, such as increased latency or the need for precise data alignment.",
+    "8. Discuss the trade-offs between different optimization techniques, such as data reuse and parallelism, and how they impact the overall performance and efficiency of the DCT implementation.",
+    "9. Discuss the assumptions and limitations of the proposed systems, including the input data and processing requirements."
+  ],
+  "DISCUSSION": [
+    "1. Define \"neuromorphic computing systems\" for readers who may not be familiar with the term.",
+    "2. Specify which tasks neuromorphic systems can be used for in signal processing.",
+    "3. Explain how the design of neuromorphic systems can be inspired by the human brain to lead to more efficient and effective solutions.",
+    "4. Be specific about which papers discuss the design of neuromorphic computing systems specifically.",
+    "5. Define what is meant by \"building blocks\" for readers who may not be familiar with this term in this context.",
+    "6. Evaluate the novelty and contribution of each paper to the field of neuromorphic computing.",
+    "7. Compare and contrast the approaches presented in the papers.",
+    "8. Discuss the limitations of the proposed designs and potential solutions.",
+    "9. Analyze the potential impact of the research on real-world applications.",
+    "10. Identify potential biases or assumptions in the papers."
+  ],
+  "CONCLUSION": [
+    "1. Clarify the meaning of \"significant potential applications in electronic engineering\" and \"particularly in signal processing, image recognition, and artificial intelligence.\"",
+    "2. Explain how the designs from the papers can be used as building blocks for neuromorphic computing systems.",
+    "3. Define DCT at the first mention in the text.",
+    "4. Expand on how the designs can be integrated into neuromorphic computing systems and what benefits this integration provides.",
+    "5. Discuss the limitations and challenges of neuromorphic computing systems and how the proposed designs address these challenges.",
+    "6. Evaluate the comparative advantages of neuromorphic computing systems over traditional computing systems.",
+    "7. Discuss the ethical implications of neuromorphic computing systems and suggest ways to address these issues."
+  ]
+}

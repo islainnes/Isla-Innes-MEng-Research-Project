@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-11 06:48:09"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 14.33,
+        "flesch_kincaid_grade": 19.0,
+        "gunning_fog": 19.75,
+        "smog_index": 17.5,
+        "automated_readability_index": 20.6,
+        "coleman_liau_index": 14.69,
+        "dale_chall_readability_score": 12.08,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 176,
+          "polysyllable_count": 19,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 31.3,
+          "avg_sentence_per_word": 0.03
+        },
+        "lexical_stats": {
+          "lexicon_count": 94,
+          "difficult_words": 36
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 2,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 1,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.02127659574468085
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 94.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 31.333333333333332,
+        "word_count": 94,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": -2.23,
+        "flesch_kincaid_grade": 19.2,
+        "gunning_fog": 17.89,
+        "smog_index": 18.9,
+        "automated_readability_index": 19.4,
+        "coleman_liau_index": 18.34,
+        "dale_chall_readability_score": 11.74,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 253,
+          "polysyllable_count": 38,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 22.6,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 113,
+          "difficult_words": 41
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 7,
+        "technical_terms_detail": {
+          "semiconductor": 3,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 3,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.061946902654867256
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 56.5,
+        "sentence_count": 5,
+        "avg_sentence_length": 22.6,
+        "word_count": 113,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 5,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 28.23,
+        "flesch_kincaid_grade": 13.7,
+        "gunning_fog": 13.54,
+        "smog_index": 15.0,
+        "automated_readability_index": 13.7,
+        "coleman_liau_index": 13.92,
+        "dale_chall_readability_score": 10.67,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 238,
+          "polysyllable_count": 30,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 7,
+          "avg_sentence_length": 17.6,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 123,
+          "difficult_words": 36
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 6,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 3,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.04878048780487805
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 61.5,
+        "sentence_count": 7,
+        "avg_sentence_length": 17.571428571428573,
+        "word_count": 123,
+        "has_topic_sentences": 1
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 6,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 25.59,
+        "flesch_kincaid_grade": 14.7,
+        "gunning_fog": 16.34,
+        "smog_index": 16.3,
+        "automated_readability_index": 14.3,
+        "coleman_liau_index": 13.75,
+        "dale_chall_readability_score": 9.99,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 230,
+          "polysyllable_count": 32,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 20.2,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 121,
+          "difficult_words": 37
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 5,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 3,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.04132231404958678
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 60.5,
+        "sentence_count": 6,
+        "avg_sentence_length": 20.166666666666668,
+        "word_count": 121,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.008264462809917356
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 36.28,
+        "flesch_kincaid_grade": 12.7,
+        "gunning_fog": 15.53,
+        "smog_index": 14.6,
+        "automated_readability_index": 12.6,
+        "coleman_liau_index": 12.29,
+        "dale_chall_readability_score": 12.2,
+        "text_standard": "12th and 13th grade",
+        "syllable_stats": {
+          "syllable_count": 129,
+          "polysyllable_count": 16,
+          "avg_syllables_per_word": 1.8
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 18.0,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 72,
+          "difficult_words": 27
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 2,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 1,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.027777777777777776
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 72.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 18.0,
+        "word_count": 72,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.013888888888888888
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 13.54,
+        "flesch_kincaid_grade": 15.2,
+        "gunning_fog": 10.62,
+        "smog_index": 15.0,
+        "automated_readability_index": 15.4,
+        "coleman_liau_index": 15.77,
+        "dale_chall_readability_score": 8.5,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 1020,
+          "polysyllable_count": 138,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 32,
+          "avg_sentence_length": 15.4,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 493,
+          "difficult_words": 96
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 27,
+        "technical_terms_detail": {
+          "semiconductor": 11,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 11,
+          "yield": 1,
+          "power": 4,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 15,
+        "technical_density": 0.054
+      },
+      "structure": {
+        "paragraph_count": 15,
+        "avg_paragraph_length": 33.333333333333336,
+        "sentence_count": 32,
+        "avg_sentence_length": 15.625,
+        "word_count": 500,
+        "has_topic_sentences": 1
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.002
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.22825407981872559
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.33078932762145996
+          },
+          {
+            "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+            "year": "2021",
+            "similarity_score": -0.3370940685272217
+          }
+        ],
+        "avg_similarity": -0.29871249198913574,
+        "max_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        "min_similarity": {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      },
+      "sentiment": {
+        "positive": 26,
+        "neutral": 3,
+        "negative": 3
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 19.57,
+      "flesch_kincaid_grade": 15.0,
+      "gunning_fog": 9.95,
+      "smog_index": 15.6,
+      "automated_readability_index": 15.4,
+      "coleman_liau_index": 15.08,
+      "dale_chall_readability_score": 6.93,
+      "text_standard": "14th and 15th grade",
+      "syllable_stats": {
+        "syllable_count": 2046,
+        "polysyllable_count": 273,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 57,
+        "avg_sentence_length": 17.8,
+        "avg_sentence_per_word": 0.06
+      },
+      "lexical_stats": {
+        "lexicon_count": 1016,
+        "difficult_words": 122
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 49,
+      "technical_terms_detail": {
+        "semiconductor": 18,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 22,
+        "yield": 1,
+        "power": 8,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 24,
+      "technical_density": 0.047898338220918865
+    },
+    "structure": {
+      "paragraph_count": 23,
+      "avg_paragraph_length": 44.47826086956522,
+      "sentence_count": 57,
+      "avg_sentence_length": 17.94736842105263,
+      "word_count": 1023,
+      "has_topic_sentences": 2
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 3,
+        "critical_phrase_detail": {
+          "however": 3,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.002932551319648094
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.22825407981872559
+        },
+        {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.33078932762145996
+        },
+        {
+          "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+          "year": "2021",
+          "similarity_score": -0.3370940685272217
+        }
+      ],
+      "avg_similarity": -0.29871249198913574,
+      "max_similarity": {
+        "title": "Digital Signal Processing and Digital System Design",
+        "year": "2024",
+        "similarity_score": -0.22825407981872559
+      },
+      "min_similarity": {
+        "title": "An Analytical Review: Explainable AI for decision making in finance using Machine Learning",
+        "year": "2021",
+        "similarity_score": -0.3370940685272217
+      }
+    }
+  }
+}

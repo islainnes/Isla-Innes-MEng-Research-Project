@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-11 07:01:48"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": -3.15,
+        "flesch_kincaid_grade": 19.5,
+        "gunning_fog": 18.76,
+        "smog_index": 20.5,
+        "automated_readability_index": 20.2,
+        "coleman_liau_index": 19.15,
+        "dale_chall_readability_score": 11.35,
+        "text_standard": "20th and 21st grade",
+        "syllable_stats": {
+          "syllable_count": 208,
+          "polysyllable_count": 37,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 23.5,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 94,
+          "difficult_words": 34
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 2,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 2,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.02127659574468085
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 94.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 23.5,
+        "word_count": 94,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.010638297872340425
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 2.99,
+        "flesch_kincaid_grade": 19.3,
+        "gunning_fog": 17.7,
+        "smog_index": 19.0,
+        "automated_readability_index": 20.6,
+        "coleman_liau_index": 18.11,
+        "dale_chall_readability_score": 10.59,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 213,
+          "polysyllable_count": 31,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 25.8,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 103,
+          "difficult_words": 32
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 10,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 7,
+          "module": 2,
+          "gate": 1,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0970873786407767
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 103.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 25.75,
+        "word_count": 103,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 10.3,
+        "flesch_kincaid_grade": 16.4,
+        "gunning_fog": 16.36,
+        "smog_index": 17.3,
+        "automated_readability_index": 16.9,
+        "coleman_liau_index": 17.46,
+        "dale_chall_readability_score": 11.12,
+        "text_standard": "16th and 17th grade",
+        "syllable_stats": {
+          "syllable_count": 278,
+          "polysyllable_count": 43,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 7,
+          "avg_sentence_length": 18.6,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 130,
+          "difficult_words": 48
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 16,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 1,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 11,
+          "module": 3,
+          "gate": 1,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.12213740458015267
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 65.5,
+        "sentence_count": 7,
+        "avg_sentence_length": 18.714285714285715,
+        "word_count": 131,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 7,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": -4.37,
+        "flesch_kincaid_grade": 20.0,
+        "gunning_fog": 19.07,
+        "smog_index": 20.6,
+        "automated_readability_index": 21.9,
+        "coleman_liau_index": 20.25,
+        "dale_chall_readability_score": 11.69,
+        "text_standard": "19th and 20th grade",
+        "syllable_stats": {
+          "syllable_count": 163,
+          "polysyllable_count": 28,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 24.7,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 74,
+          "difficult_words": 28
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 6,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 5,
+          "module": 1,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.08108108108108109
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 74.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 24.666666666666668,
+        "word_count": 74,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.013513513513513514
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 3.16,
+        "flesch_kincaid_grade": 17.1,
+        "gunning_fog": 20.77,
+        "smog_index": 17.9,
+        "automated_readability_index": 18.3,
+        "coleman_liau_index": 19.54,
+        "dale_chall_readability_score": 13.3,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 114,
+          "polysyllable_count": 20,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 17.3,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 52,
+          "difficult_words": 27
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 3,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 3,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.057692307692307696
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 52.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 17.333333333333332,
+        "word_count": 52,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.019230769230769232
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 2.62,
+        "flesch_kincaid_grade": 21.5,
+        "gunning_fog": 21.34,
+        "smog_index": 0.0,
+        "automated_readability_index": 23.9,
+        "coleman_liau_index": 15.15,
+        "dale_chall_readability_score": 14.5,
+        "text_standard": "21st and 22nd grade",
+        "syllable_stats": {
+          "syllable_count": 141,
+          "polysyllable_count": 19,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 2,
+          "avg_sentence_length": 34.5,
+          "avg_sentence_per_word": 0.03
+        },
+        "lexical_stats": {
+          "lexicon_count": 69,
+          "difficult_words": 26
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 8,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 6,
+          "module": 1,
+          "gate": 1,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.11428571428571428
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 35.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 14.0,
+        "word_count": 70,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.4286651611328125
+          },
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.47451233863830566
+          },
+          {
+            "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+            "year": "2024",
+            "similarity_score": -0.48372817039489746
+          }
+        ],
+        "avg_similarity": -0.46230189005533856,
+        "max_similarity": {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        "min_similarity": {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 1,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 6.13,
+      "flesch_kincaid_grade": 18.0,
+      "gunning_fog": 13.29,
+      "smog_index": 19.0,
+      "automated_readability_index": 19.5,
+      "coleman_liau_index": 18.28,
+      "dale_chall_readability_score": 8.48,
+      "text_standard": "17th and 18th grade",
+      "syllable_stats": {
+        "syllable_count": 1117,
+        "polysyllable_count": 178,
+        "avg_syllables_per_word": 2.1
+      },
+      "sentence_stats": {
+        "sentence_count": 23,
+        "avg_sentence_length": 22.7,
+        "avg_sentence_per_word": 0.04
+      },
+      "lexical_stats": {
+        "lexicon_count": 522,
+        "difficult_words": 103
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 45,
+      "technical_terms_detail": {
+        "semiconductor": 0,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 1,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 0,
+        "yield": 0,
+        "power": 34,
+        "module": 7,
+        "gate": 3,
+        "material": 0
+      },
+      "citation_count": 12,
+      "technical_density": 0.08587786259541985
+    },
+    "structure": {
+      "paragraph_count": 8,
+      "avg_paragraph_length": 65.5,
+      "sentence_count": 26,
+      "avg_sentence_length": 20.153846153846153,
+      "word_count": 524,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 3,
+        "critical_phrase_detail": {
+          "however": 3,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.0057251908396946565
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 0,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.4286651611328125
+        },
+        {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.47451233863830566
+        },
+        {
+          "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+          "year": "2024",
+          "similarity_score": -0.48372817039489746
+        }
+      ],
+      "avg_similarity": -0.46230189005533856,
+      "max_similarity": {
+        "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+        "year": "2024",
+        "similarity_score": -0.4286651611328125
+      },
+      "min_similarity": {
+        "title": "Design and Implementation of an Embedded Remote Electronic Measurement System",
+        "year": "2024",
+        "similarity_score": -0.48372817039489746
+      }
+    }
+  }
+}

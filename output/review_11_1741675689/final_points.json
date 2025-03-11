@@ -1,0 +1,43 @@
+{
+  "INTRODUCTION": [
+    "1. First point",
+    "2. Second point"
+  ],
+  "METHODOLOGY": [
+    "1. In the first paper, the authors should specify which ML algorithms they use for optimizing the circuit design.",
+    "2. In the second paper, the authors should define sustainability in the context of semiconductor manufacturing.",
+    "3. In both papers, the authors should discuss the potential ethical implications of relying on ML algorithms for hardware design.",
+    "4. In the first paper, the authors should provide concrete evidence or benchmarks to support their claim of minimizing area and power consumption.",
+    "5. In the second paper, the authors should discuss the limitations and assumptions of their ML models for predicting environmental impact.",
+    "6. In both papers, the authors should provide more details about the data used to train their ML models.",
+    "7. In the first paper, the authors should discuss how they handle the trade-off between area and power consumption in their optimization process."
+  ],
+  "RESULTS": [
+    "1. Provide quantitative data or specifications to support the improvements claimed in both papers.",
+    "2. Specify which genetic algorithm variant is used in Tseng and Aburdene's paper and why it was chosen.",
+    "3. Define the term \"environmental impact\" more precisely in Qi et al.'s paper.",
+    "4. Include more visuals, such as diagrams or figures, to illustrate the concepts being discussed in both papers.",
+    "5. Rephrase some sentences for better flow and clarity in both papers.",
+    "6. Expand the second paper to include specific examples or case studies to provide more concrete evidence of the effectiveness of their approach.",
+    "7. Discuss the limitations and trade-offs of the ML-based approaches presented in both papers."
+  ],
+  "DISCUSSION": [
+    "1. Define \"ML\" explicitly as a subset of machine intelligence that involves training algorithms to learn patterns from data.",
+    "2. Be more specific about which papers are being referred to and how ML was used in each case.",
+    "3. Provide more specific examples of the challenges that need to be addressed in the broader context of ML-based circuit design and optimization.",
+    "4. Validate the claims made in the DCT implementation paper with quantitative analysis or experimental results.",
+    "5. Discuss the potential limitations or drawbacks of ML-based approaches in electronic design and manufacturing.",
+    "6. Provide more details about the neural network used in the DCT implementation paper.",
+    "7. Demonstrate the effectiveness of the ML-based approach for predicting equipment failures in the semiconductor manufacturing paper with data or analysis."
+  ],
+  "CONCLUSION": [
+    "1. Clarify the term \"ML techniques\" used in the first sentence.",
+    "2. Specify which ML techniques are being used for circuit design optimization.",
+    "3. Clarify the meaning of \"manufacturing processes\" and how ML is being used to optimize them for minimal environmental impact.",
+    "4. Specify which challenges are being addressed in the broader context of ML-based circuit design and optimization.",
+    "5. Provide more details about the specific ML techniques used and their advantages/disadvantages compared to other optimization methods.",
+    "6. Discuss the limitations or potential drawbacks of using ML to optimize manufacturing processes.",
+    "7. Provide concrete examples of how ML-based circuit design optimization has been achieved in practice.",
+    "8. Include more quantitative data to support the claims made in the papers about ML-based optimization for minimal environmental impact."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "INTRODUCTION": [
+    "1. First point",
+    "2. Second point"
+  ],
+  "METHODOLOGY": [
+    "1. Define \"deep trench structures\" and \"gate oxide engineering techniques\" in the first paper.",
+    "2. Specify which reliability issues the authors are addressing in the first paper.",
+    "3. Provide specific doping profiles and gate oxide thicknesses in the second paper.",
+    "4. Define \"carrier lifetime\" in the second paper.",
+    "5. Discuss the mechanisms behind the improvements in the first paper.",
+    "6. Provide experimental data or specific values to support the claims made in the second paper.",
+    "7. Discuss the potential drawbacks or challenges associated with deep trench structures in the first paper.",
+    "8. Discuss the trade-offs or limitations of increasing gate oxide thickness in the second paper.",
+    "9. Analyze the synergies between deep trench structures and gate oxide engineering techniques in the first paper.",
+    "10. Discuss the impact of deep trench structures on multiple device parameters in the first paper.",
+    "11. Discuss the impact of gate oxide thickness on multiple device parameters in the second paper.",
+    "12. Provide more details on the specific gate oxide engineering techniques used in the first paper.",
+    "13. Provide more details on the specific doping profiles used in the second paper."
+  ],
+  "RESULTS": [
+    "1. Be more specific about the types of gate oxide breakdown and degradation in [1].",
+    "2. Clarify the cause-and-effect relationship between doping concentration, electric field, and carrier lifetime in [2].",
+    "3. Use more precise language for gate oxide degradation in [1].",
+    "4. Provide numerical values for doping concentrations and gate oxide thicknesses in [2].",
+    "5. Specify the electric field strengths responsible for gate oxide breakdown in [1].",
+    "6. Clarify the connection between gate oxide breakdown and carrier lifetime in [1] and [2].",
+    "7. Discuss the potential impact of doping profiles and gate oxide thickness on gate oxide degradation and breakdown.",
+    "8. Provide more evidence to support the claim that increasing doping concentration near the silicon-silicon dioxide interface enhances carrier lifetime in [2].",
+    "9. Discuss potential trade-offs between gate oxide thickness and carrier mobility in [2].",
+    "10. Integrate [1] and [2] more effectively to explore the relationship between gate oxide degradation, doping profiles, and gate oxide thickness."
+  ],
+  "DISCUSSION": [
+    "1. Clarify applicability to logic transistors and discuss impact of process variations and interconnects.",
+    "2. Expand analysis on gate oxide failure mechanisms and deep trench structures.",
+    "3. Evaluate limitations and challenges of implementing deep trench structures and gate oxide engineering techniques.",
+    "4. Evaluate trade-offs between gate oxide thickness optimization and carrier lifetime control.",
+    "5. Consider long-term scalability and impact on power consumption and performance."
+  ],
+  "CONCLUSION": [
+    "1. Consider using more active and engaging language to make the conclusion more compelling.",
+    "2. Provide more specific examples of the implications of the findings for future research.",
+    "3. Consider using a more conversational tone to make the content more accessible to a wider audience."
+  ]
+}

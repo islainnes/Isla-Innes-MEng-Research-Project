@@ -1,0 +1,42 @@
+{
+  "INTRODUCTION": [
+    "1. Define quantum tunneling and explain its relevance to semiconductor devices.",
+    "2. Provide specific examples or quantify the potential performance improvements from quantum tunneling effects.",
+    "3. Outline the specific research questions or objectives of the analysis.",
+    "4. Integrate additional sources into the analysis, if applicable."
+  ],
+  "METHODOLOGY": [
+    "1. Clarify inconsistencies in device specifications between abstract and introduction in Paper 1.",
+    "2. Address discrepancies in gate oxide thickness between results and experimental sections in Paper 1.",
+    "3. Provide specific semiconductor materials for spin control studies in Paper 2.",
+    "4. Define \"simple model\" in the introduction of Paper 2.",
+    "5. Provide context for simulation and experimental techniques in Paper 1.",
+    "6. Be more specific about failure mechanisms and improvements in the abstract of Paper 1.",
+    "7. Clarify the significance of deep trenches and gate oxide reliability in the introduction of Paper 1."
+  ],
+  "RESULTS": [
+    "1. In the Greenwood et al. paper [1], provide quantitative information about the depth and width of the deep trenches.",
+    "2. Explain how the deep trenches directly create a potential barrier at the gate oxide interface.",
+    "3. Define \"gate oxide yield\" and \"quantum tunneling effect\" for readers.",
+    "4. Explain what \"spin control\" means and why it is important for quantum information processing.",
+    "5. Provide experimental evidence to support the claim that deep trenches can reduce the probability of gate oxide failure due to quantum tunneling.",
+    "6. Discuss the practical challenges of implementing the proposed spin control scheme using electric fields in real devices.",
+    "7. Consider potential confounding factors, such as impurities or defects, that could impact gate oxide yield in the Greenwood et al. paper [1].",
+    "8. Consider the effects of temperature or magnetic fields on spin relaxation time in the Samarth and Awschalom paper [2]."
+  ],
+  "DISCUSSION": [
+    "1. Clarify the main findings of each paper in the introductory paragraph.",
+    "2. Define or explain \"next-generation semiconductor devices\" for clarity.",
+    "3. Expand on the relationship between the papers' findings and the broader context of next-generation semiconductor devices.",
+    "4. Use bullet points or numbered lists to make the information more digestible.",
+    "5. Evaluate the logical flow and argumentation in each paper, identify potential biases or assumptions, assess the strength of evidence and conclusions, and suggest improvements for analytical depth.",
+    "6. Compare the potential benefits of deep trenches and spin control in the context of next-generation semiconductor devices.",
+    "7. Discuss potential challenges or limitations of the proposed approaches, such as fabrication complexities or scalability issues."
+  ],
+  "CONCLUSION": [
+    "1. Greenwood et al. [1] should discuss trade-offs of using deep trenches for gate oxide yield improvement.",
+    "2. Samarth and Awschalom [2] should discuss challenges of scaling up spin control technology for practical applications.",
+    "3. Greenwood et al. [1] should analyze the impact of high-k dielectrics on gate oxide electrical properties.",
+    "4. Samarth and Awschalom [2] should analyze the impact of spin-orbit coupling on semiconductor electrical properties."
+  ]
+}

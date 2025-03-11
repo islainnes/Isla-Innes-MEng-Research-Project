@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-11 06:42:59"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": -2.81,
+        "flesch_kincaid_grade": 21.5,
+        "gunning_fog": 23.39,
+        "smog_index": 0.0,
+        "automated_readability_index": 25.2,
+        "coleman_liau_index": 19.85,
+        "dale_chall_readability_score": 12.97,
+        "text_standard": "12th and 13th grade",
+        "syllable_stats": {
+          "syllable_count": 133,
+          "polysyllable_count": 22,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 2,
+          "avg_sentence_length": 31.5,
+          "avg_sentence_per_word": 0.03
+        },
+        "lexical_stats": {
+          "lexicon_count": 63,
+          "difficult_words": 27
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 63.0,
+        "sentence_count": 2,
+        "avg_sentence_length": 31.5,
+        "word_count": 63,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 19.4,
+        "flesch_kincaid_grade": 17.1,
+        "gunning_fog": 15.47,
+        "smog_index": 17.4,
+        "automated_readability_index": 20.9,
+        "coleman_liau_index": 17.24,
+        "dale_chall_readability_score": 10.66,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 199,
+          "polysyllable_count": 25,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 26.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 105,
+          "difficult_words": 29
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 105.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 26.25,
+        "word_count": 105,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 31.58,
+        "flesch_kincaid_grade": 12.4,
+        "gunning_fog": 12.82,
+        "smog_index": 14.7,
+        "automated_readability_index": 13.1,
+        "coleman_liau_index": 14.9,
+        "dale_chall_readability_score": 10.46,
+        "text_standard": "12th and 13th grade",
+        "syllable_stats": {
+          "syllable_count": 359,
+          "polysyllable_count": 53,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 13,
+          "avg_sentence_length": 14.3,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 186,
+          "difficult_words": 60
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 62.0,
+        "sentence_count": 13,
+        "avg_sentence_length": 14.307692307692308,
+        "word_count": 186,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 2,
+          "critical_phrase_detail": {
+            "however": 2,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.010752688172043012
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 11,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 28.94,
+        "flesch_kincaid_grade": 13.4,
+        "gunning_fog": 13.39,
+        "smog_index": 15.4,
+        "automated_readability_index": 14.5,
+        "coleman_liau_index": 15.25,
+        "dale_chall_readability_score": 9.8,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 316,
+          "polysyllable_count": 46,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 10,
+          "avg_sentence_length": 16.9,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 169,
+          "difficult_words": 45
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.005917159763313609
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 56.333333333333336,
+        "sentence_count": 10,
+        "avg_sentence_length": 16.9,
+        "word_count": 169,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 9,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 14.56,
+        "flesch_kincaid_grade": 14.8,
+        "gunning_fog": 15.76,
+        "smog_index": 15.4,
+        "automated_readability_index": 15.7,
+        "coleman_liau_index": 17.39,
+        "dale_chall_readability_score": 12.9,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 148,
+          "polysyllable_count": 23,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 14.4,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 72,
+          "difficult_words": 29
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 72.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 14.4,
+        "word_count": 72,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 5,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 38.28,
+        "flesch_kincaid_grade": 9.8,
+        "gunning_fog": 10.61,
+        "smog_index": 11.4,
+        "automated_readability_index": 13.0,
+        "coleman_liau_index": 14.86,
+        "dale_chall_readability_score": 15.54,
+        "text_standard": "10th and 11th grade",
+        "syllable_stats": {
+          "syllable_count": 162,
+          "polysyllable_count": 23,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 11,
+          "avg_sentence_length": 7.7,
+          "avg_sentence_per_word": 0.13
+        },
+        "lexical_stats": {
+          "lexicon_count": 85,
+          "difficult_words": 35
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 28.333333333333332,
+        "sentence_count": 14,
+        "avg_sentence_length": 6.071428571428571,
+        "word_count": 85,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.308565616607666
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.324413537979126
+          },
+          {
+            "title": "Digital Signal Processing and Digital System Design",
+            "year": "2024",
+            "similarity_score": -0.3592571020126343
+          }
+        ],
+        "avg_similarity": -0.3307454188664754,
+        "max_similarity": {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        "min_similarity": {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      },
+      "sentiment": {
+        "positive": 10,
+        "neutral": 2,
+        "negative": 2
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 30.77,
+      "flesch_kincaid_grade": 12.7,
+      "gunning_fog": 10.28,
+      "smog_index": 14.9,
+      "automated_readability_index": 14.8,
+      "coleman_liau_index": 16.0,
+      "dale_chall_readability_score": 8.1,
+      "text_standard": "14th and 15th grade",
+      "syllable_stats": {
+        "syllable_count": 1317,
+        "polysyllable_count": 192,
+        "avg_syllables_per_word": 1.9
+      },
+      "sentence_stats": {
+        "sentence_count": 45,
+        "avg_sentence_length": 15.1,
+        "avg_sentence_per_word": 0.07
+      },
+      "lexical_stats": {
+        "lexicon_count": 680,
+        "difficult_words": 123
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 1,
+      "technical_terms_detail": {
+        "semiconductor": 0,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 0,
+        "yield": 0,
+        "power": 1,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 18,
+      "technical_density": 0.0014705882352941176
+    },
+    "structure": {
+      "paragraph_count": 12,
+      "avg_paragraph_length": 56.666666666666664,
+      "sentence_count": 48,
+      "avg_sentence_length": 14.166666666666666,
+      "word_count": 680,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 2,
+        "critical_phrase_detail": {
+          "however": 2,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.0029411764705882353
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.308565616607666
+        },
+        {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.324413537979126
+        },
+        {
+          "title": "Digital Signal Processing and Digital System Design",
+          "year": "2024",
+          "similarity_score": -0.3592571020126343
+        }
+      ],
+      "avg_similarity": -0.3307454188664754,
+      "max_similarity": {
+        "title": "Design Digital Data Acquisition and Processing Systems",
+        "year": "2024",
+        "similarity_score": -0.308565616607666
+      },
+      "min_similarity": {
+        "title": "Digital Signal Processing and Digital System Design",
+        "year": "2024",
+        "similarity_score": -0.3592571020126343
+      }
+    }
+  }
+}

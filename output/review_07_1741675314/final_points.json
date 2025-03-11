@@ -1,0 +1,42 @@
+{
+  "INTRODUCTION": [
+    "1. Define CMOS technology for readers who may not be familiar with the term.",
+    "2. Provide a clear comparison between the properties of graphene and traditional silicon-based materials in terms of energy efficiency.",
+    "3. Discuss the challenges and limitations of integrating graphene into CMOS technology in detail.",
+    "4. Provide a clear roadmap for how graphene can be effectively integrated into CMOS technology.",
+    "5. Discuss the potential environmental impact of using graphene in semiconductor technology.",
+    "6. Provide more context about the current state of the semiconductor industry and why there is a need for new materials like graphene."
+  ],
+  "METHODOLOGY": [
+    "1. Define sustainability in the context of semiconductor manufacturing in the first paper.",
+    "2. Discuss the potential benefits and challenges of integrating SiC into CMOS technology in the second paper.",
+    "3. Discuss how the findings of the third paper could be applied to the integration of graphene into CMOS technology.",
+    "4. Provide data or evidence to support the claims about the benefits of using alternative materials like graphene for energy efficiency.",
+    "5. Discuss the potential challenges or limitations of integrating SiC and deep trenches into semiconductor technology and how they could be addressed."
+  ],
+  "RESULTS": [
+    "1. Be more specific about the silicon-based materials being replaced by graphene.",
+    "2. Clarify the meaning of \"integrating SiC into CMOS technology.\"",
+    "3. Provide more context about the challenges related to gate oxide yield improvement and how deep trenches address these challenges.",
+    "4. Use headings or subheadings to improve readability.",
+    "5. Explain acronyms at their first mention.",
+    "6. Provide specific data or calculations to support the potential benefits of using graphene.",
+    "7. Discuss potential challenges or limitations of integrating graphene into semiconductor manufacturing.",
+    "8. Provide a more detailed discussion of the specific applications of graphene in semiconductor manufacturing.",
+    "9. Conduct a more thorough analysis of the current state of research and development in the field of graphene integration into semiconductor manufacturing."
+  ],
+  "DISCUSSION": [
+    "1. Provide a more detailed analysis of the specific challenges related to electrical and thermal compatibility when integrating graphene into CMOS technology.",
+    "2. Expand the discussion on the integration of SiC into CMOS technology to explore the potential advantages and challenges of using SiC as a precursor to integrating graphene.",
+    "3. Connect the discussion of gate oxide yield improvement to the discussion of graphene integration by exploring how the use of deep trenches could specifically address the challenges of integrating graphene into CMOS technology.",
+    "4. Discuss the potential synergies and trade-offs between the integration of SiC and graphene into CMOS technology.",
+    "5. Provide a more critical analysis of the current state of research on graphene integration into CMOS technology and the potential limitations of the proposed solutions."
+  ],
+  "CONCLUSION": [
+    "1. Provide more specific details about the challenges and potential benefits of integrating graphene into CMOS technology.",
+    "2. Be more specific about the potential benefits of integrating graphene into CMOS technology beyond improved electrical and thermal properties.",
+    "3. Discuss the limitations of using SiC as a model for integrating graphene into CMOS technology.",
+    "4. Provide more specific examples of the challenges and potential solutions related to each challenge.",
+    "5. Discuss the current state of research and development in the field of graphene integration into CMOS technology and the potential timeline for commercialization."
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "INTRODUCTION": [
+    "1. Provide more context about the importance of high-performance electronic systems and the specific challenges they face.",
+    "2. Include quantitative data or specific examples to support claims about the advantages of SiC power modules with integrated SiC gate drivers.",
+    "3. Discuss potential drawbacks or limitations of deep trench processes.",
+    "4. Provide a more detailed explanation of why advanced packaging techniques are necessary for high-performance electronic systems.",
+    "5. Compare advanced packaging techniques to other potential solutions, such as cooling technologies or material innovations.",
+    "6. Discuss potential impact of advanced packaging techniques on cost and performance of high-performance electronic systems.",
+    "7. Provide a more clear and concise writing style.",
+    "8. Use more visual aids, such as diagrams or charts, to help illustrate concepts.",
+    "9. Provide a more comprehensive literature review.",
+    "10. Define a clear and defined research question or objective.",
+    "11. Provide a more critical analysis of the research papers being reviewed.",
+    "12. Define a clear and defined methodology for the analysis of the research papers being reviewed."
+  ],
+  "METHODOLOGY": [
+    "1. Clarify the specific benefits of integrating SiC gate drivers into the SiC power module using the 3D monolithic integration process.",
+    "2. Expand on the relationship between carrier lifetime control and the reliability of power electronics systems.",
+    "3. Discuss potential failure mechanisms other than the two mentioned in the third paper and propose solutions to mitigate them.",
+    "4. Explore the trade-offs between thermal management and power density in the first and second papers.",
+    "5. Assess the potential impact of the deep trench process on power density and discuss any potential solutions to mitigate any negative effects."
+  ],
+  "RESULTS": [
+    "1. Provide comparison of thermal resistance values between the SiC power module and conventional power modules.",
+    "2. Include specific data or examples to support the relationship between carrier lifetime and reliability of power electronics systems.",
+    "3. Provide experimental data or results to validate the proposed solutions for mitigating gate oxide failure mechanisms.",
+    "4. Include data or results from electrical and thermal cycling tests to validate the reliability of the SiC power module.",
+    "5. Include quantitative data or examples to support the proposed methods for controlling carrier lifetime.",
+    "6. Discuss the impact of integrated gate drivers on the electrical performance and reliability of the SiC power module.",
+    "7. Explore the relationship between carrier lifetime control and thermal management of power electronics systems.",
+    "8. Compare the deep trench process with other gate oxide technologies in terms of gate oxide yield, reliability, and thermal management performance.",
+    "9. Discuss limitations of electrical and thermal cycling tests and the need for additional reliability tests.",
+    "10. Evaluate trade-offs between different methods for controlling carrier lifetime in terms of effectiveness, cost, and complexity."
+  ],
+  "DISCUSSION": [
+    "1. Clearly state the research question or problem addressed by the papers.",
+    "2. Expand the summaries of each paper to include more specific details about their findings and contributions.",
+    "3. Discuss the potential implications of these findings for the broader field of high-performance electronic systems and power electronics applications.",
+    "4. Consider potential counterarguments or alternative perspectives on the importance of advanced packaging techniques for high-performance electronic systems.",
+    "5. Identify potential future research directions based on the findings of these papers."
+  ],
+  "CONCLUSION": [
+    "1. First point",
+    "2. Second point"
+  ]
+}
