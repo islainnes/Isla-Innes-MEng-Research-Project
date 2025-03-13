@@ -36,7 +36,8 @@ def main():
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.float16,
         bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4"
+        bnb_4bit_quant_type="nf4",
+        llm_int8_enable_fp32_cpu_offload=True
     )
     
     # Generate research questions first
@@ -44,11 +45,10 @@ def main():
     research_questions = generate_research_questions(domain)
     all_results = []
     
-    # Process each model separately
+    # Process each model separately - only original and step5 model
     model_configs = [
         ("original", "mistralai/Mistral-7B-Instruct-v0.2"),
-        ("litreviews", "./fine_tuned_model_litreviews"),
-        ("files_mmd", "./fine_tuned_model_files_mmd")
+        ("improved_only", "./fine_tuned_model_improved_only")
     ]
     
     for model_name, model_path in model_configs:
@@ -58,6 +58,7 @@ def main():
             torch_dtype=torch.float16,
             device_map="auto",
             quantization_config=quantization_config,
+            offload_folder="offload_folder"
         )
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         tokenizer.pad_token = tokenizer.eos_token
@@ -92,3 +93,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
