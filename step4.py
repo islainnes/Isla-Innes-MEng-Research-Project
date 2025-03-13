@@ -95,12 +95,9 @@ def load_review_data():
     """Load all review data and their corresponding recommendations"""
     review_data_list = []
     
-    # Get all review files directly in litreviews folder
+    # Get only review_01 files directly in litreviews folder
     litreviews_path = Path('litreviews')
-    review_patterns = [f'review_{str(i).zfill(2)}*.json' for i in range(1, 21)]
-    review_files = []
-    for pattern in review_patterns:
-        review_files.extend(litreviews_path.glob(pattern))
+    review_files = list(litreviews_path.glob('review_01*.json'))
     
     # Sort files to process in order
     review_files.sort()
@@ -109,13 +106,13 @@ def load_review_data():
         print(f"Checking file: {review_path}")
         
         # Get the base name without extension for finding the corresponding output folder
-        review_base = review_path.stem  # e.g., 'review_01_1234567'
+        review_base = review_path.stem  # e.g., 'review_01'
         
         # Find corresponding final_points.json in output directory
-        final_points_path = Path('output') / review_base / 'final_points.json'
+        final_points_path = Path('output') / 'review_01' / 'final_points.json'
         
         if not final_points_path.exists():
-            print(f"No final_points.json found for {review_base}")
+            print(f"No final_points.json found for review_01")
             continue
             
         try:
@@ -132,10 +129,10 @@ def load_review_data():
                 'review_data': review_data,
                 'rewrite_data': rewrite_data
             })
-            print(f"Successfully loaded data for {review_base}")
+            print(f"Successfully loaded data for review_01")
             
         except Exception as e:
-            print(f"Error loading data for {review_base}: {str(e)}")
+            print(f"Error loading data for review_01: {str(e)}")
             continue
     
     if not review_data_list:
@@ -374,4 +371,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
