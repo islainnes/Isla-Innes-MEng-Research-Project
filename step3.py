@@ -24,7 +24,7 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512,expandable_segmen
 os.environ["OAI_CONFIG_LIST"] = json.dumps(
     [
         {
-            "model": "mistralai/Mistral-Small-24B-Instruct-2501",
+            "model": "istralai/Mistral-7B-Instruct-v0.2",
             "model_client_cls": "CustomLlama2Client",
             "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
             "n": 1,
