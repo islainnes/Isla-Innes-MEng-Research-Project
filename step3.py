@@ -10,6 +10,7 @@ from pathlib import Path
 import time
 from types import SimpleNamespace
 from dotenv import load_dotenv
+import re
 
 # Load environment variables
 load_dotenv()
@@ -23,7 +24,7 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512,expandable_segmen
 os.environ["OAI_CONFIG_LIST"] = json.dumps(
     [
         {
-            "model": "mistralai/Mistral-7B-Instruct-v0.2",
+            "model": "mistralai/Mistral-Small-24B-Instruct-2501",
             "model_client_cls": "CustomLlama2Client",
             "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
             "n": 1,
@@ -33,6 +34,9 @@ os.environ["OAI_CONFIG_LIST"] = json.dumps(
                 "temperature": 0.1,
                 "do_sample": True,
             },
+            "timeout": 120,
+            "retry_on_error": True,
+            "max_retries": 3
         }
     ]
 )
@@ -45,27 +49,33 @@ def load_shared_model(model_name, device):
     """Load model once and cache it for reuse"""
     print(f"Loading model {model_name} to {device}...")
     
-    # More aggressive memory optimization settings
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype=torch.float16,
-        device_map="auto",
-        quantization_config=BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4"
-        ),
-        max_memory={
-            0: "8GiB",  # Reduced from 40GiB
-            "cpu": "16GiB"  # Reduced from 32GiB
-        },
-        offload_folder="offload",
-    )
-    
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    tokenizer.pad_token = tokenizer.eos_token
-    return model, tokenizer
+    try:
+        # More aggressive memory optimization settings
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto",
+            quantization_config=BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_quant_type="nf4"
+            ),
+            max_memory={
+                0: "70GiB",  # Increased for A100 80GB
+                "cpu": "16GiB"
+            },
+            offload_folder="offload",
+        )
+        
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        print(f"Successfully loaded model {model_name}")
+        return model, tokenizer
+    except Exception as e:
+        print(f"ERROR loading model {model_name}: {e}")
+        # Re-raise to ensure the error is visible
+        raise
 
 class CustomLlama2Client:
     """Custom model client implementation for Llama-2 with AutoGen."""
@@ -595,10 +605,18 @@ def review_report(sections: Dict[str, str]) -> Dict:
     }
 
 def load_report_from_json(review_number: int) -> Dict:
-    """Load a review context from the output directory's review folder."""
-    output_dir = Path("output")
-    review_dir = output_dir / f"review_{review_number:02d}"
-    review_path = review_dir / "final_points.json"
+    """Load a review context from the litreviews folder."""
+    litreviews_dir = Path("litreviews")
+    
+    # Find files that start with review_XX regardless of what follows
+    pattern = f"review_{review_number:02d}*.json"
+    matching_files = list(litreviews_dir.glob(pattern))
+    
+    if not matching_files:
+        raise FileNotFoundError(f"No review file found matching pattern {pattern} in {litreviews_dir}")
+    
+    # Use the first matching file (or sort by timestamp if needed)
+    review_path = matching_files[0]
     
     try:
         with open(review_path, 'r', encoding='utf-8') as f:
@@ -667,17 +685,52 @@ def save_review_results(results: Dict, output_dir: Path):
         print("No points found to save!")
 
 def main():
-    output_dir = Path("output")
-    review_folders = sorted(output_dir.glob("review_[0-9][0-9]"))
+    # Look for review files in the litreviews directory
+    litreviews_dir = Path("litreviews")
     
-    for review_folder in review_folders:
-        # Extract review number from foldername
-        review_number = int(review_folder.name.split('_')[1])
+    # Find all review files with pattern review_XX*.json
+    review_patterns = litreviews_dir.glob("review_[0-9][0-9]*.json")
+    
+    # Extract unique review numbers
+    review_numbers = set()
+    for file_path in review_patterns:
+        # Extract the XX from review_XX
+        match = re.match(r'review_(\d{2})', file_path.stem)
+        if match:
+            review_numbers.add(int(match.group(1)))
+    
+    review_numbers = sorted(review_numbers)
+    
+    if not review_numbers:
+        print("No review files found in the litreviews directory!")
+        return
+    
+    print(f"Found reviews with numbers: {review_numbers}")
+    
+    for review_number in review_numbers:
+        print(f"\n{'='*70}")
+        print(f"Processing review {review_number}")
+        print(f"{'='*70}")
+        
+        # Create output directory for this review
+        output_dir = Path("output")
+        review_output_dir = output_dir / f"review_{review_number:02d}"
+        review_output_dir.mkdir(parents=True, exist_ok=True)
         
         # Load the report from JSON
         try:
             report_data = load_report_from_json(review_number)
-            sections = report_data  # The loaded report data becomes the sections
+            
+            # Check if the report has a 'sections' key
+            if 'sections' not in report_data:
+                print(f"Error: No 'sections' key found in review {review_number}.")
+                print(f"Available keys: {list(report_data.keys())}")
+                continue
+                
+            # Extract the sections from the nested structure
+            sections = report_data['sections']
+            
+            print(f"Loaded report with {len(sections)} sections: {list(sections.keys())}")
             
             # Define the order of sections to process
             section_order = ["INTRODUCTION", "METHODOLOGY", "RESULTS", "DISCUSSION", "CONCLUSION"]
@@ -705,10 +758,7 @@ def main():
             
             # Save all results
             if all_results:
-                # Use the same review folder for output
-                output_dir = review_folder
-                
-                # Create a results dictionary in the format expected by save_review_results
+                # Save to the output directory for this review
                 final_results = {
                     "section_reviews": all_results,
                     "final_report": "\n\n".join([
@@ -719,14 +769,14 @@ def main():
                     ])
                 }
                 
-                save_review_results(final_results, output_dir)
-                print(f"\nResults saved successfully for {review_folder.name}!")
+                save_review_results(final_results, review_output_dir)
+                print(f"\nResults saved successfully to {review_output_dir}!")
             else:
-                print(f"\nError: No sections were processed successfully for {review_folder.name}.")
+                print(f"\nError: No sections were processed successfully for review {review_number}.")
                 print("Available sections:", list(sections.keys()))
                 
         except Exception as e:
-            print(f"Error processing {review_folder.name}: {e}")
+            print(f"Error processing review {review_number}: {e}")
             continue
 
 if __name__ == "__main__":
