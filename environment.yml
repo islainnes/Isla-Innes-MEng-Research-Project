@@ -21,4 +21,5 @@ dependencies:
     - python-dotenv
     - datasets
     - peft
-    - faiss-cpu 
+    - faiss-cpu
+    - bitsandbytes 
