@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 17:15:15"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 0.76,
+        "flesch_kincaid_grade": 20.1,
+        "gunning_fog": 22.15,
+        "smog_index": 20.9,
+        "automated_readability_index": 21.5,
+        "coleman_liau_index": 17.58,
+        "dale_chall_readability_score": 13.3,
+        "text_standard": "20th and 21st grade",
+        "syllable_stats": {
+          "syllable_count": 174,
+          "polysyllable_count": 29,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 28.0,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 84,
+          "difficult_words": 38
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 84.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 28.0,
+        "word_count": 84,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 26.81,
+        "flesch_kincaid_grade": 14.2,
+        "gunning_fog": 12.86,
+        "smog_index": 15.0,
+        "automated_readability_index": 16.6,
+        "coleman_liau_index": 16.53,
+        "dale_chall_readability_score": 10.53,
+        "text_standard": "16th and 17th grade",
+        "syllable_stats": {
+          "syllable_count": 217,
+          "polysyllable_count": 26,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 19.0,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 114,
+          "difficult_words": 35
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 57.0,
+        "sentence_count": 6,
+        "avg_sentence_length": 19.0,
+        "word_count": 114,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 1,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.008771929824561403
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 6,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 27.52,
+        "flesch_kincaid_grade": 14.0,
+        "gunning_fog": 12.8,
+        "smog_index": 15.1,
+        "automated_readability_index": 15.5,
+        "coleman_liau_index": 15.84,
+        "dale_chall_readability_score": 10.38,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 277,
+          "polysyllable_count": 35,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 8,
+          "avg_sentence_length": 18.3,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 146,
+          "difficult_words": 45
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 4,
+        "avg_paragraph_length": 37.0,
+        "sentence_count": 8,
+        "avg_sentence_length": 18.5,
+        "word_count": 148,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 1,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.006756756756756757
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 2
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 8,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 9.18,
+        "flesch_kincaid_grade": 16.9,
+        "gunning_fog": 18.39,
+        "smog_index": 17.9,
+        "automated_readability_index": 17.6,
+        "coleman_liau_index": 17.98,
+        "dale_chall_readability_score": 11.04,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 244,
+          "polysyllable_count": 40,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 19.7,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 118,
+          "difficult_words": 44
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 2,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 1,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.01694915254237288
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 59.0,
+        "sentence_count": 6,
+        "avg_sentence_length": 19.666666666666668,
+        "word_count": 118,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.00847457627118644
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 1,
+        "negative": 1
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": -12.42,
+        "flesch_kincaid_grade": 21.0,
+        "gunning_fog": 23.42,
+        "smog_index": 21.2,
+        "automated_readability_index": 22.9,
+        "coleman_liau_index": 21.88,
+        "dale_chall_readability_score": 13.49,
+        "text_standard": "21st and 22nd grade",
+        "syllable_stats": {
+          "syllable_count": 165,
+          "polysyllable_count": 30,
+          "avg_syllables_per_word": 2.3
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 24.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 73,
+          "difficult_words": 38
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 73.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 24.333333333333332,
+        "word_count": 73,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0136986301369863
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 17.2,
+        "flesch_kincaid_grade": 13.8,
+        "gunning_fog": 11.51,
+        "smog_index": 13.7,
+        "automated_readability_index": 14.6,
+        "coleman_liau_index": 16.98,
+        "dale_chall_readability_score": 12.71,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 221,
+          "polysyllable_count": 31,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 9,
+          "avg_sentence_length": 11.8,
+          "avg_sentence_per_word": 0.08
+        },
+        "lexical_stats": {
+          "lexicon_count": 106,
+          "difficult_words": 40
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 5,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 2,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.04672897196261682
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 35.666666666666664,
+        "sentence_count": 9,
+        "avg_sentence_length": 11.88888888888889,
+        "word_count": 107,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.3728557825088501
+          },
+          {
+            "title": "Design Digital Data Acquisition and Processing Systems",
+            "year": "2024",
+            "similarity_score": -0.4758859872817993
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5593776702880859
+          }
+        ],
+        "avg_similarity": -0.4693731466929118,
+        "max_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      },
+      "sentiment": {
+        "positive": 9,
+        "neutral": 0,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 19.06,
+      "flesch_kincaid_grade": 15.1,
+      "gunning_fog": 11.88,
+      "smog_index": 16.5,
+      "automated_readability_index": 16.9,
+      "coleman_liau_index": 17.52,
+      "dale_chall_readability_score": 8.41,
+      "text_standard": "16th and 17th grade",
+      "syllable_stats": {
+        "syllable_count": 1298,
+        "polysyllable_count": 191,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 35,
+        "avg_sentence_length": 18.3,
+        "avg_sentence_per_word": 0.05
+      },
+      "lexical_stats": {
+        "lexicon_count": 641,
+        "difficult_words": 134
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 7,
+      "technical_terms_detail": {
+        "semiconductor": 3,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 1,
+        "manufacturing": 2,
+        "yield": 0,
+        "power": 1,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 10,
+      "technical_density": 0.010869565217391304
+    },
+    "structure": {
+      "paragraph_count": 13,
+      "avg_paragraph_length": 49.53846153846154,
+      "sentence_count": 35,
+      "avg_sentence_length": 18.4,
+      "word_count": 644,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 4,
+        "critical_phrase_detail": {
+          "however": 2,
+          "although": 2,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.006211180124223602
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 2
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.3728557825088501
+        },
+        {
+          "title": "Design Digital Data Acquisition and Processing Systems",
+          "year": "2024",
+          "similarity_score": -0.4758859872817993
+        },
+        {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5593776702880859
+        }
+      ],
+      "avg_similarity": -0.4693731466929118,
+      "max_similarity": {
+        "title": "Design Models of Pipelined Units",
+        "year": "2024",
+        "similarity_score": -0.3728557825088501
+      },
+      "min_similarity": {
+        "title": "Sustainability model for semiconductor manufacturing",
+        "year": "2024",
+        "similarity_score": -0.5593776702880859
+      }
+    }
+  }
+}

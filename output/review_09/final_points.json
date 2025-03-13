@@ -1,0 +1,47 @@
+{
+  "INTRODUCTION": [
+    "1. Provide a brief overview of the specific advanced packaging techniques discussed in the report.",
+    "2. Present quantitative data or comparative analysis to support claims about the thermal performance improvement achieved with advanced packaging techniques.",
+    "3. Evaluate the potential challenges and limitations of implementing advanced packaging techniques in industrial applications.",
+    "4. Provide a more comprehensive comparison of the advanced packaging techniques discussed in the two papers.",
+    "5. Conduct a more critical evaluation of the research papers' methodologies and assumptions."
+  ],
+  "METHODOLOGY": [
+    "1. Clarify the meaning of \"gate drivers\" in the context of the first paper.",
+    "2. Specify which thermal conductivity is being referred to in the abstract of the first paper.",
+    "3. Define \"advanced packaging techniques\" in the second paper.",
+    "4. State why the high thermal conductivity of SiC substrates and efficient power handling capabilities of integrated gate drivers are effective for high-density power electronics applications.",
+    "5. Discuss the potential trade-offs or limitations of using deep trench structures to improve carrier lifetime in the second paper.",
+    "6. Analyze the overall system performance, including power handling capabilities and efficiency, in both papers.",
+    "7. Provide data or analysis to support claims about the thermal conductivity, efficient power handling capabilities, and carrier lifetime improvements in both papers."
+  ],
+  "RESULTS": [
+    "1. Clarify thermal resistance value in the first paper",
+    "2. Provide more details about gate driver design in the first paper",
+    "3. Analyze the interplay between SiC substrate and gate drivers in the first paper",
+    "4. Discuss the fabrication process and conditions for deep trenches in the second paper",
+    "5. Evaluate trade-offs between carrier lifetime improvement and other performance parameters in the second paper",
+    "6. Provide a comparative analysis of the findings with existing state-of-the-art power electronics technologies in both papers",
+    "7. Use precise language and avoid ambiguous terms in both papers"
+  ],
+  "DISCUSSION": [
+    "1. Use consistent terminology: High-power electronic devices, high-power integrated circuits",
+    "2. Provide more details about gate drivers: Type, design, efficiency",
+    "3. Include quantitative data: Thermal resistance values, temperature reduction data",
+    "4. Avoid overgeneralization: Acknowledge that thermal resistance reduction depends on various factors",
+    "5. Be more specific about which parts of the text are unclear or confusing",
+    "6. Combine the first and second sentences into one clear and concise sentence",
+    "7. Break down the fifth sentence into two separate sentences for better clarity",
+    "8. Use transitional phrases to connect ideas and improve the overall flow of the text",
+    "9. Evaluate the logical flow and argumentation: Combine various advanced packaging techniques for a more comprehensive study",
+    "10. Identify potential biases or assumptions: Consider other factors, such as material selection and cooling methods, in addition to advanced packaging techniques",
+    "11. Assess the strength of evidence and conclusions: Include a quantitative analysis of the thermal improvements achieved through each technique",
+    "12. Suggest improvements for analytical depth: Explore other packaging techniques and their potential contributions to thermal management",
+    "13. Consider the role of insulating materials and the impact of interconnects on thermal management",
+    "14. Evaluate the assumption that advanced packaging techniques are the only solution for improving thermal management in high-power electronic devices"
+  ],
+  "CONCLUSION": [
+    "1. First point",
+    "2. Second point"
+  ]
+}

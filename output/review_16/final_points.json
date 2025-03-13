@@ -1,0 +1,48 @@
+{
+  "INTRODUCTION": [
+    "1. Define the terms \"high power electronics\" and \"power management systems\"",
+    "2. Provide a clear research question or objective",
+    "3. Establish a clear connection between the reference materials and the research question or objective",
+    "4. Provide specific examples or case studies to illustrate the challenges and solutions",
+    "5. Provide a clear causal relationship between the challenges and potential solutions",
+    "6. Provide a more detailed explanation of how each reference material relates to the research question or objective",
+    "7. Provide a clear outline of the sections to come and a clear research question or objective that will guide the analysis throughout the report."
+  ],
+  "METHODOLOGY": [
+    "1. Clarify the scope of the analysis to a specific system or application of high power electronics in RES integration.",
+    "2. Explore how carrier lifetime control fits into the control architecture framework provided by the IEEE Guide.",
+    "3. Establish a clear connection between the sustainability model for semiconductor manufacturing and high power electronics systems in RES integration.",
+    "4. Provide a more specific definition and context for RES integration and the role of high power electronics systems.",
+    "5. Conduct a more in-depth analysis of the environmental challenges of the semiconductor industry and the potential role of RES in addressing these challenges.",
+    "6. Compare carrier lifetime control in power semiconductor devices and the control architecture for high power electronics systems.",
+    "7. Optimize carrier lifetime control in high power electronics systems for RES integration."
+  ],
+  "RESULTS": [
+    "1. Clarify that RES can cause voltage fluctuations and instability in the power grid, rather than stating that they are the cause of these issues.",
+    "2. Ensure that terms such as \"harmonic distortion\" and \"voltage surges\" are defined or context is provided for readers who may not be familiar with these concepts.",
+    "3. Explore the connection between the challenges of RES integration into power management systems for high power electronics and the importance of carrier lifetime control in power semiconductor devices.",
+    "4. Provide specific examples or case studies of RES integration into power management systems for high power electronics to illustrate practical implications and potential solutions.",
+    "5. Discuss potential strategies for addressing the challenges of RES integration into power management systems for high power electronics, such as energy storage systems, power conditioning systems, and advanced power conversion technologies.",
+    "6. Use headings or subheadings to break up the text into smaller, more manageable sections to improve overall readability.",
+    "7. Provide a clearer introduction to the challenges of integrating RES into power management systems for high power electronics to set the context and provide a clearer transition to the challenges listed."
+  ],
+  "DISCUSSION": [
+    "1. Clarify the relationship between RES and power management systems",
+    "2. Provide more detail on the advantages and disadvantages of each proposed solution",
+    "3. Address potential counterarguments to the proposed solutions",
+    "4. Provide more specific examples and case studies of successful RES integration",
+    "5. Consider the long-term implications of each solution"
+  ],
+  "CONCLUSION": [
+    "1. Define key terms: renewable energy sources, power management systems, electronic devices",
+    "2. Clarify research question or focus of analysis",
+    "3. Provide more detail on challenges of integrating renewable energy sources into power management systems for electronic devices",
+    "4. Be more specific about potential solutions and their advantages/disadvantages",
+    "5. Provide evidence to support claims about the value of solutions",
+    "6. Discuss trade-offs between different solutions and factors influencing choice",
+    "7. Discuss impact of renewable energy sources on overall energy system and grid",
+    "8. Discuss potential economic and environmental benefits",
+    "9. Discuss potential technical challenges and limitations",
+    "10. Discuss potential regulatory and policy implications"
+  ]
+}

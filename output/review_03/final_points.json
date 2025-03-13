@@ -1,0 +1,44 @@
+{
+  "INTRODUCTION": [
+    "1. Define XAI techniques for the reader.",
+    "2. Provide citations for all statements that require references.",
+    "3. Specify which two research papers will be discussed in the report.",
+    "4. Expand the introduction to explain why transparency is important in ML models for IoT devices.",
+    "5. Provide more context about the role of ML algorithms in power consumption optimization.",
+    "6. Clarify the argumentation in the introduction about the use of ML algorithms to optimize power consumption in IoT devices.",
+    "7. Provide a clearer structure for the report to improve analytical depth and clarity."
+  ],
+  "METHODOLOGY": [
+    "1. Clearly define the concept of explainability in ML and provide references to commonly accepted definitions.",
+    "2. Discuss the limitations of XAI techniques and compare their performance and explainability with other methods for improving the performance and explainability of ML models.",
+    "3. Provide a clear rationale for the choice of ML algorithms and XAI techniques in the study and explain why they are particularly relevant to the problem at hand.",
+    "4. Discuss the potential impact of data preprocessing on the performance and explainability of the models and suggest best practices for data preprocessing.",
+    "5. Compare the performance and explainability of the models across different datasets and real-world scenarios.",
+    "6. Discuss the potential limitations of human evaluations as a measure of explainability and suggest alternative quantitative metrics for evaluating the explainability of ML models."
+  ],
+  "RESULTS": [
+    "1. Clarify which XAI techniques were used in each study",
+    "2. Provide specific performance metrics in the first paper",
+    "3. Describe human evaluation process in the first paper",
+    "4. Compare performance of models in the second paper",
+    "5. Provide evidence for claim of no significant performance impact in the second paper",
+    "6. Discuss limitations or potential drawbacks of XAI techniques",
+    "7. Provide clearer structure with headings or subheadings"
+  ],
+  "DISCUSSION": [
+    "1. Clarify the relationship between XAI techniques and power consumption optimization",
+    "2. Evaluate the specific XAI techniques discussed in the papers",
+    "3. Consider the trade-off between transparency/explainability and power consumption",
+    "4. Explore the limitations of XAI techniques for power consumption optimization",
+    "5. Provide empirical evidence to support the claims made in the papers"
+  ],
+  "CONCLUSION": [
+    "1. Clarify the use of acronyms: ML models = Machine Learning models, XAI = Explainable Artificial Intelligence, IoT = Internet of Things",
+    "2. Improve the flow of the conclusion: Break down the first sentence into two separate sentences. Add a sentence or two explaining the significance of research on power consumption optimization.",
+    "3. Define XAI techniques for the reader: Provide a brief explanation or definition of these terms.",
+    "4. Provide more evidence for the effectiveness of XAI techniques: Cite additional studies or case examples.",
+    "5. Discuss trade-offs between performance and explainability: Consider the benefits and costs of using XAI techniques.",
+    "6. Provide concrete examples of XAI techniques for power consumption optimization: Explain how these techniques can be applied in practice.",
+    "7. Address potential limitations and challenges: Discuss computational constraints, data privacy concerns, and other issues that may impact the implementation of XAI techniques in IoT devices."
+  ]
+}

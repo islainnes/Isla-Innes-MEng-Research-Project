@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 17:11:45"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 18.55,
+        "flesch_kincaid_grade": 15.3,
+        "gunning_fog": 16.59,
+        "smog_index": 17.4,
+        "automated_readability_index": 18.1,
+        "coleman_liau_index": 18.85,
+        "dale_chall_readability_score": 11.73,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 152,
+          "polysyllable_count": 25,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 18.8,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 75,
+          "difficult_words": 29
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 1,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.013333333333333334
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 75.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 18.75,
+        "word_count": 75,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.013333333333333334
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 12.26,
+        "flesch_kincaid_grade": 17.8,
+        "gunning_fog": 17.47,
+        "smog_index": 19.1,
+        "automated_readability_index": 20.1,
+        "coleman_liau_index": 17.76,
+        "dale_chall_readability_score": 10.77,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 306,
+          "polysyllable_count": 47,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 25.0,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 150,
+          "difficult_words": 46
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 50.0,
+        "sentence_count": 6,
+        "avg_sentence_length": 25.0,
+        "word_count": 150,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 9.69,
+        "flesch_kincaid_grade": 16.7,
+        "gunning_fog": 17.85,
+        "smog_index": 17.9,
+        "automated_readability_index": 17.9,
+        "coleman_liau_index": 18.45,
+        "dale_chall_readability_score": 11.62,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 363,
+          "polysyllable_count": 60,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 9,
+          "avg_sentence_length": 19.2,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 173,
+          "difficult_words": 67
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.005780346820809248
+      },
+      "structure": {
+        "paragraph_count": 3,
+        "avg_paragraph_length": 57.666666666666664,
+        "sentence_count": 9,
+        "avg_sentence_length": 19.22222222222222,
+        "word_count": 173,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 8,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 15.81,
+        "flesch_kincaid_grade": 16.4,
+        "gunning_fog": 18.37,
+        "smog_index": 18.5,
+        "automated_readability_index": 17.6,
+        "coleman_liau_index": 15.84,
+        "dale_chall_readability_score": 11.31,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 175,
+          "polysyllable_count": 29,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 21.5,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 86,
+          "difficult_words": 33
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.011627906976744186
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 86.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 21.5,
+        "word_count": 86,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.011627906976744186
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 16.62,
+        "flesch_kincaid_grade": 16.1,
+        "gunning_fog": 20.54,
+        "smog_index": 18.9,
+        "automated_readability_index": 18.0,
+        "coleman_liau_index": 17.35,
+        "dale_chall_readability_score": 12.3,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 125,
+          "polysyllable_count": 23,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 20.7,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 62,
+          "difficult_words": 27
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.016129032258064516
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 62.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 20.666666666666668,
+        "word_count": 62,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.016129032258064516
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 34.66,
+        "flesch_kincaid_grade": 13.3,
+        "gunning_fog": 15.6,
+        "smog_index": 15.6,
+        "automated_readability_index": 14.8,
+        "coleman_liau_index": 11.84,
+        "dale_chall_readability_score": 13.95,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 180,
+          "polysyllable_count": 24,
+          "avg_syllables_per_word": 1.8
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 19.6,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 98,
+          "difficult_words": 32
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 98.0,
+        "sentence_count": 9,
+        "avg_sentence_length": 10.88888888888889,
+        "word_count": 98,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Versatile and portable DSP platform for",
+            "year": "2024",
+            "similarity_score": -0.5470513105392456
+          },
+          {
+            "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+            "year": "2024",
+            "similarity_score": -0.5589065551757812
+          },
+          {
+            "title": "Design Models of Pipelined Units",
+            "year": "2024",
+            "similarity_score": -0.5672588348388672
+          }
+        ],
+        "avg_similarity": -0.5577389001846313,
+        "max_similarity": {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        "min_similarity": {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 6,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 16.52,
+      "flesch_kincaid_grade": 16.1,
+      "gunning_fog": 13.16,
+      "smog_index": 17.9,
+      "automated_readability_index": 17.8,
+      "coleman_liau_index": 16.82,
+      "dale_chall_readability_score": 8.74,
+      "text_standard": "16th and 17th grade",
+      "syllable_stats": {
+        "syllable_count": 1301,
+        "polysyllable_count": 208,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 31,
+        "avg_sentence_length": 20.8,
+        "avg_sentence_per_word": 0.05
+      },
+      "lexical_stats": {
+        "lexicon_count": 644,
+        "difficult_words": 131
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 4,
+      "technical_terms_detail": {
+        "semiconductor": 0,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 1,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 0,
+        "yield": 0,
+        "power": 3,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 10,
+      "technical_density": 0.006211180124223602
+    },
+    "structure": {
+      "paragraph_count": 10,
+      "avg_paragraph_length": 64.4,
+      "sentence_count": 35,
+      "avg_sentence_length": 18.4,
+      "word_count": 644,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 3,
+        "critical_phrase_detail": {
+          "however": 3,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.004658385093167702
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Versatile and portable DSP platform for",
+          "year": "2024",
+          "similarity_score": -0.5470513105392456
+        },
+        {
+          "title": "Development of Data Communication System with Ultra High Frequency Radio Wave for Implantable Artificial Hearts",
+          "year": "2024",
+          "similarity_score": -0.5589065551757812
+        },
+        {
+          "title": "Design Models of Pipelined Units",
+          "year": "2024",
+          "similarity_score": -0.5672588348388672
+        }
+      ],
+      "avg_similarity": -0.5577389001846313,
+      "max_similarity": {
+        "title": "Versatile and portable DSP platform for",
+        "year": "2024",
+        "similarity_score": -0.5470513105392456
+      },
+      "min_similarity": {
+        "title": "Design Models of Pipelined Units",
+        "year": "2024",
+        "similarity_score": -0.5672588348388672
+      }
+    }
+  }
+}

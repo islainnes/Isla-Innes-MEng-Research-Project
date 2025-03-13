@@ -22,3 +22,4 @@ dependencies:
     - datasets
     - peft
     - faiss-cpu 
+    - bitsandbytes

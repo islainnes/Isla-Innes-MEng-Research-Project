@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 17:20:58"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": -8.09,
+        "flesch_kincaid_grade": 23.5,
+        "gunning_fog": 24.13,
+        "smog_index": 23.2,
+        "automated_readability_index": 26.2,
+        "coleman_liau_index": 18.05,
+        "dale_chall_readability_score": 12.2,
+        "text_standard": "23rd and 24th grade",
+        "syllable_stats": {
+          "syllable_count": 235,
+          "polysyllable_count": 37,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 36.7,
+          "avg_sentence_per_word": 0.03
+        },
+        "lexical_stats": {
+          "lexicon_count": 110,
+          "difficult_words": 39
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 11,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 1,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 1,
+          "yield": 0,
+          "power": 7,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 4,
+        "technical_density": 0.1
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 110.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 36.666666666666664,
+        "word_count": 110,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.00909090909090909
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": -3.01,
+        "flesch_kincaid_grade": 21.6,
+        "gunning_fog": 21.52,
+        "smog_index": 21.2,
+        "automated_readability_index": 23.4,
+        "coleman_liau_index": 18.11,
+        "dale_chall_readability_score": 11.36,
+        "text_standard": "21st and 22nd grade",
+        "syllable_stats": {
+          "syllable_count": 200,
+          "polysyllable_count": 30,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 31.7,
+          "avg_sentence_per_word": 0.03
+        },
+        "lexical_stats": {
+          "lexicon_count": 95,
+          "difficult_words": 31
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 12,
+        "technical_terms_detail": {
+          "semiconductor": 4,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 2,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 1,
+          "yield": 0,
+          "power": 5,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.12631578947368421
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 95.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 31.666666666666668,
+        "word_count": 95,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": -3.96,
+        "flesch_kincaid_grade": 19.8,
+        "gunning_fog": 17.94,
+        "smog_index": 19.6,
+        "automated_readability_index": 20.1,
+        "coleman_liau_index": 18.28,
+        "dale_chall_readability_score": 9.96,
+        "text_standard": "19th and 20th grade",
+        "syllable_stats": {
+          "syllable_count": 480,
+          "polysyllable_count": 75,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 9,
+          "avg_sentence_length": 24.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 219,
+          "difficult_words": 65
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 30,
+        "technical_terms_detail": {
+          "semiconductor": 6,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 2,
+          "current": 0,
+          "thermal": 1,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 3,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 3,
+          "yield": 0,
+          "power": 15,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 5,
+        "technical_density": 0.136986301369863
+      },
+      "structure": {
+        "paragraph_count": 4,
+        "avg_paragraph_length": 54.75,
+        "sentence_count": 11,
+        "avg_sentence_length": 19.90909090909091,
+        "word_count": 219,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 8,
+        "neutral": 3,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 2.48,
+        "flesch_kincaid_grade": 19.4,
+        "gunning_fog": 17.61,
+        "smog_index": 19.5,
+        "automated_readability_index": 20.8,
+        "coleman_liau_index": 17.7,
+        "dale_chall_readability_score": 9.94,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 339,
+          "polysyllable_count": 49,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 26.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 158,
+          "difficult_words": 42
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 16,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 1,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 2,
+          "yield": 0,
+          "power": 11,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 4,
+        "technical_density": 0.10126582278481013
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 79.0,
+        "sentence_count": 9,
+        "avg_sentence_length": 17.555555555555557,
+        "word_count": 158,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 8,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": -32.08,
+        "flesch_kincaid_grade": 24.4,
+        "gunning_fog": 22.16,
+        "smog_index": 22.6,
+        "automated_readability_index": 25.2,
+        "coleman_liau_index": 23.04,
+        "dale_chall_readability_score": 11.8,
+        "text_standard": "22nd and 23rd grade",
+        "syllable_stats": {
+          "syllable_count": 204,
+          "polysyllable_count": 35,
+          "avg_syllables_per_word": 2.5
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 27.0,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 81,
+          "difficult_words": 34
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 13,
+        "technical_terms_detail": {
+          "semiconductor": 3,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 1,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 2,
+          "yield": 0,
+          "power": 7,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.16049382716049382
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 81.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 27.0,
+        "word_count": 81,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": -5.89,
+        "flesch_kincaid_grade": 20.6,
+        "gunning_fog": 14.47,
+        "smog_index": 20.3,
+        "automated_readability_index": 21.9,
+        "coleman_liau_index": 18.51,
+        "dale_chall_readability_score": 7.92,
+        "text_standard": "20th and 21st grade",
+        "syllable_stats": {
+          "syllable_count": 1507,
+          "polysyllable_count": 236,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 26,
+          "avg_sentence_length": 26.2,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 682,
+          "difficult_words": 110
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 82,
+        "technical_terms_detail": {
+          "semiconductor": 17,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 3,
+          "current": 0,
+          "thermal": 1,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 7,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 9,
+          "yield": 0,
+          "power": 45,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 17,
+        "technical_density": 0.11918604651162791
+      },
+      "structure": {
+        "paragraph_count": 16,
+        "avg_paragraph_length": 43.0,
+        "sentence_count": 35,
+        "avg_sentence_length": 19.65714285714286,
+        "word_count": 688,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0014534883720930232
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+            "year": "2024",
+            "similarity_score": -0.25855565071105957
+          },
+          {
+            "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+            "year": "1997",
+            "similarity_score": -0.3204638957977295
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.38937675952911377
+          }
+        ],
+        "avg_similarity": -0.32279876867930096,
+        "max_similarity": {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      },
+      "sentiment": {
+        "positive": 28,
+        "neutral": 7,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": -6.6,
+      "flesch_kincaid_grade": 20.9,
+      "gunning_fog": 12.78,
+      "smog_index": 20.5,
+      "automated_readability_index": 22.0,
+      "coleman_liau_index": 18.57,
+      "dale_chall_readability_score": 6.49,
+      "text_standard": "20th and 21st grade",
+      "syllable_stats": {
+        "syllable_count": 2965,
+        "polysyllable_count": 462,
+        "avg_syllables_per_word": 2.2
+      },
+      "sentence_stats": {
+        "sentence_count": 50,
+        "avg_sentence_length": 26.9,
+        "avg_sentence_per_word": 0.04
+      },
+      "lexical_stats": {
+        "lexicon_count": 1345,
+        "difficult_words": 110
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 164,
+      "technical_terms_detail": {
+        "semiconductor": 34,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 6,
+        "current": 0,
+        "thermal": 2,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 14,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 18,
+        "yield": 0,
+        "power": 90,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 33,
+      "technical_density": 0.12139156180606958
+    },
+    "structure": {
+      "paragraph_count": 25,
+      "avg_paragraph_length": 54.04,
+      "sentence_count": 64,
+      "avg_sentence_length": 21.109375,
+      "word_count": 1351,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 2,
+        "critical_phrase_detail": {
+          "however": 2,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.0014803849000740192
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 0,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+          "year": "2024",
+          "similarity_score": -0.25855565071105957
+        },
+        {
+          "title": "Carrier Lifetime Control in Power Semiconductor Devices",
+          "year": "1997",
+          "similarity_score": -0.3204638957977295
+        },
+        {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.38937675952911377
+        }
+      ],
+      "avg_similarity": -0.32279876867930096,
+      "max_similarity": {
+        "title": "IEEE Guide for Control Architecture for High Power Electronics (1 MW and Greater) Used in Electric Power Transmission and Distribution Systems",
+        "year": "2024",
+        "similarity_score": -0.25855565071105957
+      },
+      "min_similarity": {
+        "title": "Sustainability model for semiconductor manufacturing",
+        "year": "2024",
+        "similarity_score": -0.38937675952911377
+      }
+    }
+  }
+}

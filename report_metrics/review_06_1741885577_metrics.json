@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 17:06:17"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 33.85,
+        "flesch_kincaid_grade": 13.6,
+        "gunning_fog": 13.26,
+        "smog_index": 15.6,
+        "automated_readability_index": 13.8,
+        "coleman_liau_index": 12.42,
+        "dale_chall_readability_score": 9.91,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 182,
+          "polysyllable_count": 24,
+          "avg_syllables_per_word": 1.8
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 20.4,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 102,
+          "difficult_words": 26
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 3,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 3,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.029411764705882353
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 102.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 20.4,
+        "word_count": 102,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.00980392156862745
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 17.68,
+        "flesch_kincaid_grade": 17.8,
+        "gunning_fog": 18.82,
+        "smog_index": 18.9,
+        "automated_readability_index": 20.8,
+        "coleman_liau_index": 16.71,
+        "dale_chall_readability_score": 10.48,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 163,
+          "polysyllable_count": 23,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 28.0,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 84,
+          "difficult_words": 22
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 1,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.011904761904761904
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 84.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 28.0,
+        "word_count": 84,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 20.52,
+        "flesch_kincaid_grade": 16.7,
+        "gunning_fog": 15.79,
+        "smog_index": 17.8,
+        "automated_readability_index": 20.6,
+        "coleman_liau_index": 18.16,
+        "dale_chall_readability_score": 10.02,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 237,
+          "polysyllable_count": 33,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 25.2,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 126,
+          "difficult_words": 33
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 0,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.0
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 63.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 25.2,
+        "word_count": 126,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 1,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 21.74,
+        "flesch_kincaid_grade": 16.2,
+        "gunning_fog": 18.27,
+        "smog_index": 17.8,
+        "automated_readability_index": 17.2,
+        "coleman_liau_index": 15.26,
+        "dale_chall_readability_score": 10.88,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 232,
+          "polysyllable_count": 33,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 24.0,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 120,
+          "difficult_words": 41
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 3,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 1,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 2,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.025
+      },
+      "structure": {
+        "paragraph_count": 2,
+        "avg_paragraph_length": 60.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 24.0,
+        "word_count": 120,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.008333333333333333
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 17.03,
+        "flesch_kincaid_grade": 15.9,
+        "gunning_fog": 18.61,
+        "smog_index": 17.5,
+        "automated_readability_index": 16.0,
+        "coleman_liau_index": 15.72,
+        "dale_chall_readability_score": 11.11,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 121,
+          "polysyllable_count": 19,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 20.3,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 61,
+          "difficult_words": 21
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 2,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 2,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 0,
+        "technical_density": 0.03278688524590164
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 61.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 20.333333333333332,
+        "word_count": 61,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.01639344262295082
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 10.43,
+        "flesch_kincaid_grade": 18.5,
+        "gunning_fog": 14.36,
+        "smog_index": 18.7,
+        "automated_readability_index": 20.8,
+        "coleman_liau_index": 16.95,
+        "dale_chall_readability_score": 8.17,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 1348,
+          "polysyllable_count": 186,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 25,
+          "avg_sentence_length": 26.8,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 670,
+          "difficult_words": 112
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 10,
+        "technical_terms_detail": {
+          "semiconductor": 4,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 1,
+          "fabrication": 0,
+          "manufacturing": 2,
+          "yield": 0,
+          "power": 3,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 14,
+        "technical_density": 0.014903129657228018
+      },
+      "structure": {
+        "paragraph_count": 14,
+        "avg_paragraph_length": 47.92857142857143,
+        "sentence_count": 30,
+        "avg_sentence_length": 22.366666666666667,
+        "word_count": 671,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 2,
+          "critical_phrase_detail": {
+            "however": 2,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0029806259314456036
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 2,
+          "integration_indicators": {
+            "comparison_count": 2,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+            "year": "2020",
+            "similarity_score": -0.24100804328918457
+          },
+          {
+            "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+            "year": "2024",
+            "similarity_score": -0.3539077043533325
+          },
+          {
+            "title": "Sustainability model for semiconductor manufacturing",
+            "year": "2024",
+            "similarity_score": -0.5107817649841309
+          }
+        ],
+        "avg_similarity": -0.368565837542216,
+        "max_similarity": {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        "min_similarity": {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      },
+      "sentiment": {
+        "positive": 20,
+        "neutral": 9,
+        "negative": 1
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 11.96,
+      "flesch_kincaid_grade": 17.9,
+      "gunning_fog": 12.49,
+      "smog_index": 18.1,
+      "automated_readability_index": 19.5,
+      "coleman_liau_index": 16.48,
+      "dale_chall_readability_score": 7.01,
+      "text_standard": "17th and 18th grade",
+      "syllable_stats": {
+        "syllable_count": 2283,
+        "polysyllable_count": 318,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 46,
+        "avg_sentence_length": 25.3,
+        "avg_sentence_per_word": 0.04
+      },
+      "lexical_stats": {
+        "lexicon_count": 1163,
+        "difficult_words": 129
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 19,
+      "technical_terms_detail": {
+        "semiconductor": 4,
+        "transistor": 0,
+        "electron": 0,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 0,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 0,
+        "silicon": 0,
+        "device": 2,
+        "fabrication": 0,
+        "manufacturing": 2,
+        "yield": 0,
+        "power": 11,
+        "module": 0,
+        "gate": 0,
+        "material": 0
+      },
+      "citation_count": 21,
+      "technical_density": 0.01632302405498282
+    },
+    "structure": {
+      "paragraph_count": 21,
+      "avg_paragraph_length": 55.42857142857143,
+      "sentence_count": 51,
+      "avg_sentence_length": 22.823529411764707,
+      "word_count": 1164,
+      "has_topic_sentences": 0
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 5,
+        "critical_phrase_detail": {
+          "however": 5,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.00429553264604811
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 2,
+        "integration_indicators": {
+          "comparison_count": 3,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+          "year": "2020",
+          "similarity_score": -0.24100804328918457
+        },
+        {
+          "title": "A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification",
+          "year": "2024",
+          "similarity_score": -0.3539077043533325
+        },
+        {
+          "title": "Sustainability model for semiconductor manufacturing",
+          "year": "2024",
+          "similarity_score": -0.5107817649841309
+        }
+      ],
+      "avg_similarity": -0.368565837542216,
+      "max_similarity": {
+        "title": "Exploring Explainable AI Techniques for Radio Frequency Machine Learning",
+        "year": "2020",
+        "similarity_score": -0.24100804328918457
+      },
+      "min_similarity": {
+        "title": "Sustainability model for semiconductor manufacturing",
+        "year": "2024",
+        "similarity_score": -0.5107817649841309
+      }
+    }
+  }
+}

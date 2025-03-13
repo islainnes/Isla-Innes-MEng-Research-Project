@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 16:58:23"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 30.06,
+        "flesch_kincaid_grade": 13.0,
+        "gunning_fog": 15.21,
+        "smog_index": 14.9,
+        "automated_readability_index": 13.7,
+        "coleman_liau_index": 14.9,
+        "dale_chall_readability_score": 11.94,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 122,
+          "polysyllable_count": 17,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 15.8,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 63,
+          "difficult_words": 25
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 7,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 2,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 1,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 1,
+          "material": 0
+        },
+        "citation_count": 2,
+        "technical_density": 0.1111111111111111
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 63.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 21.0,
+        "word_count": 63,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 0,
+        "negative": 1
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 22.61,
+        "flesch_kincaid_grade": 13.8,
+        "gunning_fog": 16.77,
+        "smog_index": 14.6,
+        "automated_readability_index": 13.4,
+        "coleman_liau_index": 15.36,
+        "dale_chall_readability_score": 12.93,
+        "text_standard": "12th and 13th grade",
+        "syllable_stats": {
+          "syllable_count": 118,
+          "polysyllable_count": 16,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 4,
+          "avg_sentence_length": 14.8,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 59,
+          "difficult_words": 26
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 10,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 1,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 3,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 1,
+          "power": 1,
+          "module": 0,
+          "gate": 3,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.1694915254237288
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 59.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 19.666666666666668,
+        "word_count": 59,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 18.39,
+        "flesch_kincaid_grade": 17.5,
+        "gunning_fog": 18.72,
+        "smog_index": 18.2,
+        "automated_readability_index": 18.2,
+        "coleman_liau_index": 14.16,
+        "dale_chall_readability_score": 10.77,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 153,
+          "polysyllable_count": 21,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 27.3,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 82,
+          "difficult_words": 26
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 17,
+        "technical_terms_detail": {
+          "semiconductor": 0,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 2,
+          "thermal": 0,
+          "quantum": 2,
+          "spin": 0,
+          "carrier": 2,
+          "doping": 0,
+          "oxide": 5,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 0,
+          "module": 0,
+          "gate": 6,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.2073170731707317
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 82.0,
+        "sentence_count": 3,
+        "avg_sentence_length": 27.333333333333332,
+        "word_count": 82,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 0,
+        "neutral": 0,
+        "negative": 3
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 13.78,
+        "flesch_kincaid_grade": 17.2,
+        "gunning_fog": 20.46,
+        "smog_index": 0.0,
+        "automated_readability_index": 21.2,
+        "coleman_liau_index": 19.9,
+        "dale_chall_readability_score": 13.54,
+        "text_standard": "19th and 20th grade",
+        "syllable_stats": {
+          "syllable_count": 95,
+          "polysyllable_count": 13,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 2,
+          "avg_sentence_length": 23.5,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 47,
+          "difficult_words": 23
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 6,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 1,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 1,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 1,
+          "power": 0,
+          "module": 0,
+          "gate": 2,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.1276595744680851
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 47.0,
+        "sentence_count": 2,
+        "avg_sentence_length": 23.5,
+        "word_count": 47,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 2,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 23.12,
+        "flesch_kincaid_grade": 13.6,
+        "gunning_fog": 17.81,
+        "smog_index": 15.0,
+        "automated_readability_index": 14.1,
+        "coleman_liau_index": 16.23,
+        "dale_chall_readability_score": 13.89,
+        "text_standard": "13th and 14th grade",
+        "syllable_stats": {
+          "syllable_count": 88,
+          "polysyllable_count": 13,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 3,
+          "avg_sentence_length": 14.3,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 43,
+          "difficult_words": 22
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 3,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 1,
+          "spin": 0,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 0,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 1,
+          "module": 0,
+          "gate": 0,
+          "material": 0
+        },
+        "citation_count": 1,
+        "technical_density": 0.06976744186046512
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 43.0,
+        "sentence_count": 2,
+        "avg_sentence_length": 21.5,
+        "word_count": 43,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 1,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 37.81,
+        "flesch_kincaid_grade": 12.1,
+        "gunning_fog": 10.85,
+        "smog_index": 14.0,
+        "automated_readability_index": 15.3,
+        "coleman_liau_index": 14.9,
+        "dale_chall_readability_score": 9.22,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 837,
+          "polysyllable_count": 101,
+          "avg_syllables_per_word": 1.8
+        },
+        "sentence_stats": {
+          "sentence_count": 28,
+          "avg_sentence_length": 16.5,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 461,
+          "difficult_words": 93
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 44,
+        "technical_terms_detail": {
+          "semiconductor": 6,
+          "transistor": 0,
+          "electron": 2,
+          "voltage": 0,
+          "current": 1,
+          "thermal": 0,
+          "quantum": 13,
+          "spin": 4,
+          "carrier": 1,
+          "doping": 0,
+          "oxide": 5,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 3,
+          "power": 3,
+          "module": 0,
+          "gate": 6,
+          "material": 0
+        },
+        "citation_count": 15,
+        "technical_density": 0.09523809523809523
+      },
+      "structure": {
+        "paragraph_count": 12,
+        "avg_paragraph_length": 38.5,
+        "sentence_count": 32,
+        "avg_sentence_length": 14.4375,
+        "word_count": 462,
+        "has_topic_sentences": 1
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 1,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.22176098823547363
+          },
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.2836573123931885
+          },
+          {
+            "title": "**QThD1.pdf**",
+            "year": "2005",
+            "similarity_score": -0.28726959228515625
+          }
+        ],
+        "avg_similarity": -0.26422929763793945,
+        "max_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        "min_similarity": {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      },
+      "sentiment": {
+        "positive": 18,
+        "neutral": 12,
+        "negative": 2
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 28.64,
+      "flesch_kincaid_grade": 13.5,
+      "gunning_fog": 10.69,
+      "smog_index": 14.7,
+      "automated_readability_index": 15.3,
+      "coleman_liau_index": 15.19,
+      "dale_chall_readability_score": 8.13,
+      "text_standard": "14th and 15th grade",
+      "syllable_stats": {
+        "syllable_count": 1413,
+        "polysyllable_count": 181,
+        "avg_syllables_per_word": 1.9
+      },
+      "sentence_stats": {
+        "sentence_count": 44,
+        "avg_sentence_length": 17.2,
+        "avg_sentence_per_word": 0.06
+      },
+      "lexical_stats": {
+        "lexicon_count": 755,
+        "difficult_words": 127
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 87,
+      "technical_terms_detail": {
+        "semiconductor": 11,
+        "transistor": 0,
+        "electron": 2,
+        "voltage": 0,
+        "current": 3,
+        "thermal": 0,
+        "quantum": 20,
+        "spin": 4,
+        "carrier": 3,
+        "doping": 0,
+        "oxide": 15,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 0,
+        "manufacturing": 0,
+        "yield": 5,
+        "power": 6,
+        "module": 0,
+        "gate": 18,
+        "material": 0
+      },
+      "citation_count": 21,
+      "technical_density": 0.11507936507936507
+    },
+    "structure": {
+      "paragraph_count": 17,
+      "avg_paragraph_length": 44.470588235294116,
+      "sentence_count": 45,
+      "avg_sentence_length": 16.8,
+      "word_count": 756,
+      "has_topic_sentences": 1
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 0,
+        "critical_phrase_detail": {
+          "however": 0,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.0
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 1,
+        "integration_indicators": {
+          "comparison_count": 0,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.22176098823547363
+        },
+        {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.2836573123931885
+        },
+        {
+          "title": "**QThD1.pdf**",
+          "year": "2005",
+          "similarity_score": -0.28726959228515625
+        }
+      ],
+      "avg_similarity": -0.26422929763793945,
+      "max_similarity": {
+        "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+        "year": "2024",
+        "similarity_score": -0.22176098823547363
+      },
+      "min_similarity": {
+        "title": "**QThD1.pdf**",
+        "year": "2005",
+        "similarity_score": -0.28726959228515625
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+# ignore the .env file
+.env
+
+# ignore the slurm-*.out files
+slurm-*.out
+

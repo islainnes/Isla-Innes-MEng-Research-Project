@@ -1,0 +1,45 @@
+{
+  "INTRODUCTION": [
+    "1. Clarify the reference to \"this report\" in the second sentence.",
+    "2. Define or explain CMOS technology for readers who may not be familiar with the term.",
+    "3. Provide evidence or examples to support the potential benefits of graphene for electronic devices.",
+    "4. Provide context by including a brief history and progress of research on integrating graphene into CMOS technology.",
+    "5. Specify which papers are being referred to and how they relate to the topic of the report.",
+    "6. Be more specific about the focus of the analysis, such as specific challenges, potential solutions, or recent advancements."
+  ],
+  "METHODOLOGY": [
+    "1. Define sustainability model for semiconductor manufacturing",
+    "2. Compare benefits of SiC and graphene in power electronics",
+    "3. Explore potential role of graphene in improving gate oxide yield",
+    "4. Provide more detailed analysis of challenges and benefits of integrating graphene",
+    "5. Use specific examples and case studies to illustrate arguments"
+  ],
+  "RESULTS": [
+    "1. Clarify the focus of the papers: discuss the challenges and potential benefits of using alternative materials like SiC in CMOS technology, rather than the integration of graphene specifically.",
+    "2. Use consistent terminology throughout each paper: use terms like \"graphene FETs\" or \"graphene p-n junction transistors\" to maintain technical precision.",
+    "3. When referring to multiple types of graphene-based transistors, specify which type is being discussed in each instance to maintain technical accuracy.",
+    "4. Revise the title and abstract to reflect the actual content of the papers.",
+    "5. Remove or revise irrelevant sentences that do not directly relate to the content of the papers.",
+    "6. Provide more detailed analysis on the challenges and benefits of integrating graphene into CMOS technology.",
+    "7. Provide evidence to support claims about the benefits of using alternative materials.",
+    "8. Provide a more comprehensive comparison of the challenges and benefits of integrating different materials into CMOS technology."
+  ],
+  "DISCUSSION": [
+    "1. Clarify the specifics of the sustainability model in the sustainability paper.",
+    "2. Make it clear why integrating SiC gate drivers is important for power electronics applications in the SiC power module paper.",
+    "3. Be more specific about which new materials are being integrated and why this is a challenge in the gate oxide yield improvement paper.",
+    "4. Provide more details about how graphene and SiC improve semiconductor technology in terms of performance, cost, or sustainability.",
+    "5. Provide a comparison of the environmental impacts of traditional semiconductor materials and alternative materials in the sustainability paper.",
+    "6. Provide a more detailed comparison of the advantages and disadvantages of using alternative materials like graphene and SiC versus traditional materials.",
+    "7. Provide a more detailed explanation of the challenges and limitations of using alternative materials like graphene and SiC in semiconductor technology."
+  ],
+  "CONCLUSION": [
+    "1. Clearly define the challenges and benefits related to integrating graphene into CMOS technology.",
+    "2. Provide specific examples or case studies of successful integration of graphene into CMOS technology.",
+    "3. Discuss potential solutions to the identified challenges, such as new fabrication techniques or materials.",
+    "4. Use consistent and precise terminology throughout the paper.",
+    "5. Provide references to relevant research on the integration of graphene into CMOS technology.",
+    "6. Provide specific results on the integration of graphene into CMOS technology.",
+    "7. Clarify assumptions and provide evidence to support them."
+  ]
+}

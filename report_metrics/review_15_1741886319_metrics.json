@@ -1,0 +1,864 @@
+{
+  "metadata": {
+    "topic": "Unknown",
+    "timestamp": "2025-03-13 17:18:39"
+  },
+  "sections": {
+    "INTRODUCTION": {
+      "readability": {
+        "flesch_reading_ease": 12.46,
+        "flesch_kincaid_grade": 17.7,
+        "gunning_fog": 18.63,
+        "smog_index": 18.5,
+        "automated_readability_index": 18.7,
+        "coleman_liau_index": 15.9,
+        "dale_chall_readability_score": 11.11,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 244,
+          "polysyllable_count": 36,
+          "avg_syllables_per_word": 2.0
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 24.8,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 124,
+          "difficult_words": 41
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 10,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 2,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 1,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 1,
+          "power": 3,
+          "module": 0,
+          "gate": 2,
+          "material": 0
+        },
+        "citation_count": 4,
+        "technical_density": 0.08064516129032258
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 124.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 31.0,
+        "word_count": 124,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "METHODOLOGY": {
+      "readability": {
+        "flesch_reading_ease": 13.14,
+        "flesch_kincaid_grade": 15.4,
+        "gunning_fog": 15.58,
+        "smog_index": 15.0,
+        "automated_readability_index": 15.6,
+        "coleman_liau_index": 17.34,
+        "dale_chall_readability_score": 11.73,
+        "text_standard": "15th and 16th grade",
+        "syllable_stats": {
+          "syllable_count": 196,
+          "polysyllable_count": 26,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 15.8,
+          "avg_sentence_per_word": 0.06
+        },
+        "lexical_stats": {
+          "lexicon_count": 95,
+          "difficult_words": 37
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 15,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 2,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 2,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 2,
+          "manufacturing": 0,
+          "yield": 1,
+          "power": 3,
+          "module": 0,
+          "gate": 3,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.15789473684210525
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 95.0,
+        "sentence_count": 5,
+        "avg_sentence_length": 19.0,
+        "word_count": 95,
+        "has_topic_sentences": 1
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 5,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "RESULTS": {
+      "readability": {
+        "flesch_reading_ease": 24.78,
+        "flesch_kincaid_grade": 15.0,
+        "gunning_fog": 17.16,
+        "smog_index": 15.9,
+        "automated_readability_index": 17.8,
+        "coleman_liau_index": 16.94,
+        "dale_chall_readability_score": 12.35,
+        "text_standard": "14th and 15th grade",
+        "syllable_stats": {
+          "syllable_count": 203,
+          "polysyllable_count": 25,
+          "avg_syllables_per_word": 1.9
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 21.0,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 105,
+          "difficult_words": 41
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 16,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 4,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 3,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 4,
+          "module": 0,
+          "gate": 4,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.1523809523809524
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 105.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 26.25,
+        "word_count": 105,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 3,
+        "neutral": 1,
+        "negative": 0
+      }
+    },
+    "DISCUSSION": {
+      "readability": {
+        "flesch_reading_ease": 6.03,
+        "flesch_kincaid_grade": 18.1,
+        "gunning_fog": 18.76,
+        "smog_index": 18.8,
+        "automated_readability_index": 20.1,
+        "coleman_liau_index": 19.15,
+        "dale_chall_readability_score": 11.34,
+        "text_standard": "18th and 19th grade",
+        "syllable_stats": {
+          "syllable_count": 293,
+          "polysyllable_count": 45,
+          "avg_syllables_per_word": 2.1
+        },
+        "sentence_stats": {
+          "sentence_count": 6,
+          "avg_sentence_length": 22.8,
+          "avg_sentence_per_word": 0.04
+        },
+        "lexical_stats": {
+          "lexicon_count": 137,
+          "difficult_words": 52
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 15,
+        "technical_terms_detail": {
+          "semiconductor": 3,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 1,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 2,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 2,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 4,
+          "module": 0,
+          "gate": 3,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.10948905109489052
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 137.0,
+        "sentence_count": 6,
+        "avg_sentence_length": 22.833333333333332,
+        "word_count": 137,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 1,
+          "critical_phrase_detail": {
+            "however": 1,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0072992700729927005
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 2,
+        "negative": 0
+      }
+    },
+    "CONCLUSION": {
+      "readability": {
+        "flesch_reading_ease": 0.21,
+        "flesch_kincaid_grade": 18.2,
+        "gunning_fog": 17.58,
+        "smog_index": 18.0,
+        "automated_readability_index": 19.3,
+        "coleman_liau_index": 19.49,
+        "dale_chall_readability_score": 12.14,
+        "text_standard": "17th and 18th grade",
+        "syllable_stats": {
+          "syllable_count": 222,
+          "polysyllable_count": 34,
+          "avg_syllables_per_word": 2.2
+        },
+        "sentence_stats": {
+          "sentence_count": 5,
+          "avg_sentence_length": 20.2,
+          "avg_sentence_per_word": 0.05
+        },
+        "lexical_stats": {
+          "lexicon_count": 101,
+          "difficult_words": 41
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 12,
+        "technical_terms_detail": {
+          "semiconductor": 2,
+          "transistor": 0,
+          "electron": 0,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 1,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 1,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 2,
+          "manufacturing": 0,
+          "yield": 0,
+          "power": 4,
+          "module": 0,
+          "gate": 2,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.1188118811881188
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 101.0,
+        "sentence_count": 4,
+        "avg_sentence_length": 25.25,
+        "word_count": 101,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 1,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 0,
+        "negative": 0
+      }
+    },
+    "REFERENCES": {
+      "readability": {
+        "flesch_reading_ease": 48.6,
+        "flesch_kincaid_grade": 10.0,
+        "gunning_fog": 10.99,
+        "smog_index": 11.9,
+        "automated_readability_index": 11.5,
+        "coleman_liau_index": 9.97,
+        "dale_chall_readability_score": 15.2,
+        "text_standard": "10th and 11th grade",
+        "syllable_stats": {
+          "syllable_count": 214,
+          "polysyllable_count": 21,
+          "avg_syllables_per_word": 1.7
+        },
+        "sentence_stats": {
+          "sentence_count": 9,
+          "avg_sentence_length": 14.2,
+          "avg_sentence_per_word": 0.07
+        },
+        "lexical_stats": {
+          "lexicon_count": 128,
+          "difficult_words": 42
+        }
+      },
+      "technical_depth": {
+        "technical_term_count": 12,
+        "technical_terms_detail": {
+          "semiconductor": 1,
+          "transistor": 0,
+          "electron": 1,
+          "voltage": 0,
+          "current": 0,
+          "thermal": 0,
+          "quantum": 0,
+          "spin": 1,
+          "carrier": 0,
+          "doping": 0,
+          "oxide": 1,
+          "silicon": 0,
+          "device": 0,
+          "fabrication": 0,
+          "manufacturing": 0,
+          "yield": 1,
+          "power": 4,
+          "module": 1,
+          "gate": 2,
+          "material": 0
+        },
+        "citation_count": 3,
+        "technical_density": 0.09375
+      },
+      "structure": {
+        "paragraph_count": 1,
+        "avg_paragraph_length": 128.0,
+        "sentence_count": 12,
+        "avg_sentence_length": 10.666666666666666,
+        "word_count": 128,
+        "has_topic_sentences": 0
+      },
+      "critical_thinking": {
+        "critical_metrics": {
+          "critical_phrase_count": 0,
+          "critical_phrase_detail": {
+            "however": 0,
+            "although": 0,
+            "nevertheless": 0,
+            "contrary to": 0,
+            "limitation": 0,
+            "gap": 0,
+            "weakness": 0,
+            "strength": 0,
+            "inconsistent": 0,
+            "contradictory": 0,
+            "debate": 0,
+            "controversy": 0
+          },
+          "critical_density": 0.0
+        },
+        "synthesis_metrics": {
+          "synthesis_phrase_count": 0,
+          "integration_indicators": {
+            "comparison_count": 0,
+            "synthesis_count": 0
+          }
+        }
+      },
+      "similarity": {
+        "paper_similarities": [
+          {
+            "title": "Spin Control in Semiconductors:",
+            "year": "2024",
+            "similarity_score": -0.12354958057403564
+          },
+          {
+            "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+            "year": "2024",
+            "similarity_score": -0.5352210998535156
+          },
+          {
+            "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+            "year": "2024",
+            "similarity_score": -0.5897867679595947
+          }
+        ],
+        "avg_similarity": -0.41618581612904865,
+        "max_similarity": {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        "min_similarity": {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      },
+      "sentiment": {
+        "positive": 4,
+        "neutral": 8,
+        "negative": 0
+      }
+    }
+  },
+  "overall": {
+    "readability": {
+      "flesch_reading_ease": 18.15,
+      "flesch_kincaid_grade": 15.5,
+      "gunning_fog": 12.2,
+      "smog_index": 16.1,
+      "automated_readability_index": 16.7,
+      "coleman_liau_index": 16.36,
+      "dale_chall_readability_score": 9.14,
+      "text_standard": "15th and 16th grade",
+      "syllable_stats": {
+        "syllable_count": 1372,
+        "polysyllable_count": 187,
+        "avg_syllables_per_word": 2.0
+      },
+      "sentence_stats": {
+        "sentence_count": 36,
+        "avg_sentence_length": 19.2,
+        "avg_sentence_per_word": 0.05
+      },
+      "lexical_stats": {
+        "lexicon_count": 690,
+        "difficult_words": 147
+      }
+    },
+    "technical_depth": {
+      "technical_term_count": 80,
+      "technical_terms_detail": {
+        "semiconductor": 10,
+        "transistor": 0,
+        "electron": 1,
+        "voltage": 0,
+        "current": 0,
+        "thermal": 0,
+        "quantum": 0,
+        "spin": 11,
+        "carrier": 0,
+        "doping": 0,
+        "oxide": 10,
+        "silicon": 0,
+        "device": 0,
+        "fabrication": 6,
+        "manufacturing": 0,
+        "yield": 3,
+        "power": 22,
+        "module": 1,
+        "gate": 16,
+        "material": 0
+      },
+      "citation_count": 19,
+      "technical_density": 0.11594202898550725
+    },
+    "structure": {
+      "paragraph_count": 6,
+      "avg_paragraph_length": 115.0,
+      "sentence_count": 35,
+      "avg_sentence_length": 19.714285714285715,
+      "word_count": 690,
+      "has_topic_sentences": 1
+    },
+    "critical_thinking": {
+      "critical_metrics": {
+        "critical_phrase_count": 1,
+        "critical_phrase_detail": {
+          "however": 1,
+          "although": 0,
+          "nevertheless": 0,
+          "contrary to": 0,
+          "limitation": 0,
+          "gap": 0,
+          "weakness": 0,
+          "strength": 0,
+          "inconsistent": 0,
+          "contradictory": 0,
+          "debate": 0,
+          "controversy": 0
+        },
+        "critical_density": 0.0014492753623188406
+      },
+      "synthesis_metrics": {
+        "synthesis_phrase_count": 0,
+        "integration_indicators": {
+          "comparison_count": 1,
+          "synthesis_count": 0
+        }
+      }
+    },
+    "similarity": {
+      "paper_similarities": [
+        {
+          "title": "Spin Control in Semiconductors:",
+          "year": "2024",
+          "similarity_score": -0.12354958057403564
+        },
+        {
+          "title": "High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications",
+          "year": "2024",
+          "similarity_score": -0.5352210998535156
+        },
+        {
+          "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+          "year": "2024",
+          "similarity_score": -0.5897867679595947
+        }
+      ],
+      "avg_similarity": -0.41618581612904865,
+      "max_similarity": {
+        "title": "Spin Control in Semiconductors:",
+        "year": "2024",
+        "similarity_score": -0.12354958057403564
+      },
+      "min_similarity": {
+        "title": "Gate Oxide Yield Improvement for 0.18um Power Semiconductor Devices with Deep Trenches",
+        "year": "2024",
+        "similarity_score": -0.5897867679595947
+      }
+    }
+  }
+}
