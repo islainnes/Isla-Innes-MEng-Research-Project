@@ -1,0 +1,24 @@
+name: llm_env
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch
+  - torchvision
+  - torchaudio
+  - numpy
+  - pip:
+    - transformers
+    - autogen
+    - json5
+    - textstat
+    - sentence-transformers
+    - nltk
+    - huggingface_hub
+    - python-dotenv
+    - datasets
+    - peft
+    - faiss-cpu 
