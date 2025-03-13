@@ -75,20 +75,17 @@ def load_json_files(directory):
                 data = json.load(f)
                 # Check if 'sections' key exists
                 if 'sections' in data:
-                    report_text = []
+                    # Create a prompt template for each section's improved content
                     for section in sections:
                         if section in data['sections']:
                             section_data = data['sections'][section]
                             # Extract only the 'improved' content if available
                             if isinstance(section_data, dict) and 'improved' in section_data:
-                                report_text.append(section_data['improved'])
+                                improved_text = section_data['improved']
+                                # Create a formatted text with section name and content
+                                formatted_text = f"### {section}:\n{improved_text}\n\n"
+                                texts.append(formatted_text)
                                 print(f"Successfully extracted improved {section} from {file}")
-                    
-                    if report_text:
-                        # Join all sections with newlines
-                        full_text = "\n\n".join(report_text)
-                        texts.append(full_text)
-                        print(f"Successfully combined {len(report_text)} improved sections from {file}")
                 else:
                     print(f"Warning: No 'sections' field found in {file}")
                     print(f"Available keys in {file}: {list(data.keys())}")
@@ -109,91 +106,91 @@ def main():
     model_name = "mistralai/Mistral-7B-Instruct-v0.2"
     
     # Define directory for rewritten reports
-    directories = ['rewritten_reports']
+    directory = 'rewritten_reports'
     
-    for directory in directories:
-        print(f"\nStarting fine-tuning for {directory}")
-        
-        # Configure quantization
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4"
-        )
-        
-        # Load model and tokenizer
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=torch.float16,
-            device_map="auto",
-            quantization_config=quantization_config,
-            offload_folder="offload",
-        )
-        
-        # Prepare model for k-bit training
-        model = prepare_model_for_kbit_training(model)
-        
-        # Configure LoRA
-        lora_config = LoraConfig(
-            r=16,
-            lora_alpha=32,
-            target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-            lora_dropout=0.05,
-            bias="none",
-            task_type="CAUSAL_LM"
-        )
-        
-        # Create PEFT model
-        model = get_peft_model(model, lora_config)
-        model.print_trainable_parameters()
-        
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        tokenizer.pad_token = tokenizer.eos_token
-        
-        # Load texts from rewritten reports
-        texts = load_json_files(directory)
-        
-        # Prepare dataset
-        dataset = prepare_dataset(texts, tokenizer)
-        
-        # Define training arguments with directory-specific output
-        training_args = TrainingArguments(
-            output_dir=f"./fine_tuned_model_{directory}",  # Separate output directories
-            num_train_epochs=3,
-            per_device_train_batch_size=1,
-            gradient_accumulation_steps=4,
-            save_steps=100,
-            save_total_limit=2,
-            learning_rate=2e-4,
-            warmup_steps=100,
-            logging_dir=f'./logs_{directory}',  # Separate logging directories
-            fp16=True,
-            gradient_checkpointing=True,
-        )
-        
-        # Create data collator
-        data_collator = DataCollatorForLanguageModeling(
-            tokenizer=tokenizer,
-            mlm=False
-        )
-        
-        # Initialize trainer
-        trainer = Trainer(
-            model=model,
-            args=training_args,
-            train_dataset=dataset,
-            data_collator=data_collator,
-        )
-        
-        # Start training
-        trainer.train()
-        
-        # Save the fine-tuned model
-        model.save_pretrained(f"./fine_tuned_model_{directory}")
-        tokenizer.save_pretrained(f"./fine_tuned_model_{directory}")
-        
-        print(f"Completed fine-tuning for {directory}")
+    print(f"\nStarting fine-tuning using improved content from {directory}")
+    
+    # Configure quantization
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4"
+    )
+    
+    # Load model and tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        quantization_config=quantization_config,
+        offload_folder="offload",
+    )
+    
+    # Prepare model for k-bit training
+    model = prepare_model_for_kbit_training(model)
+    
+    # Configure LoRA
+    lora_config = LoraConfig(
+        r=16,
+        lora_alpha=32,
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        lora_dropout=0.05,
+        bias="none",
+        task_type="CAUSAL_LM"
+    )
+    
+    # Create PEFT model
+    model = get_peft_model(model, lora_config)
+    model.print_trainable_parameters()
+    
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+    
+    # Load texts from rewritten reports - only improved content
+    texts = load_json_files(directory)
+    
+    # Prepare dataset
+    dataset = prepare_dataset(texts, tokenizer)
+    
+    # Define training arguments
+    training_args = TrainingArguments(
+        output_dir="./fine_tuned_model_improved_only",
+        num_train_epochs=3,
+        per_device_train_batch_size=1,
+        gradient_accumulation_steps=4,
+        save_steps=100,
+        save_total_limit=2,
+        learning_rate=2e-4,
+        warmup_steps=100,
+        logging_dir='./logs_improved_only',
+        fp16=True,
+        gradient_checkpointing=True,
+    )
+    
+    # Create data collator
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer,
+        mlm=False
+    )
+    
+    # Initialize trainer
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=dataset,
+        data_collator=data_collator,
+    )
+    
+    # Start training
+    trainer.train()
+    
+    # Save the fine-tuned model
+    model.save_pretrained("./fine_tuned_model_improved_only")
+    tokenizer.save_pretrained("./fine_tuned_model_improved_only")
+    
+    print("Completed fine-tuning using improved content")
 
 if __name__ == "__main__":
     main()
+
