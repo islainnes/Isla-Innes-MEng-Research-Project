@@ -95,9 +95,9 @@ def load_review_data():
     """Load all review data and their corresponding recommendations"""
     review_data_list = []
     
-    # Get only review_01 files directly in litreviews folder
+    # Get all review files directly in litreviews folder
     litreviews_path = Path('litreviews')
-    review_files = list(litreviews_path.glob('review_01*.json'))
+    review_files = list(litreviews_path.glob('review_*.json'))
     
     # Sort files to process in order
     review_files.sort()
@@ -106,13 +106,15 @@ def load_review_data():
         print(f"Checking file: {review_path}")
         
         # Get the base name without extension for finding the corresponding output folder
-        review_base = review_path.stem  # e.g., 'review_01'
+        review_base = review_path.stem  # e.g., 'review_01_1741889516'
+        # Extract just the review number part (review_01)
+        review_number = re.match(r'(review_\d+)', review_base).group(1)  # Gets 'review_01'
         
         # Find corresponding final_points.json in output directory
-        final_points_path = Path('output') / 'review_01' / 'final_points.json'
+        final_points_path = Path('output') / review_number / 'final_points.json'
         
         if not final_points_path.exists():
-            print(f"No final_points.json found for review_01")
+            print(f"No final_points.json found for {review_number}")
             continue
             
         try:
@@ -129,10 +131,10 @@ def load_review_data():
                 'review_data': review_data,
                 'rewrite_data': rewrite_data
             })
-            print(f"Successfully loaded data for review_01")
+            print(f"Successfully loaded data for {review_number}")
             
         except Exception as e:
-            print(f"Error loading data for review_01: {str(e)}")
+            print(f"Error loading data for {review_number}: {str(e)}")
             continue
     
     if not review_data_list:
@@ -371,6 +373,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
