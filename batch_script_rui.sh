@@ -2,19 +2,20 @@
 #SBATCH -N 1
 #SBATCH -c 4
 #SBATCH --gres=gpu:pascal:1
-#SBATCH -p gpu-bigmem
+#SBATCH -p res-gpu-small
 #SBATCH --qos=short
 #SBATCH -t 00-08:00:00
 #SBATCH --job-name=Isla-Project
 #SBATCH --mail-user=rui.carvalho@durham.ac.uk
-#SBATCH --mem=56G
+#SBATCH --mem=28G
 
 # Purge existing modules first
 module purge
 
 # Load necessary modules
-module load cuda
-module load nvidia/cuda
+module load cuda/12.5
+# Remove the nvidia/cuda module since it's not available
+# module load nvidia/cuda
 
 # Initialize conda
 source /home3/grtq36/anaconda3/etc/profile.d/conda.sh
@@ -70,6 +71,11 @@ echo ""
 
 # Add trap for cleanup if needed
 trap 'echo "Job interrupted at $(date)"' SIGINT SIGTERM
+
+# Add CUDA environment variables for stability
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
+export CUDA_VISIBLE_DEVICES=0
 
 # Function to check Python script execution
 run_python_script() {
