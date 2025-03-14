@@ -105,18 +105,38 @@ class CustomLlama2Client:
         response.choices = []
         response.model = self.model_name
 
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                **self.gen_params
-            )
-            generated_text = self.tokenizer.decode(
-                outputs[0], skip_special_tokens=True)
-            choice = SimpleNamespace()
-            choice.message = SimpleNamespace()
-            choice.message.content = generated_text.strip()
-            choice.message.function_call = None
-            response.choices.append(choice)
+        try:
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs,
+                    **self.gen_params
+                )
+                generated_text = self.tokenizer.decode(
+                    outputs[0], skip_special_tokens=True)
+                choice = SimpleNamespace()
+                choice.message = SimpleNamespace()
+                choice.message.content = generated_text.strip()
+                choice.message.function_call = None
+                response.choices.append(choice)
+        except RuntimeError as e:
+            print(f"Error during generation: {str(e)}")
+            # Fallback to basic greedy decoding if there's an error
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=self.gen_params.get("max_new_tokens", 1000),
+                    do_sample=False,
+                    num_beams=1,
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    eos_token_id=self.tokenizer.eos_token_id
+                )
+                generated_text = self.tokenizer.decode(
+                    outputs[0], skip_special_tokens=True)
+                choice = SimpleNamespace()
+                choice.message = SimpleNamespace()
+                choice.message.content = generated_text.strip()
+                choice.message.function_call = None
+                response.choices.append(choice)
 
         return response
 

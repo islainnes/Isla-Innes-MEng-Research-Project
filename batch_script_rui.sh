@@ -14,8 +14,7 @@ module purge
 
 # Load necessary modules
 module load cuda/12.5
-# Remove the nvidia/cuda module since it's not available
-# module load nvidia/cuda
+
 
 # Initialize conda
 source /home3/grtq36/anaconda3/etc/profile.d/conda.sh
@@ -95,9 +94,9 @@ run_python_script() {
 
 # Run Python scripts with error checking
 run_python_script step1.py
-run_python_script step2.py
-run_python_script step3.py
-run_python_script step4.py
+#run_python_script step2.py
+#run_python_script step3.py
+#run_python_script step4.py
 
 # At the end of your script
 echo "Job completed at: $(date)"

@@ -12,8 +12,7 @@
 module purge
 
 # Load necessary modules
-module load cuda
-module load nvidia/cuda
+module load cuda/12.5
 
 # Initialize conda
 source /home3/grtq36/anaconda3/etc/profile.d/conda.sh
