@@ -26,9 +26,10 @@ os.environ["OAI_CONFIG_LIST"] = json.dumps([
         "n": 1,
         "params": {
             "max_new_tokens": 1000,
-            "top_k": 50,
-            "temperature": 0.1,
-            "do_sample": True,
+            "do_sample": False,  # Changed to False for greedy decoding
+            "num_beams": 1,      # Use beam search with 1 beam (greedy)
+            "pad_token_id": 2,   # Explicitly set pad token
+            "eos_token_id": 2,   # Explicitly set eos token
         },
     }
 ])
@@ -49,6 +50,7 @@ config_list = config_list_from_json(
     "OAI_CONFIG_LIST",
     filter_dict={"model_client_cls": ["CustomLlama2Client"]}
 )
+
 
 @lru_cache(maxsize=1)
 def load_shared_model(model_name, device):
@@ -71,17 +73,21 @@ def load_shared_model(model_name, device):
     tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer
 
+
 class CustomLlama2Client:
     def __init__(self, config, **kwargs):
         self.config = config
         self.model_name = config["model"]
-        self.device = config.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+        self.device = config.get(
+            "device", "cuda" if torch.cuda.is_available() else "cpu")
         self.gen_params = config.get("params", {})
-        self.model, self.tokenizer = load_shared_model(self.model_name, self.device)
+        self.model, self.tokenizer = load_shared_model(
+            self.model_name, self.device)
 
     def _format_chat_prompt(self, messages):
         formatted_prompt = "<s>[INST] "
-        system_message = next((m["content"] for m in messages if m["role"] == "system"), None)
+        system_message = next((m["content"]
+                              for m in messages if m["role"] == "system"), None)
         if system_message:
             formatted_prompt += f"{system_message}\n\n"
         for message in messages:
@@ -104,7 +110,8 @@ class CustomLlama2Client:
                 **inputs,
                 **self.gen_params
             )
-            generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+            generated_text = self.tokenizer.decode(
+                outputs[0], skip_special_tokens=True)
             choice = SimpleNamespace()
             choice.message = SimpleNamespace()
             choice.message.content = generated_text.strip()
@@ -124,24 +131,26 @@ class CustomLlama2Client:
     def get_usage(response):
         return {}
 
+
 def clean_response(text):
     """Clean the response text to get only the report content"""
     # Split on ## INTRODUCTION and keep only what comes after
     if "## INTRODUCTION" in text:
         parts = text.split("## INTRODUCTION")
-        text = "## INTRODUCTION" + parts[-1]  
-    
+        text = "## INTRODUCTION" + parts[-1]
+
     text = text.replace("[/INST]", "").replace("[INST]", "")
-    
+
     # Remove the references section cleanup to keep references
     return text.strip()
+
 
 def extract_sections(text):
     """Extract sections from the report text into a dictionary"""
     sections = {}
     current_section = None
     current_content = []
-    
+
     for line in text.split('\n'):
         if line.startswith('## '):
             if current_section:
@@ -150,12 +159,13 @@ def extract_sections(text):
             current_content = []
         else:
             current_content.append(line)
-    
+
     # Add the last section
     if current_section:
         sections[current_section] = '\n'.join(current_content).strip()
-    
+
     return sections
+
 
 def generate_report(topic, max_retries=3, num_papers=3):
     """Generate a report with a limited number of retries"""
@@ -163,7 +173,7 @@ def generate_report(topic, max_retries=3, num_papers=3):
     full_context, all_relevant_papers = get_paper_context(topic)
     # Take only the first 3 papers
     relevant_papers = all_relevant_papers[:3]
-    
+
     # Store metadata about papers including similarity scores
     paper_metadata = [
         {
@@ -177,7 +187,7 @@ def generate_report(topic, max_retries=3, num_papers=3):
         }
         for paper in relevant_papers
     ]
-    
+
     # Reconstruct context with only 3 papers
     context = "\n\n".join([
         f"Paper: {paper['title']}\n" +
@@ -185,13 +195,13 @@ def generate_report(topic, max_retries=3, num_papers=3):
         f"Content: {paper['content']}"
         for paper in paper_metadata
     ])
-    
+
     # Create a formatted reference list from the actual paper data
     reference_list = "\n".join([
         f"[{i+1}] {paper['title']} ({paper['year']})"
         for i, paper in enumerate(paper_metadata)
     ])
-    
+
     prompt = f"""Write a comprehensive academic report and literature review on: {topic}
 
 {context}
@@ -250,26 +260,29 @@ Write the report content starting with ## INTRODUCTION and ending with ## REFERE
     attempts = 0
     while attempts < max_retries:
         try:
-            chat_response = user_proxy.initiate_chat(writer, message=prompt, silent=True)
+            chat_response = user_proxy.initiate_chat(
+                writer, message=prompt, silent=True)
             report = user_proxy.last_message()['content']
-            
+
             # Clean the response
             cleaned_report = clean_response(report)
-            
+
             # Check if we have a complete report
             if "## CONCLUSION" in cleaned_report and not cleaned_report.strip().endswith("## CONCLUSION"):
                 return cleaned_report, paper_metadata
-            
-            print(f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
+
+            print(
+                f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
             attempts += 1
-            
+
         except Exception as e:
             print(f"\nError during attempt {attempts + 1}: {str(e)}")
             attempts += 1
-    
+
     # If we've exhausted retries, return the best response we have
     print("\nWarning: Could not generate complete report after maximum retries.")
     return cleaned_report.strip(), paper_metadata
+
 
 def generate_research_questions(domain):
     """Generate research questions within a specific domain"""
@@ -301,11 +314,13 @@ Generate exactly 20 questions, numbered 1-20. Make each question specific and su
         }
     )
 
-    question_generator.register_model_client(model_client_cls=CustomLlama2Client)
+    question_generator.register_model_client(
+        model_client_cls=CustomLlama2Client)
 
-    chat_response = user_proxy.initiate_chat(question_generator, message=prompt, silent=True)
+    chat_response = user_proxy.initiate_chat(
+        question_generator, message=prompt, silent=True)
     response_text = user_proxy.last_message()['content'].strip()
-    
+
     # Extract questions (lines starting with numbers)
     questions = []
     for line in response_text.split('\n'):
@@ -314,13 +329,14 @@ Generate exactly 20 questions, numbered 1-20. Make each question specific and su
             question = line.split('. ', 1)[1].strip()
             if question:
                 questions.append(question)
-    
+
     # Ensure we have exactly 20 questions
     if len(questions) < 20:
-        print(f"Warning: Only generated {len(questions)} questions instead of 20")
+        print(
+            f"Warning: Only generated {len(questions)} questions instead of 20")
     elif len(questions) > 20:
         questions = questions[:20]
-        
+
     if not questions:
         # Fallback questions if extraction fails
         questions = [
@@ -329,55 +345,59 @@ Generate exactly 20 questions, numbered 1-20. Make each question specific and su
             # ... add more fallback questions ...
         ]
         print("Warning: Using fallback questions due to parsing error")
-    
+
     return questions
+
 
 def main():
     domain = "Electronic Engineering"
     print(f"\nGenerating research questions in: {domain}")
-    
+
     # Create output directory
     output_dir = "litreviews"
     os.makedirs(output_dir, exist_ok=True)
-    
+
     # Generate research questions
     research_questions = generate_research_questions(domain)
-    
+
     # Generate review for each question
     for i, question in enumerate(research_questions, 1):
         print(f"\nGenerating review {i}/20: {question}")
-        
+
         try:
-            report, paper_metadata = generate_report(question)  # Now getting both report and metadata
+            # Now getting both report and metadata
+            report, paper_metadata = generate_report(question)
             cleaned_report = clean_response(report)
-            
+
             # Convert report to JSON structure with complete paper metadata
             report_data = {
                 "question": question,
                 "domain": domain,
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "sections": extract_sections(cleaned_report),
-                "referenced_papers": paper_metadata,  # Now includes full paper details with similarity
+                # Now includes full paper details with similarity
+                "referenced_papers": paper_metadata,
                 "metadata": {
                     "total_papers": len(paper_metadata),
                     "average_similarity": sum(p['similarity'] for p in paper_metadata) / len(paper_metadata) if paper_metadata else 0,
                     "generation_time": time.strftime("%Y-%m-%d %H:%M:%S")
                 }
             }
-            
+
             # Save to JSON file
-            output_file = os.path.join(output_dir, f"review_{i:02d}_{int(time.time())}.json")
+            output_file = os.path.join(
+                output_dir, f"review_{i:02d}_{int(time.time())}.json")
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(report_data, f, indent=2)
-                
+
             # Clear some memory
             torch.cuda.empty_cache()
             gc.collect()
-            
+
         except Exception as e:
             print(f"Error generating review {i}: {str(e)}")
             continue
 
+
 if __name__ == "__main__":
     main()
-
