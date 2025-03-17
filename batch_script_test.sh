@@ -2,21 +2,20 @@
 #SBATCH -N 1
 #SBATCH -c 4
 #SBATCH --gres=gpu:pascal:1
-#SBATCH -p ug-gpu-small
+#SBATCH -p res-gpu-small
 #SBATCH --qos=normal
 #SBATCH -t 00-08:00:00
-#SBATCH --job-name=ssgg36
+#SBATCH --job-name=Isla-Project
 #SBATCH --mem=28G
 
 # Purge existing modules first
 module purge
 
 # Load necessary modules
-module load cuda
-module load nvidia/cuda
+module load cuda/12.5
 
 # Initialize conda
-source /home3/ssgg36/anaconda3/etc/profile.d/conda.sh
+source /home3/grtq36/anaconda3/etc/profile.d/conda.sh
 
 # Activate your conda environment
 conda activate llm_env
@@ -44,4 +43,9 @@ echo "Method 2: nvidia-debugdump"
 nvidia-debugdump -l || echo "nvidia-debugdump failed"
 echo "======================"
 
-python step4.py
+# Add before python command
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
+export CUDA_VISIBLE_DEVICES=0
+
+python step1.py
