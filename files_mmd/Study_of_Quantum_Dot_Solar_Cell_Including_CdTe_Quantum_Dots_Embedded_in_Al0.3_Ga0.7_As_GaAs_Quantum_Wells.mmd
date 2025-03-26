@@ -1,0 +1,148 @@
+Study of Quantum Dot Solar Cell Including CdTe Quantum Dots Embedded in Al\({}_{0.3}\)Ga\({}_{0.7}\)As/GaAs Quantum Wells
+
+ Taha Yusuf Raja
+
+_Department of Electrical and Electronics Engineering_
+
+_Birla Institute of Technology and Science, Pilani_
+
+Pilani, India
+
+f20200910@pilani.bits-pilani.ac.in
+
+Trideeb Bhattacharya
+
+_Department of Electrical and Electronics Engineering_
+
+_Birla Institute of Technology and Science, Pilani_
+
+Pilani, India
+
+0000-0002-4723-0992
+
+Nilesh Jaiswal
+
+_Department of Electrical and Electronics Engineering_
+
+_Birla Institute of Technology and Science, Pilani_
+
+Pilani, India
+
+0009-0003-7861-730X
+
+###### Abstract
+
+Intermediate Band Solar Cells were proposed in 1997 as an alternative to tandem solar cells to achieve high efficiency in a photovoltaic device. It has a proposed theoretical limit of 63.2%, much higher than the 33% of a single-junction solar cell. In this study, we explore the photovoltaic performance of CdTe Quantum Dots embedded in Al\({}_{0.3}\)Ga\({}_{0.7}\)As/GaAs Quantum Wells for the first time using SCAPS-1D software. This arrangement leads to the formation of intermediate energy levels due to Quantum Confinement, which has been exploited to form a Hole Injection Layer and increase Quantum Efficiency. Further, a detailed study of the device's band diagram in both illuminated and illuminated cases is provided, offering crucial insights into its performance and working. The best-optimized device yielded a maximum power conversion efficiency of 31.8%, Quantum Efficiency QE of 80% over the visible range, open-circuit voltage V\({}_{OC}\) of 1.36 and fill factor (FF) ranging between 77%-85%.
+
+ Intermediate Band Solar Cell, Quantum Dot, Hole Injection Layer (HIL), Quantum Efficiency (QE), SCAPS-1D +
+Footnote †: 15th ICCCNT IEEE Conference,
+
+Authorized licensed use limited to: University of Durham. Downloading: 20091002, 20:25 at 13:39:22 UTC from IEEE Xplore. Restrictors apply.
+
+## I Introduction
+
+Today, 80% of the market for solar cells is dominated by single crystalline silicon photovoltaic cells that show an efficiency of 15% to 20% [1]. They are simple PN junction solar cells and because of the simplicity of the structure, they are highly commercial and are used in most solar panels currently manufactured. However, the cost of such poor efficiency is that the solar space occupied for producing nominal power levels for household use is very large. Hence it is imperative to improve the efficiency of capturing and converting solar energy.
+
+The theoretical limit on single-junction photovoltaic cells is around 33% under standard solar irradiation (AM 1.5 spectrum) which arises from the Shockley-Quisser limit. In efforts to improve the efficiency, various other solar cell structures have been proposed. An alternative to having a single junction solar cell is to have multiple junctions which raises the theoretical limit to 86% [2] by stacking an infinite amount of layers, which is quite impractical. Another relevant structure is the p-i-n junction solar cell, which adds an intrinsic semiconductor layer between the p-doped and n-doped layers. The advantage of adding this intrinsic layer is that it enhances light absorption by providing a region where photons can generate electron-hole pairs without being affected by the electric field present in the PN junction. The p-i-n structure reduces carrier recombination losses and improves the solar cell's overall efficiency.
+
+Another rather recent structure for a solar cell proposed is the Quantum Dot Solar Cell, pioneered by A. Nozik [3] which involves embedding quantum dots in the middle layers of the solar cell. As mentioned above, the Shockley-Quiesser limit comes about due to higher energy photons being absorbed, giving rise to highly energetic electrons and holes. The excess energy above the band gap gives the created electron-hole pair additional kinetic energy, which means they have an effective temperature much higher than the lattice temperature. Division of the kinetic energy is decided by the effective masses of the carriers, with the lesser effective mass carrier receiving more of the kinetic energy. These energetic electrons and holes lose their energy due to electron-phonon scattering and eventually phonon emission as the carriers relax to their respective band edges. In an effort to avoid this, we implement a method to utilize these hot carriers before they lose their energy.
+
+If the carrier cooling rate can be made comparable to the rate of impact ionization due to the hot carriers through an inverse Auger process, some of the excess energy is converted into additional photocurrent. This would require the rates of photogenerated carrier separation, transport, and interfacial transfer across the contacts to the semiconductor to be fast compared to the rate of carrier cooling. It has been proposed that quantization effects in semiconductors like quantum wells and quantum dots can affect the relaxation dynamics of the photogenerated carriers, which may be due to the confinement of the carriers due to potential barriers of size comparable to their de-Broglie wavelengths. This sometimes reduces the cooling rates enough to make it compete with the impact ionization rates.
+
+In [4], the authors studied a dot-in-well (DWELL) structure by sandwiching an InAs quantum dot(QD) layer in a GaAs quantum well(QW) between two Al\({}_{0.3}\)Ga\({}_{0.7}\)As barrier layers. Their paper outlines the working mechanism of the photocurrent generation from the occupation and subsequent de-occupation of the QD states in the QW. They reported saturation photocurrents in the range of \(10^{-2}\) to \(10^{-5}\) mA/cm\({}^{2}\) by varying the intensity of the inter-band and inter-sub-band excitation intensities from 0 to 100 W/m\({}^{2}\). The motivation for this work came from wanting to study the efficiency of the solar cell structure, as shown in the paper while attempting to reduce the number of layers used in order to simplify the fabrication process for work in the future. Recent studies of QD solar cells like one by Okada et al. [5] showed an efficiency of 22.8% under a light concentration ratio of 93 suns, and Wang et al. performed an optimization study of an InGaAs QD-IBSC solar cell [6] showing a conversion efficiency of 17%.
+
+In this article, prior to designing the solar cell structure, we investigated the optimal material selection for the quantum dots (QDs) using COMSOL Multiphysics. Simulating dot occupation states in the visible regime showed that CdSe/CdTe quantum dots exhibit superior photocurrent characteristics compared to common alternatives (InAs, InGaAs). Consequently, we elected to integrate CdTe into the solar cell structure. In this paper, we present the efficiency of the quantum dot solar cell, and along with it, we show the band structure(BS), quantum efficiency (QE) and other relevant plots of efficiency, fill factor (FF) and short-circuit current (\(J_{SC}\)) of the solar cell.
+
+## II Computation and Simulation
+
+This work uses the Solar Cell Capacitance Simulator Structure (SCAPS-1D) software to analyze the quantum-dot embedded solar cell. The University of Gent, Belgium developed it as part of its Department of Electronics and Information Systems. SCAPS is quite well-known for simulating solar cells and have been used for quantum dot solar cells as well [7].
+
+Several PV performance parameters can be measured with SCAPS-1D, including fill factor (FF), short circuit current (\(J_{SC}\)), open circuit voltage (\(V_{OC}\)), and power conversion efficiency (PCE). SCAPS-1D simulates the model and obtains the above parameters by computing three fundamental equations mentioned as Poisson equation (1), hole (2) and electron (3) continuity equation [8], which are shown below.
+
+\[\frac{d^{2}}{dx^{2}}\psi(x)=\frac{-q}{\epsilon}(p(x)-n(x)+N_{D}^{+}-N_{A}^{-}+ p_{t}(x)-n_{t}(x)) \tag{1}\]
+
+\[\frac{\partial p}{\partial t}=\frac{-1}{q}\frac{\partial J_{p}}{\partial x}+G_ {P}-R_{P} \tag{2}\]
+
+\[\frac{\partial n}{\partial t}=\frac{-1}{q}\frac{\partial J_{n}}{\partial x}+G _{N}-R_{N} \tag{3}\]
+
+where, \(\epsilon,G_{p},G_{n},q,\psi,N_{d}^{+},N_{a}^{-},p_{t}(x),n_{t}(x),p(x)\) and \(n(x)\), denote the material permittivity, hole generation rate, electron generation rate, electron charge, electrostatic potential, ionized donor concentrations, ionized acceptor concentrations, the concentration of trapped holes, the concentration of trapped electrons, concentration of free holes, and concentration of free electrons, respectively, with x denoting the direction along the thickness. The hole and electron current densities are denoted by \(J_{n}\) and \(J_{p}\) while the recombination rates are denoted by \(R_{n}\) and \(R_{p}\) respectively.
+
+Simulations have been done in Flat band mode in SCAPS-1D, and also, the series and shunt resistances are not initially considered for the simulation. In this simulation, we consider the defects to be neutral. There are two interfacial layers (IL) present in the proposed device, i.e.,i-Al\({}_{0.3}\)Ga\({}_{0.7}\)As/QD and i-GaAs/QD, which have been used to model the Quantum Dots. For both the layers, electron and hole capture cross-sections are taken as \(1.0\times 10^{-17}\)\(cm^{2}\) as \(1.0\times 10^{-17}\)\(cm^{2}\). A much thinner Quantum Dot layer is added, here CdTe, layer to simulate the higher density of the Quantum Dots at the interface between the interfacial layers. The governing equations implemented by SCAPS to simulate the effects of layer defects are highlighted in the numerical simulation section of [9].
+
+The solar cell structure and thicknesses of the layers and their doping densities have been discussed in Section III. The parameters for the simulation used in this investigation have been collected from literature and previously published work of the same nature [10][11].
+
+\begin{tabular}{|l|l|l|l|} \hline \multicolumn{4}{|c|}{List of Parameters} \\ \hline Parameters & Al\({}_{0.3}\)Ga\({}_{0.7}\)As & GaAs & CdTe \\ \hline \(E_{g}\)(eV) & \(1.798\) & \(1.420\) & \(1.040\) \\ \(\epsilon_{r}\) & \(12.048\) & \(12.400\) & \(12\) \\ \(\chi\)(eV) & \(3.740\) & \(4.070\) & \(4.300\) \\ \(\mu_{e}\)(cm\({}^{2}\)/Vs) & \(2.3\times 10^{3}\) & \(8.5\times 10^{3}\) & \(100\) \\ \(\mu_{h}\)(cm\({}^{2}\)/Vs) & \(145.6\) & \(400\) & \(25\) \\ \(N_{c}\)(cm\({}^{-3}\)) & \(6.5\times 10^{17}\) & \(4.7\times 10^{17}\) & \(1\times 10^{19}\) \\ \(N_{v}\)(cm\({}^{-3}\)) & \(7.1\times 10^{18}\) & \(7\times 10^{18}\) & \(1\times 10^{19}\) \\ \(v_{v,Th}\)(cm/s) & \(3.77\times 10^{5}\) & \(1.22\times 10^{7}\) & \(1\times 10^{7}\) \\ \(v_{v,Th}\)(cm/s) & \(1.65\times 10^{5}\) & \(1\times 10^{7}\) & \(1\times 10^{7}\) \\ \hline \end{tabular}
+For the CdTe defect in the i-Al\({}_{0.3}\)Ga\({}_{0.7}\)As and the i-GaAs layers, we modelled the capture cross-section of electrons and holes as \(1\times 10^{-17}\) cm\({}^{2}\) for both as no considerable change was there in the final efficiency of the cell. The refractive index and effective mass of electrons and holes were taken as \(2.7\), \(0.096\) and \(0.35\), respectively.
+
+We set the problem in SCAPS by making the structure as shown in the next section and using the input parameters mentioned above. We then selected the I-V action, set the voltage ramp from 0 to 1.5, and stopped the simulation once \(V_{OC}\) was reached. The illumination was simulated using the AM1.5G solar spectrum file in-built into SCAPS. The other software parameters are left as is, and the parameters to be studied were set up as batch values, after which the simulation was run.
+
+## III Device Structure
+
+The proposed device comprises an Intermediate Band Solar Cell with intermediate energy levels formed as a result of CdTe Quantum Dots embedded in Al\({}_{0.3}\)Ga\({}_{0.7}\)As/GaAs Quantum Wells on a p-Al\({}_{0.3}\)Ga\({}_{0.7}\) as shown in Fig. 1. Further an n-Al\({}_{0.3}\)Ga\({}_{0.7}\)As buffer layer is present which reduces the conduction band offset and allows for electron mobility further increasing performance. The DWELL (Dot in Well) consists of a monolayer of CdTe Quantum Dots sandwiched between Al\({}_{0.3}\)Ga\({}_{0.7}\)As and GaAs barriers. The large band gaps of Al\({}_{0.3}\)Ga\({}_{0.7}\)As (1.798 eV) and GaAs (1.42 eV) as compared to CdTe (1.04 eV) leads to confinement of electrons in CdTe provided the dots are below a critical confinement length. Due to their low cost and suitability in terms of photocurrent generation as mentioned before, CdTe have been used to implement this structure. To elucidate this Figure 2 depicts a comparative plot showing simulated Power Conversion Efficiency of the device as a function of the thickness of CdTe Quantum Dot.
+
+Clearly the plot depicts power conversion efficiency to keep increasing with the thickness of the CdTe layer, certain-paribus. A possible reason for the increase in the PCE is that by increasing the thickness of the CdTe layer the depletion width increases allowing for better photogenerated carrier separation along with more area for carrier generation. The competing negative effect of increasing thickness would be that the carriers would have to travel a longer distance but for this scale it may be negligible. Finally, a thin (150 nm) p-Al\({}_{0.3}\)Ga\({}_{0.7}\)As emitter layer is present to facilitate extraction of generated electrons. The thickness is kept low compared to other layers to reduce the recombination of electron-hole pairs within the cell and increase overall performance.
+
+## IV Band Structure
+
+When the solar cell is under no illumination, that is when the solar cell is in its unbiased condition, the band structure resembles Figure 3. The band structure follows the structure of the cell, with the bandgaps of the materials used in the cell governing the shape of the band diagram. Interestingly, the QD layer has a much smaller bandgap than the other layers, which makes it easier for the electron-hole pairs created due to impact ionization to contribute to the photocurrent generated.
+
+With every other parameter kept the same, the carrier concentration under no illumination resembles Fig. 4. Notably at a distance of 0.7 \(\mu\)m there
+
+Fig. 1: Structure of Proposed Device
+
+Fig. 3: Band Structure with no illumination
+
+Fig. 2: Power Conversion Efficiency vs Thickness of CdTe layer concentration of holes highlighting the CdTe quantum dots functioning as a strong hole injection layer (HIL) in addition to forming the basis of intermediate band energy levels. This is also reflected in Figure 4, wherein, at the same distance, the conduction band momentarily drops below the electron Fermi level, leading to the above phenomenon. The solar cell is not under steady state condition and the photovoltage generated due to the incident light is used to measure the open circuit voltage which can give us the fill factor (FF) and finally the efficiency of the working solar cell.
+
+## V Quantum Efficiency
+
+Figure 5 depicts the QE-Wavelength curve of the modelled IBSC. QE of a solar cell is defined by the ratio of photogenerated charge carriers and incident photons at a specific wavelength. For this study, the wavelength is varied from 300nm to 800nm and maximum is achieved quantum efficiency can be seen at wavelength of 670nm. Furthermore it is seen that the device implies a largely constant Quantum Efficiency of 75% in the visible light region making it suitable for use in this regime. In addition, large quantum efficiency in the 300nm-400nm region signifies the efficiency of photocarrier generation even for incident radiation belonging to the UV region, further improving the performance of the device. As the thickness of the emitter layer of p-Al\({}_{0.3}\)Ga\({}_{0.7}\)As is increased from 150 nm, the QE rises at longer wavelengths. In this manner based on the thickness of the layer the device may be optimized for use based on the available incident radiation. Additionally, for longer wavelengths of light, energy is not absorbed below the bandgaps, around 1.8 eV for Al\({}_{0.3}\)Ga\({}_{0.7}\)As, which causes it to rapidly drop to zero for wavelengths greater 800nm which corresponds to the band gap of the GaAs quantum dots (873 nm).
+
+## VI Impact of Temperature on Device performance
+
+All presented results have been evaluated at a testing temperature of 300K but in practice, the IBSC device's performance is influenced by temperature. To elucidate this, the simulated model's temperature ranged from 300 K to 450 K to analyse how temperature affects a solar cell's electrical performance. Figure 6 shows the temperature-related changes in the PCE. The efficiency of the simulated device is seen to decline with temperature, reaching 18.6% at 450 K. Practical application would require the device to function at a maximum of 373K (100C) at which the measured PCE is 22%.The deterioration in performance with temperature may be due to the fact that speed of holes and electrons increase, and photo-generated charge carriers undergo collissions with lattice sites. These elements affect the charge carrier lifespan and recombination rates, which have an adverse effect on PCE.
+
+## VII Effect of Series Resistance
+
+The series resistance (Rs) significantly affects the overall performance of a solar cell. To probe this, J-V curves were determined as a function of series resistance(Rs) from 1\(\Omega\) to 5\(\Omega\). Clearly, there is almost no variation in the \(J_{SC}\) while for a significantly large Rs, the \(V_{OC}\) changes slightly due to optical transmission loss and solder bond degradation. This increase in \(V_{OC}\) causes the FF to fall largely linearly.
+
+To quantify this Figure 8 shows the fill factor variation as a function of series resistance(Rs) from 0\(\Omega\) to 10\(\Omega\).
+
+We obtained the highest FF of 86.7% at 0\(\Omega\) and the lowest FF of 73.3% for 10\(\Omega\). The existence of Rs in the cell opposes
+
+Fig. 4: Carrier Concentration under no illumination
+
+Fig. 5: Quantum Efficiency of the Proposed Device
+
+Fig. 6: Effect of Temperaturethe electric energy to flow and so the performance of a solar cell deteriorates. We have performed our simulation under \(0\Omega\) value to get the highest efficiency possible.
+
+## VIII Effect of QD Defect Density
+
+The device's conductivity increases as the quantum dot defect density increases. However, once it reaches a threshold value, the dots contribute significantly to scattering within the lattice due to Auger processes and reducing the number of electron-hole pairs that could have been generated in their place. This then causes degradation in the mobility hence reducing PCE.
+
+## IX Conclusion
+
+Our study represents a significant step forward in the development of high-efficiency photovoltaic devices through the integration of CdTe Quantum Dots embedded in Al0.3Ga0.7As/GaAs Quantum Wells. Leveraging the unique properties of quantum confinement, we have successfully demonstrated the potential of Intermediate Band Solar Cells (IBSCs) to surpass traditional photovoltaic efficiency limits, while maintaining its nano-scale size.
+
+Our findings reveal that the strategic embedding of quantum dots within quantum wells can effectively create intermediate energy levels, serving as a hole injection layer that dramatically enhances quantum efficiency. The optimized device configuration for our proposed structure yielded a remarkable power conversion efficiency of 31.8%, with quantum efficiency (QE) reaching 80% across the visible spectrum, an open-circuit voltage V\({}_{OC}\) of 1.36V, and a fill factor (FF) in the range of 77%-85% under normal operating conditions. This is relatively simple as compared to other structures that give the same efficiency. Keep in mind that these properties for such a small device can see a lot of applications as sensors or photodetectors, where sophisticated and tiny devices are required. Quantum dot solar cells are flexible as well and with the ability to tune the bandgap, it can be used as photodetector for many different and difficult scenarios.
+
+Our research also highlights the importance of intermediate-band solar cells in overcoming the efficiency constraints posed by single-junction solar cells. By providing a path to harness higher energy photons more effectively, IBSCs can significantly reduce the solar space required for energy production, paving the way for more compact and efficient solar panels. This advancement could have profound implications for both commercial and residential applications, making solar energy more accessible and sustainable. Future research can focus on fabricating and characterizing the solar cell.
+
+## References
+
+* [1] M. V. Dambhare, B. Butey, and S. V. Moharli, "Solar photovoltaic technology: A review of different types of solar cells and its future trends," _Journal of Physics: Conference Series_, vol. 1913, no. 1, p. 012053, May 2021. [Online]. Available: [https://iopscience.iop.org/article/10.1087/142-6590191/1/012053/meta](https://iopscience.iop.org/article/10.1087/142-6590191/1/012053/meta)
+* [2] ser. Springer series in photonics, vol. 12. Springer Berlin Heidelberg, 2006, dOI: 10.1007/137807. [Online]. Available: [http://link.springer.com/10.1007/137807](http://link.springer.com/10.1007/137807)
+* [3] A. J. Novik, "Quantum dot solar cells," _Physica E: Low-dimensional Systems and Nanostructures_, vol. 14, no. 1, p. 115-120, Apr. 2002. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/S1369477003740](https://www.sciencedirect.com/science/article/pii/S1369477003740)
+* [4] S. Aashi, T. Reraishi, N. Kasamatsu, T. Kada, T. Kaina, and T. Kita, "Saturable two-step photocurrent generation in intermediate-band solar cells including inas quantum dots embedded in al0.3ga0.7," _as/as/quantum wells," _IEEE Journal of Photovoltaics_, vol. 6, no. 2, p. 465-472, Mar. 2016. [Online]. Available: [https://ieeexplore.ieee.org/document/7360110](https://ieeexplore.ieee.org/document/7360110)
+
+Fig. 8: FF vs Rs
+
+Fig. 7: J-V Curve
+
+Fig. 9: Power Conversion Efficiency vs Defect Density curve * [5] T. Sogabe, Y. Shoji, N. Miyashita, D. J. Farrell, K. Shiba, H.-F. Hong, and Y. Okada, "High-efficiency mass/gas quantum dot intermediate band solar cell achieved through current constraint engineering," _Next Materials_, vol. 1, no. 2, p. 100013, Jun. 2023. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/929942823000138](https://www.sciencedirect.com/science/article/pii/929942823000138)
+* [6] G. Yang, W. Liu, Y. Bao, X. Chen, C. Ji, B. Wei, F. Yang, and X. Wang, "Performance optimization of in/gas quantum dot intermediate band solar cells," _Discovery Nano_, vol. 18, no. 1, Dec. 2023. [Online]. Available: [https://www.ncbi.nlm.nih.gov/pm/articles/PMC10049974/](https://www.ncbi.nlm.nih.gov/pm/articles/PMC10049974/)
+* [7] D. Jha, A. Dixit, A. Sushmutha, and P. K. Patel, "Optical simulations and optimization of highly efficient gaas based quantum dot solar cell," _Optics Communications_, vol. 523, p. 128717, Nov. 2022. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/S0030482004679](https://www.sciencedirect.com/science/article/pii/S0030482004679)
+* [8] P. K. Patel, "Device simulation of highly efficient eco-friendly ch3ah3snai3 perovskite solar cell," _Scientific Reports_, vol. 11, no. 1, p. 3082, Feb. 2021. [Online]. Available: [https://www.nature.com/articles/s41598-021-2817-w](https://www.nature.com/articles/s41598-021-2817-w)
+* [9] S. a. Khelifi, M. Blal, R. Dabou, A. Ziane, A. Rouabiabi, S. Lachtar, M. Montefau, A. Neguisha, A. Bourinou, A. Slimani, and B. Tidjar, "The effect of two intermediate band energy levels in zinc solar cell," _Physica B: Condensed Matter_, vol. 647, p. 414362, Dec. 2022. [Online]. Available: [https://www.sciencedirect.com/science/article/pii/S0921452632006470](https://www.sciencedirect.com/science/article/pii/S0921452632006470)
+* [10] M. Levinshtein, S. Rumyantsev, and M. Slur, _Handbook Series on Semiconductor Parameters: Volume 1: Si, Ge, C (Diamond), GaAs, GaG, GaN, Inds._, Int. Eng. NORD. DC SCIENTIFIC, Nov. 1996, vol. 1. [Online]. Available: [https://www.workdscientific.com/workdscibos/10](https://www.workdscientific.com/workdscibos/10). 114272046-well
+* [11] C.-H. Su, "Energy band gap, intrinsic carrier concentration, and fermi level of cde bulk crystal between 304 and 1067k," _Journal of Applied Physics_, vol. 103, no. 8, p. 084903, Apr. 2008. [Online]. Available: [https://pubs.aag.org/jap/article/103/8084903/928945/Energy-band-gap-intrinsic-carrier-concentration](https://pubs.aag.org/jap/article/103/8084903/928945/Energy-band-gap-intrinsic-carrier-concentration)

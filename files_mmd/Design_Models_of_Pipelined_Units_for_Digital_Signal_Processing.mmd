@@ -1,0 +1,167 @@
+# Design Models of Pipelined Units
+
+for Digital Signal Processing
+
+Iryna Hahanova, Yaroslav Miroshnychenko, Irina Pobegenko, Oleksandr Savvutin
+
+Authorized licensed use limited to: University of Durham, Downloaded on January 29,2025 at 13:22:07 UTC from IEEE Xplore. Restrictions apply.
+
+###### Abstract
+
+In this paper the architectural models of pipelined computing units with system-level description, those essentially decrease the design cycle for digital signal processing products, are offered. Practical realization of the filter, that confirms developed design flow effectiveness with software products Simulink (Mathlab) and Active HDL, Aldec Inc., is given.
+
+_Keywords - pipelined computing unit, digital signal processing, finite state machine, digital image processing._
+
+## I Introduction
+
+Popularity of specialized digital products on the market in comparison with multipurpose computers is defined by: high performance in functionalities and operations execution, low power consumption and cost, parallel computational procedures on large size registers. Specialized devices, those are belong to DSP (Digital Signal Processing) group, are very popular due to their mass usage for tasks of image transmission in mobile communications by Wi-Fi, Wi-Max, UWB, RFID protocols. For the speed increase in DSP it is common to use a pipelined architecture, which allows to process big input data flows. Thus, it is necessary to have a tool, which could design a pipeline, could distribute its functions by time, could perform detailing of information transfer between cycles, could track the current pipeline state and could generate control signals.
+
+Goal - essential decrease (by 30-70%) of DSP specialized pipelined units design cycle, by means of creation new architectural system-level model by given specification.
+
+To reach the formulated goal it is necessary to solve the next tasks: 1) development of the architectural system-level description model for the pipelined computing unit; 2) development of the modified finite state machine model to control the process of pipelining; 3) creation of the model for the automatic generation of VHDL code for the control unit; 4) models testing and verification.
+
+Article structure: 1) review of models, those are used to represent specialized pipelined systems for the digital data processing; 2) description of pipelined device macro-automaton model; 3) example of macro-automaton model of 2D pass digital image processing; 4) model of the process of control unit macro model transformation to synthesized RTL VHDL code; 5) assessment of the pipelined device design cycle time parameters.
+
+## II Models of Pipelined Systems for DSP
+
+Pipelined computing unit (PCU) is CU, that executes one or several periodic algorithms on the input data flow, where in the one cycle it is processed several data chunks, situated on the different process stages [1]. For the pipeline data processing there are exist several approaches, listed below.
+
+1. Data-flow graph (DFG) proposes generalized model of data flow processing algorithm, where the graph nodes (actors) correspond to the particular computational processes, and the graph edges correspond to the communication buses between them. At that, an edge corresponds to FIFO buffer, which delays data flow transmission for defined number of receiver process starting cycles. Actor executes after the moment, when its inputs have information, which is ready to processing. Input data flow can be infinite, but there are two constraints in place: depth of any FIFO buffer is finite and the algorithm executes in such way, that buffers is never empty. Those constraints are called DFG model consistency constraints. When we have a consistent DFG, it is possible to make a formal transform of model to hardware or software implementation, that works in pipeline mode with minimized buffer memory capacity [2].
+
+2. Synchronous data-flow graph (SDFG) is a simple and the most commonly used model of data processing algorithm. SDFG in contrast to DFG, has a constant data size, that is issued by the one from actors to its output and is received to its input during each run. Therefore, in SDFG every edge has two additional attributes: amount of data, that is transmitted to the edge by the actor-source and amount of data, that is received by input of the actor-receiver during each its run. Thanks to such constraints, it is significantly easier to perform SDFG model consistency check and to find its effective representation into hardware [1,2].
+
+3. Signal graph or signal-flow graph is frequently used for signal processing algorithm definition. Transfer function of processing system expresses with Z-transform, so it in a formal way transforms into the CU structural model for signal processing or into the signal graph [1,3]. For example, transfer function
+
+\[\text{H}(\text{Z})=(1+\text{Z}^{-1})/1+\text{Z}^{-1}\cdot\text{Z}^{-2})\]
+
+transforms into signal graph on Fig.1. Operator \(\text{Z}^{\pm}\) corresponds to delay for k iterations.
+
+Described approaches allow define algorithm work, but do not give information about design components and how to control them upon process of functioning. They also do not allow creation of the device architecture in the form of operational and control automatons.
+
+4. Models, those represent pipeline working process in multidimensional space [1]. They allow describe in detail pipeline work in space and perform its optimization. Though,
+
+[MISSING_PAGE_FAIL:2]
+
+[MISSING_PAGE_FAIL:3]
+
+For the testing process in Matlab it was created script, that simulates work of the pass and generates standard output sequences. Then, the same test was fed to the device model in Simulink, and the test results were compared to the standard ones.
+
+## V Transformation Process of Control Unit Macromodel into Synthesized RTL VHDL Code.
+
+All control unit parameters, those are shown on Fig. 8, presented in Table 1, so it is easy to create a VHDL model, based on it.
+
+Constant values raw_image_size and column_image_size are transformed to generics in VHDL. Counters capacity is calculated, basing on raw_image_size and column image_size values [5].
+
+generate ( raw_image_size:integer=256;
+
+column_image_size:integer=256;
+
+count_size: integer=8);
+
+Unit contain ports: clock enable input 'Enable1', clock input 'clk' and reset input. Output ports are defined by control unit output functions.
+
+port( Enable : in STD_LOGIC;
+
+Clk, reset : in STD_LOGIC;
+
+First : out STD_LOGIC;
+
+Last : out STD_LOGIC;
+
+Enabled : out STD_LOGIC );
+
+Every counter is implemented with a standalone process operator [6]. For example, process for 'count1' counter looks like that:
+
+cnt1: process(reset, enable, clk)
+
+begin
+
+if reset=1' then
+
+\begin{tabular}{|c|c|c|} \hline
+**Constants** & & \\ \hline raw  image  size & Number of rows & \\ \hline column  image  size & Number of columns & \\ \hline
+**Counters** & & \\ \hline Number & 2 & \\ \hline count1 & & \\ \hline Initial state & 0 & \\ \hline Range & 1 & raw  image  size+1 & \\ \hline Control signals & enable & external input & comb. \\ \hline count2 & & \\ \hline Initial state & 0 & \\ \hline Range & 0 & max & \\ \hline Control signals & enable & count1-raw_image  size+1 & reg. \\ \hline
+**Output functions** & & \\ \hline first & if (count2==2) first=1 & comb. \\ \cline{2-2} & else first=0 & \\ \hline last & if count2==(column_image_size+1) last=1 & comb. \\ \cline{2-2} & else last=0 & \\ \hline enable1 & if(count2>1)k(count2<=column_image_si & comb. \\ \cline{2-2} & ze+1) enable1=1 & \\ \cline{2-2} & elseif & \\ \hline \end{tabular}
+
+\begin{tabular}{|l|} \hline  & (count2==(column_image_size+2))\&(cou \\ nt1==1) enable1=1 \\ else y=0 \\ \hline \end{tabular}
+
+Process and control signal (enable_cnt2) generation for the second counter:
+
+cnt2: process(reset, enable_cnt2, clk, count1)
+
+begin
+* if reset=1' then
+* count2 \(\sim\) (others=\(>\)'0');
+* elisf clk="1'and clk'event then
+* if enable cnt2=1' then
+* if CONV_INTEGER(count1)=raw_image_size+1 then
+* count2 \(\sim\) count2 +1;
+* end if;
+* end if;
+* end process;
+* en_cnt2: process(reset, clk)
+* begin
+* if reset=1' then
+* enable cnt2 \(\sim\) = '0';
+* elisf clk="1'and clk'event then if
+* CONV_INTEGER(count1)=raw_image_size+1 then
+* enable cnt2\(\sim\)\(\sim\)\(\sim\)1';
+* end if;
+* end if;
+* end if;
+* end process;
+
+Combinational output functions of UCU could be implemented in VHDL with help of the concurrent case statements:
+
+first \(\sim\)' when count2=x"02"
+
+else '0';
+* last \(\sim\)'1' when
+* CONV_INTEGER (count2)=(column_image_size+1)
+* else '0';
+* enable1 \(\sim\) '1' when (CONV_INTEGER(count2)>1)and
+* CONV_INTEGER(count2)=column_image_size+1)
+* else '1' when
+* (CONV_INTEGER(count2)=(column_image_size+2)) and
+* (count1=x"01")
+* else '0';
+
+In case of register unit outputs, maximum allowable work frequency of the device will be increased. Thanks to the fact, that every construction in Table 1, which describes particular characteristic of CU, has corresponding construction in VHDL, we can implement automated generation of the VHDL model.
+
+## VI Conclusion
+
+Scientific novelty is in offered architectural system-level models of pipelined devices for digital data processing, those make automatic VHDL-code generation by the device specification considerably easier.
+
+Practical significance is in essential decrease (by 30-70%) of design cycle of digital signal processing pipelined device, by means of preliminary development of its architectural system-level model by the given specification.
+
+Advantages of the offered hierarchical design models:
+
+1) device's system description clearness in the architectural form and the possibility of simulation of its behavior up to RTL model creation in HDL;
+
+2) technological effectiveness in VHDL code creation, simplicity of testing, diagnosis and fixing of data transmission or control signals generation errors, that is essentially simplifies design process and reduces development time for pipelined computing units.
+
+## References
+
+* [1] A. M. Sergienko. VHDL. for computing units design. K.: PP Korneychuk. 2003. 208 p.
+* [2] E. A. Lee, D. G. Messerschmitt. Calculations with synchronous data flows. TIIER. 1987. Book 75. N99. pp.107-119
+* [3] S. K. Rao, T. Kaylat. Regular iterative algorithms and their implementation on processing matrices. TIIER. 1988. Book 76. N3. pp.58-69.
+* [4] Steven W. Smith. The Scientist and Engineer's Guide to Digital Signal Processing. California Technical Publishing. San Diego. California. 1997. 645 p.
+* [5] Ashenden, Peter J. The designer's guide to VHDL. San Francisco: Morgan Kaufmann Publishers. 1996. 688 p.
+* [6] Bhasker, J. A VHDL. Synthesis Primer. Allentown: Star Galaxy Publishing. 1998. 296 p.
+* [7] Reviewer: ScD, professor G. F. Krivoulya.
+
+Iryna Hahanova - person, working for doctor's degree, DAD Department, Kharkiv National University of Radio Electronics (KNURE), 14, Lenina ave, Kharkiv, 61166, UKRAINE
+
+E-mail: hahanova@mail.ru
+
+Yaroslav Miroshnychenko - engineer, DAD Department, KNURE.
+
+E-mail: miroshnychenko@kture.kharkov.ua
+
+Iryna Pobegenko - PhD student, DAD Department, KNURE.
+
+E-mail: irina.pob@ukr.net
+
+Oleksandr Savvutin - 4\({}^{\text{th}}\) course student, KNURE.
+
+E-mail: alex-svx@mail.ru

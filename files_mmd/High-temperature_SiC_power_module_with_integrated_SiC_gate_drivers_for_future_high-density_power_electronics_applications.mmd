@@ -1,0 +1,140 @@
+High-Temperature SiC Power Module with Integrated SiC Gate Drivers for Future High-Density Power Electronics Applications
+
+Bret Whitaker, Zach Cole,
+
+Brandon Passmore, Daniel
+
+Martin, Ty McNutt, and
+
+Alex Lostetter
+
+Arkansas Power Electronics Intl. Inc.
+
+Fayetteville, AR
+
+M. Nance Ericson, S. Shane
+
+Frank, Charles L. Britton, and
+
+Laura D. Marlino
+
+Oak Ridge National Laboratory
+
+Oak Ridge, TN
+
+Alan Mantooth, Matt Francis,
+
+Ranjan Lamichhane, Paul
+
+Shepherd, and Michael Glover
+
+University of Arkansas
+
+Fayetteville, AR
+
+###### Abstract
+
+This paper presents the testing results of an all-silicon carbide (SiC) intelligent power module (IPM) for use in future high-density power electronics applications. The IPM has high-temperature capability and contains both SiC power devices and SiC gate driver integrated circuits (ICs). The high-temperature capability of the SiC gate driver ICs allows for them to be packaged into the power module and be located physically close to the power devices. This provides a distinct advantage by reducing the gate driver loop inductance, which promotes high-frequency operation, while also reducing the overall volume of the system through higher levels of integration. The power module was tested in a bridgeless-boost converter to showcase the performance of the module in a system level application. The converter was initially operated with a switching frequency of 200 kHz with a peak output power of approximately 5 kW. The efficiency of the converter was then evaluated experimentally and optimized by increasing the overdrive voltage on the SiC gate driver ICs. Overall a peak efficiency of 97.7% was measured at 3.0 kW output. The converter's switching frequency was then increased to 500 kHz to prove the high-frequency capability of the power module. With no further optimization of components, the converter was able to operate under these conditions and showed a peak efficiency of 95.0% at an output power of 2.1 kW.
+
+ Silicon Carbide, Power Module, Power Electronics +
+Footnote †: publication: AIPR-14799-5493-3/14/$31.00 ©2014 IEEE
+
+## I Introduction
+
+The growing number of electronic devices in mobile systems, such as electric vehicles (EV) and plug-in hybrid electric vehicles (PHEV), increases the demand for power electronics on-board the vehicles. High-density power electronics are required to accommodate the electrical demand while minimizing the impact on the vehicle. One method for achieving high-density power electronics is through high-frequency operation. This allows for a reduction in the size of magnetic components, such as inductors and transformers, as well as passive filtering components, such as capacitors. A second method for densification is by operating the system at elevated temperatures. The size and or complexity of the thermal management system, in most cases a heat sink, can be minimized if the circuitry can operate at higher temperatures. Also, the need for water chiller plate cooling can be eliminated. A third method for volume reduction can be found through high levels of integration for integrated circuits (ICs), power modules, and system level packaging. In order to maximize these effects and minimize converter volume, high-frequency and high-temperature capable components with high levels of integration are required.
+
+Silicon carbide (SiC) is a semiconductor material that can operate efficiently in high-temperature environments [1] and at high switching frequencies [2]. These properties make SiC devices ideal for high-density applications. SiC power devices are widely commercially available and are being researched for use in high-performance power electronic systems [2, 3, 4, 5, 6]. An example of the volume reduction that can be achieved by using SiC power devices is shown in Fig. 1 where a prototype on-board battery charger [6] is compared to a commercial on-board charger that is installed in the 2010 model Toyota Prius Plug-In Hybrid. The prototype on-board battery charger, which was designed under the same project as the work presented here, showed very high-density, however, it utilized silicon gate driver ICs. Unlike the SiC power devices which are capable of 225 \({}^{\circ}\)C, the commercial silicon gate driver ICs can
+
+Fig. 1: Size comparison of 6 kW APEI, Inc. prototype charger to 2.8 kW 2010 model Toyota Prius Plug-In Hybrid battery charger.
+
+only operate at 125 \({}^{\circ}\)C. The lower operating temperature of the gate driver ICs required them to be located on a separate board above the power module. Ultimately this reduced the performance of the gate driver circuit by adding inductance to the gate loop while also increasing the volume of the system.
+
+A high-temperature capable, high-performance gate driver will allow for further densification of power electronic systems. These devices would enable a new breed of intelligent power module (IPM) that would contain both the power devices as well as the gate driver ICs on the same substrate in close physical proximity. Such an IPM would reduce the size of the overall system by increasing the level of integration while also providing critical electrical advantages. The close proximity of the gate driver ICs to the power devices would provide the lowest gate loop inductance and maximize the switching performance of the power devices. To realize an IPM such as this requires a high-temperature capable gate driver with the voltage and current capability required to efficiently drive SiC power devices.
+
+This paper presents an IPM that utilizes a SiC gate driver to achieve a highly integrated, all SiC solution. The IPM is developed and then tested in a bridgeless-boost converter. The operation of the IPM is verified and an optimized efficiency of 97.7% was measured at a switching frequency of 200 kHz and an output power of 3.0 kW. The limits of the IPM were then pushed and the converter was operated at a switching frequency of 500 kHz where a peak efficiency of 95.0% was measured.
+
+## II SiC Gate Driver Integrated Power Module
+
+### _SiC Gate Driver_
+
+The SiC gate driver utilized in this work was fabricated in a 2-\(\upmu\)m 4H-SiC process selected to enable future die level integration with a SiC power MOSFET. Limitations in this power device optimized process restricted the devices available for use in the gate driver circuit to n-channel MOSFETs and resistors. The simplified driver architecture is shown in Fig. 2 and is the second generation of a previously reported gate driver [7]. The input uses four inverter stages (X\({}_{1}\)-X\({}_{4}\)) to amplify the 5V logic-level input signal to sufficient levels for the output stage buffers (X\({}_{5}\) and X\({}_{6}\)). The tope output stage is composed of an n-channel pull-down device (M\({}_{\text{PD}}\)) and a source follower pull-up device (M\({}_{\text{PD}}\)), sized to sink and source the high-currents required for high-frequency switching of a power SiC MOSFET. The use of multiple supplies enabled the optimization of each of the primary functional blocks. The gate driver output rise time was improved by overdriving the gate of the output source follower stage, facilitated by a separate connection to of the power supply to X\({}_{6}\) (V\({}_{\text{dd-OD}}\)). The output voltage level of the circuit is defined by the voltage rail of the output pull-up device (V\({}_{\text{dd-OS}}\)). A significant improvement in the output rise time was obtained by connecting the source and body of the output stage pull-up device, thus minimizing the associated body effect. Since an n-well process was used for this work, isolation of the pull-up device body from the negative rail required use of a separate body-isolated MPU device die to implement the necessary source-body connection.
+
+### _Power Module_
+
+The SiC gate drivers were packaged into a full bridge power module designed specifically for high-frequency and high-temperature operation [8]. The IPM uses a high-temperature PCB that is attached directly to the power substrate. This PCB contains high-frequency capacitors as well as power and signal connection points for the IPM. The location of the capacitors minimizes the loop inductance in the power path which in turn maximizes the switching performance of the module. By placing the capacitors directly on the module almost all voltage overshoot associated with switching events is eliminated. The original prototype, dubbed the X-5 which did not contain gate drivers, was modified slightly to accommodate the additional die area needed for the SiC gate drivers on the substrate. It was also further optimized to maximize the thermal and electrical performance of the integrated system. The two high-side quadrants (Q\({}_{1}\) and Q\({}_{2}\)) are populated with a single 20 A SiC Schottky diode per position. The two low-side quadrants (Q\({}_{3}\) and Q\({}_{4}\)) contain two parallel SiC MOSFETs and one antiparallel 20 A SiC Schottky diode per position. The IPM is shown in Fig. 3.
+
+## III Boost Converter
+
+The X-5 power module with integrated SiC gate drivers was designed specifically for use in a bridgeless-boost converter. This topology is popular for grid-connected active
+
+Fig. 3: IPM with integrated SiC gate drivers and local high-frequency bypass capacitors.
+
+Fig. 2: Simplified gate driver architecture and connection to power MOSFET.
+
+rectifiers where high power quality is required. This topology can implement power factor correction (PFC) to minimize grid current harmonic content and make the load appear resistive. The circuit schematic for a bridgeless-boost converter is shown in Fig. 4. Through the addition of MOSFETs to Q\({}_{1}\) and Q\({}_{2}\), the topology is capable of bi-directional power conversion which can be utilized in future charger applications.
+
+The selection of the bridgeless-boost topology was based on the previously designed prototype on-board battery charger that utilized silicon gate drivers [6]. The bridgeless-boost converter in the prototype charger represented the first power stage of a two stage system. This topology was selected to demonstrate the SiC gate drivers because it was deemed the lowest risk of the two stages used by the prototype charger because it requires half the number of active switch positions. Additionally this topology is hard-switched and the performance of the gate drivers was thought to provide a larger impact on the converter's switching loss and therefore overall efficiency.
+
+The power stage was designed to replicate that in the prototype on-board charger. The same power devices, in both part number and quantity, were used and the power module packaging was very similar. The unipolar control scheme was utilized along with the same coupled inductors that share a common core. One slight difference is this hardware utilized a smaller DC-link capacitor because testing was only performed with DC operating points. Because it was only tested at DC the high capacitance required on the DC-link of the previous converter was not necessary. A summary of the power stage design components and design parameters is given in Table 1. The bridgeless-boost converter using the modified X-5 power module with integrated SiC gate drivers was fabricated on a heat sink and is shown in Fig 5. The circuit board that is placed on top of the modified X-5 power module is responsible for galvanic signal isolation and provides convenient pin headers to receive logic level gate driver commands.
+
+## IV Experimental Results
+
+### _Basic Operation_
+
+The converter was tested by applying a DC input voltage and \(\mathrm{S_{t}}\) was held on to conduct current. This emulates operation under a positive half cycle of an AC input voltage. The duty cycle was selected to boost 240 V up to 350 V. The converter was first operated under these conditions at a switching frequency of 200 kHz. The initial testing was performed with all power rails of the gate driver (\(\mathrm{V_{da\text{-}1}}\), \(\mathrm{V_{da\text{-}0}}\), and \(\mathrm{V_{da\text{-}0}}\)) connected to a common 20 V from an external power supply. The ground for the gate driver was connected to a second external power supply that biased \(\mathrm{V_{us}}\) to -4 V relative to the common sources of \(\mathrm{S_{3}}\) and \(\mathrm{S_{4}}\). The gate drivers apply 20 V to the gate of the MOSFET to turn on and -4 V to the gate to turn the MOSFET off. Waveforms highlighting the operation of the converter are shown in Fig. 6.
+
+### _Operation with Various \(\mathrm{V_{da\text{-}0}}\) Voltages_
+
+The performance of the gate driver with increased \(\mathrm{V_{da\text{-}0}}\) voltages was then tested to optimize the overall system performance. The converter was operated with an input voltage of 240 V, a fixed switching frequency of 200 kHz, a fixed duty cycle, and a load of 24 \(\Omega\). For this test \(\mathrm{V_{da\text{-}1}}\), \(\mathrm{V_{da\text{-}1}}\) and \(\mathrm{V_{da\text{-}0}}\)s were connected to a common 20 V supply and the ground of the gate driver was again biased to 4 V below the common sources of \(\mathrm{S_{3}}\) and \(\mathrm{S_{4}}\). \(\mathrm{V_{da\text{-}0}}\) was initially set to 20 V and then linearly increased to 30 V. It is important to note that changing \(\mathrm{V_{da\text{-}0}}\) does not change the voltage applied to the power MOSFET gate, it only affects the gate driver buffer stage. During this sweep of \(\mathrm{V_{da\text{-}0}}\), the fall time of \(\mathrm{V_{da\text{-}3}}\) was measured from 90% to 10% of the steady state voltages. These turn-on times for \(\mathrm{S_{3}}\) are plotted in Fig. 7. Since turn-on loss is a function of the fall time, it is shown that higher \(\mathrm{V_{da\text{-}0}}\) decreases the turn on loss in the power MOSFET.
+
+To illustrate the effect of \(\mathrm{V_{da\text{-}0}}\), the output power level of the converter was swept by adjusting the load resistance and the efficiency of the converter was measured from approximately 1 kW up to nearly 5 kW output power. The sweeps were performed under the same previously used conditions for \(\mathrm{V_{da\text{-}1}}\), \(\mathrm{V_{da\text{-}1}}\), \(\mathrm{V_{da\text{-}0}}\)s, and \(\mathrm{V_{w}}\). Full power sweeps were conducted for \(\mathrm{V_{da\text{-}0}}\) equal to 20 V, 24 V, and 28 V. Overall a peak efficiency of 97.7% was found at 3.0 kW with \(\mathrm{V_{da\text{-}0}}\) equal to 28 V and is shown in Fig. 8.
+
+### _Higher Frequency Operation_
+
+The converter was then operated at a higher switching frequency to push the limits of the SiC gate drivers. This testing was performed in the same way as the previous testing
+
+Fig. 4: Bridgeless-boost converter power factor correction circuit schematic.
+
+Fig. 5: Bridgeless-boost converter utilizing X-5 power module with integrated SiC gate drivers.
+
+at lower switching frequencies. The SiC gate driver power rails were again connected to a common 20 V power supply and V\({}_{\text{ss}}\) was again biased to -4 V. The operation of the converter was first verified with V\({}_{\text{abs-OD}}\) set to 20 V. Waveforms showing converter operation at 500 kHz are shown in Fig. 9.
+
+The resistive load was then adjusted to perform power sweeps at the increased frequency. V\({}_{\text{abs-OD}}\) was initially set to 20 V but then was increased to a maximum of 25 V. Power loss in the gate driver prevented testing at higher voltages. Full power sweeps were completed at both the 20 V and 25 V conditions. A peak efficiency under the 500 kHz condition was found to be 95.0% at a power level of 2.1 kW. These efficiency results are shown in Fig. 10.
+
+## V Conclusion
+
+In this work an all SiC intelligent power module was presented as a solution for future high-density power electronics applications. The IPM contained both SiC power devices and SiC gate driver ICs and was designed to optimize the performance of both devices. The IPM was tested in a power electronics converter to demonstration the functionality of the module and to measure the performance of the full system. A bridgeless-boost converter was built and shown to operate as expected with DC input and output voltages with a switching frequency of 200 kHz. The efficiency of converter was measured and improved through an optimization of the overdrive voltage of the gate driver ICs. It was found that increasing this voltage improved the turn-on time of the MOSFETs and reduced the switching losses of the converter. An overall peak efficiency of 97.7% was measured at an output power level of 2.9 kW when switching at 200 kHz.
+
+The performance of the IPM under increased stress was then evaluated by testing the converter at an increased frequency. The switching frequency was increased to 500 kHz and the converter was again found to operate properly. For this condition a peak efficiency of 95.0% was found at an output power level of 2.1 kW. The overdrive voltage corresponding to the peak efficiency was found to be 25 V. The overall efficiency for this case was found to be much lower than the 200 kHz case due to increased switching losses for the converter.
+
+Overall this work proved the feasibility of an all SiC IPM and demonstrated its operation under realistic conditions in a power converter. Future improvements for the IPM could be made with an improved SiC gate driver manufacturing process that would allow for a CMOS output buffer stage. Additional future work could see the integration of the SiC gate driver onto the same die as the power device.
+
+## Disclaimer
+
+The information, data, or work presented herein was funded in part by an agency of the United States Government. Neither the United States Government nor any agency thereof, nor any of their employees, makes any warranty, express or implied, or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, or represents that its use would not infringe privately owned rights. Reference herein to any specific commercial product, process, or service by trade name, trademark, manufacturer, or otherwise does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or any agency thereof. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or any agency thereof.
+
+## References
+
+* [1] T. Funaki, J. C. Balda, J. Junghans, A. S. Kashyap, H. A. Mantooth, F. Barlow, T. Kimoto and T. Hikihara (2007-04) Power conversion with SiC devices at extremely high ambient temperatures. IEEE Trans. Power Electron.22 (4), pp. 1321-1329. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [2] A. M. Abou-Alfotouh, A. V. Radun, H. Chang, and C. Winterhalter (2006-01) A 1-MHz hard-switched silicon carbide DC-DC converter. IEEE Trans. Power Electron.21 (4), pp. 880-889. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [3] B. Bortig, D. Kolar J. W. A. (2014-05) A 120\({}^{\circ}\)C ambient temperature forced air-cooled normally-off SiC JFET automotive inverter system. IEEE Trans. Power Electron.29 (5), pp. 2345-2358. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [4] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. Barkley, S. Whitaker, Z. Cole, Z. Passmore, B. Lostetter, A. A 4H silicon carbide gate buffer for integrated systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [5] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. Barkley, S. Whitaker, Z. Cole, Z. Passmore, B. Lostetter, A. A 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [6] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. Barkley, S. Whitaker, Z. Cole, Z. Passmore, B. Lostetter, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [7] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. Barkley, S. Whitaker, Z. Cole, Z. Passmore, B. Lostetter, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [8] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [9] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [10] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [11] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [12] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, M. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [13] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [14] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [15] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, M. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [16] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [17] N. Eriksson, S. Frank, S. Britton, C. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [18] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, M. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [19] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [20] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [21] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon carbide gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [22] N. Eriksson, S. Frank, C. Britton, L. Marlino, S. Si-Hyung Ryu, D. Mantooth, A. Francis, M. Lamichane, R. Mudholkar, S. Shepherd, P. Glover, M. Valle-Mayorga, J. McNutt, A. 4H silicon nitride gate buffer for integrated power systems. IEEE Trans. Power Electron.29 (2), pp. 539-542. External Links: Document, ISSN 1558-7201 Cited by: SSI.
+* [23] N. Eriksson, S. Frank, C. Britton, L. Marlino
