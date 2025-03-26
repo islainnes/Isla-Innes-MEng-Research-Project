@@ -7,15 +7,19 @@ import os
 from autogen import config_list_from_json, AssistantAgent, UserProxyAgent, Cache
 from functools import lru_cache
 import gc
-from database_extract import load_faiss_index, query_similar_papers, get_paper_context
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 import tempfile
 from huggingface_hub import login
 from dotenv import load_dotenv
+import requests
+from typing import Dict, Optional
+import re
 
 # Clear CUDA cache and set PyTorch memory management
 torch.cuda.empty_cache()
-torch.backends.cuda.max_memory_split_size = 1024 * 1024 * 1024  # 1GB
-os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512,expandable_segments:True'
+torch.backends.cuda.max_memory_split_size = 512 * 1024 * 1024  # 512MB
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256,expandable_segments:True'
 
 # Set up model configuration
 os.environ["OAI_CONFIG_LIST"] = json.dumps([
@@ -25,11 +29,11 @@ os.environ["OAI_CONFIG_LIST"] = json.dumps([
         "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
         "n": 1,
         "params": {
-            "max_new_tokens": 1000,
-            "do_sample": False,  # Changed to False for greedy decoding
-            "num_beams": 1,      # Use beam search with 1 beam (greedy)
-            "pad_token_id": 2,   # Explicitly set pad token
-            "eos_token_id": 2,   # Explicitly set eos token
+            "max_new_tokens": 500,  # Reduced from 1000
+            "do_sample": False,
+            "num_beams": 1,
+            "pad_token_id": 2,
+            "eos_token_id": 2,
         },
     }
 ])
@@ -40,6 +44,9 @@ hf_token = os.environ.get('HUGGINGFACE_TOKEN')
 if not hf_token:
     raise ValueError("HUGGINGFACE_TOKEN not found in environment variables")
 login(token=hf_token)
+
+# Add IEEE API key
+os.environ['IEEE_API_KEY'] = 'cp8nvrf6ft5yh9d2a67r4cje'
 
 # Create a temporary directory for cache
 cache_dir = os.path.join(tempfile.gettempdir(), 'autogen_cache')
@@ -56,19 +63,30 @@ config_list = config_list_from_json(
 def load_shared_model(model_name, device):
     """Load model once and cache it"""
     print(f"Loading model {model_name} to {device}...")
+    
+    # Configure quantization settings
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4"
+    )
+    
+    # Increase memory allocation for GPU since we have 80GB available
+    max_memory = {
+        0: "70GiB",  # Use up to 70GB of GPU memory
+        "cpu": "24GiB"  # Keep some CPU memory available for offloading if needed
+    }
+    
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         torch_dtype=torch.float16,
-        device_map="auto",
-        quantization_config=BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4"
-        ),
-        max_memory={0: "70GiB", "cpu": "32GiB"},  # Increased for A100 80GB
-        offload_folder="offload",
+        device_map="auto",  # Let the model decide optimal device mapping
+        quantization_config=quantization_config,
+        max_memory=max_memory,
+        offload_folder="offload"
     )
+    
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer
@@ -170,80 +188,270 @@ def extract_sections(text):
     sections = {}
     current_section = None
     current_content = []
-
+    references = []
+    
+    # Regular sections processing
     for line in text.split('\n'):
         if line.startswith('## '):
-            if current_section:
+            # Save previous section content
+            if current_section and current_section != 'REFERENCES':
                 sections[current_section] = '\n'.join(current_content).strip()
             current_section = line.replace('## ', '').strip()
             current_content = []
         else:
-            current_content.append(line)
+            # Process references differently
+            if current_section == 'REFERENCES':
+                # Look for reference citations like [1], [2], etc.
+                if line.strip() and '[' in line:
+                    references.append({
+                        'id': len(references) + 1,
+                        'content': line.strip()
+                    })
+            else:
+                current_content.append(line)
 
     # Add the last section
-    if current_section:
+    if current_section and current_section != 'REFERENCES':
         sections[current_section] = '\n'.join(current_content).strip()
+    
+    # Add references with IDs to sections
+    if references:
+        sections['REFERENCES'] = references
 
     return sections
 
 
-def generate_report(topic, max_retries=3, num_papers=3):
+def load_vector_store():
+    """Load FAISS vector store using LangChain"""
+    embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    if os.path.exists("faiss_index"):
+        return FAISS.load_local("faiss_index", embedding_model, allow_dangerous_deserialization=True)
+    else:
+        raise FileNotFoundError("FAISS index not found. Please create it first.")
+
+
+def get_paper_context(topic, num_papers=12):
+    """Get context from relevant papers using LangChain FAISS"""
+    try:
+        vector_store = load_vector_store()
+        # First get more documents than we need to ensure diversity
+        relevant_docs = vector_store.similarity_search(topic, k=num_papers * 3)
+        
+        # Create a dictionary to group chunks by paper title
+        papers_dict = {}
+        for doc in relevant_docs:
+            title = doc.metadata.get('title', 'Untitled')
+            if title not in papers_dict:
+                papers_dict[title] = doc
+        
+        # Take the first num_papers unique papers
+        unique_papers = list(papers_dict.values())[:num_papers]
+        
+        print("\n=== Retrieved Documents ===")
+        for i, doc in enumerate(unique_papers, 1):
+            print(f"\nDocument {i}:")
+            print(f"Title: {doc.metadata.get('title', 'Untitled')}")
+            print(f"Content length: {len(doc.page_content)} characters")
+            print("First 200 characters of content:")
+            print(doc.page_content[:200], "...\n")
+            print("-" * 80)
+        
+        # Format context
+        context = "Based on these relevant papers:\n"
+        paper_metadata = []
+        
+        for i, doc in enumerate(unique_papers, 1):
+            # Extract metadata from document
+            metadata = doc.metadata
+            content = doc.page_content
+            
+            # Format context string without truncation
+            context += f"{i}. {metadata.get('title', 'Untitled')} ({metadata.get('year', 'N/A')})\n"
+            context += f"   Excerpt: {content}\n\n"
+
+            paper_metadata.append({
+                'title': metadata.get('title', 'Untitled'),
+                'year': metadata.get('year', 'N/A'),
+                'authors': metadata.get('authors', []),
+                'abstract': metadata.get('abstract', ''),
+                'content': content,
+                'excerpt': content,
+                'similarity': metadata.get('similarity', 0.0),
+                'id': metadata.get('id', 'unknown')
+            })
+
+        print("\n=== Final Context Used in Prompt ===")
+        print(context[:500], "...\n")
+        
+        return context, paper_metadata
+        
+    except Exception as e:
+        print(f"Error retrieving paper context: {e}")
+        return "", []
+
+
+def get_ieee_citation(title: str, authors: list, year: str) -> Optional[Dict]:
+    """Get standardized citation information from IEEE Xplore API"""
+    base_url = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
+    api_key = "cp8nvrf6ft5yh9d2a67r4cje"
+    
+    # Construct URL with parameters exactly as per documentation
+    query_url = f"{base_url}?apikey={api_key}&format=json&max_records=1&start_record=1&sort_order=relevance&title={requests.utils.quote(title)}"
+    
+    if year:
+        query_url += f"&publication_year={year}"
+    
+    try:
+        print(f"\nQuerying IEEE Xplore for paper: {title}")
+        print(f"Using URL: {query_url}")
+        
+        response = requests.get(query_url)
+        print(f"Response status: {response.status_code}")
+        print(f"Response content: {response.text[:200]}...")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("total_records", 0) > 0:
+                article = data["articles"][0]
+                
+                result = {
+                    "doi": article.get("doi"),
+                    "title": article.get("title"),
+                    "authors": [author.get("full_name") for author in article.get("authors", [])],
+                    "journal": article.get("publication_title"),
+                    "year": article.get("publication_year"),
+                    "abstract": article.get("abstract"),
+                    "citation": article.get("citing_paper_count"),
+                    "conference": article.get("conference_location"),
+                    "publisher": "IEEE"
+                }
+                
+                return result
+            else:
+                print(f"No matches found for paper: {title}")
+        else:
+            print(f"IEEE API request failed with status code: {response.status_code}")
+            print(f"Full response: {response.text}")
+            
+        return None
+    except Exception as e:
+        print(f"Error fetching IEEE data: {e}")
+        return None
+
+
+def clean_metadata(metadata):
+    """Clean and validate paper metadata"""
+    # Clean title
+    title = metadata.get('title', '').strip()
+    if title.startswith('*') or title.startswith('['):
+        ref_match = re.search(r'"([^"]+)"', title)
+        if ref_match:
+            title = ref_match.group(1)
+    
+    # Clean authors
+    authors = metadata.get('authors', [])
+    cleaned_authors = []
+    for author in authors:
+        # Remove entries that don't look like names
+        if author and not any(x in author for x in ['*', '[', ']', 'pp.', 'IEEE']):
+            cleaned_authors.append(author)
+    
+    # Clean year
+    year = metadata.get('year', '')
+    if year:
+        year_match = re.search(r'\d{4}', str(year))
+        if year_match:
+            year = year_match.group(0)
+    
+    return {
+        'title': title,
+        'authors': cleaned_authors,
+        'year': year,
+        'abstract': metadata.get('abstract', '').strip()
+    }
+
+
+def organize_papers_for_citation(paper_metadata):
+    organized_papers = {}
+    citation_map = {}
+    current_citation_id = 1
+
+    for paper in paper_metadata:
+        title = paper['title']
+        if not title.startswith(('*', '[')):
+            cleaned_meta = clean_metadata(paper)
+            content = paper['content']
+            
+            # Only process papers that have valid content
+            if not content.startswith(('*', '[')) and '*[' not in content:
+                if title not in organized_papers:
+                    organized_papers[title] = {
+                        'title': cleaned_meta['title'],
+                        'year': cleaned_meta['year'],
+                        'authors': cleaned_meta['authors'],
+                        'abstract': cleaned_meta['abstract'],
+                        'chunks': [],
+                        'citation_id': current_citation_id
+                    }
+                    citation_map[title] = current_citation_id
+                    current_citation_id += 1
+                
+                organized_papers[title]['chunks'].append(content)
+
+    # Remove any papers that ended up with no chunks
+    organized_papers = {k: v for k, v in organized_papers.items() if v['chunks']}
+    
+    return organized_papers, citation_map
+
+
+def generate_report(topic, max_retries=3, num_papers=12):
     """Generate a report with a limited number of retries"""
-    # Get paper context and limit to 3 papers
-    full_context, all_relevant_papers = get_paper_context(topic)
-    # Take only the first 3 papers
-    relevant_papers = all_relevant_papers[:3]
+    print(f"\nGenerating report for topic: {topic}")
+    
+    # Get paper context and use 12 papers
+    print("\nRetrieving paper context...")
+    full_context, all_relevant_papers = get_paper_context(topic, num_papers=12)
+    
+    # Organize papers and get citation mapping
+    organized_papers, citation_map = organize_papers_for_citation(all_relevant_papers)
+    
+    # Print organized papers for debugging
+    print("\n=== Organized Papers ===")
+    for title, paper in organized_papers.items():
+        print(f"\nPaper [{paper['citation_id']}]: {title}")
+        print(f"Number of chunks: {len(paper['chunks'])}")
+    
+    # Create context with organized papers
+    context = "Based on these papers:\n"
+    for title, paper in organized_papers.items():
+        context += f"Paper [{paper['citation_id']}]: {title} ({paper['year']})\n"
+        for chunk in paper['chunks']:
+            context += f"Excerpt: {chunk}\n"
+        context += "\n"
 
-    # Store metadata about papers including similarity scores
-    paper_metadata = [
-        {
-            "title": paper.get('title', 'Untitled'),
-            "authors": paper.get('authors', []),
-            "year": paper.get('year', 'n.d.'),
-            "abstract": paper.get('abstract', ''),
-            "similarity": paper.get('similarity', 0),
-            "content": paper.get('content', '') or paper.get('excerpt', ''),
-            "id": paper.get('id', paper.get('filename', 'unknown'))
-        }
-        for paper in relevant_papers
-    ]
-
-    # Reconstruct context with only 3 papers
-    context = "\n\n".join([
-        f"Paper: {paper['title']}\n" +
-        f"Abstract: {paper['abstract']}\n" +
-        f"Content: {paper['content']}"
-        for paper in paper_metadata
-    ])
-
-    # Create a formatted reference list from the actual paper data
-    reference_list = "\n".join([
-        f"[{i+1}] {paper['title']} ({paper['year']})"
-        for i, paper in enumerate(paper_metadata)
-    ])
-
+    # Update the prompt to reference available papers
+    available_citations = sorted(list(set(citation_map.values())))
+    citation_list = [f"Paper [{i}]" for i in available_citations]
+    
     prompt = f"""Write a comprehensive academic report and literature review on: {topic}
 
 {context}
 
-IMPORTANT: You must ONLY use and reference the papers provided above. Do not introduce or reference any other papers or sources.
+IMPORTANT: You must ONLY use and reference the papers provided above, using their assigned numbers: {', '.join(citation_list)}
 
 IMPORTANT GUIDELINES:
-1. Total report length must be approximately 1000 words.
+1. Total report length must be approximately 800 words.
 2. Section lengths should be:
    - INTRODUCTION: ~150 words
    - METHODOLOGY: ~150 words
-   - RESULTS: ~400 words
-   - DISCUSSION: ~200 words
+   - RESULTS: ~300 words
+   - DISCUSSION: ~100 words
    - CONCLUSION: ~100 words
-   - REFERENCES: Use EXACTLY the papers listed above, no additional references
 
-3. CRITICAL: Only use information from the provided paper excerpts above.
-4. Do not make up or reference any additional papers or research.
-5. Cite papers using [1], [2], etc. based on the order in the reference list.
-6. If the provided papers don't cover certain aspects, acknowledge the limitations rather than making assumptions.
-7. Focus on analyzing and synthesizing the specific findings from the provided papers.
-8. The REFERENCES section must exactly match the papers listed above, with no additions or modifications.
+3. CRITICAL: You may ONLY reference papers using the citation format [X] where X is the paper's assigned number.
+4. When multiple excerpts from the same paper are used, use the same citation number.
+5. If the provided papers don't cover certain aspects, acknowledge the limitations rather than making assumptions.
+6. Focus on analyzing and synthesizing the findings from all available papers.
 
 Write the report content starting with ## INTRODUCTION and ending with ## REFERENCES."""
 
@@ -287,12 +495,14 @@ Write the report content starting with ## INTRODUCTION and ending with ## REFERE
             # Clean the response
             cleaned_report = clean_response(report)
 
-            # Check if we have a complete report
-            if "## CONCLUSION" in cleaned_report and not cleaned_report.strip().endswith("## CONCLUSION"):
-                return cleaned_report, paper_metadata
+            # Better completion check
+            if "## REFERENCES" in cleaned_report:
+                # Check if we have content after REFERENCES
+                references_parts = cleaned_report.split("## REFERENCES")
+                if len(references_parts) > 1 and references_parts[1].strip():
+                    return cleaned_report, organized_papers
 
-            print(
-                f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
+            print(f"\nAttempt {attempts + 1} produced incomplete response. Retrying...")
             attempts += 1
 
         except Exception as e:
@@ -300,22 +510,28 @@ Write the report content starting with ## INTRODUCTION and ending with ## REFERE
             attempts += 1
 
     # If we've exhausted retries, return the best response we have
-    print("\nWarning: Could not generate complete report after maximum retries.")
-    return cleaned_report.strip(), paper_metadata
+    print("\nWarning: Report may be incomplete, but saving best attempt.")
+    return cleaned_report.strip(), organized_papers
 
 
 def generate_research_questions(domain):
     """Generate research questions within a specific domain"""
-    prompt = f"""You are tasked with generating research questions in {domain}.
-
-Generate 20 specific research questions about current challenges and emerging technologies in {domain}.
-
-Format your response EXACTLY like this example (but with {domain} questions):
-1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
-2. What are the limitations of current silicon-based transistors at sub-5nm scales?
-3. How can machine learning optimize power consumption in IoT devices?
-
-Generate exactly 20 questions, numbered 1-20. Make each question specific and suitable for a literature review."""
+    prompt = f"""Generate 20 diverse and specific research questions about semiconductor technology and engineering. 
+    Focus on different aspects such as:
+    - Device physics and materials
+    - Manufacturing processes
+    - Novel semiconductor applications
+    - Power electronics
+    - Quantum effects
+    - Emerging technologies
+    - Performance optimization
+    - Reliability and testing
+    
+    Format each question exactly like this example:
+    1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
+    
+    Make each question specific, technical, and suitable for a detailed literature review.
+    Number them 1-20."""
 
     user_proxy = UserProxyAgent(
         name="user_proxy",
@@ -370,53 +586,62 @@ Generate exactly 20 questions, numbered 1-20. Make each question specific and su
 
 
 def main():
-    domain = "Electronic Engineering"
-    print(f"\nGenerating research questions in: {domain}")
-
+    # First generate 20 semiconductor research questions
+    domain = "Semiconductor Technology and Engineering"
+    questions = generate_research_questions(domain)
+    
     # Create output directory
     output_dir = "litreviews"
     os.makedirs(output_dir, exist_ok=True)
-
-    # Generate research questions
-    research_questions = generate_research_questions(domain)
-
-    # Generate review for each question
-    for i, question in enumerate(research_questions, 1):
-        print(f"\nGenerating review {i}/20: {question}")
-
+    
+    print("\n=== Generated Research Questions ===")
+    for i, question in enumerate(questions, 1):
+        print(f"{i}. {question}")
+    
+    # Generate reports for each question
+    for i, question in enumerate(questions, 1):
+        print(f"\n=== Generating Report {i}/20 ===")
+        print(f"Question: {question}")
+        
         try:
-            # Now getting both report and metadata
-            report, paper_metadata = generate_report(question)
+            # Generate report for the specific question
+            report, organized_papers = generate_report(question)
             cleaned_report = clean_response(report)
-
+            
             # Convert report to JSON structure with complete paper metadata
             report_data = {
                 "question": question,
                 "domain": domain,
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "sections": extract_sections(cleaned_report),
-                # Now includes full paper details with similarity
-                "referenced_papers": paper_metadata,
+                "referenced_papers": organized_papers,
                 "metadata": {
-                    "total_papers": len(paper_metadata),
-                    "average_similarity": sum(p['similarity'] for p in paper_metadata) / len(paper_metadata) if paper_metadata else 0,
-                    "generation_time": time.strftime("%Y-%m-%d %H:%M:%S")
+                    "total_papers": len(organized_papers),
+                    "average_similarity": sum(paper.get('similarity', 0) for paper in organized_papers.values()) / len(organized_papers) if organized_papers else 0,
+                    "generation_time": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "report_number": i
                 }
             }
-
-            # Save to JSON file
-            output_file = os.path.join(
-                output_dir, f"review_{i:02d}_{int(time.time())}.json")
+            
+            # Save to JSON file with paper_X naming convention
+            output_file = os.path.join(output_dir, f"paper_{i}.json")
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(report_data, f, indent=2)
-
-            # Clear some memory
+            
+            print(f"Report {i} generated successfully and saved to {output_file}")
+            
+            # Clear memory after each report
             torch.cuda.empty_cache()
             gc.collect()
-
+            
+            # Add a small delay between reports to prevent rate limiting
+            time.sleep(5)
+            
         except Exception as e:
-            print(f"Error generating review {i}: {str(e)}")
+            print(f"Error generating report {i}: {str(e)}")
             continue
+    
+    print("\n=== All reports generated ===")
 
 
 if __name__ == "__main__":
