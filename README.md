@@ -11,3 +11,7 @@ step 4 = Smaller model is fine tuned with the reports
 ![image](https://github.com/user-attachments/assets/b1ad2aa7-c1cc-4a69-829b-4ccde9c74a92)
 
 
+![image](https://github.com/user-attachments/assets/ff800367-c48c-41e6-9cbf-692e40ae1ecf)
+
+
+
