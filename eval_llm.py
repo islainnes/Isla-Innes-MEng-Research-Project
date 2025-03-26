@@ -136,45 +136,57 @@ def evaluate_responses(model_responses_file, gs_answers_file):
     return results
 
 def create_summary_plots(results):
-    # Create three subplots - cosine similarity, WMD similarity, and LLM scores
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 6))
+    # Calculate averages
+    avg_original_cosine = np.mean([r["original_metrics"]["cosine_similarity"] for r in results])
+    avg_improved_cosine = np.mean([r["improved_metrics"]["cosine_similarity"] for r in results])
+    avg_original_wmd = np.mean([r["original_metrics"]["wmd_similarity"] for r in results])
+    avg_improved_wmd = np.mean([r["improved_metrics"]["wmd_similarity"] for r in results])
+    avg_original_llm = np.mean([r["llm_evaluation"]["original_score"] for r in results])
+    avg_improved_llm = np.mean([r["llm_evaluation"]["improved_score"] for r in results])
     
-    questions = range(1, len(results) + 1)
-    original_cosine = [r["original_metrics"]["cosine_similarity"] for r in results]
-    improved_cosine = [r["improved_metrics"]["cosine_similarity"] for r in results]
+    # Create bar plot
+    fig, ax = plt.subplots(figsize=(10, 6))
     
-    original_wmd = [r["original_metrics"]["wmd_similarity"] for r in results]
-    improved_wmd = [r["improved_metrics"]["wmd_similarity"] for r in results]
+    # Set up bar positions
+    metrics = ['Cosine Similarity', 'WMD Similarity', 'LLM Score']
+    x = np.arange(len(metrics))
+    width = 0.35
     
-    original_llm = [r["llm_evaluation"]["original_score"] for r in results]
-    improved_llm = [r["llm_evaluation"]["improved_score"] for r in results]
+    # Create bars
+    original_bars = ax.bar(x - width/2, 
+                          [avg_original_cosine, avg_original_wmd, avg_original_llm/100], 
+                          width, 
+                          label='Original Model',
+                          color='blue',
+                          alpha=0.7)
     
-    # Plot cosine similarities
-    ax1.plot(questions, original_cosine, 'b-', label='Original Model')
-    ax1.plot(questions, improved_cosine, 'g-', label='Improved Model')
-    ax1.set_xlabel('Question Number')
-    ax1.set_ylabel('Cosine Similarity')
-    ax1.set_title('Embedding Similarity Comparison')
-    ax1.legend()
-    ax1.grid(True)
+    improved_bars = ax.bar(x + width/2, 
+                          [avg_improved_cosine, avg_improved_wmd, avg_improved_llm/100], 
+                          width, 
+                          label='Improved Model',
+                          color='green',
+                          alpha=0.7)
     
-    # Plot WMD similarities
-    ax2.plot(questions, original_wmd, 'b-', label='Original Model')
-    ax2.plot(questions, improved_wmd, 'g-', label='Improved Model')
-    ax2.set_xlabel('Question Number')
-    ax2.set_ylabel('WMD Similarity')
-    ax2.set_title('Word Mover Distance Similarity')
-    ax2.legend()
-    ax2.grid(True)
+    # Customize plot
+    ax.set_ylabel('Average Score')
+    ax.set_title('Average Model Performance Comparison')
+    ax.set_xticks(x)
+    ax.set_xticklabels(metrics)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
     
-    # Plot LLM scores
-    ax3.plot(questions, original_llm, 'b-', label='Original Model')
-    ax3.plot(questions, improved_llm, 'g-', label='Improved Model')
-    ax3.set_xlabel('Question Number')
-    ax3.set_ylabel('LLM Score')
-    ax3.set_title('LLM Evaluation Scores')
-    ax3.legend()
-    ax3.grid(True)
+    # Add value labels on bars
+    def autolabel(rects):
+        for rect in rects:
+            height = rect.get_height()
+            ax.annotate(f'{height:.3f}',
+                       xy=(rect.get_x() + rect.get_width() / 2, height),
+                       xytext=(0, 3),  # 3 points vertical offset
+                       textcoords="offset points",
+                       ha='center', va='bottom')
+    
+    autolabel(original_bars)
+    autolabel(improved_bars)
     
     plt.tight_layout()
     plt.savefig('model_comparison_results.png', dpi=300, bbox_inches='tight')
@@ -235,3 +247,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
