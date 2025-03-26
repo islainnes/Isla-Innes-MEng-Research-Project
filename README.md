@@ -36,9 +36,9 @@ Structure (20%): Includes coherence flow score
 
 # LLM evaluation
 
-*Golden standard answer from  
-*Cosine similarity and movers distance
-*LLM as a judge 
+* Golden standard answer from  
+* Cosine similarity and movers distance
+* LLM as a judge 
 
 ![image](https://github.com/user-attachments/assets/b923b311-2f07-42c1-80f9-376ac4fcf216)
 
