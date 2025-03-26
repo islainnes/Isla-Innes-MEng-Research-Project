@@ -11,7 +11,7 @@ step 4 = Smaller model is fine tuned with the reports
 # Report Evaluation
 
 The metrics calculated are: 
-Word Count: A simple measure of document length, comparing the number of words between original and improved versions.
+Word Count: A simple measure of document length, comparing the number of words between original and improved versions.  
 Flesch Reading Ease Score: A standard readability metric that evaluates text complexity based on sentence length and syllable count. Scores range from 0-100, where higher scores indicate easier readability.
 Technical Term Count: Tracks the frequency of domain-specific terminology related to semiconductors and technical writing, using a predefined list of technical terms.
 Concept Hierarchy Depth: Analyzes the hierarchical structure of ideas in the text using a combination of topic modeling (LDA) and syntactic analysis. Scores range from 1-5, where higher scores indicate more complex concept organization.
