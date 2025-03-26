@@ -19,7 +19,8 @@ The metrics calculated are:
 * Coherence Metrics:  
 * Contextual Coherence: Evaluates how well ideas flow and connect throughout the text using sentence embeddings to measure semantic relationships between paragraphs.  
 * Measures the smooth progression of ideas by analyzing local coherence between adjacent paragraphs and overall thematic consistency.  
-* LLM as a judge for technical depth and clarity   
+* LLM as a judge for technical depth and clarity
+* Measures how clearly topics are sepearted and how indepth sentences are 
 Weighted Composite Scores:  
 
 The final evaluation combines these metrics into three main categories with specific weightings:
