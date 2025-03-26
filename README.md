@@ -18,9 +18,7 @@ Novelty – Does the report provide new insights or perspectives?
 # Steps
 
 step 1 = 20 research questions created, report written for each question using papers extracted from faiss database
-step 2 = Metrics for the report are calculated on things such as readability 
-step 3 = Agent systems created feedback for each section and saves to a json 
-step 4 = Report is rewritten with the feedback
-step 5 = Smaller model is fine tuned with the reports
-step 6 = Initial questions are asked to the fine tuned LLM and original LLM 
+step 2 = Agent systems created feedback for each section and saves to a json 
+step 3 = Report is rewritten with the feedback
+step 4 = Smaller model is fine tuned with the reports
 
