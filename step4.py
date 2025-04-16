@@ -56,7 +56,9 @@ logger = setup_logging()
 # Set up GPU configurations
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
-    os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256,expandable_segments:True'
+    # Setting more conservative memory splits for smaller GPUs
+    torch.backends.cuda.max_memory_split_size = 128 * 1024 * 1024  # 128MB
+    os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128,expandable_segments:True'
     logger.info("CUDA is available. GPU configurations set.")
 else:
     logger.warning("CUDA is not available. Using CPU mode.")
@@ -64,7 +66,7 @@ else:
 # Model cache for reusing loaded models
 _model_cache = {}
 
-def load_model(model_name, device="cuda"):
+def load_model(model_name="google/gemma-2b-it", device="cuda"):
     """Load model once and cache it"""
     cache_key = f"{model_name}_{device}"
     if cache_key in _model_cache:
@@ -72,24 +74,23 @@ def load_model(model_name, device="cuda"):
         return _model_cache[cache_key]
     
     logger.info(f"Loading model {model_name} to {device}...")
-    logger.debug("Configuring quantization settings...")
     
-    # Configure quantization settings with more aggressive memory optimization
+    # Configure quantization settings with CPU offloading enabled
     quantization_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.float16,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        llm_int8_threshold=6.0,
-        llm_int8_has_fp16_weight=False,
+        llm_int8_enable_fp32_cpu_offload=True  # Enable CPU offloading
     )
     
-    # Configure memory allocation with more conservative settings
+    # Adjust memory settings to better handle offloading
     max_memory = {
-        0: "70GiB",  # Use more GPU memory for 80GB GPU
-        "cpu": "32GiB"  # Limit CPU memory usage
+        0: "3GiB",  # GPU memory
+        "cpu": "12GiB"  # Increased CPU memory for offloading
     }
-    logger.debug(f"Memory configuration: {max_memory}")
+    
+    logger.info(f"Using max GPU memory: {max_memory[0]}, CPU memory: {max_memory['cpu']}")
     
     try:
         # Clear CUDA cache before loading
@@ -97,11 +98,11 @@ def load_model(model_name, device="cuda"):
             torch.cuda.empty_cache()
             logger.debug("CUDA cache cleared")
         
-        logger.info("Loading model with initial settings...")
+        logger.info("Loading model with CPU offloading enabled...")
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             torch_dtype=torch.float16,
-            device_map="auto",
+            device_map="auto",  # Let the model decide the optimal device mapping
             quantization_config=quantization_config,
             max_memory=max_memory,
             offload_folder="offload",
@@ -110,62 +111,18 @@ def load_model(model_name, device="cuda"):
         
         logger.info("Loading tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained(model_name)
-        tokenizer.pad_token = tokenizer.eos_token
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
         logger.info(f"Model and tokenizer loaded successfully")
         
         # Cache the model
         _model_cache[cache_key] = (model, tokenizer)
-        logger.debug(f"Model cached with key: {cache_key}")
         return _model_cache[cache_key]
     
     except Exception as e:
-        logger.error(f"Error loading model with initial settings: {str(e)}")
-        logger.info("Attempting to load with conservative settings...")
-        
-        # Clear cache and try again with more conservative settings
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-            gc.collect()
-            logger.debug("Memory cleared for conservative loading attempt")
-        
-        # Try with even more conservative settings
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-            llm_int8_threshold=6.0,
-            llm_int8_has_fp16_weight=False,
-        )
-        
-        max_memory = {
-            0: "65GiB",  # Even more conservative GPU memory
-            "cpu": "24GiB"  # More conservative CPU memory
-        }
-        logger.debug(f"Conservative memory configuration: {max_memory}")
-        
-        try:
-            model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                torch_dtype=torch.float16,
-                device_map="auto",
-                quantization_config=quantization_config,
-                max_memory=max_memory,
-                offload_folder="offload",
-                low_cpu_mem_usage=True
-            )
-            
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
-            tokenizer.pad_token = tokenizer.eos_token
-            logger.info(f"Model and tokenizer loaded successfully with conservative settings")
-            
-            _model_cache[cache_key] = (model, tokenizer)
-            return _model_cache[cache_key]
-            
-        except Exception as e:
-            logger.critical(f"Failed to load model even with conservative settings: {str(e)}")
-            logger.critical("Exception details:", exc_info=True)
-            raise
+        logger.error(f"Error loading model: {str(e)}")
+        logger.error("Exception details:", exc_info=True)
+        raise
 
 def read_markdown_file(file_path):
     """Read a markdown file and return the content"""
@@ -361,7 +318,7 @@ def main():
         parser = argparse.ArgumentParser(description="Generate concept diagrams from markdown files")
         parser.add_argument("--input_dir", default="chapter_markdowns", help="Directory containing markdown chapter files")
         parser.add_argument("--output_dir", default="chapter_diagrams", help="Directory to save generated diagrams")
-        parser.add_argument("--model", default="google/gemma-3-12b-it", help="Hugging Face model to use")
+        parser.add_argument("--model", default="google/gemma-2b-it", help="Hugging Face model to use")
         parser.add_argument("--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                           help="Set the logging level")
         args = parser.parse_args()
