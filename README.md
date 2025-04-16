@@ -1,5 +1,11 @@
 # Whole-system-Masters-Project
 
+To run the script required to have hugging face token in env file HUGGINGFACE_TOKEN=TOKEN
+
+Step 1 creates faiss database
+Step 2 writes intial reports
+Step 3 writes and reviews with agent system
+Step 4 creates relevant images
 
 # Steps
 
