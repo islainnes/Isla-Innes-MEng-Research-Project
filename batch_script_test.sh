@@ -49,3 +49,7 @@ export TORCH_USE_CUDA_DSA=1
 export CUDA_VISIBLE_DEVICES=0
 
 python step1.py
+python step2.py
+python step3.py
+python step4.py
+python fine_tune.py
