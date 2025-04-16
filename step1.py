@@ -16,8 +16,8 @@ from tqdm import tqdm
 MARKDOWN_DIR = "./files_mmd"
 FAISS_DIR = "./embeddings"
 MODEL_NAME = "all-MiniLM-L6-v2"
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 100
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 200
 
 # Configure logging
 logging.basicConfig(
@@ -191,11 +191,19 @@ def create_faiss_database(documents: List[Dict[str, Any]], output_dir: str):
     # Convert to numpy array
     embeddings_array = np.array(embeddings).astype('float32')
     
+    # Add debug logging
+    logger.info(f"Number of embeddings created: {len(embeddings)}")
+    logger.info(f"Number of metadata entries: {len(metadata)}")
+    logger.info(f"Embeddings array shape: {embeddings_array.shape}")
+    
     # Create FAISS index
     logger.info("Creating FAISS index...")
     dimension = embeddings_array.shape[1]
     index = faiss.IndexFlatL2(dimension)
     index.add(embeddings_array)
+    
+    # Add more debug logging
+    logger.info(f"FAISS index total entries: {index.ntotal}")
     
     # Save the index
     faiss_path = os.path.join(output_dir, "faiss.index")
@@ -219,7 +227,9 @@ def create_faiss_database(documents: List[Dict[str, Any]], output_dir: str):
         "total_chunks": len(documents),
         "average_chunks_per_document": len(documents) / len(set(doc['file_name'] for doc in documents)) if documents else 0,
         "model_name": MODEL_NAME,
-        "embedding_dimension": dimension
+        "embedding_dimension": dimension,
+        "index_size": index.ntotal,
+        "metadata_size": len(metadata)
     }
     
     stats_path = os.path.join(output_dir, "stats.json")
@@ -246,3 +256,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
