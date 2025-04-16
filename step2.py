@@ -306,10 +306,18 @@ def load_vector_store():
             # Create directory to store converted files if it doesn't exist
             os.makedirs("./converted_index", exist_ok=True)
             
+            # Debug: Check original index size before copying
+            original_index = faiss.read_index("./embeddings/faiss.index")
+            logger.info(f"Original index size before conversion: {original_index.ntotal}")
+            
             # Copy the FAISS index to the new directory with the name LangChain expects
             if not os.path.exists("./converted_index/index.faiss"):
                 logger.info("Copying FAISS index to compatible format")
                 shutil.copy("./embeddings/faiss.index", "./converted_index/index.faiss")
+            
+            # Debug: Check copied index size
+            copied_index = faiss.read_index("./converted_index/index.faiss")
+            logger.info(f"Copied index size after conversion: {copied_index.ntotal}")
             
             # Load metadata and create docstore
             logger.info("Loading metadata and creating docstore")
@@ -320,20 +328,19 @@ def load_vector_store():
             docstore_dict = {}
             for i, meta in enumerate(metadata_list):
                 # Ensure we have required fields
-                if not all(k in meta for k in ['file_name', 'chunk_id', 'excerpt']):
+                if not all(k in meta for k in ['file_name', 'chunk_id']):
                     logger.warning(f"Metadata entry {i} missing required fields, skipping")
                     continue
                     
-                # Use the same ID format as step1.py
                 doc_id = f"{meta['file_name']}_{meta['chunk_id']}"
                 
-                # Use excerpt as content (step1.py stores first 500 chars of content as excerpt)
-                content = meta.get('excerpt', '')
+                # Use full content instead of just excerpt
+                content = meta.get('content', meta.get('excerpt', ''))  # Try content first, fall back to excerpt
                 if not content:
                     logger.warning(f"No content found for document {doc_id}, skipping")
                     continue
                 
-                # Create metadata dict with exact same structure as step1.py
+                # Create metadata dict
                 doc_metadata = {
                     'file_name': meta.get('file_name', ''),
                     'path': meta.get('path', ''),
@@ -343,7 +350,8 @@ def load_vector_store():
                     'abstract': meta.get('abstract', ''),
                     'chunk_id': meta.get('chunk_id', 0),
                     'total_chunks': meta.get('total_chunks', 1),
-                    'id': doc_id  # Use same ID format as step1.py
+                    'content': content,  # Store full content in metadata
+                    'id': doc_id
                 }
                 
                 # Create LangChain Document object
@@ -363,12 +371,18 @@ def load_vector_store():
             # Create InMemoryDocstore
             docstore = InMemoryDocstore(docstore_dict)
             
-            # Load the FAISS index
+            # Load the FAISS index again to ensure we're using the latest state
             index = faiss.read_index("./converted_index/index.faiss")
+            logger.info(f"Final index size before creating vectorstore: {index.ntotal}")
             
             # Verify index and docstore sizes match
             if index.ntotal != len(docstore_dict):
-                raise ValueError(f"Index size ({index.ntotal}) does not match docstore size ({len(docstore_dict)})")
+                # Try to recover by recreating the index
+                logger.warning("Size mismatch detected, attempting to recreate index...")
+                shutil.copy("./embeddings/faiss.index", "./converted_index/index.faiss")
+                index = faiss.read_index("./converted_index/index.faiss")
+                if index.ntotal != len(docstore_dict):
+                    raise ValueError(f"Index size ({index.ntotal}) does not match docstore size ({len(docstore_dict)})")
             
             # Create mapping from index positions to document IDs using same format as step1.py
             index_to_id = {i: f"{meta['file_name']}_{meta['chunk_id']}" 
@@ -379,7 +393,7 @@ def load_vector_store():
             vectorstore = FAISS(
                 embedding_function=embedding_model,
                 index=index,
-                docstore=docstore,
+                docstore=docstore,  # Use the InMemoryDocstore instead of the raw dict
                 index_to_docstore_id=index_to_id
             )
             
@@ -395,54 +409,63 @@ def load_vector_store():
 
 
 def get_paper_context(topic, num_papers=8):
-    """Get context from relevant papers using LangChain FAISS"""
     try:
         vector_store = load_vector_store()
-        # First get more documents than we need to ensure diversity
         logger.info(f"Searching for papers related to: {topic}")
-        relevant_docs = vector_store.similarity_search(topic, k=num_papers * 3)
+        # Get more results to ensure we have enough chunks
+        relevant_docs_with_scores = vector_store.similarity_search_with_score(topic, k=num_papers * 5)
         
-        # Create a dictionary to group chunks by paper title
+        # Create a dictionary to group ALL chunks by paper title
         papers_dict = {}
-        for doc in relevant_docs:
+        seen_chunks = {}  # Track unique chunks per paper
+        
+        for doc, score in relevant_docs_with_scores:
             title = doc.metadata.get('title', 'Untitled')
             if title not in papers_dict:
-                papers_dict[title] = []
-            # Add this document chunk to the paper's collection
-            papers_dict[title].append(doc)
+                papers_dict[title] = {
+                    'chunks': [],
+                    'scores': [],
+                    'metadata': doc.metadata,
+                    'chunk_ids': set()  # Track chunk IDs to avoid duplicates
+                }
+                seen_chunks[title] = set()  # Initialize set of seen chunks for this paper
+            
+            # Get full content from metadata if available, otherwise use page_content
+            chunk_content = doc.metadata.get('content', doc.page_content)
+            
+            # Only add chunk if we haven't seen this content for this paper
+            if chunk_content not in seen_chunks[title]:
+                # Get full content from metadata if available, otherwise use page_content
+                papers_dict[title]['chunks'].append(chunk_content)
+                papers_dict[title]['scores'].append(float(score))  # Convert to float here
+                papers_dict[title]['chunk_ids'].add(doc.metadata.get('chunk_id'))
+                seen_chunks[title].add(chunk_content)  # Mark this chunk as seen
         
-        # Take the first num_papers unique papers
-        unique_papers = list(papers_dict.keys())[:num_papers]
+        # Sort papers by their average score
+        sorted_papers = sorted(
+            papers_dict.items(),
+            key=lambda x: (
+                sum(x[1]['scores']) / len(x[1]['scores']) if x[1]['scores'] else float('inf')
+            )
+        )
         
-        logger.info(f"Retrieved {len(unique_papers)} unique papers")
-        logger.debug("=== Retrieved Documents ===")
-        for i, title in enumerate(unique_papers, 1):
-            paper_chunks = papers_dict[title]
-            logger.debug(f"Paper {i}: {title}")
-            logger.debug(f"Number of chunks: {len(paper_chunks)}")
-            if paper_chunks:
-                first_chunk = paper_chunks[0]
-                logger.debug(f"First chunk ({len(first_chunk.page_content)} chars): {first_chunk.page_content[:200]}...")
+        # Take top num_papers papers
+        top_papers = sorted_papers[:num_papers]
         
-        # Format context and gather metadata
-        context = "Based on these relevant papers:\n"
+        # Format context using ALL chunks
+        context = "Based on these papers:\n"
         paper_metadata = []
         
-        for i, title in enumerate(unique_papers, 1):
-            paper_chunks = papers_dict[title]
-            if not paper_chunks:
-                continue
-                
-            # Use metadata from the first chunk (should be consistent across chunks)
-            first_chunk = paper_chunks[0]
-            metadata = first_chunk.metadata
+        for i, (title, paper_data) in enumerate(top_papers, 1):
+            metadata = paper_data['metadata']
+            all_chunks = paper_data['chunks']
             
-            # Determine excerpt - use the first chunk's content
-            excerpt = first_chunk.page_content
+            # Join all chunks with separators
+            combined_chunks = "\n---\n".join(all_chunks)
             
-            # Format context string 
-            context += f"{i}. {metadata.get('title', 'Untitled')} ({metadata.get('year', 'N/A')})\n"
-            context += f"   Excerpt: {excerpt[:500]}...\n\n"
+            # Format context string with all chunks
+            context += f"Paper [{i}]: {metadata.get('title', 'Untitled')} ({metadata.get('year', 'N/A')})\n"
+            context += f"Full Content:\n{combined_chunks}\n\n"
             
             # Create paper metadata entry with all chunks
             paper_entry = {
@@ -450,17 +473,14 @@ def get_paper_context(topic, num_papers=8):
                 'year': metadata.get('year', 'N/A'),
                 'authors': metadata.get('authors', []),
                 'abstract': metadata.get('abstract', ''),
-                'chunks': [chunk.page_content for chunk in paper_chunks],  # Include all chunks
-                'excerpt': excerpt,
-                'similarity': metadata.get('similarity', 0.0),
+                'chunks': all_chunks,  # Store all chunks
+                'chunk_scores': [float(score) for score in paper_data['scores']],  # Convert scores to float
+                'average_score': sum(paper_data['scores']) / len(paper_data['scores']) if paper_data['scores'] else 0,
                 'id': metadata.get('id', 'unknown')
             }
             
             paper_metadata.append(paper_entry)
 
-        logger.debug("=== Final Context Used in Prompt ===")
-        logger.debug(f"{context[:500]}...")
-        
         return context, paper_metadata
         
     except Exception as e:
@@ -665,18 +685,13 @@ def organize_papers_for_citation(paper_metadata):
         if not title or title.startswith(('*', '[', '#')) or len(title) < 5:
             continue
             
-        # Extract content and ensure we have excerpt
-        content = paper.get('content', '')
-        excerpt = paper.get('excerpt', '')
+        # Get ALL chunks instead of just the first one
+        all_chunks = paper.get('chunks', [])
         
-        # If we have excerpt from the metadata, use it
-        if not excerpt and 'excerpt' in paper:
-            excerpt = paper['excerpt']
-        # If still no excerpt, use content
-        if not excerpt and content:
-            excerpt = content[:500] + "..." if len(content) > 500 else content
+        # Convert chunk_scores from float32 to regular Python float
+        chunk_scores = [float(score) for score in paper.get('chunk_scores', [])]
             
-        # Clean metadata (title, authors, year)
+        # Clean metadata
         cleaned_meta = clean_metadata(paper)
         
         # Only include papers with valid metadata
@@ -686,40 +701,13 @@ def organize_papers_for_citation(paper_metadata):
                 'year': cleaned_meta['year'],
                 'authors': cleaned_meta['authors'],
                 'abstract': cleaned_meta['abstract'],
-                'chunks': [],
+                'chunks': all_chunks,
+                'chunk_scores': chunk_scores,  # Now using converted scores
                 'citation_id': current_citation_id
             }
             citation_map[title] = current_citation_id
             current_citation_id += 1
-        
-        # Add content chunks if the paper exists
-        if title in organized_papers:
-            # Make sure we add the content as a chunk
-            if content and not content.startswith(('*', '[')):
-                # Check if this exact content is already in chunks to avoid duplication
-                if content not in organized_papers[title]['chunks']:
-                    organized_papers[title]['chunks'].append(content)
-            
-            # If we have an excerpt that's different from content, add it as a chunk too
-            if excerpt and excerpt != content and not excerpt.startswith(('*', '[')):
-                if excerpt not in organized_papers[title]['chunks']:
-                    organized_papers[title]['chunks'].append(excerpt)
 
-    # Make sure every paper has at least one valid chunk with actual content
-    for title, paper in organized_papers.items():
-        if not paper['chunks'] or all(not chunk.strip() for chunk in paper['chunks']):
-            # Try to create a chunk from abstract if available
-            if paper['abstract']:
-                paper['chunks'] = [paper['abstract']]
-            else:
-                paper['chunks'] = ["No detailed content available"]
-                
-        # Log the number of chunks per paper for debugging
-        logger.debug(f"Paper '{title}' has {len(paper['chunks'])} chunks")
-    
-    # Remove any papers that ended up with no chunks or invalid metadata
-    organized_papers = {k: v for k, v in organized_papers.items() if v['chunks'] and v['title']}
-    
     return organized_papers, citation_map
 
 
@@ -870,13 +858,13 @@ def generate_report(topic, max_retries=2, num_papers=4, embedding_store=None, te
             logger.info(f"Retrieved Crossref citation data for {title}")
             organized_papers[title]['crossref_citation'] = crossref_data
     
-    # Create context with organized papers - further simplified to reduce prompt size
+    # Create context with organized papers - using FULL chunks
     context = "Based on these papers:\n"
     for title, paper in organized_papers.items():
         context += f"Paper [{paper['citation_id']}]: {title} ({paper['year']})\n"
-        # Use only first 300 chars of one chunk per paper to reduce prompt size
-        if paper['chunks']:
-            context += f"Excerpt: {paper['chunks'][0][:300]}...\n"
+        # Use all chunks with their full content
+        for i, chunk in enumerate(paper['chunks']):
+            context += f"Excerpt {i+1}:\n{chunk}\n---\n"  # Use full chunk content
         context += "\n"
 
     # Clear memory before model generation
@@ -1308,7 +1296,7 @@ def main():
                 "referenced_papers": organized_papers,
                 "metadata": {
                     "total_papers": len(organized_papers),
-                    "average_similarity": sum(paper.get('similarity', 0) for paper in organized_papers.values()) / len(organized_papers) if organized_papers else 0,
+                    "average_similarity": float(sum(paper.get('similarity', 0) for paper in organized_papers.values()) / len(organized_papers)) if organized_papers else 0,
                     "generation_time": time.strftime("%Y-%m-%d %H:%M:%S"),
                     "report_number": chapter_num,
                     "num_papers_used": num_papers,
