@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:pascal:1
 #SBATCH -p ug-gpu-small
 #SBATCH --qos=normal
-#SBATCH -t 00-08:00:00
+#SBATCH -t 00-20:00:00
 #SBATCH --job-name=ssgg36
 #SBATCH --mem=28G
 
@@ -44,4 +44,10 @@ echo "Method 2: nvidia-debugdump"
 nvidia-debugdump -l || echo "nvidia-debugdump failed"
 echo "======================"
 
+# Run the script with increased CUDA memory settings
+
+python step1.py
+python step2.py
+python step3.py
 python step4.py
+python fine_tune.py

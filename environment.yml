@@ -1,4 +1,4 @@
-name: llm_env
+name: llm
 channels:
   - pytorch
   - nvidia
@@ -9,10 +9,15 @@ dependencies:
   - pytorch=2.5.1
   - pytorch-cuda=11.8
   - cudatoolkit=11.8.0
+  - torchaudio=2.5.1
+  - torchvision=0.20.1
   - transformers
   - numpy
   - huggingface-hub
   - pip
+  - networkx=3.4.2
+  - scipy
+  - scikit-learn
   - pip:
     - autogen==0.7.6
     - bitsandbytes==0.45.3
@@ -25,8 +30,15 @@ dependencies:
     - matplotlib==3.10.1
     - pandas==2.2.3
     - tqdm==4.67.1
-    - sentence-transformers==3.4.1
+    - sentence-transformers==2.5.1
     - peft==0.14.0
     - nltk==3.9.1
     - google-generativeai==0.8.4
     - faiss-gpu==1.7.2
+    - pytorch-lightning==2.5.1
+    - torchmetrics==1.7.1
+    - datasets==3.3.2
+    - scikit-image==0.25.2
+    - seaborn==0.13.2
+    - tiktoken==0.9.0
+    - tokenizers==0.21.1 

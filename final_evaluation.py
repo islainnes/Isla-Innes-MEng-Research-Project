@@ -15,6 +15,18 @@ from gensim import corpora, models
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+import openai
+
+# Initialize sentence transformer at module level
+try:
+    from sentence_transformers import SentenceTransformer
+    global_encoder = SentenceTransformer('all-MiniLM-L6-v2')
+except ImportError:
+    print("Warning: SentenceTransformer not available. Citation accuracy checks will be limited.")
+    global_encoder = None
+
+# Initialize OpenAI client
+openai_client = openai.OpenAI(api_key="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")
 
 class ContextualCoherenceAnalyzer:
     def __init__(self):
@@ -31,118 +43,151 @@ class ContextualCoherenceAnalyzer:
                 'concept_flow': {'flow_score': 0, 'concept_chains': []}
             }
         
-        # Split text into paragraphs
-        paragraphs = text.split('\n\n')
+        # Clean and normalize text
+        text = text.strip()
+        if not text:
+            return {
+                'concept_flow': {'flow_score': 0, 'concept_chains': []}
+            }
+            
+        # Split text into meaningful chunks (paragraphs or sections)
+        chunks = [chunk.strip() for chunk in text.split('\n\n') if chunk.strip()]
+        if not chunks:
+            chunks = [text]  # Use whole text as one chunk if no clear splits
+            
+        # Ensure minimum content for analysis
+        if len(chunks) < 2:
+            # If single chunk is long enough, split it into sentences
+            if len(text.split()) > 50:  # Minimum word threshold
+                sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+                if len(sentences) >= 2:
+                    chunks = sentences
+                else:
+                    return {
+                        'concept_flow': {
+                            'flow_score': 0.5,  # Default score for very short content
+                            'quality': 'limited content',
+                            'details': {
+                                'local_coherence': {'score': 0.5, 'assessment': 'insufficient content'},
+                                'progression': {'score': 0.5, 'assessment': 'insufficient content'}
+                            }
+                        }
+                    }
+            else:
+                return {
+                    'concept_flow': {
+                        'flow_score': 0.5,
+                        'quality': 'limited content',
+                        'details': {
+                            'local_coherence': {'score': 0.5, 'assessment': 'insufficient content'},
+                            'progression': {'score': 0.5, 'assessment': 'insufficient content'}
+                        }
+                    }
+                }
         
-        # Analyze concept flow
-        concept_flow = self.analyze_concept_flow(paragraphs)
+        # Analyze concept flow with chunks
+        concept_flow = self.analyze_concept_flow(chunks)
         
         return {
             'concept_flow': concept_flow
         }
         
-    def analyze_concept_flow(self, paragraphs):
-        """Analyze how concepts flow with ideal ranges rather than maximums"""
-        if len(paragraphs) < 2:
-            return {'flow_score': 0, 'quality': 'insufficient content', 'details': {}}
-        
-        # Encode paragraphs
-        embeddings = self.encoder.encode(paragraphs)
-        
-        # Calculate local coherence
-        local_scores = []
-        for i in range(len(paragraphs) - 1):
-            similarity = np.dot(embeddings[i], embeddings[i+1]) / (
-                np.linalg.norm(embeddings[i]) * np.linalg.norm(embeddings[i+1]))
-            local_scores.append(float(similarity))
-        
-        # Define ideal ranges for different metrics
-        ideal_ranges = {
-            'local_coherence': (0.3, 0.7),  # Some similarity but not too much
-            'global_coherence': (0.4, 0.8),  # Consistent theme while allowing development
-            'transition_density': (0.2, 0.4)  # Enough transitions without overuse
-        }
-        
-        # Score based on distance from ideal range
-        def score_metric(value, ideal_min, ideal_max):
-            if value < ideal_min:
-                # Penalize being too low
-                return 1 - ((ideal_min - value) / ideal_min)
-            elif value > ideal_max:
-                # Penalize being too high
-                return 1 - ((value - ideal_max) / (1 - ideal_max))
-            else:
-                # Perfect score if within range
-                return 1.0
-        
-        # Calculate component scores
-        avg_local = np.mean(local_scores)
-        local_quality = score_metric(avg_local, *ideal_ranges['local_coherence'])
-        
-        # Evaluate progression
-        progression_scores = []
-        for i in range(len(paragraphs) - 2):
-            # Look at three consecutive paragraphs
-            score1 = local_scores[i]
-            score2 = local_scores[i + 1]
-            # Good progression should show some variation
-            variation = abs(score1 - score2)
-            progression_scores.append(1.0 if 0.1 <= variation <= 0.4 else 0.5)
-        
-        # Qualitative assessment
-        def get_quality_label(score):
-            if score < 0.3:
-                return "poor"
-            elif score < 0.5:
-                return "needs improvement"
-            elif score < 0.7:
-                return "adequate"
-            elif score < 0.85:
-                return "good"
-            else:
-                return "excellent"
-        
-        # Detailed analysis
-        details = {
-            'local_coherence': {
-                'score': float(local_quality),
-                'raw_value': float(avg_local),
-                'assessment': get_quality_label(local_quality),
-                'issues': []
-            },
-            'progression': {
-                'score': float(np.mean(progression_scores)),
-                'assessment': get_quality_label(np.mean(progression_scores)),
-                'issues': []
+    def analyze_concept_flow(self, chunks):
+        """Analyze how concepts flow with improved robustness and error handling"""
+        try:
+            # Encode chunks
+            embeddings = self.encoder.encode(chunks)
+            
+            # Calculate local coherence with error handling
+            local_scores = []
+            for i in range(len(chunks) - 1):
+                try:
+                    similarity = np.dot(embeddings[i], embeddings[i+1]) / (
+                        np.linalg.norm(embeddings[i]) * np.linalg.norm(embeddings[i+1]))
+                    # Handle potential NaN from zero division
+                    if np.isnan(similarity):
+                        similarity = 0.5  # Default to neutral score
+                    local_scores.append(float(similarity))
+                except Exception as e:
+                    print(f"Warning: Error calculating local coherence: {e}")
+                    local_scores.append(0.5)  # Default to neutral score
+            
+            if not local_scores:  # If no scores were calculated
+                return {
+                    'flow_score': 0.5,
+                    'quality': 'calculation error',
+                    'details': {
+                        'local_coherence': {'score': 0.5, 'assessment': 'calculation error'},
+                        'progression': {'score': 0.5, 'assessment': 'calculation error'}
+                    }
+                }
+            
+            # Calculate average local coherence
+            avg_local = np.mean(local_scores)
+            
+            # Evaluate progression
+            progression_scores = []
+            for i in range(len(chunks) - 2):
+                try:
+                    score1 = local_scores[i]
+                    score2 = local_scores[i + 1]
+                    variation = abs(score1 - score2)
+                    progression_scores.append(1.0 if 0.1 <= variation <= 0.4 else 0.5)
+                except Exception as e:
+                    print(f"Warning: Error calculating progression: {e}")
+                    progression_scores.append(0.5)
+            
+            if not progression_scores:
+                progression_scores = [0.5]  # Default if can't calculate progression
+            
+            # Calculate final score with safe averaging
+            local_quality = min(max(avg_local, 0.0), 1.0)  # Clamp between 0 and 1
+            progression_quality = min(max(np.mean(progression_scores), 0.0), 1.0)
+            
+            final_score = (
+                0.4 * local_quality +
+                0.6 * progression_quality
+            )
+            
+            return {
+                'flow_score': float(final_score),
+                'quality': self.get_quality_label(final_score),
+                'details': {
+                    'local_coherence': {
+                        'score': float(local_quality),
+                        'raw_value': float(avg_local),
+                        'assessment': self.get_quality_label(local_quality)
+                    },
+                    'progression': {
+                        'score': float(progression_quality),
+                        'assessment': self.get_quality_label(progression_quality)
+                    }
+                }
             }
-        }
-        
-        # Identify specific issues
-        if avg_local < ideal_ranges['local_coherence'][0]:
-            details['local_coherence']['issues'].append(
-                "Paragraphs are too disconnected. Consider adding more transitions and maintaining thematic links."
-            )
-        elif avg_local > ideal_ranges['local_coherence'][1]:
-            details['local_coherence']['issues'].append(
-                "Paragraphs are too similar. Consider developing ideas more and reducing redundancy."
-            )
-        
-        if np.mean(progression_scores) < 0.6:
-            details['progression']['issues'].append(
-                "Ideas aren't developing enough between paragraphs. Consider how each paragraph advances the discussion."
-            )
-        
-        # Calculate final score with emphasis on balanced progression
-        final_score = (
-            0.4 * local_quality +
-            0.6 * np.mean(progression_scores)  # Weight progression more heavily
-        )
-        
-        return {
-            'flow_score': float(final_score),
-            'quality': get_quality_label(final_score),
-            'details': details
-        }
+            
+        except Exception as e:
+            print(f"Error in analyze_concept_flow: {e}")
+            return {
+                'flow_score': 0.5,
+                'quality': 'error',
+                'details': {
+                    'local_coherence': {'score': 0.5, 'assessment': 'error'},
+                    'progression': {'score': 0.5, 'assessment': 'error'}
+                }
+            }
+    
+    def get_quality_label(self, score):
+        """Get qualitative label for a score"""
+        if score < 0.3:
+            return "poor"
+        elif score < 0.5:
+            return "needs improvement"
+        elif score < 0.7:
+            return "adequate"
+        elif score < 0.85:
+            return "good"
+        else:
+            return "excellent"
 
 def process_report(json_path):
     # Load the JSON file
@@ -169,21 +214,11 @@ def process_report(json_path):
     
     return original_report, improved_report, original_score, improved_score, original_coherence, improved_coherence
 
-def count_actionable_recommendations(text):
-    # Find sentences that appear to be actionable recommendations
-    recommendation_patterns = [
-        r'(?:should|must|need to|recommend|advise|suggest).*?[.!]',  # Directive language
-        r'(?:it is recommended|we recommend|I recommend).*?[.!]',  # Explicit recommendations
-        r'(?:consider|implement|adopt|develop|establish|create).*?[.!]'  # Action verbs
-    ]
-    
-    # Combine patterns and search for matches
-    combined_pattern = '|'.join(recommendation_patterns)
-    recommendations = re.findall(combined_pattern, text, re.IGNORECASE)
-    
-    return len(recommendations)
-
 def count_technical_terms(text):
+    """
+    Count and calculate frequency of technical terms in text.
+    Returns both raw counts and frequency normalized to 0-1 scale.
+    """
     # Define technical terms related to semiconductors and general technical writing
     technical_terms = [
         # Semiconductor Materials & Properties
@@ -215,43 +250,73 @@ def count_technical_terms(text):
         'correlation', 'coefficient', 'algorithm', 'framework'
     ]
     
+    # Get total word count
+    total_words = len(text.split())
+    
     # Count occurrences of each term
-    term_count = 0
+    term_counts = {}
+    total_technical_terms = 0
+    
     for term in technical_terms:
         # Use word boundaries to ensure we're matching whole words
-        term_count += len(re.findall(r'\b' + re.escape(term) + r'\b', text, re.IGNORECASE))
+        count = len(re.findall(r'\b' + re.escape(term) + r'\b', text, re.IGNORECASE))
+        if count > 0:
+            term_counts[term] = count
+            total_technical_terms += count
     
-    return term_count
+    # Calculate frequencies
+    if total_words > 0:
+        # Overall technical term frequency (percentage of technical words)
+        technical_frequency = total_technical_terms / total_words
+        
+        # Normalize to 0-1 scale
+        # Assuming a good technical document might have 5-15% technical terms
+        # Scale accordingly: anything above 15% will be capped at 1.0
+        normalized_frequency = min(technical_frequency / 0.15, 1.0)
+    else:
+        technical_frequency = 0
+        normalized_frequency = 0
+    
+    return {
+        'raw_count': total_technical_terms,
+        'unique_terms': len(term_counts),
+        'term_frequencies': term_counts,
+        'technical_frequency': technical_frequency,
+        'normalized_score': normalized_frequency,
+        'total_words': total_words
+    }
 
 def estimate_concept_hierarchy_depth(text):
     """
     Estimates the hierarchical depth of concepts in text using topic modeling
-    and syntactic structure analysis.
+    and syntactic structure analysis, returning scores on a 0-1 scale.
     """
-    # Initialize components
+    # Initialize spaCy
     try:
         nlp = spacy.load('en_core_web_sm')
     except OSError:
-        # If model not installed, download it
         import subprocess
         subprocess.run(['python', '-m', 'spacy', 'download', 'en_core_web_sm'])
         nlp = spacy.load('en_core_web_sm')
 
-    # Part 1: Topic Hierarchy Analysis
-    topic_depth = analyze_topic_hierarchy(text)
+    # Get topic hierarchy score (0-1)
+    topic_score = analyze_topic_hierarchy_normalized(text)
     
-    # Part 2: Sentence Complexity Analysis
-    syntax_depth = analyze_sentence_complexity(text, nlp)
+    # Get sentence complexity score (0-1)
+    syntax_score = analyze_sentence_complexity_normalized(text, nlp)
     
-    # Combine scores
-    final_depth = calculate_hierarchy_score(topic_depth, syntax_depth)
+    # Combine scores with weights
+    final_score = (topic_score * 0.6) + (syntax_score * 0.4)
     
-    return final_depth
+    # Return detailed results for transparency
+    return {
+        'combined_score': final_score,
+        'topic_hierarchy_score': topic_score,
+        'syntax_complexity_score': syntax_score
+    }
 
-def analyze_topic_hierarchy(text, num_topics=5, num_words=10):
-    """
-    Uses LDA to identify topic hierarchy levels
-    """
+def analyze_topic_hierarchy_normalized(text, num_topics=5):
+    """Uses LDA to identify topic hierarchy levels, with scores normalized to 0-1"""
     # Preprocess text
     sentences = text.split('.')
     
@@ -261,73 +326,122 @@ def analyze_topic_hierarchy(text, num_topics=5, num_words=10):
         min_df=2,
         stop_words='english'
     )
-    doc_term_matrix = vectorizer.fit_transform(sentences)
     
-    # Apply LDA
-    lda = LatentDirichletAllocation(
-        n_components=num_topics,
-        random_state=42
-    )
-    lda.fit(doc_term_matrix)
+    # Handle very short texts
+    if len(sentences) < 3:
+        return 0.2  # Very minimal topic structure
     
-    # Analyze topic distribution
-    topic_distributions = lda.transform(doc_term_matrix)
-    
-    # Calculate topic hierarchy depth based on:
-    # 1. Number of significant topics (topics with distribution > threshold)
-    # 2. Topic distinctiveness
-    threshold = 0.1
-    significant_topics = np.sum(np.max(topic_distributions, axis=1) > threshold)
-    
-    # Calculate topic distinctiveness
-    topic_distinctiveness = np.mean(np.std(topic_distributions, axis=1))
-    
-    # Combine metrics to estimate topic hierarchy depth
-    topic_depth = (significant_topics * topic_distinctiveness) / 2
-    
-    return min(max(1, round(topic_depth)), 5)  # Bound between 1 and 5
-
-def analyze_sentence_complexity(text, nlp):
-    """
-    Uses spaCy to analyze syntactic complexity through dependency parsing
-    """
-    doc = nlp(text)
-    
-    # Calculate average dependency tree depth for each sentence
-    depths = []
-    for sent in doc.sents:
-        # Create dependency tree
-        tree_depths = []
-        for token in sent:
-            depth = 1
-            current = token
-            while current.head != current:  # Walk up the tree until we hit the root
-                depth += 1
-                current = current.head
-            tree_depths.append(depth)
+    try:
+        doc_term_matrix = vectorizer.fit_transform(sentences)
         
-        if tree_depths:
-            depths.append(max(tree_depths))
-    
-    # Calculate average depth across all sentences
-    avg_depth = np.mean(depths) if depths else 1
-    
-    # Normalize to a 1-5 scale
-    normalized_depth = min(max(1, round(avg_depth / 2)), 5)
-    
-    return normalized_depth
+        # Apply LDA
+        lda = LatentDirichletAllocation(
+            n_components=num_topics,
+            random_state=42
+        )
+        lda.fit(doc_term_matrix)
+        
+        # Analyze topic distribution
+        topic_distributions = lda.transform(doc_term_matrix)
+        
+        # Calculate metrics
+        # 1. Topic diversity: measure how evenly distributed the topics are
+        topic_diversity = np.mean([np.std(dist) for dist in topic_distributions])
+        normalized_diversity = min(topic_diversity / 0.3, 1.0)  # Normalize with sensible max
+        
+        # 2. Topic coherence: measure how distinct the topics are
+        topic_words = []
+        feature_names = vectorizer.get_feature_names_out()
+        for topic_idx, topic in enumerate(lda.components_):
+            top_features_ind = topic.argsort()[:-10 - 1:-1]
+            topic_words.append([feature_names[i] for i in top_features_ind])
+        
+        # Calculate overlap between topics (less overlap = better hierarchy)
+        overlap_sum = 0
+        topic_pairs = 0
+        for i in range(len(topic_words)):
+            for j in range(i+1, len(topic_words)):
+                overlap = len(set(topic_words[i]) & set(topic_words[j]))
+                overlap_sum += overlap
+                topic_pairs += 1
+        
+        avg_overlap = overlap_sum / max(1, topic_pairs)
+        # Normalize: 0 overlap → 1.0 score, 5+ words overlap → 0.0 score
+        normalized_uniqueness = max(0, 1.0 - (avg_overlap / 5.0))
+        
+        # 3. Topic significance: measure how many significant topics there are
+        significant_topics_count = sum(np.max(topic_distributions, axis=1) > 0.5)
+        normalized_significance = min(significant_topics_count / 4.0, 1.0)  # Cap at 4 significant topics
+        
+        # Combined score with weights
+        combined_score = (
+            0.4 * normalized_diversity +
+            0.3 * normalized_uniqueness +
+            0.3 * normalized_significance
+        )
+        
+        return combined_score
+        
+    except Exception as e:
+        print(f"Error in topic analysis: {e}")
+        return 0.3  # Default fallback score
 
-def calculate_hierarchy_score(topic_depth, syntax_depth):
-    """
-    Combines topic and syntactic hierarchy scores into final depth score
-    """
-    # Weight topic depth slightly more than syntax depth
-    weighted_score = (topic_depth * 0.6) + (syntax_depth * 0.4)
-    
-    # Round to nearest integer and ensure bounds
-    final_score = min(max(1, round(weighted_score)), 5)
-    
-    return final_score
+def analyze_sentence_complexity_normalized(text, nlp):
+    """Analyzes syntactic complexity through dependency parsing, normalized to 0-1"""
+    try:
+        doc = nlp(text)
+        
+        # Calculate metrics
+        # 1. Tree depth: maximum dependency tree depth across sentences
+        depths = []
+        for sent in doc.sents:
+            tree_depths = []
+            for token in sent:
+                depth = 1
+                current = token
+                while current.head != current:
+                    depth += 1
+                    current = current.head
+                tree_depths.append(depth)
+            
+            if tree_depths:
+                depths.append(max(tree_depths))
+        
+        if not depths:
+            return 0.3  # Default for very short text
+        
+        avg_max_depth = np.mean(depths)
+        # Normalize: optimal range for technical writing is 5-8 levels deep
+        if avg_max_depth < 3:
+            normalized_depth = 0.3  # Too simple
+        elif avg_max_depth < 5:
+            normalized_depth = 0.6  # Moderate complexity
+        elif avg_max_depth <= 8:
+            normalized_depth = 1.0  # Optimal complexity
+        else:
+            normalized_depth = 0.7  # Too complex
+        
+        # 2. Sentence structure variety
+        # Calculate standard deviation of tree depths to measure variety
+        depth_std = np.std(depths) if len(depths) > 1 else 0
+        normalized_variety = min(depth_std / 2.0, 1.0)  # Normalize with sensible max
+        
+        # 3. Complex clause usage - count subordinate clauses
+        clause_count = len([token for token in doc if token.dep_ in ('ccomp', 'xcomp', 'advcl')])
+        normalized_clauses = min(clause_count / (len(list(doc.sents)) * 1.5), 1.0)  # Normalize per sentence
+        
+        # Combined score with weights
+        combined_score = (
+            0.5 * normalized_depth +
+            0.3 * normalized_variety +
+            0.2 * normalized_clauses
+        )
+        
+        return combined_score
+        
+    except Exception as e:
+        print(f"Error in syntax analysis: {e}")
+        return 0.4  # Default fallback score
 
 def count_examples(text):
     # Find phrases that indicate examples are being provided
@@ -544,16 +658,14 @@ def create_comparison_charts(results, output_dir):
 
 def llm_evaluate_report(original_report, improved_report, api_key):
     """
-    Use an LLM (Claude) to evaluate the original and improved reports
-    Returns the evaluation results
+    Use an LLM (OpenAI) to evaluate the original and improved reports
+    Returns the evaluation results with scores on a 0-1 scale
     """
-    client = anthropic.Anthropic(api_key=api_key)
-    
     # Create a combined prompt to evaluate both texts
     prompt = f"""I'll provide you with two versions of a report: an original version and an improved version.
     Please evaluate both versions for technical depth, clarity, and overall effectiveness.
     
-    Provide a score from 0-100 for each category, with justification and specific observations.
+    Provide a score from 0.0-1.0 for each category, with justification and specific observations.
     
     ORIGINAL REPORT:
     ```
@@ -569,29 +681,29 @@ def llm_evaluate_report(original_report, improved_report, api_key):
     {{
         "original": {{
             "technical_depth": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }},
             "clarity": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }},
             "overall": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }}
         }},
         "improved": {{
             "technical_depth": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }},
             "clarity": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }},
             "overall": {{
-                "score": <0-100>,
+                "score": <0.0-1.0>,
                 "justification": "detailed explanation"
             }}
         }},
@@ -605,19 +717,19 @@ def llm_evaluate_report(original_report, improved_report, api_key):
     """
 
     try:
-        response = client.messages.create(
-            model="claude-3-sonnet-20240229",
-            max_tokens=2000,
-            temperature=0.1,
+        response = openai_client.chat.completions.create(
+            model="gpt-4",
             messages=[
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            max_tokens=2000,
+            temperature=0.1
         )
         
-        # Extract the JSON response from Claude's message
-        response_text = response.content[0].text
+        # Extract the JSON response from OpenAI's message
+        response_text = response.choices[0].message.content
         
-        # Find the JSON response in the text (in case Claude adds additional commentary)
+        # Find the JSON response in the text (in case GPT adds additional commentary)
         import re
         json_match = re.search(r'\{[\s\S]*\}', response_text)
         if json_match:
@@ -633,26 +745,26 @@ def llm_evaluate_report(original_report, improved_report, api_key):
         # Return default values in case of error
         return {
             'original': {
-                'technical_depth': {'score': 50, 'justification': "Error in evaluation process"},
-                'clarity': {'score': 50, 'justification': "Error in evaluation process"},
-                'overall': {'score': 50, 'justification': "Error in evaluation process"}
+                'technical_depth': {'score': 0.5, 'justification': "Error in evaluation process"},
+                'clarity': {'score': 0.5, 'justification': "Error in evaluation process"},
+                'overall': {'score': 0.5, 'justification': "Error in evaluation process"}
             },
             'improved': {
-                'technical_depth': {'score': 50, 'justification': "Error in evaluation process"},
-                'clarity': {'score': 50, 'justification': "Error in evaluation process"},
-                'overall': {'score': 50, 'justification': "Error in evaluation process"}
+                'technical_depth': {'score': 0.5, 'justification': "Error in evaluation process"},
+                'clarity': {'score': 0.5, 'justification': "Error in evaluation process"},
+                'overall': {'score': 0.5, 'justification': "Error in evaluation process"}
             },
             'comparison': {
-                'technical_depth_difference': 0,
-                'clarity_difference': 0,
-                'overall_difference': 0,
+                'technical_depth_difference': 0.0,
+                'clarity_difference': 0.0,
+                'overall_difference': 0.0,
                 'summary': "Error in evaluation process"
             }
         }
 
 def create_llm_comparison_chart(llm_results, output_dir, timestamp):
     """
-    Create a bar chart comparing LLM evaluation scores
+    Create a bar chart comparing LLM evaluation scores (0-1 scale)
     """
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
@@ -679,7 +791,7 @@ def create_llm_comparison_chart(llm_results, output_dir, timestamp):
     plt.bar(x + width/2, improved_values, width, label='Improved', color=improved_color)
     
     plt.xlabel('Metrics')
-    plt.ylabel('Score (0-100)')
+    plt.ylabel('Score (0-1)')
     plt.xticks(x, labels)
     plt.title('LLM Evaluation Scores Comparison')
     plt.legend()
@@ -687,9 +799,9 @@ def create_llm_comparison_chart(llm_results, output_dir, timestamp):
     
     # Add value labels on top of each bar
     for i, v in enumerate(original_values):
-        plt.text(i - width/2, v + 3, str(v), ha='center', va='bottom', fontweight='bold')
+        plt.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
     for i, v in enumerate(improved_values):
-        plt.text(i + width/2, v + 3, str(v), ha='center', va='bottom', fontweight='bold')
+        plt.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
     
     # Add difference arrows and labels
     for i in range(len(metrics)):
@@ -704,9 +816,9 @@ def create_llm_comparison_chart(llm_results, output_dir, timestamp):
             
             # Draw the arrow
             plt.annotate(
-                f"{diff:+}",
+                f"{diff:+.3f}",
                 xy=(arrow_x, arrow_y_start),
-                xytext=(arrow_x, arrow_y_start - 10 if diff < 0 else arrow_y_start + 10),
+                xytext=(arrow_x, arrow_y_start - 0.02 if diff < 0 else arrow_y_start + 0.02),
                 arrowprops=dict(arrowstyle='->', color=arrow_color, lw=2),
                 ha='center',
                 va='center',
@@ -714,8 +826,8 @@ def create_llm_comparison_chart(llm_results, output_dir, timestamp):
                 color=arrow_color
             )
     
-    # Set y-axis limit to 0-100 with some padding
-    plt.ylim(0, 105)
+    # Set y-axis limit to 0-1 with some padding
+    plt.ylim(0, 1.05)
     
     # Save figure
     chart_path = os.path.join(output_dir, f"llm_evaluation_{timestamp}.png")
@@ -756,9 +868,354 @@ def create_coherence_chart(results, output_dir, timestamp):
     
     return chart_path
 
+def calculate_technical_depth(text):
+    """
+    Calculate technical depth metrics using frequency-based technical term analysis and LLM evaluation
+    """
+    # Get technical metrics with frequency
+    tech_metrics = count_technical_terms(text)
+    normalized_term_score = tech_metrics['normalized_score']
+    
+    # Get concept hierarchy depth
+    concept_hierarchy_depth = estimate_concept_hierarchy_depth(text)
+    # Fix: use the combined_score directly as it's already normalized to 0-1
+    normalized_depth = concept_hierarchy_depth['combined_score']
+    
+    # Initialize result dictionary
+    result = {
+        'technical_term_metrics': tech_metrics,
+        'concept_hierarchy_depth': normalized_depth
+    }
+    
+    # Add LLM evaluation
+    try:
+        prompt = f"""Evaluate the technical depth of the following text. Consider:
+        1. Complexity and sophistication of technical concepts
+        2. Depth of technical explanations
+        3. Use of domain-specific terminology
+        4. Technical accuracy and precision
+        
+        Provide a score from 0.0-1.0 and a brief justification.
+        
+        Text to evaluate:
+        ```
+        {text[:6000]}  # Limiting to first 6000 chars to keep within context window
+        ```
+        
+        Format your response as a JSON object with this structure:
+        {{
+            "score": <0.0-1.0>,
+            "justification": "brief explanation"
+        }}
+        """
+        
+        response = openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000,
+            temperature=0.1
+        )
+        
+        # Extract the JSON response
+        import re
+        import json
+        json_match = re.search(r'\{[\s\S]*\}', response.choices[0].message.content)
+        if json_match:
+            llm_evaluation = json.loads(json_match.group(0))
+            result['llm_evaluation'] = {
+                'score': float(llm_evaluation['score']),
+                'justification': llm_evaluation['justification']
+            }
+        
+    except Exception as e:
+        print(f"Warning: LLM evaluation failed: {str(e)}")
+        result['llm_evaluation'] = {
+            'score': 0.5,  # Default middle score
+            'justification': "LLM evaluation failed"
+        }
+    
+    # Calculate combined score with LLM evaluation
+    result['combined_score'] = (
+        0.3 * normalized_term_score +    # 30% weight to term frequency
+        0.3 * normalized_depth +         # 30% weight to concept hierarchy
+        0.4 * result['llm_evaluation']['score']  # 40% weight to LLM evaluation
+    )
+    
+    return result
+
+def calculate_clarity(text):
+    """
+    Calculate clarity and understandability metrics for a given text.
+    
+    Returns:
+        dict: Dictionary containing clarity metrics (all normalized to 0-1):
+            - flesch_score: Normalized Flesch reading ease score
+            - defined_terms_count: Normalized number of defined terms
+            - example_count: Normalized number of examples
+            - llm_evaluation: LLM-based clarity evaluation
+    """
+    # Calculate basic metrics
+    flesch_score = textstat.flesch_reading_ease(text)
+    
+    # Get technical term metrics to use as a base for determining how many terms should be defined
+    tech_metrics = count_technical_terms(text)
+    unique_technical_terms = tech_metrics['unique_terms']
+    
+    # Count defined terms and examples
+    defined_terms_count = count_defined_terms(text)
+    example_count = count_examples(text)
+    
+    # Calculate total sentences to estimate concepts that could benefit from examples
+    sentences = text.split('.')
+    total_sentences = len([s for s in sentences if len(s.strip()) > 10])  # Only count meaningful sentences
+    estimated_concepts = max(1, total_sentences // 3)  # Estimate one concept per three sentences
+    
+    # Normalize Flesch score for technical content (target ~30)
+    if flesch_score <= 10:  # Extremely complex, even for technical content
+        normalized_flesch = 0.2
+    elif flesch_score <= 20:  # Very complex technical content
+        normalized_flesch = 0.4
+    elif flesch_score <= 35:  # Optimal range for technical content
+        normalized_flesch = 1.0
+    elif flesch_score <= 50:  # Slightly more readable than needed
+        normalized_flesch = 0.8
+    else:  # Too simple for technical audience
+        normalized_flesch = 0.6
+    
+    # Normalize definitions relative to unique technical terms that should be defined
+    # Optimal is to define 50-80% of technical terms
+    definition_ratio = defined_terms_count / max(1, unique_technical_terms) if unique_technical_terms > 0 else 0
+    if definition_ratio > 0.8:  # More definitions than needed
+        normalized_defined = 0.8
+    elif definition_ratio >= 0.5:  # Optimal range
+        normalized_defined = 1.0
+    elif definition_ratio >= 0.3:  # Acceptable but could use more
+        normalized_defined = 0.7
+    elif definition_ratio > 0:  # Too few definitions
+        normalized_defined = 0.4 * (definition_ratio / 0.3)  # Scale from 0 to 0.4
+    else:  # No definitions
+        normalized_defined = 0
+    
+    # Normalize examples relative to estimated concepts that benefit from examples
+    # Optimal is to provide examples for 30-50% of key concepts
+    example_ratio = example_count / max(1, estimated_concepts) if estimated_concepts > 0 else 0
+    if example_ratio > 0.6:  # More examples than needed
+        normalized_examples = 0.9
+    elif example_ratio >= 0.3:  # Optimal range
+        normalized_examples = 1.0
+    elif example_ratio >= 0.1:  # Acceptable but could use more
+        normalized_examples = 0.6
+    elif example_ratio > 0:  # Too few examples
+        normalized_examples = 0.3 * (example_ratio / 0.1)  # Scale from 0 to 0.3
+    else:  # No examples
+        normalized_examples = 0
+    
+    # Add LLM evaluation
+    try:        
+        prompt = f"""Evaluate the clarity and understandability of the following text. Consider:
+        1. Clear and concise explanations
+        2. Logical flow of ideas
+        3. Effective use of examples and definitions
+        4. Accessibility to the target audience
+        
+        Provide a score from 0.0-1.0 and a brief justification.
+        
+        Text to evaluate:
+        ```
+        {text[:6000]}  # Limiting to first 6000 chars to keep within context window
+        ```
+        
+        Format your response as a JSON object with this structure:
+        {{
+            "score": <0.0-1.0>,
+            "justification": "brief explanation"
+        }}
+        """
+        
+        response = openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000,
+            temperature=0.1
+        )
+        
+        # Extract the JSON response
+        json_match = re.search(r'\{[\s\S]*\}', response.choices[0].message.content)
+        if json_match:
+            llm_evaluation = json.loads(json_match.group(0))
+            llm_score = float(llm_evaluation['score'])
+            llm_justification = llm_evaluation['justification']
+        else:
+            llm_score = 0.5
+            llm_justification = "Failed to parse LLM response"
+            
+    except Exception as e:
+        print(f"Warning: LLM evaluation failed: {str(e)}")
+        llm_score = 0.5
+        llm_justification = "LLM evaluation failed"
+    
+    # Calculate combined score with weights
+    combined_score = (
+        0.25 * normalized_flesch +     # 25% weight to readability
+        0.15 * normalized_defined +    # 15% weight to defined terms
+        0.15 * normalized_examples +   # 15% weight to examples
+        0.45 * llm_score               # 45% weight to LLM evaluation
+    )
+    
+    return {
+        'flesch_score': normalized_flesch,
+        'defined_terms_count': normalized_defined,
+        'example_count': normalized_examples,
+        'definition_ratio': definition_ratio,  # Added for transparency
+        'example_ratio': example_ratio,        # Added for transparency
+        'llm_evaluation': {
+            'score': llm_score,
+            'justification': llm_justification
+        },
+        'combined_score': combined_score
+    }
+
+def calculate_structure(text):
+    """
+    Calculate structure metrics for a given text.
+    
+    Returns:
+        dict: Dictionary containing structure metrics:
+            - coherence: Contextual coherence metrics (normalized to 0-1)
+            - llm_evaluation: LLM-based structure evaluation
+    """
+    # Get coherence metrics
+    coherence_analyzer = ContextualCoherenceAnalyzer()
+    coherence = coherence_analyzer.analyze_contextual_coherence(text)
+    
+    # Ensure we have a valid flow score
+    flow_score = coherence.get('concept_flow', {}).get('flow_score', 0.5)
+    if np.isnan(flow_score):
+        flow_score = 0.5  # Default to neutral score if NaN
+    
+    # Add LLM evaluation
+    try:
+        prompt = f"""Evaluate the structural organization of the following text. Consider:
+        1. Logical organization and flow
+        2. Effective use of paragraphs and sections
+        3. Transitions between ideas
+        4. Overall document structure
+        
+        Provide a score from 0.0-1.0 and a brief justification.
+        
+        Text to evaluate:
+        ```
+        {text[:6000]}  # Limiting to first 6000 chars to keep within context window
+        ```
+        
+        Format your response as a JSON object with this structure:
+        {{
+            "score": <0.0-1.0>,
+            "justification": "brief explanation"
+        }}
+        """
+        
+        response = openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000,
+            temperature=0.1
+        )
+        
+        # Extract the JSON response
+        json_match = re.search(r'\{[\s\S]*\}', response.choices[0].message.content)
+        if json_match:
+            llm_evaluation = json.loads(json_match.group(0))
+            llm_score = float(llm_evaluation['score'])
+            llm_justification = llm_evaluation['justification']
+        else:
+            llm_score = 0.5
+            llm_justification = "Failed to parse LLM response"
+            
+    except Exception as e:
+        print(f"Warning: LLM evaluation failed: {str(e)}")
+        llm_score = 0.5
+        llm_justification = "LLM evaluation failed"
+    
+    # Calculate combined score with weights and ensure no NaN
+    try:
+        combined_score = (
+            0.6 * flow_score +  # 60% weight to automated coherence
+            0.4 * llm_score    # 40% weight to LLM evaluation
+        )
+        if np.isnan(combined_score):
+            combined_score = 0.5  # Default to neutral score if calculation fails
+    except Exception as e:
+        print(f"Warning: Error calculating combined structure score: {str(e)}")
+        combined_score = 0.5
+    
+    return {
+        'coherence': coherence,
+        'llm_evaluation': {
+            'score': llm_score,
+            'justification': llm_justification
+        },
+        'combined_score': float(combined_score)  # Ensure we return a float, not numpy float
+    }
+
+def calculate_final_weighted_score(text, llm_technical_depth=None, llm_clarity=None):
+    """
+    Calculate a comprehensive weighted score for a text combining all metrics.
+    
+    Args:
+        text (str): The text to analyze
+        llm_technical_depth (dict, optional): LLM evaluation for technical depth
+        llm_clarity (dict, optional): LLM evaluation for clarity
+    
+    Returns:
+        dict: Dictionary containing all metrics and the weighted score
+    """
+    # Calculate all component metrics
+    technical_metrics = calculate_technical_depth(text)
+    clarity_metrics = calculate_clarity(text)
+    structure_metrics = calculate_structure(text)
+    
+    # Create consolidated metrics dictionary
+    metrics = {
+        'technical_term_count': technical_metrics['technical_term_metrics']['raw_count'],
+        'concept_hierarchy_depth': technical_metrics['concept_hierarchy_depth'],
+        'flesch_score': clarity_metrics['flesch_score'],
+        'defined_terms_count': clarity_metrics['defined_terms_count'],
+        'example_count': clarity_metrics['example_count'],
+        'contextual_coherence': structure_metrics['coherence'],
+        'word_count': len(text.split())
+    }
+    
+    # Add LLM scores if available
+    llm_results = {
+        'technical_depth': {'score': 0.5},  # Default values
+        'clarity': {'score': 0.5}
+    }
+    
+    if llm_technical_depth is not None:
+        llm_results['technical_depth'] = llm_technical_depth
+    
+    if llm_clarity is not None:
+        llm_results['clarity'] = llm_clarity
+    
+    # Calculate weighted score
+    weighted_scores = calculate_weighted_score(metrics, llm_results)
+    
+    # Return combined results
+    return {
+        'metrics': metrics,
+        'weighted_score': weighted_scores
+    }
+
 def calculate_weighted_score(report_metrics, llm_results):
     """
-    Calculate a weighted score (0-100) based on various metrics
+    Calculate a weighted score (0-1) based on various metrics
     
     Weights are grouped into three main categories:
     1. Technical Depth (45% total)
@@ -783,26 +1240,24 @@ def calculate_weighted_score(report_metrics, llm_results):
     
     # Structure (20% total)
     structure_weights = {
-        'coherence_flow_score': 0.15,  # 15%
-        'actionable_recommendations_count': 0.05,  # 5%
+        'coherence_flow_score': 0.20,  # 20%
     }
 
-    # Calculate normalized scores (0-100 scale)
+    # Calculate normalized scores (0-1 scale)
     scores = {
         # Technical Depth
-        'technical_term_count': min(report_metrics['technical_term_count'] * 5, 100),
-        'concept_hierarchy_depth': min(report_metrics['concept_hierarchy_depth'] * 20, 100),
+        'technical_term_count': min(report_metrics['technical_term_count'] * 0.05, 1.0),
+        'concept_hierarchy_depth': report_metrics['concept_hierarchy_depth'] / 5.0,  # Already 1-5 scale
         'llm_technical_depth': llm_results['technical_depth']['score'],
         
         # Clarity & Understandability
-        'flesch_score': min(max(report_metrics['flesch_score'], 0), 100),
-        'defined_terms_count': min(report_metrics['defined_terms_count'] * 10, 100),
-        'example_count': min(report_metrics['example_count'] * 20, 100),
+        'flesch_score': min(max(report_metrics['flesch_score'] / 100.0, 0), 1.0),
+        'defined_terms_count': min(report_metrics['defined_terms_count'] * 0.1, 1.0),
+        'example_count': min(report_metrics['example_count'] * 0.2, 1.0),
         'llm_clarity': llm_results['clarity']['score'],
         
         # Structure
-        'coherence_flow_score': report_metrics['contextual_coherence']['concept_flow']['flow_score'] * 100,
-        'actionable_recommendations_count': min(report_metrics['actionable_recommendations_count'] * 20, 100)
+        'coherence_flow_score': report_metrics['contextual_coherence']['concept_flow']['flow_score']  # Already 0-1
     }
     
     # Calculate weighted scores
@@ -814,13 +1269,13 @@ def calculate_weighted_score(report_metrics, llm_results):
     final_score = technical_score + clarity_score + structure_score
     
     return {
-        'final_score': round(final_score, 2),
+        'final_score': round(final_score, 3),
         'component_scores': {
-            'technical_depth': round(technical_score, 2),
-            'clarity': round(clarity_score, 2),
-            'structure': round(structure_score, 2)
+            'technical_depth': round(technical_score, 3),
+            'clarity': round(clarity_score, 3),
+            'structure': round(structure_score, 3)
         },
-        'detailed_scores': {metric: round(score, 2) for metric, score in scores.items()}
+        'detailed_scores': {metric: round(score, 3) for metric, score in scores.items()}
     }
 
 def compare_report_scores(original_metrics, improved_metrics, llm_results):
@@ -879,7 +1334,7 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     
     # Customize the plot
     plt.xlabel('Score Components')
-    plt.ylabel('Score (0-100)')
+    plt.ylabel('Score (0-1)')
     plt.title('Weighted Score Comparison')
     plt.xticks(x, categories)
     plt.legend()
@@ -887,9 +1342,9 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     
     # Add value labels on top of each bar
     for i, v in enumerate(original_values):
-        plt.text(i - width/2, v + 1, f'{v:.1f}', ha='center', va='bottom', fontweight='bold')
+        plt.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
     for i, v in enumerate(improved_values):
-        plt.text(i + width/2, v + 1, f'{v:.1f}', ha='center', va='bottom', fontweight='bold')
+        plt.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
     
     # Add improvement arrows and labels
     for i in range(len(categories)):
@@ -904,9 +1359,9 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
             
             # Draw the arrow
             plt.annotate(
-                f"{diff:+.1f}",
+                f"{diff:+.3f}",
                 xy=(arrow_x, arrow_y_start),
-                xytext=(arrow_x, arrow_y_start - 5 if diff < 0 else arrow_y_start + 5),
+                xytext=(arrow_x, arrow_y_start - 0.02 if diff < 0 else arrow_y_start + 0.02),
                 arrowprops=dict(arrowstyle='->', color=arrow_color, lw=2),
                 ha='center',
                 va='center',
@@ -917,15 +1372,15 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     # Add percentage improvement as a subtitle
     plt.figtext(
         0.5, 0.02,
-        f"Overall Improvement: {weighted_scores['percent_improvement']:+.1f}%",
+        f"Overall Improvement: {weighted_scores['percent_improvement']:+.3f}%",
         ha='center',
         fontsize=10,
         fontweight='bold',
         bbox=dict(facecolor='white', alpha=0.8, edgecolor='none')
     )
     
-    # Set y-axis limit to 0-100 with some padding
-    plt.ylim(0, 105)
+    # Set y-axis limit to 0-1 with some padding
+    plt.ylim(0, 1.05)
     
     # Save the chart
     chart_path = os.path.join(output_dir, f"weighted_scores_{timestamp}.png")
@@ -934,6 +1389,153 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     plt.close()
     
     return chart_path
+
+def evaluate_citation_accuracy(text: str, referenced_papers: Dict) -> Dict:
+    """
+    Evaluate factual accuracy by comparing content against reference data.
+    
+    Args:
+        text (str): The text to evaluate for factual accuracy
+        referenced_papers (Dict): Dictionary of referenced papers with their content
+        
+    Returns:
+        Dict containing:
+            - score (float): Overall factual accuracy score (0-1)
+            - citation_analysis (list): Analysis of factual accuracy
+            - needs_improvement (bool): Whether the content needs factual improvement
+            - improvement_suggestions (dict): Specific suggestions for improving accuracy
+    """
+    # Prepare reference content
+    reference_content = ""
+    for paper_id, paper_info in referenced_papers.items():
+        reference_content += f"[{paper_info['citation_id']}] {paper_info.get('title', 'Untitled')}\n"
+        reference_content += f"Abstract: {paper_info.get('abstract', '')}\n"
+        if paper_info.get('chunks'):
+            reference_content += "Key content:\n"
+            for chunk in paper_info.get('chunks', []):
+                reference_content += f"- {chunk}\n"
+        reference_content += "\n---\n\n"
+    
+    # Create prompt for factual accuracy evaluation
+    prompt = f"""Evaluate the factual accuracy of the text by comparing it against the provided reference data.
+
+TEXT TO EVALUATE:
+```
+{text[:3000]}  # First 3000 chars of text
+```
+
+REFERENCE DATA:
+```
+{reference_content[:4000]}  # First 4000 chars of reference content
+```
+
+Please analyze the text's factual accuracy based on the reference data. Consider:
+1. Whether claims in the text are supported by the reference data
+2. If there are any factual errors or misrepresentations
+3. How well the text reflects the information from the references
+
+Format your response as a JSON object with this structure:
+{{
+    "score": <0.0-1.0>,  # Overall factual accuracy score
+    "analysis": [
+        {{
+            "claim": "specific claim or statement from text",
+            "accuracy": <0.0-1.0>,  # Accuracy score for this claim
+            "reference_support": "relevant information from references or 'Not supported'",
+            "explanation": "brief explanation of accuracy rating"
+        }},
+        # Additional claims...
+    ],
+    "needs_improvement": <true/false>,
+    "improvement_suggestions": "specific suggestions for improving factual accuracy"
+}}
+
+IMPORTANT: Keep all claims and explanations short and focused.
+Assign a SINGLE score that reflects the OVERALL factual accuracy.
+Analyze at most 3-4 key claims from the text.
+
+Scoring criteria:
+- 1.0: All claims are fully supported by the references
+- 0.7-0.9: Most claims are accurate with minor discrepancies
+- 0.4-0.6: Some claims are accurate but others lack support
+- 0.1-0.3: Many claims lack support or contradict references
+- 0.0: No claims are supported by the references"""
+
+    try:
+        # Get LLM evaluation
+        response = openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1500,
+            temperature=0.1
+        )
+        
+        # Parse response
+        json_match = re.search(r'\{[\s\S]*\}', response.choices[0].message.content)
+        if json_match:
+            evaluation = json.loads(json_match.group(0))
+            score = float(evaluation.get("score", 0.5))
+            analysis = evaluation.get("analysis", [])
+            needs_improvement = evaluation.get("needs_improvement", score < 0.7)
+            improvement_suggestions = evaluation.get("improvement_suggestions", "")
+        else:
+            score = 0.5
+            analysis = []
+            needs_improvement = True
+            improvement_suggestions = "Failed to parse LLM response"
+        
+        # Transform analysis into citation_analysis format for compatibility
+        citation_analysis = []
+        for i, claim_analysis in enumerate(analysis):
+            citation_analysis.append({
+                "citation_id": f"claim_{i+1}",  # Generate unique IDs for each claim
+                "score": float(claim_analysis.get("accuracy", 0.5)),
+                "justification": claim_analysis.get("explanation", ""),
+                "contexts": [claim_analysis.get("claim", "")]
+            })
+        
+        # If no specific claims were analyzed, add a general analysis
+        if not citation_analysis:
+            citation_analysis.append({
+                "citation_id": "overall",
+                "score": score,
+                "justification": "General accuracy assessment",
+                "contexts": ["Overall text content"]
+            })
+        
+        # Format improvement suggestions
+        improvement_suggestions_dict = {}
+        if needs_improvement:
+            improvement_suggestions_dict["overall"] = {
+                "current_score": score,
+                "contexts": ["Overall text content"],
+                "suggestion": improvement_suggestions
+            }
+        
+        return {
+            "score": score,
+            "citation_analysis": citation_analysis,
+            "needs_improvement": needs_improvement,
+            "improvement_suggestions": improvement_suggestions_dict
+        }
+            
+    except Exception as e:
+        print(f"Error evaluating factual accuracy: {str(e)}")
+        return {
+            "score": 0.5,
+            "citation_analysis": [{
+                "citation_id": "overall",
+                "score": 0.5,
+                "justification": f"Error evaluating factual accuracy: {str(e)}",
+                "contexts": ["Error occurred during evaluation"]
+            }],
+            "needs_improvement": True,
+            "improvement_suggestions": {"overall": {
+                "current_score": 0.5,
+                "contexts": ["Error occurred"],
+                "suggestion": "Manual review recommended due to evaluation error"
+            }}
+        }
 
 if __name__ == "__main__":
     # Create base output directory
@@ -978,14 +1580,12 @@ if __name__ == "__main__":
             
             # Calculate technical metrics for original report
             original_concept_depth = estimate_concept_hierarchy_depth(original_report)
-            original_recommendations = count_actionable_recommendations(original_report)
             original_technical_terms = count_technical_terms(original_report)
             original_examples = count_examples(original_report)
             original_defined_terms = count_defined_terms(original_report)
             
             # Calculate technical metrics for improved report
             improved_concept_depth = estimate_concept_hierarchy_depth(improved_report)
-            improved_recommendations = count_actionable_recommendations(improved_report)
             improved_technical_terms = count_technical_terms(improved_report)
             improved_examples = count_examples(improved_report)
             improved_defined_terms = count_defined_terms(improved_report)
@@ -995,7 +1595,7 @@ if __name__ == "__main__":
             
             # Get LLM evaluation
             print("\nRequesting LLM evaluation...")
-            llm_results = llm_evaluate_report(original_report, improved_report, os.environ.get('ANTHROPIC_API_KEY') or "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")
+            llm_results = llm_evaluate_report(original_report, improved_report, "not-used")
             
             # Create a results dictionary including LLM evaluation
             results = {
@@ -1004,8 +1604,8 @@ if __name__ == "__main__":
                 "original_report": {
                     "word_count": original_length,
                     "flesch_score": round(original_score, 2),
-                    "concept_hierarchy_depth": original_concept_depth,
-                    "actionable_recommendations_count": original_recommendations,
+                    "concept_hierarchy_depth": original_concept_depth['combined_score'],
+                    "actionable_recommendations_count": 0,
                     "technical_term_count": original_technical_terms,
                     "example_count": original_examples,
                     "defined_terms_count": original_defined_terms,
@@ -1016,8 +1616,8 @@ if __name__ == "__main__":
                 "improved_report": {
                     "word_count": improved_length,
                     "flesch_score": round(improved_score, 2),
-                    "concept_hierarchy_depth": improved_concept_depth,
-                    "actionable_recommendations_count": improved_recommendations,
+                    "concept_hierarchy_depth": improved_concept_depth['combined_score'],
+                    "actionable_recommendations_count": 0,
                     "technical_term_count": improved_technical_terms,
                     "example_count": improved_examples,
                     "defined_terms_count": improved_defined_terms,
@@ -1029,8 +1629,7 @@ if __name__ == "__main__":
                     "word_count_difference": improved_length - original_length,
                     "word_count_percent_change": round(((improved_length - original_length) / original_length) * 100, 2),
                     "flesch_score_difference": round(improved_score - original_score, 2),
-                    "concept_depth_difference": improved_concept_depth - original_concept_depth,
-                    "recommendations_difference": improved_recommendations - original_recommendations,
+                    "concept_depth_difference": improved_concept_depth['combined_score'] - original_concept_depth['combined_score'],
                     "technical_terms_difference": improved_technical_terms - original_technical_terms,
                     "examples_difference": improved_examples - original_examples,
                     "defined_terms_difference": improved_defined_terms - original_defined_terms,
@@ -1058,27 +1657,28 @@ if __name__ == "__main__":
             # Print technical metrics
             print("\nTECHNICAL METRICS")
             print("=================")
-            print(f"Concept hierarchy depth: {original_concept_depth} → {improved_concept_depth}")
-            print(f"Actionable recommendations: {original_recommendations} → {improved_recommendations}")
+            print(f"Concept hierarchy depth: {original_concept_depth['combined_score']:.2f} → {improved_concept_depth['combined_score']:.2f}")
             print(f"Technical terms: {original_technical_terms} → {improved_technical_terms}")
+            print(f"Examples: {original_examples} → {improved_examples}")
+            print(f"Defined terms: {original_defined_terms} → {improved_defined_terms}")
             
             # Print LLM evaluation
             print("\nLLM EVALUATION")
             print("==============")
             print("Original Report:")
-            print(f"Technical Depth: {llm_results['original']['technical_depth']['score']}/100")
-            print(f"Clarity: {llm_results['original']['clarity']['score']}/100")
-            print(f"Overall: {llm_results['original']['overall']['score']}/100")
+            print(f"Technical Depth: {llm_results['original']['technical_depth']['score']}")
+            print(f"Clarity: {llm_results['original']['clarity']['score']}")
+            print(f"Overall: {llm_results['original']['overall']['score']}")
             
             print("\nImproved Report:")
-            print(f"Technical Depth: {llm_results['improved']['technical_depth']['score']}/100")
-            print(f"Clarity: {llm_results['improved']['clarity']['score']}/100")
-            print(f"Overall: {llm_results['improved']['overall']['score']}/100")
+            print(f"Technical Depth: {llm_results['improved']['technical_depth']['score']}")
+            print(f"Clarity: {llm_results['improved']['clarity']['score']}")
+            print(f"Overall: {llm_results['improved']['overall']['score']}")
             
             print("\nComparison:")
-            print(f"Technical Depth Difference: {llm_results['comparison']['technical_depth_difference']:+}")
-            print(f"Clarity Difference: {llm_results['comparison']['clarity_difference']:+}")
-            print(f"Overall Difference: {llm_results['comparison']['overall_difference']:+}")
+            print(f"Technical Depth Difference: {llm_results['comparison']['technical_depth_difference']}")
+            print(f"Clarity Difference: {llm_results['comparison']['clarity_difference']}")
+            print(f"Overall Difference: {llm_results['comparison']['overall_difference']}")
             print(f"Summary: {llm_results['comparison']['summary']}")
             
             # Calculate weighted scores
@@ -1094,14 +1694,14 @@ if __name__ == "__main__":
             # Print weighted score comparison
             print("\nWEIGHTED SCORES")
             print("===============")
-            print(f"Original Report: {weighted_scores['original']['final_score']}/100")
-            print(f"Improved Report: {weighted_scores['improved']['final_score']}/100")
-            print(f"Improvement: {weighted_scores['difference']:+} points ({weighted_scores['percent_improvement']:+.2f}%)")
+            print(f"Original Report: {weighted_scores['original']['final_score']}")
+            print(f"Improved Report: {weighted_scores['improved']['final_score']}")
+            print(f"Improvement: {weighted_scores['difference']} points ({weighted_scores['percent_improvement']}%)")
 
             print("\nComponent Improvements:")
-            print(f"Technical Depth: {weighted_scores['component_differences']['technical_depth']:+.2f}")
-            print(f"Clarity: {weighted_scores['component_differences']['clarity']:+.2f}")
-            print(f"Structure: {weighted_scores['component_differences']['structure']:+.2f}")
+            print(f"Technical Depth: {weighted_scores['component_differences']['technical_depth']}")
+            print(f"Clarity: {weighted_scores['component_differences']['clarity']}")
+            print(f"Structure: {weighted_scores['component_differences']['structure']}")
             
             # Store the overall scores
             original_overall_scores.append(weighted_scores['original']['final_score'])
@@ -1135,9 +1735,9 @@ if __name__ == "__main__":
         
         print("\nFINAL AVERAGES ACROSS ALL REPORTS")
         print("=================================")
-        print(f"Average Original Score: {avg_original:.2f}/100")
-        print(f"Average Improved Score: {avg_improved:.2f}/100")
-        print(f"Average Improvement: {improvement:+.2f} points ({percent_improvement:+.2f}%)")
+        print(f"Average Original Score: {avg_original}")
+        print(f"Average Improved Score: {avg_improved}")
+        print(f"Average Improvement: {improvement} points ({percent_improvement}%)")
         
         # Save the averages to a summary JSON file
         summary = {
