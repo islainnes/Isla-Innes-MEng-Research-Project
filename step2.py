@@ -178,11 +178,11 @@ class CustomLlama2Client:
         formatted_prompt = ""
         for message in messages:
             if message["role"] == "system":
-                formatted_prompt = f"<s>[INST] {message['content']} [/INST]"
+                formatted_prompt = f"{message['content']}"
             elif message["role"] == "user":
-                formatted_prompt += f"<s>[INST] {message['content']} [/INST]"
+                formatted_prompt += f"{message['content']}"
             elif message["role"] == "assistant":
-                formatted_prompt += f" {message['content']} </s>"
+                formatted_prompt += f" {message['content']}"
         return formatted_prompt
 
     def create(self, params):
@@ -241,28 +241,47 @@ class CustomLlama2Client:
         return {}
 
 
-def clean_response(text):
+def clean_response(text, prompt=None):
     """Clean the response text to get only the report content"""
-    # Remove model artifacts from generated text
+    logger.debug(f"Cleaning response text. Initial length: {len(text)}")
+    logger.debug(f"Initial text: {text[:200]}...")  # Log first 200 chars
+    
+    # Remove model artifacts from generated text but preserve normal spaces
     text = text.replace("[/INST]", "").replace("[INST]", "").strip()
+    text = text.replace("<rewritten_prompt>", "").replace("</rewritten_prompt>", "").strip()
+    logger.debug(f"After removing tags: {text[:200]}...")
     
     # Remove system message and prompt if they're being echoed back
     if "You are an AI model" in text:
+        logger.debug("Found system message in response, removing it")
         text = re.sub(r"You are an AI model.*?academic report about", "", text, flags=re.DOTALL)
     
     if "Based on these papers:" in text:
+        logger.debug("Found paper context in response, removing it")
         text = re.sub(r"Based on these papers:.*?IMPORTANT:", "", text, flags=re.DOTALL)
     
     # If there's no header yet, find the start of actual content
     if not text.strip().startswith("##"):
         header_pos = text.find("## BACKGROUND")
         if header_pos >= 0:
+            logger.debug(f"Found BACKGROUND header at position {header_pos}")
             text = text[header_pos:].strip()
         else:
             # Add header if missing
+            logger.debug("No header found, adding BACKGROUND header")
             text = "## BACKGROUND KNOWLEDGE\n" + text
     
-    return text.strip()
+    cleaned_text = text.strip()
+    logger.debug(f"Final cleaned text length: {len(cleaned_text)}")
+    logger.debug(f"Final cleaned text: {cleaned_text[:200]}...")
+    
+    # Add specific check for prompt echo or insufficient content
+    if len(cleaned_text) < 50:
+        logger.warning(f"Cleaned text too short ({len(cleaned_text)} chars)")
+    if prompt and prompt in cleaned_text:
+        logger.warning("Original prompt found in cleaned text")
+    
+    return cleaned_text
 
 
 def extract_sections(text):
@@ -777,11 +796,8 @@ def format_reference_section(organized_papers):
 # Modify the call_model function to properly format prompts for Mistral models
 def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
     """Call the model directly with proper formatting for Mistral models"""
-    # Format the prompt properly for Mistral models
-    if system_message:
-        formatted_prompt = f"{system_message}\n\n{prompt}"
-    else:
-        formatted_prompt = prompt
+    # Format prompt specifically for Mistral's instruction format
+    formatted_prompt = f"<s>[INST] {prompt} [/INST]"
     
     # For logging
     logger.debug(f"Formatted prompt sent to model: {formatted_prompt[:200]}...")
@@ -802,10 +818,8 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
         },
     }
     
-    # Use the CustomLlama2Client in a more direct way that respects its formatting
     client = CustomLlama2Client(config)
     
-    # Use messages format that the client expects
     messages = []
     if system_message:
         messages.append({"role": "system", "content": system_message})
@@ -814,25 +828,50 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
     try:
         response = client.create({"messages": messages})
         result = client.message_retrieval(response)[0]
-        cleaned_result = clean_response(result)
         
-        # Check if we got mostly the prompt back
-        if len(cleaned_result) < 50 or prompt in cleaned_result:
-            logger.warning("Model returned the prompt or insufficient content")
-            # Add some placeholder content that's better than nothing
-            if "BACKGROUND KNOWLEDGE" in prompt:
-                return "Quantum tunneling is a quantum mechanical phenomenon where particles pass through energy barriers that would be impossible in classical physics. In semiconductor devices, this effect becomes increasingly relevant as device dimensions approach nanometer scales. Quantum tunneling affects carrier transport, leakage currents, and overall device performance in next-generation semiconductor technologies."
-            elif "CURRENT RESEARCH" in prompt:
-                return "Current research focuses on manipulating quantum tunneling effects to improve semiconductor device performance. Studies examine both mitigating unwanted tunneling that causes leakage currents and harnessing tunneling for novel device structures like tunnel field-effect transistors (TFETs). Quantum dots and nanostructures are being investigated to control carrier behavior through quantum confinement effects."
-            elif "RESEARCH RECOMMENDATIONS" in prompt:
-                return "Future research should focus on developing accurate quantum mechanical models that can better predict tunneling behavior in complex semiconductor structures. Investigation into novel materials with engineered bandgaps could help control unwanted tunneling effects. Additionally, research on quantum tunneling-based devices might lead to breakthroughs in ultra-low power electronics."
-            else:
-                return "Content generation failed. Please check model parameters and try again."
+        logger.info(f"Raw model response length: {len(result)}")
+        
+        # First try to clean normally
+        cleaned_result = clean_response(result, prompt=prompt)
+        logger.info(f"Cleaned response length: {len(cleaned_result)}")
+        logger.info(f"Is prompt in response? {prompt in cleaned_result}")
+        
+        # If the cleaned result is too short or contains the prompt, try to extract content
+        if len(cleaned_result) < 50 or (prompt in cleaned_result):
+            logger.warning("Initial cleaning insufficient - attempting to extract content")
+            
+            # Try to find where the actual content starts after the prompt
+            if prompt in result:
+                content_after_prompt = result.split(prompt)[-1].strip()
+                logger.info(f"Found content after prompt: {len(content_after_prompt)} chars")
+                
+                # Clean this extracted content
+                cleaned_content = clean_response(content_after_prompt)
+                
+                if len(cleaned_content) >= 50:
+                    logger.info("Successfully extracted content after prompt")
+                    return cleaned_content
+                
+            # If we still don't have good content, try to extract between [/INST] and [INST] tags
+            if "[/INST]" in result and "[INST]" in result:
+                content_between_tags = result.split("[/INST]")[1].split("[INST]")[0].strip()
+                logger.info(f"Found content between tags: {len(content_between_tags)} chars")
+                
+                # Clean this extracted content
+                cleaned_content = clean_response(content_between_tags)
+                
+                if len(cleaned_content) >= 50:
+                    logger.info("Successfully extracted content between tags")
+                    return cleaned_content
+            
+            # If all extraction attempts fail, raise an error
+            raise ValueError("Failed to extract valid content from model response")
         
         return cleaned_result
+        
     except Exception as e:
         logger.error(f"Error calling model: {str(e)}", exc_info=True)
-        return "## BACKGROUND KNOWLEDGE\n[Error generating content]"
+        raise  # Re-raise the exception instead of returning fallback content
 
 
 def generate_report(topic, max_retries=2, num_papers=4, embedding_store=None, temperature=0.7):
@@ -1033,8 +1072,13 @@ Focus only on the {section_name} section.
 def generate_research_questions(domain, num_questions=3):
     """Generate research questions within a specific domain"""
     logger.info(f"Generating {num_questions} research questions about {domain}")
-    prompt = f"""Generate {num_questions} diverse and specific research questions about semiconductor technology and engineering. 
-    Focus on different aspects such as:
+    
+    # Format prompt specifically for Mistral's instruction format
+    prompt = f"""
+    <rewritten_prompt>
+    You are a semiconductor technology expert. Generate {num_questions} diverse and specific research questions about semiconductor technology and engineering.
+
+    Focus on these aspects:
     - Device physics and materials
     - Manufacturing processes
     - Novel semiconductor applications
@@ -1043,63 +1087,116 @@ def generate_research_questions(domain, num_questions=3):
     - Emerging technologies
     - Performance optimization
     - Reliability and testing
-    
-    Format each question exactly like this example:
-    1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
-    
-    Make each question specific, technical, and suitable for a detailed literature review.
-    IMPORTANT: Ensure all questions are unique and not duplicated.
-    Number them 1-{num_questions}."""
 
-    # Direct model call instead of using agents
-    response_text = call_model(prompt, temperature=0.1, max_tokens=500)
+    Format each question on a new line starting with a number and period, like this:
+    1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
+
+    Make questions specific, technical, and suitable for literature review.
+    IMPORTANT: Each question must be unique and not duplicated.
+    </rewritten_prompt>
+    """
+
+    logger.info("Sending prompt to model with temperature 0.7")
+    logger.debug(f"Full prompt: {prompt}")
+
+    # First attempt with temperature 0.7
+    response_text = call_model(prompt, temperature=0.7, max_tokens=500)
+    logger.debug(f"First attempt raw response: {response_text}")
 
     # Extract questions (lines starting with numbers)
     questions = []
     seen_questions = set()  # Track seen questions to avoid duplicates
     
+    logger.info("Parsing model response for questions")
     for line in response_text.split('\n'):
         line = line.strip()
-        if line and line[0].isdigit() and '. ' in line:
-            question = line.split('. ', 1)[1].strip()
-            # Only add if the question is not empty and not a duplicate
-            if question and question not in seen_questions:
-                questions.append(question)
-                seen_questions.add(question)
+        if line:
+            logger.debug(f"Processing line: {line}")
+            # Look for lines that start with a number followed by a period
+            if re.match(r'^\d+\.', line):
+                question = re.sub(r'^\d+\.\s*', '', line).strip()
+                # Only add if the question is not empty and not a duplicate
+                if question and question not in seen_questions and len(question) > 20:  # Added minimum length check
+                    logger.info(f"Found valid question: {question}")
+                    questions.append(question)
+                    seen_questions.add(question)
+                else:
+                    logger.warning(f"Skipping invalid or duplicate question: {question}")
     
-    # Generate additional questions if we didn't get enough unique ones
+    # If first attempt didn't work, try with different prompt format
     if len(questions) < num_questions:
-        logger.warning(f"Only generated {len(questions)} unique questions instead of {num_questions}")
+        logger.warning(f"First attempt only generated {len(questions)} questions")
+        logger.info("Attempting second generation with different prompt format")
         
-        # Add fallback questions if needed
-        fallback_questions = [
-            f"What are the latest advances in {domain} material design?",
-            f"How can artificial intelligence improve {domain} manufacturing processes?",
-            f"What challenges exist in scaling down semiconductor devices below 3nm?",
-            f"How do emerging 2D materials compare to silicon in semiconductor applications?",
-            f"What role does radiation hardening play in semiconductor reliability?"
-        ]
+        # Different prompt format for second attempt
+        second_prompt = f"""
+        <rewritten_prompt>
+        Generate exactly {num_questions} research questions about semiconductor technology. Each question must be:
+        1. Specific and technical
+        2. Related to semiconductor engineering
+        3. Suitable for academic research
+        4. Different from other questions
+
+        Format: Start each question with a number and period.
+
+        Example:
+        1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
+
+        Your turn - generate {num_questions} unique questions:
+        </rewritten_prompt>
+        """
+
+        response_text = call_model(second_prompt, temperature=0.9, max_tokens=500)
+        logger.debug(f"Second attempt raw response: {response_text}")
         
-        for q in fallback_questions:
-            if len(questions) >= num_questions:
-                break
-            if q not in seen_questions:
-                logger.info(f"Adding fallback question: {q}")
-                questions.append(q)
-                seen_questions.add(q)
+        for line in response_text.split('\n'):
+            line = line.strip()
+            if line and re.match(r'^\d+\.', line):
+                question = re.sub(r'^\d+\.\s*', '', line).strip()
+                if question and question not in seen_questions and len(question) > 20:
+                    logger.info(f"Found additional valid question: {question}")
+                    questions.append(question)
+                    seen_questions.add(question)
+                    if len(questions) >= num_questions:
+                        break
+        
+        # If still not enough, add fallback questions
+        if len(questions) < num_questions:
+            logger.warning("Still insufficient questions after second attempt, using fallbacks")
+            fallback_questions = [
+                f"What are the latest advances in {domain} material design and how do they impact device performance?",
+                f"How can artificial intelligence and machine learning improve {domain} manufacturing processes and yield optimization?",
+                f"What fundamental challenges exist in scaling down semiconductor devices below 3nm and how can they be addressed?",
+                f"How do emerging 2D materials compare to traditional silicon in next-generation semiconductor applications?",
+                f"What role does radiation hardening play in semiconductor reliability and how can it be improved?"
+            ]
+            
+            for q in fallback_questions:
+                if len(questions) >= num_questions:
+                    break
+                if q not in seen_questions:
+                    logger.info(f"Adding fallback question: {q}")
+                    questions.append(q)
+                    seen_questions.add(q)
 
     # Ensure we have exactly the right number of questions
-    logger.info(f"Generated {len(questions[:num_questions])} research questions")
+    logger.info(f"Final question list contains {len(questions[:num_questions])} questions:")
+    for i, q in enumerate(questions[:num_questions], 1):
+        logger.info(f"Question {i}: {q}")
     return questions[:num_questions]
 
 
 def summarize_section(content, max_length=150):
     """Generate a summary of the section content using the model"""
-    prompt = f"""Summarize this content in a single paragraph of max {max_length} characters:
+    prompt = f"""
+    <rewritten_prompt>
+    Summarize this content in a single paragraph of max {max_length} characters:
     
     {content}
     
-    Summary:"""
+    Summary:
+    </rewritten_prompt>
+    """
     
     # Direct model call instead of using agents
     return call_model(prompt, temperature=0.1, max_tokens=200)
@@ -1214,28 +1311,31 @@ def rewrite_section(section_name, current_content, similar_content, question, or
                       for title, paper in organized_papers.items()]
     paper_list = "\n".join(available_papers)
     
-    prompt = f"""REWRITE REQUEST: The '{section_name}' section of a literature review about "{question}" needs to be rewritten.
+    prompt = f"""
+    <rewritten_prompt>
+    REWRITE REQUEST: The '{section_name}' section of a literature review about "{question}" needs to be rewritten.
 
-REASON: The current content is too similar to existing material. 
+    REASON: The current content is too similar to existing material. 
 
-CURRENT VERSION:
-{current_content}
+    CURRENT VERSION:
+    {current_content}
 
-SIMILAR EXISTING CONTENT:
-{similar_content}
+    SIMILAR EXISTING CONTENT:
+    {similar_content}
 
-REWRITE INSTRUCTIONS:
-1. Create a completely new version of the '{section_name}' section
-2. Take a different perspective or analytical angle
-3. Use different examples, evidence, or supporting details
-4. Focus on different aspects of the topic not covered in the similar content
-5. Maintain academic rigor and appropriate citation of sources
-6. Keep similar section length (approximately {len(current_content.split())} words)
-7. Only reference papers from this provided list, using the format [X]:
-{paper_list}
+    REWRITE INSTRUCTIONS:
+    1. Create a completely new version of the '{section_name}' section
+    2. Take a different perspective or analytical angle
+    3. Use different examples, evidence, or supporting details
+    4. Focus on different aspects of the topic not covered in the similar content
+    5. Maintain academic rigor and appropriate citation of sources
+    6. Keep similar section length (approximately {len(current_content.split())} words)
+    7. Only reference papers from this provided list, using the format [X]:
+    {paper_list}
 
-Write only the new content for the '{section_name}' section.
-"""
+    Write only the new content for the '{section_name}' section.
+    </rewritten_prompt>
+    """
 
     # Direct model call instead of using agents
     return call_model(prompt, temperature=0.3, max_tokens=800)
