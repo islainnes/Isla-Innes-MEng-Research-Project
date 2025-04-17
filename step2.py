@@ -1069,27 +1069,26 @@ Focus only on the {section_name} section.
     return final_report.strip(), final_sections, organized_papers
 
 
-def generate_research_questions(domain, num_questions=3):
+def generate_research_questions(topic: str, num_questions: int = 3):
     """Generate research questions within a specific domain"""
-    logger.info(f"Generating {num_questions} research questions about {domain}")
+    logger.info(f"Generating {num_questions} research questions about {topic}")
     
-    # Format prompt specifically for Mistral's instruction format
     prompt = f"""
     <rewritten_prompt>
-    You are a semiconductor technology expert. Generate {num_questions} diverse and specific research questions about semiconductor technology and engineering.
+    You are an expert in {topic}. Generate {num_questions} diverse and specific research questions about {topic}.
 
-    Focus on these aspects:
-    - Device physics and materials
-    - Manufacturing processes
-    - Novel semiconductor applications
-    - Power electronics
-    - Quantum effects
-    - Emerging technologies
-    - Performance optimization
-    - Reliability and testing
+    Your questions should:
+    - Cover fundamental principles and theories
+    - Address current technological challenges
+    - Explore innovative applications
+    - Consider performance and optimization
+    - Examine emerging trends
+    - Focus on practical implementations
+    - Address reliability and testing
+    - Consider future developments
 
     Format each question on a new line starting with a number and period, like this:
-    1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
+    1. What are the key challenges and potential solutions in optimizing the performance of {topic} for future applications?
 
     Make questions specific, technical, and suitable for literature review.
     IMPORTANT: Each question must be unique and not duplicated.
@@ -1099,9 +1098,8 @@ def generate_research_questions(domain, num_questions=3):
     logger.info("Sending prompt to model with temperature 0.7")
     logger.debug(f"Full prompt: {prompt}")
 
-    # First attempt with temperature 0.7
     response_text = call_model(prompt, temperature=0.7, max_tokens=500)
-    logger.debug(f"First attempt raw response: {response_text}")
+    logger.debug(f"Raw response: {response_text}")
 
     # Extract questions (lines starting with numbers)
     questions = []
@@ -1116,73 +1114,20 @@ def generate_research_questions(domain, num_questions=3):
             if re.match(r'^\d+\.', line):
                 question = re.sub(r'^\d+\.\s*', '', line).strip()
                 # Only add if the question is not empty and not a duplicate
-                if question and question not in seen_questions and len(question) > 20:  # Added minimum length check
+                if question and question not in seen_questions and len(question) > 20:
                     logger.info(f"Found valid question: {question}")
                     questions.append(question)
                     seen_questions.add(question)
                 else:
                     logger.warning(f"Skipping invalid or duplicate question: {question}")
     
-    # If first attempt didn't work, try with different prompt format
+    # If we don't have enough questions, raise an error
     if len(questions) < num_questions:
-        logger.warning(f"First attempt only generated {len(questions)} questions")
-        logger.info("Attempting second generation with different prompt format")
-        
-        # Different prompt format for second attempt
-        second_prompt = f"""
-        <rewritten_prompt>
-        Generate exactly {num_questions} research questions about semiconductor technology. Each question must be:
-        1. Specific and technical
-        2. Related to semiconductor engineering
-        3. Suitable for academic research
-        4. Different from other questions
+        logger.error(f"Failed to generate enough questions. Got {len(questions)}, needed {num_questions}")
+        raise ValueError(f"Could not generate {num_questions} unique questions. Only generated {len(questions)} valid questions.")
 
-        Format: Start each question with a number and period.
-
-        Example:
-        1. How do quantum tunneling effects impact the performance of next-generation semiconductor devices?
-
-        Your turn - generate {num_questions} unique questions:
-        </rewritten_prompt>
-        """
-
-        response_text = call_model(second_prompt, temperature=0.9, max_tokens=500)
-        logger.debug(f"Second attempt raw response: {response_text}")
-        
-        for line in response_text.split('\n'):
-            line = line.strip()
-            if line and re.match(r'^\d+\.', line):
-                question = re.sub(r'^\d+\.\s*', '', line).strip()
-                if question and question not in seen_questions and len(question) > 20:
-                    logger.info(f"Found additional valid question: {question}")
-                    questions.append(question)
-                    seen_questions.add(question)
-                    if len(questions) >= num_questions:
-                        break
-        
-        # If still not enough, add fallback questions
-        if len(questions) < num_questions:
-            logger.warning("Still insufficient questions after second attempt, using fallbacks")
-            fallback_questions = [
-                f"What are the latest advances in {domain} material design and how do they impact device performance?",
-                f"How can artificial intelligence and machine learning improve {domain} manufacturing processes and yield optimization?",
-                f"What fundamental challenges exist in scaling down semiconductor devices below 3nm and how can they be addressed?",
-                f"How do emerging 2D materials compare to traditional silicon in next-generation semiconductor applications?",
-                f"What role does radiation hardening play in semiconductor reliability and how can it be improved?"
-            ]
-            
-            for q in fallback_questions:
-                if len(questions) >= num_questions:
-                    break
-                if q not in seen_questions:
-                    logger.info(f"Adding fallback question: {q}")
-                    questions.append(q)
-                    seen_questions.add(q)
-
-    # Ensure we have exactly the right number of questions
-    logger.info(f"Final question list contains {len(questions[:num_questions])} questions:")
-    for i, q in enumerate(questions[:num_questions], 1):
-        logger.info(f"Question {i}: {q}")
+    # Return exactly the number of questions requested
+    logger.info(f"Successfully generated {len(questions[:num_questions])} questions")
     return questions[:num_questions]
 
 
@@ -1352,9 +1297,11 @@ def main():
     # Set default temperature (will be overridden for each chapter)
     temperature = 0.5  # Lower temperature for the 24B model
     
-    # Generate 3 research questions instead of 1
-    domain = "Semiconductor Technology and Engineering"
-    questions = generate_research_questions(domain, num_questions=3)
+    # Define the topic
+    topic = "semiconductors"
+    
+    # Generate research questions
+    questions = generate_research_questions(topic, num_questions=3)
     
     # Create output directory
     output_dir = "initial_chapters"
@@ -1390,7 +1337,7 @@ def main():
             # Convert report to JSON structure with complete paper metadata
             report_data = {
                 "question": question,
-                "domain": domain,
+                "domain": topic,
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "sections": sections,
                 "referenced_papers": organized_papers,
@@ -1476,6 +1423,10 @@ def main():
     # Final memory check
     logger.info("=== Final GPU Memory Status ===")
     monitor_gpu_memory()
+
+
+if __name__ == "__main__":
+    main()
 
 
 if __name__ == "__main__":
