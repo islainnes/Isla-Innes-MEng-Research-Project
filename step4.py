@@ -66,7 +66,7 @@ else:
 # Model cache for reusing loaded models
 _model_cache = {}
 
-def load_model(model_name="google/gemma-2b-it", device="cuda"):
+def load_model(model_name="google/gemma-3-27b-it", device="cuda"):
     """Load model once and cache it"""
     cache_key = f"{model_name}_{device}"
     if cache_key in _model_cache:
@@ -75,19 +75,18 @@ def load_model(model_name="google/gemma-2b-it", device="cuda"):
     
     logger.info(f"Loading model {model_name} to {device}...")
     
-    # Configure quantization settings with CPU offloading enabled
+    # Configure quantization settings for the larger model
     quantization_config = BitsAndBytesConfig(
         load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4",
-        llm_int8_enable_fp32_cpu_offload=True  # Enable CPU offloading
+        bnb_4bit_compute_dtype=torch.bfloat16,  # Changed to bfloat16 for better stability
+        bnb_4bit_use_double_quant=False,
+        bnb_4bit_quant_type="nf4"
     )
     
-    # Adjust memory settings to better handle offloading
+    # Adjust memory settings for the larger model
     max_memory = {
-        0: "3GiB",  # GPU memory
-        "cpu": "12GiB"  # Increased CPU memory for offloading
+        0: "70GiB",  # Increased for the 27B model
+        "cpu": "32GiB"  # Increased CPU memory for the larger model
     }
     
     logger.info(f"Using max GPU memory: {max_memory[0]}, CPU memory: {max_memory['cpu']}")
@@ -98,22 +97,42 @@ def load_model(model_name="google/gemma-2b-it", device="cuda"):
             torch.cuda.empty_cache()
             logger.debug("CUDA cache cleared")
         
-        logger.info("Loading model with CPU offloading enabled...")
+        # Set environment variables for better CUDA handling
+        os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+        os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256'
+        
+        logger.info("Loading model...")
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.float16,
-            device_map="auto",  # Let the model decide the optimal device mapping
+            torch_dtype=torch.bfloat16,  # Changed to bfloat16
+            device_map="auto",
             quantization_config=quantization_config,
             max_memory=max_memory,
             offload_folder="offload",
-            low_cpu_mem_usage=True
+            trust_remote_code=True,  # Added for better model loading
+            use_flash_attention_2=False  # Disabled flash attention
         )
         
         logger.info("Loading tokenizer...")
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            trust_remote_code=True  # Added for better tokenizer loading
+        )
+        
+        # Ensure proper token setup
         if tokenizer.pad_token is None:
-            tokenizer.pad_token = tokenizer.eos_token
+            if tokenizer.eos_token is not None:
+                tokenizer.pad_token = tokenizer.eos_token
+            else:
+                tokenizer.pad_token = tokenizer.bos_token
+                
         logger.info(f"Model and tokenizer loaded successfully")
+        
+        # Monitor GPU memory after loading
+        if torch.cuda.is_available():
+            allocated = torch.cuda.memory_allocated(0) / 1024**3
+            reserved = torch.cuda.memory_reserved(0) / 1024**3
+            logger.info(f"GPU Memory after loading - Allocated: {allocated:.2f}GB, Reserved: {reserved:.2f}GB")
         
         # Cache the model
         _model_cache[cache_key] = (model, tokenizer)
@@ -122,6 +141,8 @@ def load_model(model_name="google/gemma-2b-it", device="cuda"):
     except Exception as e:
         logger.error(f"Error loading model: {str(e)}")
         logger.error("Exception details:", exc_info=True)
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         raise
 
 def read_markdown_file(file_path):
@@ -318,7 +339,7 @@ def main():
         parser = argparse.ArgumentParser(description="Generate concept diagrams from markdown files")
         parser.add_argument("--input_dir", default="chapter_markdowns", help="Directory containing markdown chapter files")
         parser.add_argument("--output_dir", default="chapter_diagrams", help="Directory to save generated diagrams")
-        parser.add_argument("--model", default="google/gemma-2b-it", help="Hugging Face model to use")
+        parser.add_argument("--model", default="google/gemma-3-27b-it", help="Hugging Face model to use")
         parser.add_argument("--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                           help="Set the logging level")
         args = parser.parse_args()
@@ -425,4 +446,5 @@ if __name__ == "__main__":
     except Exception as e:
         logger.critical("Fatal error in main program", exc_info=True)
         sys.exit(1)
+
 
