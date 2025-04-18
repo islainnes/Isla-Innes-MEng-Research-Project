@@ -15,7 +15,20 @@ import logging
 from final_evaluation import calculate_technical_depth, calculate_clarity, calculate_structure, evaluate_citation_accuracy
 import gc
 import traceback
-from rewrite_function import rewrite_text  # Import the rewrite_text function
+from rewrite_function import rewrite_text, load_shared_model, CustomGemmaClient  # Import necessary functions from rewrite_function
+
+# Add class method for cleanup to CustomGemmaClient
+# This extends the imported class with the needed cleanup method
+def cleanup_shared_model(cls):
+    """Clean up shared model resources"""
+    # Clear CUDA cache and collect garbage
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    gc.collect()
+    logger.info("Shared model resources cleaned up")
+
+# Add the cleanup method to the imported class
+CustomGemmaClient.cleanup = classmethod(cleanup_shared_model)
 
 def setup_logging():
     """Configure logging for the application."""
@@ -57,8 +70,8 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256,expandable_segmen
 os.environ["OAI_CONFIG_LIST"] = json.dumps(
     [
         {
-            "model": "mistralai/Mistral-7B-Instruct-v0.2",  # Changed to 7B model
-            "model_client_cls": "CustomLlama2Client",
+            "model": "google/gemma-3-27b-it",  # Updated to use Gemma model
+            "model_client_cls": "CustomGemmaClient",
             "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
             "n": 1,
             "params": {
@@ -76,167 +89,6 @@ os.environ["OAI_CONFIG_LIST"] = json.dumps(
 
 # Add HuggingFace login for accessing gated models
 login(token=os.getenv('HUGGINGFACE_TOKEN'))
-
-@lru_cache(maxsize=1)
-def load_shared_model(model_name, device):
-    """Load model once and cache it for reuse"""
-    logger.info(f"Loading model {model_name} to {device}...")
-    
-    # Clear CUDA cache before loading
-    torch.cuda.empty_cache()
-    gc.collect()
-    
-    try:
-        # Memory optimization settings with 4-bit quantization and CPU offloading
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-            llm_int8_enable_fp32_cpu_offload=True
-        )
-        
-        # Create device map for CPU offloading - adjusted for 7B model
-        device_map = {
-            'model.embed_tokens': 'cuda:0',
-            'model.norm': 'cuda:0',
-            'lm_head': 'cuda:0',
-            'model.layers': 'cuda:0'  # Keep all layers on GPU for 7B model
-        }
-        
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=torch.float16,
-            device_map=device_map,
-            quantization_config=quantization_config,
-            max_memory={'cuda:0': "12GiB", 'cpu': "24GiB"},  # Adjusted memory settings for 7B model
-            offload_folder="offload",
-        )
-        
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        tokenizer.pad_token = tokenizer.eos_token
-        logger.info(f"Successfully loaded model {model_name}")
-        return model, tokenizer
-    except Exception as e:
-        logger.error(f"ERROR loading model {model_name}: {e}")
-        raise
-
-class CustomLlama2Client:
-    """Custom model client implementation for Llama-2 with AutoGen."""
-    
-    _shared_model = None
-    _shared_tokenizer = None
-    
-    def __init__(self, config, **kwargs):
-        """Initialize the client."""
-        self.config = config
-        self.model_name = config["model"]
-        self.device = config.get("device", "cuda" if torch.cuda.is_available() else "cpu")
-        self.gen_params = config.get("params", {})
-        
-        logger.debug(f"CustomLlama2Client config: {config}")
-        
-        # Use class-level shared model and tokenizer
-        if CustomLlama2Client._shared_model is None:
-            logger.info("Loading shared model instance...")
-            CustomLlama2Client._shared_model, CustomLlama2Client._shared_tokenizer = load_shared_model(self.model_name, self.device)
-        
-        self.model = CustomLlama2Client._shared_model
-        self.tokenizer = CustomLlama2Client._shared_tokenizer
-
-    @classmethod
-    def cleanup(cls):
-        """Clean up shared model resources"""
-        if cls._shared_model is not None:
-            del cls._shared_model
-            del cls._shared_tokenizer
-            cls._shared_model = None
-            cls._shared_tokenizer = None
-            torch.cuda.empty_cache()
-            gc.collect()
-            logger.info("Shared model cleaned up")
-
-    def _format_chat_prompt(self, messages):
-        """Format messages into Mistral's chat format."""
-        system_message = next((m["content"] for m in messages if m["role"] == "system"), None)
-        user_message = next((m["content"] for m in messages if m["role"] == "user"), None)
-        
-        if user_message:
-            parts = user_message.split("Section to review:")
-            if len(parts) > 1:
-                section_content = parts[1].strip()
-            else:
-                section_content = user_message.strip()
-            
-            if "Please analyze the content and provide:" in section_content:
-                section_content = section_content.split("Please analyze the content and provide:")[0].strip()
-            
-            if "Feedback:" in section_content:
-                section_content = section_content.split("Feedback:")[0].strip()
-            
-            if "Remember to:" in section_content:
-                section_content = section_content.split("Remember to:")[0].strip()
-        else:
-            section_content = ""
-        
-        if system_message:
-            return f"{system_message}\n\n{section_content}"
-        else:
-            return section_content
-
-    def _create(self, params):
-        """Internal method to create a response using the model."""
-        if params.get("stream", False):
-            raise NotImplementedError("Streaming not implemented for this client.")
-
-        num_of_responses = params.get("n", 1)
-        response = SimpleNamespace()
-        
-        prompt = self._format_chat_prompt(params["messages"])
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
-        
-        response.choices = []
-        response.model = self.model_name
-
-        with torch.no_grad():
-            for _ in range(num_of_responses):
-                outputs = self.model.generate(
-                    **inputs,
-                    **self.gen_params
-                )
-                
-                generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-                response_text = generated_text.strip()
-                
-                choice = SimpleNamespace()
-                choice.message = SimpleNamespace()
-                choice.message.content = response_text
-                choice.message.function_call = None
-                response.choices.append(choice)
-
-        return response
-
-    def create(self, params):
-        """Create a response using the model."""
-        return self._create(params)
-
-    def message_retrieval(self, response):
-        """Retrieve messages from the response."""
-        return [choice.message.content for choice in response.choices]
-
-    def cost(self, response) -> float:
-        """Calculate the cost of the response."""
-        response.cost = 0
-        return 0
-
-    @staticmethod
-    def get_usage(response):
-        """Get usage statistics."""
-        return {}
-
-    def get_cache_key(self, params):
-        """Override cache key generation to prevent disk caching."""
-        return None
 
 class DebateManager:
     """Manages the debate stage where agents discuss and resolve conflicts in their reviews."""
@@ -311,7 +163,7 @@ Focus on technical accuracy, factual correctness, and technical depth.
 Keep suggestions specific, actionable, and prioritized.""",
             **kwargs
         )
-        self.register_model_client(model_client_cls=CustomLlama2Client)
+        self.register_model_client(model_client_cls=CustomGemmaClient)
 
     def review(self, section_name: str, section_content: str) -> Dict:
         """Review a section for technical accuracy."""
@@ -363,7 +215,7 @@ Focus on clarity, readability, flow, and structure.
 Keep suggestions specific, actionable, and prioritized.""",
             **kwargs
         )
-        self.register_model_client(model_client_cls=CustomLlama2Client)
+        self.register_model_client(model_client_cls=CustomGemmaClient)
 
     def review(self, section_name: str, section_content: str) -> Dict:
         """Review a section for clarity and readability."""
@@ -415,7 +267,7 @@ Focus on document structure, paragraph flow, logical progression, transitions be
 Keep suggestions specific, actionable, and prioritized.""",
             **kwargs
         )
-        self.register_model_client(model_client_cls=CustomLlama2Client)
+        self.register_model_client(model_client_cls=CustomGemmaClient)
 
     def review(self, section_name: str, section_content: str) -> Dict:
         """Review a section for structure, flow and coherence."""
@@ -476,7 +328,7 @@ Example format:
 ***""",
             **kwargs
         )
-        self.register_model_client(model_client_cls=CustomLlama2Client)
+        self.register_model_client(model_client_cls=CustomGemmaClient)
         self.logger = logging.getLogger(__name__)
 
     def review(self, section_name: str, section_content: str, reviews: Dict[str, str]) -> Dict:
@@ -959,8 +811,8 @@ def selective_review_section(section_name: str, section_content: str, needed_age
     """Review section using only specified agents."""
     config_list = [
         {
-            "model": "mistralai/Mistral-7B-Instruct-v0.2",
-            "model_client_cls": "CustomLlama2Client",
+            "model": "google/gemma-3-27b-it",  # Updated to use Gemma model
+            "model_client_cls": "CustomGemmaClient",
             "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
             "n": 1,
             "params": {
@@ -1003,7 +855,7 @@ def selective_review_section(section_name: str, section_content: str, needed_age
     
     # Register model client for all agents
     for agent in [user_proxy] + list(agents.values()) + [moderator]:
-        agent.register_model_client(model_client_cls=CustomLlama2Client)
+        agent.register_model_client(model_client_cls=CustomGemmaClient)
     
     reviews = {}
     cleaned_reviews = {}
@@ -1204,15 +1056,10 @@ Focus on:
 Keep suggestions specific, actionable, and prioritized.""",
             **kwargs
         )
-        self.register_model_client(model_client_cls=CustomLlama2Client)
+        self.register_model_client(model_client_cls=CustomGemmaClient)
 
     def review(self, section_name: str, section_content: str, referenced_papers: Dict = None) -> Dict:
-        """Review a section for citation accuracy.
-        
-        Note: This method is kept for compatibility but the main review logic is now 
-        in the selective_review_section function, which directly includes reference data
-        in the prompt to the fact-checking agent.
-        """
+        """Review a section for citation accuracy."""
         if not referenced_papers:
             return {
                 "improvements": "No references provided for fact-checking.",
@@ -1273,7 +1120,7 @@ def main():
         logger.info(f"Found {len(chapter_files)} chapter files to process")
         
         # Initial memory cleanup
-        CustomLlama2Client.cleanup()
+        CustomGemmaClient.cleanup()
         
         # Process each chapter
         for chapter_file in chapter_files:
@@ -1337,7 +1184,7 @@ def main():
                                 "chapter": chapter_number,
                                 "section": section_name,
                                 "timestamp": time.strftime("%Y%m%d_%H%M%S"),
-                                "model": "mistralai/Mistral-7B-Instruct-v0.2",
+                                "model": "google/gemma-3-27b-it",
                                 "skipped": False
                             },
                             "iterations": [],
@@ -1347,6 +1194,9 @@ def main():
                         current_text = section_content
                         max_iterations = 3  # Allow up to 3 iterations
                         
+                        # Store current quality assessment to avoid redundant evaluation
+                        current_quality_assessment = None
+
                         # Iterative improvement process
                         for iteration in range(1, max_iterations + 1):
                             logger.info(f"\n{'='*50}")
@@ -1361,32 +1211,38 @@ def main():
                                     all_agents.append('fact_checking_agent')
                                 review_results = selective_review_section(section_name, current_text, all_agents, referenced_papers)
                             else:
-                                # Assess quality to determine which agents are needed
-                                quality_assessment = assess_quality(current_text, section_content, referenced_papers, "\n\n".join(sections.values()))
-                                
-                                # Check metrics against thresholds
-                                metric_results = check_metric_thresholds(quality_assessment["metrics"])
-                                
-                                # Determine which agents are needed
-                                needed_agents = get_needed_agents(metric_results)
-                                
-                                if not needed_agents:
-                                    logger.info(f"All quality thresholds met! No further iterations needed.")
-                                    break
-                                
-                                logger.info(f"Agents needed for iteration {iteration}: {', '.join(needed_agents)}")
-                                
-                                # Previous citation scores for fact checking
-                                prev_citation_scores = quality_assessment["metrics"].get("citation_accuracy", None)
-                                
-                                # Selective review with only the needed agents
-                                review_results = selective_review_section(
-                                    section_name, 
-                                    current_text, 
-                                    needed_agents, 
-                                    referenced_papers,
-                                    prev_citation_scores
-                                )
+                                # Use quality assessment from previous iteration instead of recalculating
+                                if current_quality_assessment:
+                                    # Check metrics against thresholds
+                                    metric_results = check_metric_thresholds(current_quality_assessment["metrics"])
+                                    
+                                    # Determine which agents are needed
+                                    needed_agents = get_needed_agents(metric_results)
+                                    
+                                    if not needed_agents:
+                                        logger.info(f"All quality thresholds met! No further iterations needed.")
+                                        break
+                                    
+                                    logger.info(f"Agents needed for iteration {iteration}: {', '.join(needed_agents)}")
+                                    
+                                    # Previous citation scores for fact checking
+                                    prev_citation_scores = current_quality_assessment["metrics"].get("citation_accuracy", None)
+                                    
+                                    # Selective review with only the needed agents
+                                    review_results = selective_review_section(
+                                        section_name, 
+                                        current_text, 
+                                        needed_agents, 
+                                        referenced_papers,
+                                        prev_citation_scores
+                                    )
+                                else:
+                                    # Fallback - should not happen in normal operation
+                                    logger.warning("No quality assessment from previous iteration, using all agents")
+                                    all_agents = ['technical_accuracy_agent', 'clarity_agent', 'structure_agent']
+                                    if referenced_papers:
+                                        all_agents.append('fact_checking_agent')
+                                    review_results = selective_review_section(section_name, current_text, all_agents, referenced_papers)
                             
                             # Extract improvement points from moderator's raw output
                             moderator_output = review_results.get("raw_reviews", {}).get("moderator_agent", "")
@@ -1406,8 +1262,8 @@ def main():
                                 # Create model config
                                 config_list = [
                                     {
-                                        "model": "mistralai/Mistral-7B-Instruct-v0.2",
-                                        "model_client_cls": "CustomLlama2Client",
+                                        "model": "google/gemma-3-27b-it",
+                                        "model_client_cls": "CustomGemmaClient",
                                         "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
                                         "n": 1,
                                         "params": {
@@ -1442,7 +1298,7 @@ def main():
                                 status = "no_improvements_applied"
                             
                             # Assess quality with citation accuracy
-                            quality_assessment = assess_quality(improved_text, section_content, referenced_papers, "\n\n".join(sections.values()))
+                            current_quality_assessment = assess_quality(improved_text, section_content, referenced_papers, "\n\n".join(sections.values()))
                             
                             # Store iteration data
                             iteration_data = {
@@ -1453,7 +1309,7 @@ def main():
                                     "before": previous_text,
                                     "after": improved_text
                                 },
-                                "quality_assessment": quality_assessment,
+                                "quality_assessment": current_quality_assessment,
                                 "status": status,
                                 "referenced_papers_used": bool(referenced_papers)
                             }
@@ -1461,7 +1317,7 @@ def main():
                             consolidated_output["iterations"].append(iteration_data)
                             
                             # Check if we've reached the target quality
-                            metric_results = check_metric_thresholds(quality_assessment["metrics"])
+                            metric_results = check_metric_thresholds(current_quality_assessment["metrics"])
                             if all(metric_results[category]['overall'] for category in ['technical_depth', 'clarity', 'structure']) and \
                                metric_results.get('citation_accuracy', {}).get('overall', True):
                                 logger.info(f"All quality thresholds met after iteration {iteration}! No further iterations needed.")
@@ -1473,7 +1329,7 @@ def main():
                             "final_text": current_text,  # The latest version
                             "total_iterations": len(consolidated_output["iterations"]),
                             "final_status": "improved" if current_text != section_content else "unchanged",
-                            "final_quality_assessment": quality_assessment,
+                            "final_quality_assessment": current_quality_assessment,
                             "referenced_papers_used": bool(referenced_papers)
                         }
                         
@@ -1494,12 +1350,12 @@ def main():
                 create_chapter_markdown(chapter_number, sections, chapter_consolidated_outputs)
                 
                 # Cleanup after chapter is done
-                CustomLlama2Client.cleanup()
+                CustomGemmaClient.cleanup()
                 logger.info(f"\nChapter {chapter_number} completed!")
                 
             except Exception as e:
                 logger.error(f"Error processing Chapter {chapter_number}: {str(e)}")
-                CustomLlama2Client.cleanup()
+                CustomGemmaClient.cleanup()
                 continue
         
         logger.info(f"\n{'='*100}")
@@ -1508,8 +1364,9 @@ def main():
         
     except Exception as e:
         logger.error(f"Error in main process: {str(e)}")
-        CustomLlama2Client.cleanup()
+        CustomGemmaClient.cleanup()
         raise
 
 if __name__ == "__main__":
     main()
+
