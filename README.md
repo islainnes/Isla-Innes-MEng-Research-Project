@@ -50,6 +50,29 @@ Structure (20%): Includes coherence flow score
 
 ![image](https://github.com/user-attachments/assets/b923b311-2f07-42c1-80f9-376ac4fcf216)
 
+```mermaid
+
+graph TD
+    A[EV Demand & WBG Adoption] --> B(SiC & GaN Materials);
+    B --> C{Material Science Challenges};
+    C --> D[Defect Engineering];
+    D --> E[Dislocation Formation (Deep Trenches)];
+    D --> F[Impurity Control & Carrier Lifetime];
+    C --> G[Dopant Control];
+    C --> H[Gate Driver Integration];
+    H --> I[High-Temp Stability & Low Inductance];
+    D --> J[Gate Oxide Reliability];
+    A --> K[Scalable Production & Cost Reduction];
+    K --> L{Research Focus};
+    L --> M[Novel Gettering & Annealing];
+    L --> N[Impurity Management];
+    L --> O[Advanced Gate Driver Tech (High-k Dielectrics)];
+    O --> P[Improved Device Performance];
+    P --> K;
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style K fill:#ccf,stroke:#333,stroke-width:2px
+```
+
 
 
 
