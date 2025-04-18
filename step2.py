@@ -38,22 +38,20 @@ logger = logging.getLogger(__name__)
 # Clear CUDA cache and set PyTorch memory management
 logger.info("Initializing GPU memory settings")
 torch.cuda.empty_cache()
-torch.backends.cuda.max_memory_split_size = 1024 * 1024 * 1024  # 1GB
-os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512,expandable_segments:True'
+torch.backends.cuda.max_memory_split_size = 128 * 1024 * 1024  # 128MB
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128,expandable_segments:True'
 
 # Set up model configuration
 os.environ["OAI_CONFIG_LIST"] = json.dumps([
     {
-        "model": "mistralai/Mistral-7B-Instruct-v0.2",
-        "model_client_cls": "CustomLlama2Client",
+        "model": "google/gemma-3-27b-it",
+        "model_client_cls": "CustomGemmaClient",
         "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
         "n": 1,
         "params": {
             "max_new_tokens": 500,
             "do_sample": False,
             "num_beams": 1,
-            "pad_token_id": 2,
-            "eos_token_id": 2,
         },
     }
 ])
@@ -75,7 +73,7 @@ logger.debug(f"Cache directory created at: {cache_dir}")
 # Configure cache
 config_list = config_list_from_json(
     "OAI_CONFIG_LIST",
-    filter_dict={"model_client_cls": ["CustomLlama2Client"]}
+    filter_dict={"model_client_cls": ["CustomGemmaClient"]}
 )
 
 # Define common regex patterns
@@ -90,7 +88,7 @@ def clear_memory():
     torch.cuda.empty_cache()
     # Manually clean model cache if needed
     for key in list(_model_cache.keys()):
-        if key != f"mistralai/Mistral-7B-Instruct-v0.2_cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}":
+        if key != f"google/gemma-3-27b-it_cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}":
             logger.info(f"Removing model {key} from cache")
             del _model_cache[key]
     # Force garbage collection
@@ -129,60 +127,100 @@ def load_shared_model(model_name, device):
     
     logger.info(f"Loading model {model_name} to {device}...")
     
-    # Configure quantization settings - using 4-bit quantization for 7B model
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4"
-    )
+    # Clear CUDA cache before loading
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
     
-    # Adjust memory allocation for GPU to handle the 7B model
-    max_memory = {
-        0: "24GiB",  # Use up to 24GB of GPU memory
-        "cpu": "8GiB"  # Keep some CPU memory available for offloading if needed
-    }
-    
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype=torch.float16,
-        device_map="auto",  # Let the model decide optimal device mapping
-        quantization_config=quantization_config,
-        max_memory=max_memory,
-        offload_folder="offload",
-        trust_remote_code=True  # Add trust_remote_code for newer models
-    )
-    
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-    tokenizer.pad_token = tokenizer.eos_token
-    logger.info(f"Model and tokenizer loaded successfully")
-    
-    # Cache the model
-    _model_cache[cache_key] = (model, tokenizer)
-    return _model_cache[cache_key]
+    try:
+        # Configure quantization settings with less aggressive memory optimization for large GPU
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,  # Changed to bfloat16 for better stability
+            bnb_4bit_use_double_quant=False,
+            bnb_4bit_quant_type="nf4"
+        )
+        
+        # Large GPU memory settings
+        max_memory = {
+            0: "70GiB",  # Reduced slightly to leave more headroom
+            "cpu": "32GiB"
+        }
+        
+        logger.info(f"Using max GPU memory: {max_memory[0]}")
+        
+        # Set environment variables for better CUDA handling
+        os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+        os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256'
+        
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.bfloat16,  # Changed to bfloat16
+            device_map="auto",
+            quantization_config=quantization_config,
+            max_memory=max_memory,
+            offload_folder="offload",
+            trust_remote_code=True,  # Added for better model loading
+            use_flash_attention_2=False  # Disabled flash attention
+        )
+        
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            trust_remote_code=True  # Added for better model loading
+        )
+        
+        # Ensure proper token setup
+        if tokenizer.pad_token is None:
+            if tokenizer.eos_token is not None:
+                tokenizer.pad_token = tokenizer.eos_token
+            else:
+                tokenizer.pad_token = tokenizer.bos_token
+                
+        logger.info(f"Model and tokenizer loaded successfully")
+        
+        # Monitor GPU memory after loading
+        if torch.cuda.is_available():
+            allocated = torch.cuda.memory_allocated(0) / 1024**3
+            reserved = torch.cuda.memory_reserved(0) / 1024**3
+            logger.info(f"GPU Memory after loading - Allocated: {allocated:.2f}GB, Reserved: {reserved:.2f}GB")
+        
+        # Cache the model
+        _model_cache[cache_key] = (model, tokenizer)
+        return _model_cache[cache_key]
+        
+    except Exception as e:
+        logger.error(f"Error loading model: {str(e)}", exc_info=True)
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        raise
 
-
-class CustomLlama2Client:
+class CustomGemmaClient:
     def __init__(self, config, **kwargs):
         self.config = config
         self.model_name = config["model"]
         self.device = config.get(
             "device", "cuda" if torch.cuda.is_available() else "cpu")
         self.gen_params = config.get("params", {})
-        logger.info(f"Initializing CustomLlama2Client with model {self.model_name} on {self.device}")
+        logger.info(f"Initializing CustomGemmaClient with model {self.model_name} on {self.device}")
         self.model, self.tokenizer = load_shared_model(
             self.model_name, self.device)
 
     def _format_chat_prompt(self, messages):
-        # Format for Mistral-7B-Instruct model
         formatted_prompt = ""
+        system_message = next((m["content"] for m in messages if m["role"] == "system"), None)
+        
+        if system_message:
+            formatted_prompt = f"<start_of_turn>system\n{system_message}<end_of_turn>\n"
+        
         for message in messages:
-            if message["role"] == "system":
-                formatted_prompt = f"{message['content']}"
-            elif message["role"] == "user":
-                formatted_prompt += f"{message['content']}"
-            elif message["role"] == "assistant":
-                formatted_prompt += f" {message['content']}"
+            if message["role"] == "user":
+                formatted_prompt += f"<start_of_turn>user\n{message['content']}<end_of_turn>\n"
+            elif message["role"] == "assistant" and message["role"] != "system":
+                formatted_prompt += f"<start_of_turn>model\n{message['content']}<end_of_turn>\n"
+        
+        # Add the final model turn prompt
+        formatted_prompt += "<start_of_turn>model\n"
+        
         return formatted_prompt
 
     def create(self, params):
@@ -201,6 +239,12 @@ class CustomLlama2Client:
                 )
                 generated_text = self.tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
+                # Clean up the Gemma output format
+                if "<start_of_turn>model\n" in generated_text:
+                    generated_text = generated_text.split("<start_of_turn>model\n")[-1]
+                if "<end_of_turn>" in generated_text:
+                    generated_text = generated_text.split("<end_of_turn>")[0]
+                
                 choice = SimpleNamespace()
                 choice.message = SimpleNamespace()
                 choice.message.content = generated_text.strip()
@@ -216,11 +260,15 @@ class CustomLlama2Client:
                     max_new_tokens=self.gen_params.get("max_new_tokens", 1000),
                     do_sample=False,
                     num_beams=1,
-                    pad_token_id=self.tokenizer.pad_token_id,
-                    eos_token_id=self.tokenizer.eos_token_id
                 )
                 generated_text = self.tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
+                # Clean up the Gemma output format
+                if "<start_of_turn>model\n" in generated_text:
+                    generated_text = generated_text.split("<start_of_turn>model\n")[-1]
+                if "<end_of_turn>" in generated_text:
+                    generated_text = generated_text.split("<end_of_turn>")[0]
+                    
                 choice = SimpleNamespace()
                 choice.message = SimpleNamespace()
                 choice.message.content = generated_text.strip()
@@ -246,10 +294,15 @@ def clean_response(text, prompt=None):
     logger.debug(f"Cleaning response text. Initial length: {len(text)}")
     logger.debug(f"Initial text: {text[:200]}...")  # Log first 200 chars
     
-    # Remove model artifacts from generated text but preserve normal spaces
-    text = text.replace("[/INST]", "").replace("[INST]", "").strip()
-    text = text.replace("<rewritten_prompt>", "").replace("</rewritten_prompt>", "").strip()
-    logger.debug(f"After removing tags: {text[:200]}...")
+    # Remove model artifacts from generated text
+    text = text.replace("<end_of_turn>", "").replace("<start_of_turn>model", "").strip()
+    
+    # Check if the response contains the chat format with "model" tag
+    if "model\n" in text:
+        # Extract everything after the last occurrence of "model\n"
+        model_pos = text.rfind("model\n")
+        if model_pos >= 0:
+            text = text[model_pos + 6:].strip()  # +6 to account for "model\n"
     
     # Remove system message and prompt if they're being echoed back
     if "You are an AI model" in text:
@@ -793,18 +846,14 @@ def format_reference_section(organized_papers):
     return references
 
 
-# Modify the call_model function to properly format prompts for Mistral models
 def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
-    """Call the model directly with proper formatting for Mistral models"""
-    # Format prompt specifically for Mistral's instruction format
-    formatted_prompt = f"<s>[INST] {prompt} [/INST]"
-    
+    """Call the model directly with proper formatting for Gemma models"""
     # For logging
-    logger.debug(f"Formatted prompt sent to model: {formatted_prompt[:200]}...")
+    logger.debug(f"Formatted prompt sent to model: {prompt[:200]}...")
     
     config = {
-        "model": "mistralai/Mistral-7B-Instruct-v0.2",
-        "model_client_cls": "CustomLlama2Client",
+        "model": "google/gemma-3-27b-it",
+        "model_client_cls": "CustomGemmaClient",
         "device": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
         "n": 1,
         "params": {
@@ -813,25 +862,26 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
             "temperature": temperature,
             "top_p": 0.9,
             "num_beams": 1,
-            "pad_token_id": 2,
-            "eos_token_id": 2,
         },
     }
     
-    client = CustomLlama2Client(config)
+    # Use the CustomGemmaClient
+    client = CustomGemmaClient(config)
     
+    # Use messages format that the client expects
     messages = []
     if system_message:
         messages.append({"role": "system", "content": system_message})
     messages.append({"role": "user", "content": prompt})
     
     try:
+        logger.info("Sending request to model...")
         response = client.create({"messages": messages})
+        logger.info("Received response from model")
         result = client.message_retrieval(response)[0]
-        
         logger.info(f"Raw model response length: {len(result)}")
         
-        # First try to clean normally
+        # Clean the response
         cleaned_result = clean_response(result, prompt=prompt)
         logger.info(f"Cleaned response length: {len(cleaned_result)}")
         logger.info(f"Is prompt in response? {prompt in cleaned_result}")
@@ -851,21 +901,6 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
                 if len(cleaned_content) >= 50:
                     logger.info("Successfully extracted content after prompt")
                     return cleaned_content
-                
-            # If we still don't have good content, try to extract between [/INST] and [INST] tags
-            if "[/INST]" in result and "[INST]" in result:
-                content_between_tags = result.split("[/INST]")[1].split("[INST]")[0].strip()
-                logger.info(f"Found content between tags: {len(content_between_tags)} chars")
-                
-                # Clean this extracted content
-                cleaned_content = clean_response(content_between_tags)
-                
-                if len(cleaned_content) >= 50:
-                    logger.info("Successfully extracted content between tags")
-                    return cleaned_content
-            
-            # If all extraction attempts fail, raise an error
-            raise ValueError("Failed to extract valid content from model response")
         
         return cleaned_result
         
@@ -1348,7 +1383,7 @@ def main():
                     "report_number": chapter_num,
                     "num_papers_used": num_papers,
                     "temperature": temperature,
-                    "model": "mistralai/Mistral-7B-Instruct-v0.2"
+                    "model": "google/gemma-3-27b-it"
                 }
             }
             
@@ -1397,7 +1432,7 @@ def main():
                         "error": "Failed to save complete report",
                         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                         "temperature": temperature,
-                        "model": "mistralai/Mistral-7B-Instruct-v0.2"
+                        "model": "google/gemma-3-27b-it"
                     }
                     with open(output_file + ".error.json", 'w', encoding='utf-8') as f:
                         json.dump(minimal_data, f, indent=2)
@@ -1423,10 +1458,6 @@ def main():
     # Final memory check
     logger.info("=== Final GPU Memory Status ===")
     monitor_gpu_memory()
-
-
-if __name__ == "__main__":
-    main()
 
 
 if __name__ == "__main__":
