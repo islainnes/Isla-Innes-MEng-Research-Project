@@ -65,45 +65,77 @@ def load_shared_model(model_name, device):
     
     logger.info(f"Loading model {model_name} to {device}...")
     
-    # Configure quantization settings with aggressive memory optimization
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4"
-    )
+    # Clear CUDA cache before loading
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
     
-    # Small GPU memory settings (for smaller consumer GPUs)
-    # Adjust this value based on your GPU memory capacity
-    max_memory = {
-        0: "4GiB",  # For small GPUs (adjust as needed)
-        "cpu": "8GiB"  # CPU memory for potential offloading
-    }
-    
-    logger.info(f"Using max GPU memory: {max_memory[0]}")
-    
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        torch_dtype=torch.float16,
-        device_map="auto",  # Let the model decide optimal device mapping
-        quantization_config=quantization_config,
-        max_memory=max_memory,
-        offload_folder="offload"
-    )
-    
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
-    logger.info(f"Model and tokenizer loaded successfully")
-    
-    # Cache the model
-    _model_cache[cache_key] = (model, tokenizer)
-    return _model_cache[cache_key]
+    try:
+        # Configure quantization settings with less aggressive memory optimization for large GPU
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,  # Changed to bfloat16 for better stability
+            bnb_4bit_use_double_quant=False,
+            bnb_4bit_quant_type="nf4"
+        )
+        
+        # Large GPU memory settings
+        max_memory = {
+            0: "70GiB",  # Reduced slightly to leave more headroom
+            "cpu": "32GiB"
+        }
+        
+        logger.info(f"Using max GPU memory: {max_memory[0]}")
+        
+        # Set environment variables for better CUDA handling
+        os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+        os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256'
+        
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.bfloat16,  # Changed to bfloat16
+            device_map="auto",
+            quantization_config=quantization_config,
+            max_memory=max_memory,
+            offload_folder="offload",
+            trust_remote_code=True,  # Added for better model loading
+            use_flash_attention_2=False  # Disabled flash attention
+        )
+        
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            trust_remote_code=True  # Added for better model loading
+        )
+        
+        # Ensure proper token setup
+        if tokenizer.pad_token is None:
+            if tokenizer.eos_token is not None:
+                tokenizer.pad_token = tokenizer.eos_token
+            else:
+                tokenizer.pad_token = tokenizer.bos_token
+                
+        logger.info(f"Model and tokenizer loaded successfully")
+        
+        # Monitor GPU memory after loading
+        if torch.cuda.is_available():
+            allocated = torch.cuda.memory_allocated(0) / 1024**3
+            reserved = torch.cuda.memory_reserved(0) / 1024**3
+            logger.info(f"GPU Memory after loading - Allocated: {allocated:.2f}GB, Reserved: {reserved:.2f}GB")
+        
+        # Cache the model
+        _model_cache[cache_key] = (model, tokenizer)
+        return _model_cache[cache_key]
+        
+    except Exception as e:
+        logger.error(f"Error loading model: {str(e)}", exc_info=True)
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        raise
 
 class CustomGemmaClient:
     def __init__(self, config, **kwargs):
         self.config = config
-        self.model_name = config["model"]
+        self.model_name = "google/gemma-3-27b-it"  # Updated to use 27B model
         self.device = config.get(
             "device", "cuda" if torch.cuda.is_available() else "cpu")
         self.gen_params = config.get("params", {})
@@ -465,8 +497,9 @@ def create_rewrite_prompt(original_text, improvement_points, referenced_papers=N
     # Add chapter context information if available
     context_info = ""
     if full_chapter_context:
+        # Increased context window for 27B model
         context_info = "\nCHAPTER CONTEXT (for reference only):\n"
-        context_info += f"{full_chapter_context[:1000]}...\n"
+        context_info += f"{full_chapter_context[:2000]}...\n"
     
     prompt = f"""You will rewrite an academic text about quantum tunneling and semiconductors based on specific improvement points. Focus on making substantial, meaningful changes that address each point.
 
@@ -499,11 +532,9 @@ def estimate_memory_needs(text_length):
     Returns:
         bool: True if safe to process, False if potentially too large
     """
-    # Very rough estimation based on text length
-    # Gemma 2B model can handle texts of reasonable length on small GPUs
-    # If text is very long, we should be cautious
-    if text_length > 15000:  # Arbitrary threshold, adjust based on your GPU
-        logger.warning(f"Text length {text_length} may be too large for a small GPU.")
+    # Adjusted threshold for 27B model on 80GB GPU
+    if text_length > 30000:  # Increased threshold for larger GPU
+        logger.warning(f"Text length {text_length} may be too large even for 80GB GPU.")
         return False
     return True
 
