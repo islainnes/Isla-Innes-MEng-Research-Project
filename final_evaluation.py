@@ -10,7 +10,6 @@ import anthropic
 from sentence_transformers import SentenceTransformer
 import nltk
 from typing import Dict, List, Set
-import graphviz
 from gensim import corpora, models
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer
@@ -214,82 +213,297 @@ def process_report(json_path):
     
     return original_report, improved_report, original_score, improved_score, original_coherence, improved_coherence
 
-def count_technical_terms(text):
+def count_technical_terms_with_ner(text):
     """
-    Count and calculate frequency of technical terms in text.
-    Returns both raw counts and frequency normalized to 0-1 scale.
+    Count and identify technical terms using a comprehensive semiconductor dictionary
+    first, then supplement with NLP techniques. Returns both raw counts and
+    frequency normalized to 0-1 scale using predefined ranges based on document length.
     """
-    # Define technical terms related to semiconductors and general technical writing
-    technical_terms = [
-        # Semiconductor Materials & Properties
-        'silicon', 'germanium', 'gallium', 'arsenide', 'substrate', 'wafer',
-        'dopant', 'carrier', 'bandgap', 'conductivity', 'resistivity',
-        'mobility', 'junction', 'interface', 'lattice',
+    # Comprehensive dictionary of semiconductor and electronics terminology
+    semiconductor_dictionary = {
+        # Materials
+        "silicon", "germanium", "gallium arsenide", "gaas", "gan", "sic", "silicon carbide",
+        "semiconductor", "dielectric", "oxide", "nitride", "polysilicon", "silicon dioxide", "sio2",
+        "silicon nitride", "si3n4", "high-k", "low-k", "copper", "aluminum", "tungsten", "titanium",
+        "tantalum", "cobalt", "silicide", "germanium", "iii-v", "ii-vi", "compound semiconductor",
+        "heterojunction", "quantum well", "quantum dot", "superlattice", "nanowire", "graphene", 
+        "2d materials", "perovskite", "organic semiconductor",
         
-        # Device Components & Types
-        'transistor', 'mosfet', 'bjt', 'diode', 'capacitor', 'resistor',
-        'gate', 'source', 'drain', 'channel', 'oxide', 'contact', 'interconnect',
-        'cmos', 'analog', 'digital', 'integrated circuit', 'ic', 'chip',
+        # Devices
+        "transistor", "mosfet", "fet", "bjt", "igbt", "thyristor", "diode", "led", "photodiode",
+        "phototransistor", "cmos", "nmos", "pmos", "hemt", "mesfet", "jfet", "pin diode", "schottky",
+        "varactor", "solar cell", "pv cell", "memory cell", "capacitor", "resistor", "inductor",
+        "memristor", "sensor", "mems", "nems", "integrated circuit", "ic", "chip", "die",
+        "power device", "logic gate", "amplifier", "oscillator", "flip-flop", "latch", "register",
         
-        # Manufacturing & Processes
-        'fabrication', 'lithography', 'etching', 'deposition', 'implantation',
-        'oxidation', 'diffusion', 'annealing', 'metallization', 'planarization',
-        'photoresist', 'masking', 'doping', 'packaging',
+        # Properties & Physics
+        "bandgap", "band gap", "energy band", "conduction band", "valence band", "fermi level",
+        "doping", "dopant", "n-type", "p-type", "carrier", "electron", "hole", "mobility",
+        "conductivity", "resistivity", "junction", "depletion region", "inversion layer",
+        "threshold voltage", "breakdown voltage", "leakage current", "saturation current",
+        "channel", "source", "drain", "gate", "substrate", "body effect", "pinch-off",
+        "avalanche breakdown", "tunneling", "quantum tunneling", "ballistic transport",
+        "scattering", "phonon", "recombination", "generation", "lifetime", "diffusion",
+        "drift", "carrier lifetime", "minority carrier", "majority carrier", "band bending",
+        "work function", "electron affinity", "interface state", "trap", "defect",
         
-        # Electrical Parameters
-        'voltage', 'current', 'threshold', 'leakage', 'power', 'frequency',
-        'capacitance', 'resistance', 'impedance', 'noise', 'gain', 'efficiency',
+        # Fabrication & Processing
+        "fabrication", "wafer", "epitaxy", "cvd", "pecvd", "mocvd", "mbe", "ald", "pvd",
+        "sputtering", "evaporation", "lithography", "photolithography", "euv", "e-beam",
+        "photoresist", "mask", "stepper", "scanner", "etch", "etching", "wet etch", "dry etch",
+        "rie", "plasma", "implantation", "ion implantation", "diffusion", "oxidation",
+        "annealing", "rta", "chemical mechanical polishing", "cmp", "metallization",
+        "interconnect", "backend", "frontend", "cleaning", "deposition", "thin film",
+        "photomask", "reticle", "alignment", "overlay", "damascene", "dual damascene",
+        "planarization", "sintering", "bonding", "packaging", "dicing", "wire bonding",
+        "flip chip", "passivation", "gettering", "thermal budget",
         
-        # Testing & Analysis
-        'characterization', 'reliability', 'yield', 'defect', 'measurement',
-        'simulation', 'modeling', 'analysis', 'verification', 'validation',
+        # Characterization & Testing
+        "characterization", "metrology", "sem", "tem", "afm", "stm", "xrd", "sims", "xps",
+        "ellipsometry", "profilometer", "four-point probe", "hall measurement", "c-v",
+        "capacitance-voltage", "i-v", "current-voltage", "reliability", "lifetime",
+        "failure mechanism", "electromigration", "stress migration", "tddb", "hot carrier",
+        "nbti", "pbti", "testing", "probe", "probe card", "wafer testing", "parametric test",
+        "functional test", "iddq", "burn-in", "yield", "defect density", "statistical analysis",
         
-        # General Technical Terms
-        'parameter', 'specification', 'methodology', 'optimization',
-        'implementation', 'configuration', 'architecture', 'mechanism',
-        'correlation', 'coefficient', 'algorithm', 'framework'
-    ]
+        # Circuits & Design
+        "circuit", "analog", "digital", "mixed-signal", "rf", "microwave", "integrated circuit",
+        "vlsi", "uv", "euv", "layout", "schematic", "netlist", "spice", "simulation", "parasitic",
+        "eda", "cad", "verification", "timing", "power", "leakage", "dynamic power", "static power",
+        "signal integrity", "noise margin", "fan-out", "fan-in", "standard cell", "ip block",
+        "soc", "system-on-chip", "asic", "fpga", "pld", "memory", "ram", "dram", "sram",
+        "flash", "rom", "embedded", "peripherals", "processor", "cpu", "gpu", "dsp",
+        "adc", "dac", "pll", "dlx", "lna", "mixer", "filter",
+        
+        # Advanced Topics
+        "quantum computing", "spintronics", "photonics", "silicon photonics", "neuromorphic",
+        "memristor", "reram", "mram", "pram", "feram", "emerging memory", "3d integration",
+        "heterogeneous integration", "chiplet", "tsv", "through-silicon via", "2.5d", "3d ic",
+        "packaging", "fan-out", "embedded die", "wafer-level", "rf-soi", "fd-soi", "finfet",
+        "gaafet", "nanosheet", "nanowire", "negative capacitance", "tunnel fet", "tfet",
+        "wide bandgap", "ultra-wide bandgap", "gan", "sic", "diamond", "uv led"
+    }
     
-    # Get total word count
+    # Create case-insensitive version (convert all to lowercase)
+    semiconductor_dictionary = {term.lower() for term in semiconductor_dictionary}
+    
+    # Initialize container for all identified technical terms
+    identified_terms = []
     total_words = len(text.split())
     
-    # Count occurrences of each term
-    term_counts = {}
-    total_technical_terms = 0
+    # 1. Dictionary-based identification
+    # Tokenize text for basic word-level matching
+    words = re.findall(r'\b[a-zA-Z0-9][\w\-\.]*[a-zA-Z0-9]\b|\b[a-zA-Z0-9]\b', text.lower())
     
-    for term in technical_terms:
-        # Use word boundaries to ensure we're matching whole words
-        count = len(re.findall(r'\b' + re.escape(term) + r'\b', text, re.IGNORECASE))
-        if count > 0:
-            term_counts[term] = count
-            total_technical_terms += count
+    # Check single words against dictionary
+    for word in words:
+        if word.lower() in semiconductor_dictionary:
+            identified_terms.append(word.lower())
     
-    # Calculate frequencies
-    if total_words > 0:
-        # Overall technical term frequency (percentage of technical words)
-        technical_frequency = total_technical_terms / total_words
+    # Check for multi-word terms from the dictionary
+    for term in semiconductor_dictionary:
+        if ' ' in term and term.lower() in text.lower():
+            # Count each occurrence
+            count = text.lower().count(term.lower())
+            for _ in range(count):
+                identified_terms.append(term.lower())
+    
+    # 2. Supplement with NLP techniques
+    try:
+        # Load spaCy model - scientific models work best but fall back to standard if needed
+        try:
+            nlp = spacy.load('en_core_sci_md')  # Scientific model for better technical term detection
+        except OSError:
+            try:
+                nlp = spacy.load('en_core_web_lg')  # Fall back to standard large model
+            except OSError:
+                import subprocess
+                print("Downloading spaCy model...")
+                subprocess.run(['python', '-m', 'spacy', 'download', 'en_core_web_lg'])
+                nlp = spacy.load('en_core_web_lg')
         
-        # Normalize to 0-1 scale
-        # Assuming a good technical document might have 5-15% technical terms
-        # Scale accordingly: anything above 15% will be capped at 1.0
-        normalized_frequency = min(technical_frequency / 0.15, 1.0)
+        # Process the text
+        doc = nlp(text)
+        
+        # 2.1. Get named entities that are likely technical
+        for ent in doc.ents:
+            # Focus on organization, product, and other relevant entity types 
+            # which often capture technical concepts
+            if ent.label_ in ['ORG', 'PRODUCT', 'GPE', 'LAW', 'WORK_OF_ART']:
+                term = ent.text.lower()
+                if term not in semiconductor_dictionary:  # Only add if not already in dictionary
+                    identified_terms.append(term)
+        
+        # 2.2. Add technical noun chunks (multi-word technical terms)
+        technical_adjectives = [
+            'quantum', 'electrical', 'electronic', 'thermal', 'optical', 'solar', 
+            'semiconductor', 'transistor', 'bipolar', 'diode', 'integrated', 'digital',
+            'analog', 'rf', 'microwave', 'photonic', 'ionic', 'ferroelectric', 'ferromagnetic',
+            'superconducting', 'piezoelectric', 'electrostatic', 'electromagnetic',
+            'photovoltaic', 'optoelectronic', 'nanoscale', 'microscale', 'high-frequency',
+            'low-power', 'high-voltage', 'single-crystal', 'polycrystalline', 'amorphous'
+        ]
+        
+        for chunk in doc.noun_chunks:
+            # If noun chunk contains technical adjectives
+            if any(token.text.lower() in technical_adjectives for token in chunk):
+                term = chunk.text.lower()
+                if term not in semiconductor_dictionary:  # Only add if not already in dictionary
+                    identified_terms.append(term)
+        
+        # 2.3. Pattern matching for chemical formulas, measurements, etc.
+        chemical_formula_pattern = r'\b[A-Z][a-z]?[0-9]*(?:[A-Z][a-z]?[0-9]*)+\b'
+        measurement_pattern = r'\b\d+(?:\.\d+)?(?:n|µ|m|k|M|G)?(?:m|A|V|W|Hz|eV|Ω|F|H)\b'
+        
+        chemical_formulas = re.findall(chemical_formula_pattern, text)
+        for formula in chemical_formulas:
+            if formula.lower() not in semiconductor_dictionary:
+                identified_terms.append(formula.lower())
+                
+        measurements = re.findall(measurement_pattern, text)
+        for measurement in measurements:
+            # Don't add simple numbers as technical terms
+            if any(unit in measurement for unit in ['m', 'A', 'V', 'W', 'Hz', 'eV', 'Ω', 'F', 'H']):
+                identified_terms.append(measurement.lower())
+        
+    except Exception as e:
+        print(f"Error in NLP-based technical term analysis: {str(e)}")
+    
+    # Calculate metrics
+    raw_count = len(identified_terms)
+    
+    # Create term frequency dictionary
+    term_frequencies = {}
+    for term in identified_terms:
+        if term in term_frequencies:
+            term_frequencies[term] += 1
+        else:
+            term_frequencies[term] = 1
+    
+    # Get unique terms
+    unique_terms = set(identified_terms)
+    unique_count = len(unique_terms)
+    
+    # Calculate technical frequency using raw count (not unique terms)
+    technical_frequency = raw_count / max(1, total_words)
+    technical_percentage = technical_frequency * 100  # Convert to percentage for readability
+    
+    # Calculate percentage of dictionary covered
+    dictionary_terms_found = set()
+    for term in unique_terms:
+        if term in semiconductor_dictionary:
+            dictionary_terms_found.add(term)
+    
+    dictionary_coverage_percentage = (len(dictionary_terms_found) / len(semiconductor_dictionary)) * 100
+    
+    # Determine document length category for context
+    if total_words < 200:
+        doc_length_category = "very short"
+    elif total_words < 500:
+        doc_length_category = "short-medium"
+    elif total_words < 1000:
+        doc_length_category = "medium"
+    elif total_words < 3000:
+        doc_length_category = "medium-long"
     else:
-        technical_frequency = 0
-        normalized_frequency = 0
+        doc_length_category = "long"
+    
+    # Normalize using predefined ranges based on document length category
+    # Similar to how Flesch score is normalized with predefined categories
+    if doc_length_category == "very short":  # < 200 words
+        if technical_percentage < 5:
+            normalized_score = 0.2  # Minimal technical content
+        elif technical_percentage < 10:
+            normalized_score = 0.4  # Low technical content
+        elif technical_percentage < 15:
+            normalized_score = 0.6  # Moderate technical content
+        elif technical_percentage < 20:
+            normalized_score = 0.8  # High technical content
+        else:
+            normalized_score = 1.0  # Very high technical content
+    
+    elif doc_length_category == "short-medium":  # 200-499 words
+        if technical_percentage < 4:
+            normalized_score = 0.2  # Minimal technical content
+        elif technical_percentage < 8:
+            normalized_score = 0.4  # Low technical content
+        elif technical_percentage < 12:
+            normalized_score = 0.6  # Moderate technical content
+        elif technical_percentage < 18:
+            normalized_score = 0.8  # High technical content
+        else:
+            normalized_score = 1.0  # Very high technical content
+    
+    elif doc_length_category == "medium":  # 500-999 words
+        if technical_percentage < 3:
+            normalized_score = 0.2  # Minimal technical content
+        elif technical_percentage < 6:
+            normalized_score = 0.4  # Low technical content
+        elif technical_percentage < 10:
+            normalized_score = 0.6  # Moderate technical content
+        elif technical_percentage < 15:
+            normalized_score = 0.8  # High technical content
+        else:
+            normalized_score = 1.0  # Very high technical content
+            
+    elif doc_length_category == "medium-long":  # 1000-2999 words
+        if technical_percentage < 2:
+            normalized_score = 0.2  # Minimal technical content
+        elif technical_percentage < 5:
+            normalized_score = 0.4  # Low technical content
+        elif technical_percentage < 8:
+            normalized_score = 0.6  # Moderate technical content
+        elif technical_percentage < 13:
+            normalized_score = 0.8  # High technical content
+        else:
+            normalized_score = 1.0  # Very high technical content
+            
+    else:  # long (3000+ words)
+        if technical_percentage < 1.5:
+            normalized_score = 0.2  # Minimal technical content
+        elif technical_percentage < 4:
+            normalized_score = 0.4  # Low technical content
+        elif technical_percentage < 7:
+            normalized_score = 0.6  # Moderate technical content
+        elif technical_percentage < 10:
+            normalized_score = 0.8  # High technical content
+        else:
+            normalized_score = 1.0  # Very high technical content
+    
+    # Log the normalization details for debugging
+    normalization_details = {
+        'document_length': total_words,
+        'document_category': doc_length_category,
+        'technical_term_count': raw_count,
+        'technical_frequency': technical_frequency,
+        'technical_percentage': technical_percentage,
+        'normalized_score': normalized_score,
+        'dictionary_coverage_percentage': dictionary_coverage_percentage
+    }
     
     return {
-        'raw_count': total_technical_terms,
-        'unique_terms': len(term_counts),
-        'term_frequencies': term_counts,
+        'raw_count': raw_count,
+        'unique_terms': unique_count,
+        'term_frequencies': term_frequencies,
         'technical_frequency': technical_frequency,
-        'normalized_score': normalized_frequency,
-        'total_words': total_words
+        'normalized_score': normalized_score,
+        'total_words': total_words,
+        'identified_terms': list(unique_terms),  # Include the actual terms for transparency
+        'dictionary_coverage_percentage': dictionary_coverage_percentage,  # Added dictionary coverage percentage
+        'dictionary_terms_found': list(dictionary_terms_found),  # List of dictionary terms found in the text
+        'total_dictionary_terms': len(semiconductor_dictionary),  # Total number of terms in the dictionary
+        'normalization_details': normalization_details  # Added for transparency in the normalization process
     }
 
 def estimate_concept_hierarchy_depth(text):
     """
     Estimates the hierarchical depth of concepts in text using topic modeling
     and syntactic structure analysis, returning scores on a 0-1 scale.
+    
+    The analysis includes:
+    1. Topic hierarchy - measures conceptual organization using topic modeling
+    2. Syntax complexity - measures linguistic structure via dependency parsing,
+       focusing on tree depth and complex clause usage
     """
     # Initialize spaCy
     try:
@@ -345,9 +559,17 @@ def analyze_topic_hierarchy_normalized(text, num_topics=5):
         topic_distributions = lda.transform(doc_term_matrix)
         
         # Calculate metrics
-        # 1. Topic diversity: measure how evenly distributed the topics are
-        topic_diversity = np.mean([np.std(dist) for dist in topic_distributions])
-        normalized_diversity = min(topic_diversity / 0.3, 1.0)  # Normalize with sensible max
+        # 1. Topic diversity: measure how evenly topics are distributed across the entire document
+        # Aggregate topic distribution across all sentences
+        global_topic_dist = np.mean(topic_distributions, axis=0)
+        
+        # Calculate entropy (higher = more even distribution)
+        from scipy.stats import entropy
+        topic_evenness = entropy(global_topic_dist)
+        
+        # Normalize to 0-1 scale
+        max_entropy = np.log(num_topics)  # Theoretical maximum entropy
+        normalized_diversity = min(topic_evenness / max_entropy, 1.0)
         
         # 2. Topic coherence: measure how distinct the topics are
         topic_words = []
@@ -421,20 +643,17 @@ def analyze_sentence_complexity_normalized(text, nlp):
         else:
             normalized_depth = 0.7  # Too complex
         
-        # 2. Sentence structure variety
-        # Calculate standard deviation of tree depths to measure variety
-        depth_std = np.std(depths) if len(depths) > 1 else 0
-        normalized_variety = min(depth_std / 2.0, 1.0)  # Normalize with sensible max
-        
-        # 3. Complex clause usage - count subordinate clauses
+        # 2. Complex clause usage - count subordinate clauses
         clause_count = len([token for token in doc if token.dep_ in ('ccomp', 'xcomp', 'advcl')])
         normalized_clauses = min(clause_count / (len(list(doc.sents)) * 1.5), 1.0)  # Normalize per sentence
         
-        # Combined score with weights
+        # Combined score with revised weights:
+        # - Tree depth: 70% (increased from 50%)
+        # - Complex clause usage: 30% (increased from 20%)
+        # - Variety: removed (was 30%)
         combined_score = (
-            0.5 * normalized_depth +
-            0.3 * normalized_variety +
-            0.2 * normalized_clauses
+            0.7 * normalized_depth +
+            0.3 * normalized_clauses
         )
         
         return combined_score
@@ -545,6 +764,7 @@ def create_comparison_charts(results, output_dir):
         'concept_hierarchy_depth',
         'actionable_recommendations_count', 
         'technical_term_count',
+        'dictionary_coverage_percentage',  # Added dictionary coverage percentage
         'example_count', 
         'defined_terms_count'
     ]
@@ -553,11 +773,18 @@ def create_comparison_charts(results, output_dir):
         'Concept Hierarchy\nDepth',
         'Actionable\nRecommendations', 
         'Technical\nTerms',
+        'Dictionary\nCoverage (%)',  # Added dictionary coverage percentage label
         'Examples', 
         'Defined\nTerms'
     ]
     
     x = np.arange(len(tech_metrics))
+    
+    # Handle potential missing dictionary_coverage_percentage in existing results
+    if 'dictionary_coverage_percentage' not in original:
+        original['dictionary_coverage_percentage'] = 0
+    if 'dictionary_coverage_percentage' not in improved:
+        improved['dictionary_coverage_percentage'] = 0
     
     original_tech_values = [original[m] for m in tech_metrics]
     improved_tech_values = [improved[m] for m in tech_metrics]
@@ -574,10 +801,10 @@ def create_comparison_charts(results, output_dir):
     # Add value labels on top of each bar
     for i, v in enumerate(original_tech_values):
         plt.text(i - width/2, v + max(original_tech_values + improved_tech_values)*0.02,
-                 str(v), ha='center', va='bottom', fontweight='bold')
+                 str(round(v, 2)) if isinstance(v, float) else str(v), ha='center', va='bottom', fontweight='bold')
     for i, v in enumerate(improved_tech_values):
         plt.text(i + width/2, v + max(original_tech_values + improved_tech_values)*0.02,
-                 str(v), ha='center', va='bottom', fontweight='bold')
+                 str(round(v, 2)) if isinstance(v, float) else str(v), ha='center', va='bottom', fontweight='bold')
     
     # Save figure
     chart_path = os.path.join(output_dir, f"technical_metrics_{results['timestamp']}.png")
@@ -600,6 +827,13 @@ def create_comparison_charts(results, output_dir):
     concept_depth_change = results["comparison"]["concept_depth_difference"]
     recommendations_change = results["comparison"]["recommendations_difference"]
     tech_terms_change = results["comparison"]["technical_terms_difference"]
+    
+    # Dictionary coverage change
+    if "dictionary_coverage_percentage" in original and "dictionary_coverage_percentage" in improved:
+        dictionary_coverage_change = improved["dictionary_coverage_percentage"] - original["dictionary_coverage_percentage"]
+    else:
+        dictionary_coverage_change = 0
+    
     examples_change = results["comparison"]["examples_difference"]
     defined_terms_change = results["comparison"]["defined_terms_difference"]
     
@@ -610,6 +844,7 @@ def create_comparison_charts(results, output_dir):
         concept_depth_change,
         recommendations_change, 
         tech_terms_change,
+        dictionary_coverage_change,  # Added dictionary coverage change
         examples_change, 
         defined_terms_change
     ]
@@ -620,6 +855,7 @@ def create_comparison_charts(results, output_dir):
         'Concept Depth',
         'Recommendations', 
         'Technical Terms',
+        'Dictionary Coverage',  # Added dictionary coverage label
         'Examples', 
         'Defined Terms'
     ]
@@ -870,42 +1106,77 @@ def create_coherence_chart(results, output_dir, timestamp):
 
 def calculate_technical_depth(text):
     """
-    Calculate technical depth metrics using frequency-based technical term analysis and LLM evaluation
-    """
-    # Get technical metrics with frequency
-    tech_metrics = count_technical_terms(text)
-    normalized_term_score = tech_metrics['normalized_score']
+    Calculate technical depth metrics using NER-based technical term analysis and LLM evaluation
     
-    # Get concept hierarchy depth
-    concept_hierarchy_depth = estimate_concept_hierarchy_depth(text)
-    # Fix: use the combined_score directly as it's already normalized to 0-1
-    normalized_depth = concept_hierarchy_depth['combined_score']
+    Returns a comprehensive dictionary of metrics including:
+    - Technical term metrics (dictionary coverage only)
+    - Concept hierarchy metrics (topic hierarchy, syntax complexity)
+    - LLM evaluation
+    - Combined score
+    """
+    # Get technical metrics with NER-based frequency analysis
+    tech_metrics = count_technical_terms_with_ner(text)
+    
+    # Get concept hierarchy depth with split metrics
+    concept_hierarchy = estimate_concept_hierarchy_depth(text)
+    # Use the split metrics
+    topic_hierarchy_score = concept_hierarchy['topic_hierarchy_score']
+    syntax_complexity_score = concept_hierarchy['syntax_complexity_score'] 
     
     # Initialize result dictionary
     result = {
         'technical_term_metrics': tech_metrics,
-        'concept_hierarchy_depth': normalized_depth
+        'concept_hierarchy_depth': concept_hierarchy
     }
     
     # Add LLM evaluation
     try:
-        prompt = f"""Evaluate the technical depth of the following text. Consider:
-        1. Complexity and sophistication of technical concepts
-        2. Depth of technical explanations
-        3. Use of domain-specific terminology
-        4. Technical accuracy and precision
-        
-        Provide a score from 0.0-1.0 and a brief justification.
+        prompt = f"""Rigorously evaluate the technical depth of the following text with a highly critical eye. Consider:
+
+1. TECHNICAL SOPHISTICATION
+   - Does the text demonstrate advanced understanding of specialized concepts?
+   - Are complex technical phenomena explained with precision and detail?
+   - Is domain expertise evident or merely superficial?
+
+2. CONCEPTUAL RIGOR
+   - Are explanations technically complete and substantive?
+   - Is superficial treatment of concepts avoided?
+   - Does the text go beyond basic definitions to explain mechanisms and theory?
+
+3. TERMINOLOGY AND PRECISION
+   - Is specialized terminology used accurately and appropriately?
+   - Are technical terms defined correctly with proper context?
+   - Does the text maintain technical precision throughout?
+
+4. DEPTH OF TECHNICAL ANALYSIS
+   - Does the text explore concepts at a deep level rather than just mentioning them?
+   - Are technical relationships, dependencies, and implications addressed?
+   - Is there evidence of technical insight rather than just description?
+
+5. TECHNICAL ACCESSIBILITY
+   - Are complex technical terms clearly explained for the target audience?
+   - Does the text provide appropriate context to make technical concepts understandable?
+   - Are analogies, examples, or illustrations used to clarify difficult concepts?
+   - Does the text balance technical depth with accessibility?
+
+Be extremely strict in your evaluation. A high score should only be given to texts that demonstrate genuinely advanced technical knowledge and deep understanding.
         
         Text to evaluate:
         ```
         {text[:6000]}  # Limiting to first 6000 chars to keep within context window
         ```
+
+Rate the technical depth on a scale of 0.0-1.0 where:
+0.0-0.2: Superficial/introductory level with minimal technical content
+0.3-0.4: Basic technical content with limited depth
+0.5-0.6: Moderate technical depth suitable for informed practitioners
+0.7-0.8: Advanced technical content with substantial depth
+0.9-1.0: Expert-level technical content with exceptional depth and rigor
         
         Format your response as a JSON object with this structure:
         {{
             "score": <0.0-1.0>,
-            "justification": "brief explanation"
+    "justification": "detailed explanation of strengths and weaknesses"
         }}
         """
         
@@ -936,12 +1207,29 @@ def calculate_technical_depth(text):
             'justification': "LLM evaluation failed"
         }
     
-    # Calculate combined score with LLM evaluation
+    # Get dictionary coverage score
+    dictionary_coverage_score = min(tech_metrics.get('dictionary_coverage_percentage', 0) / 20.0, 1.0)
+    
+    # Calculate combined score with new weighting scheme (removed technical term score):
+    # - Dictionary coverage: 25%
+    # - Topic hierarchy: 25%
+    # - Syntax complexity: 15% (now measures tree depth and complex clauses only)
+    # - LLM evaluation: 35%
     result['combined_score'] = (
-        0.3 * normalized_term_score +    # 30% weight to term frequency
-        0.3 * normalized_depth +         # 30% weight to concept hierarchy
-        0.4 * result['llm_evaluation']['score']  # 40% weight to LLM evaluation
+        0.25 * dictionary_coverage_score +  
+        0.25 * topic_hierarchy_score +      
+        0.15 * syntax_complexity_score +    
+        0.35 * result['llm_evaluation']['score']
     )
+    
+    # Include details about the weighting in the result for transparency
+    result['weighting_details'] = {
+        'dictionary_coverage_weight': 0.25,
+        'topic_hierarchy_weight': 0.25,
+        'syntax_complexity_weight': 0.15,
+        'llm_evaluation_weight': 0.35,
+        'explanation': "Dictionary coverage assesses technical vocabulary breadth, topic hierarchy measures conceptual organization, syntax complexity evaluates sentence depth and complex clauses, and LLM evaluation provides human-like judgment."
+    }
     
     return result
 
@@ -955,22 +1243,79 @@ def calculate_clarity(text):
             - defined_terms_count: Normalized number of defined terms
             - example_count: Normalized number of examples
             - llm_evaluation: LLM-based clarity evaluation
+            
+    Raises:
+        Exception: If any part of the analysis fails
     """
     # Calculate basic metrics
     flesch_score = textstat.flesch_reading_ease(text)
     
     # Get technical term metrics to use as a base for determining how many terms should be defined
-    tech_metrics = count_technical_terms(text)
+    tech_metrics = count_technical_terms_with_ner(text)
     unique_technical_terms = tech_metrics['unique_terms']
+    technical_terms = tech_metrics['identified_terms']
     
-    # Count defined terms and examples
-    defined_terms_count = count_defined_terms(text)
-    example_count = count_examples(text)
+    # Enhanced linguistic analysis for definitions and examples - no fallbacks
+    import spacy
+    try:
+        nlp = spacy.load('en_core_web_lg')
+    except OSError:
+        nlp = spacy.load('en_core_web_sm')
     
-    # Calculate total sentences to estimate concepts that could benefit from examples
-    sentences = text.split('.')
-    total_sentences = len([s for s in sentences if len(s.strip()) > 10])  # Only count meaningful sentences
-    estimated_concepts = max(1, total_sentences // 3)  # Estimate one concept per three sentences
+    # Process the document
+    doc = nlp(text)
+    
+    # Detect definitions using enhanced linguistic approach
+    definitions, defined_concepts = detect_definitions_enhanced(doc, technical_terms)
+    defined_terms_count = len(definitions)
+    
+    # Detect examples using enhanced approach
+    examples = detect_examples_enhanced(doc)
+    example_count = len(examples)
+    
+    # Calculate topic distribution
+    if len(list(doc.sents)) >= 3:
+        # Get sentence texts
+        sentences = [sent.text for sent in doc.sents]
+        
+        # Use topic modeling to assign topics to sentences
+        from sklearn.feature_extraction.text import CountVectorizer
+        from sklearn.decomposition import LatentDirichletAllocation
+        
+        vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
+        doc_term_matrix = vectorizer.fit_transform(sentences)
+        
+        num_topics = min(5, max(2, len(sentences) // 5))
+        lda = LatentDirichletAllocation(n_components=num_topics, random_state=42)
+        topic_distributions = lda.fit_transform(doc_term_matrix)
+        
+        # Assign topics to sentences and examples
+        sent_topics = [dist.argmax() for dist in topic_distributions]
+        
+        # Update examples with topic info
+        examples_by_topic = {i: 0 for i in range(num_topics)}
+        for i, sent in enumerate(doc.sents):
+            if i < len(sent_topics):
+                for ex in examples:
+                    if ex["example"] == sent.text:
+                        ex["topic"] = sent_topics[i]
+                        examples_by_topic[sent_topics[i]] += 1
+        
+        # Calculate topic coverage by examples
+        topics_with_examples = sum(1 for count in examples_by_topic.values() if count > 0)
+        topic_coverage = topics_with_examples / max(1, num_topics)
+    else:
+        # Not enough content for meaningful topic analysis
+        topic_coverage = 1.0 if example_count > 0 else 0.0
+    
+    # Check how many technical terms were defined
+    if technical_terms:
+        defined_technical_terms = sum(1 for term in technical_terms 
+                                   if any(term in def_item["term"] or def_item["term"] in term 
+                                       for def_item in definitions))
+        technical_term_coverage = defined_technical_terms / max(1, len(technical_terms))
+    else:
+        technical_term_coverage = 1.0 if defined_terms_count > 0 else 0.0
     
     # Normalize Flesch score for technical content (target ~30)
     if flesch_score <= 10:  # Extremely complex, even for technical content
@@ -984,35 +1329,41 @@ def calculate_clarity(text):
     else:  # Too simple for technical audience
         normalized_flesch = 0.6
     
-    # Normalize definitions relative to unique technical terms that should be defined
-    # Optimal is to define 50-80% of technical terms
-    definition_ratio = defined_terms_count / max(1, unique_technical_terms) if unique_technical_terms > 0 else 0
-    if definition_ratio > 0.8:  # More definitions than needed
-        normalized_defined = 0.8
-    elif definition_ratio >= 0.5:  # Optimal range
+    # Normalize definitions based on enhanced analysis
+    if technical_term_coverage >= 0.7:  # Excellent coverage
         normalized_defined = 1.0
-    elif definition_ratio >= 0.3:  # Acceptable but could use more
-        normalized_defined = 0.7
-    elif definition_ratio > 0:  # Too few definitions
-        normalized_defined = 0.4 * (definition_ratio / 0.3)  # Scale from 0 to 0.4
-    else:  # No definitions
-        normalized_defined = 0
+    elif technical_term_coverage >= 0.5:  # Good coverage
+        normalized_defined = 0.8
+    elif technical_term_coverage >= 0.3:  # Adequate coverage
+        normalized_defined = 0.6
+    elif technical_term_coverage > 0:  # Some coverage
+        normalized_defined = 0.4
+    else:  # No coverage
+        normalized_defined = 0.1
     
-    # Normalize examples relative to estimated concepts that benefit from examples
-    # Optimal is to provide examples for 30-50% of key concepts
-    example_ratio = example_count / max(1, estimated_concepts) if estimated_concepts > 0 else 0
-    if example_ratio > 0.6:  # More examples than needed
-        normalized_examples = 0.9
-    elif example_ratio >= 0.3:  # Optimal range
+    # Normalize examples based on technical terms rather than estimated concepts
+    # Instead of this:
+    # sentences = text.split('.')
+    # total_sentences = len([s for s in sentences if len(s.strip()) > 10])
+    # estimated_concepts = max(1, total_sentences // 3)
+    # example_ratio = example_count / max(1, estimated_concepts)
+    
+    # Use technical terms as basis for normalization:
+    example_ratio = example_count / max(1, unique_technical_terms * 0.5)  # Expect examples for ~50% of technical terms
+    
+    # Combine raw count with topic coverage
+    if example_ratio >= 0.5 and topic_coverage >= 0.7:  # Excellent - examples for half of technical terms with good distribution
         normalized_examples = 1.0
-    elif example_ratio >= 0.1:  # Acceptable but could use more
+    elif example_ratio >= 0.3 and topic_coverage >= 0.5:  # Good
+        normalized_examples = 0.8
+    elif example_ratio >= 0.2 and topic_coverage >= 0.3:  # Adequate
         normalized_examples = 0.6
-    elif example_ratio > 0:  # Too few examples
-        normalized_examples = 0.3 * (example_ratio / 0.1)  # Scale from 0 to 0.3
+    elif example_ratio > 0 or topic_coverage > 0:  # Some examples
+        normalized_examples = 0.4
     else:  # No examples
-        normalized_examples = 0
+        normalized_examples = 0.1
     
-    # Add LLM evaluation
+    # Add LLM evaluation - allow this one to fail independently
     try:        
         prompt = f"""Evaluate the clarity and understandability of the following text. Consider:
         1. Clear and concise explanations
@@ -1050,28 +1401,28 @@ def calculate_clarity(text):
             llm_score = float(llm_evaluation['score'])
             llm_justification = llm_evaluation['justification']
         else:
-            llm_score = 0.5
-            llm_justification = "Failed to parse LLM response"
+            raise ValueError("Failed to parse LLM response")
             
     except Exception as e:
-        print(f"Warning: LLM evaluation failed: {str(e)}")
-        llm_score = 0.5
-        llm_justification = "LLM evaluation failed"
+        raise Exception(f"LLM evaluation failed: {str(e)}")
     
-    # Calculate combined score with weights
+    # Calculate combined score with updated weights
     combined_score = (
-        0.25 * normalized_flesch +     # 25% weight to readability
-        0.15 * normalized_defined +    # 15% weight to defined terms
-        0.15 * normalized_examples +   # 15% weight to examples
-        0.45 * llm_score               # 45% weight to LLM evaluation
+        0.20 * normalized_flesch +      # 20% weight to readability
+        0.20 * normalized_defined +     # 20% weight to defined terms
+        0.20 * normalized_examples +    # 20% weight to examples
+        0.40 * llm_score                # 40% weight to LLM evaluation
     )
     
+    # Return dictionary with all metrics
     return {
         'flesch_score': normalized_flesch,
         'defined_terms_count': normalized_defined,
         'example_count': normalized_examples,
-        'definition_ratio': definition_ratio,  # Added for transparency
-        'example_ratio': example_ratio,        # Added for transparency
+        'definition_coverage': technical_term_coverage,
+        'example_topic_coverage': topic_coverage,
+        'definition_details': definitions,
+        'example_details': examples,
         'llm_evaluation': {
             'score': llm_score,
             'justification': llm_justification
@@ -1217,65 +1568,70 @@ def calculate_weighted_score(report_metrics, llm_results):
     """
     Calculate a weighted score (0-1) based on various metrics
     
-    Weights are grouped into three main categories:
-    1. Technical Depth (45% total)
-    2. Clarity & Understandability (35%)
-    3. Structure (20%)
+    Weights are grouped into main categories:
+    1. Technical Vocabulary (25% total)
+       - Dictionary Coverage (25%)
+    2. Conceptual Organization (40% total)
+       - Topic Hierarchy (25%)
+       - Syntax Complexity (15%)
+    3. LLM Evaluation (35%)
     """
     
-    # Technical Depth (45% total)
-    technical_weights = {
-        'technical_term_count': 0.15,  # 15%
-        'concept_hierarchy_depth': 0.10,  # 10%
-        'llm_technical_depth': 0.20,  # 20%
-    }
+    # Make sure we have the split concept hierarchy metrics
+    if isinstance(report_metrics['concept_hierarchy_depth'], dict) and 'topic_hierarchy_score' in report_metrics['concept_hierarchy_depth']:
+        # Split metrics are available
+        topic_hierarchy = report_metrics['concept_hierarchy_depth']['topic_hierarchy_score']
+        syntax_complexity = report_metrics['concept_hierarchy_depth']['syntax_complexity_score']
+    else:
+        # If metrics aren't split yet, use the existing combined score
+        topic_hierarchy = report_metrics['concept_hierarchy_depth'] * 0.6  # Approximate based on original weighting
+        syntax_complexity = report_metrics['concept_hierarchy_depth'] * 0.4  # Approximate based on original weighting
     
-    # Clarity & Understandability (35% total)
-    clarity_weights = {
-        'flesch_score': 0.10,  # 10%
-        'defined_terms_count': 0.05,  # 5%
-        'example_count': 0.05,  # 5%
-        'llm_clarity': 0.15,  # 15%
-    }
-    
-    # Structure (20% total)
-    structure_weights = {
-        'coherence_flow_score': 0.20,  # 20%
-    }
-
     # Calculate normalized scores (0-1 scale)
     scores = {
-        # Technical Depth
-        'technical_term_count': min(report_metrics['technical_term_count'] * 0.05, 1.0),
-        'concept_hierarchy_depth': report_metrics['concept_hierarchy_depth'] / 5.0,  # Already 1-5 scale
-        'llm_technical_depth': llm_results['technical_depth']['score'],
+        # Technical Vocabulary
+        'dictionary_coverage': min(report_metrics.get('dictionary_coverage_percentage', 0) / 20.0, 1.0),  # 20% coverage is max score
         
-        # Clarity & Understandability
-        'flesch_score': min(max(report_metrics['flesch_score'] / 100.0, 0), 1.0),
-        'defined_terms_count': min(report_metrics['defined_terms_count'] * 0.1, 1.0),
-        'example_count': min(report_metrics['example_count'] * 0.2, 1.0),
-        'llm_clarity': llm_results['clarity']['score'],
+        # Conceptual Organization
+        'topic_hierarchy': topic_hierarchy,
+        'syntax_complexity': syntax_complexity,
         
-        # Structure
-        'coherence_flow_score': report_metrics['contextual_coherence']['concept_flow']['flow_score']  # Already 0-1
+        # LLM Evaluation
+        'llm_evaluation': llm_results['technical_depth']['score']
     }
     
-    # Calculate weighted scores
-    technical_score = sum(scores[metric] * weight for metric, weight in technical_weights.items())
-    clarity_score = sum(scores[metric] * weight for metric, weight in clarity_weights.items())
-    structure_score = sum(scores[metric] * weight for metric, weight in structure_weights.items())
+    # Define weights
+    weights = {
+        'dictionary_coverage': 0.25,    # 25%
+        'topic_hierarchy': 0.25,        # 25%
+        'syntax_complexity': 0.15,      # 15%
+        'llm_evaluation': 0.35          # 35%
+    }
     
-    # Calculate final score
-    final_score = technical_score + clarity_score + structure_score
+    # Calculate the weighted score
+    weighted_score = sum(scores[metric] * weight for metric, weight in weights.items())
+    
+    # Calculate the technical vocabulary score (now just dictionary coverage)
+    technical_vocab_score = scores['dictionary_coverage']
+    
+    # Calculate the conceptual organization score
+    conceptual_org_score = (scores['topic_hierarchy'] * weights['topic_hierarchy'] + 
+                          scores['syntax_complexity'] * weights['syntax_complexity']) / 0.40
     
     return {
-        'final_score': round(final_score, 3),
+        'final_score': round(weighted_score, 3),
         'component_scores': {
-            'technical_depth': round(technical_score, 3),
-            'clarity': round(clarity_score, 3),
-            'structure': round(structure_score, 3)
+            'technical_vocabulary': round(technical_vocab_score, 3),
+            'conceptual_organization': round(conceptual_org_score, 3),
+            'llm_evaluation': round(scores['llm_evaluation'], 3)
         },
-        'detailed_scores': {metric: round(score, 3) for metric, score in scores.items()}
+        'detailed_scores': {
+            'dictionary_coverage': round(scores['dictionary_coverage'], 3),
+            'topic_hierarchy': round(scores['topic_hierarchy'], 3),
+            'syntax_complexity': round(scores['syntax_complexity'], 3),
+            'llm_evaluation': round(scores['llm_evaluation'], 3)
+        },
+        'weights': weights
     }
 
 def compare_report_scores(original_metrics, improved_metrics, llm_results):
@@ -1286,7 +1642,7 @@ def compare_report_scores(original_metrics, improved_metrics, llm_results):
     improved_score = calculate_weighted_score(improved_metrics, llm_results['improved'])
     
     score_difference = improved_score['final_score'] - original_score['final_score']
-    percent_improvement = (score_difference / original_score['final_score']) * 100
+    percent_improvement = (score_difference / original_score['final_score']) * 100 if original_score['final_score'] > 0 else 0
     
     return {
         'original': original_score,
@@ -1294,12 +1650,22 @@ def compare_report_scores(original_metrics, improved_metrics, llm_results):
         'difference': round(score_difference, 2),
         'percent_improvement': round(percent_improvement, 2),
         'component_differences': {
-            'technical_depth': round(improved_score['component_scores']['technical_depth'] - 
-                                   original_score['component_scores']['technical_depth'], 2),
-            'clarity': round(improved_score['component_scores']['clarity'] - 
-                           original_score['component_scores']['clarity'], 2),
-            'structure': round(improved_score['component_scores']['structure'] - 
-                             original_score['component_scores']['structure'], 2)
+            'technical_vocabulary': round(improved_score['component_scores']['technical_vocabulary'] - 
+                                    original_score['component_scores']['technical_vocabulary'], 2),
+            'conceptual_organization': round(improved_score['component_scores']['conceptual_organization'] - 
+                            original_score['component_scores']['conceptual_organization'], 2),
+            'llm_evaluation': round(improved_score['component_scores']['llm_evaluation'] - 
+                              original_score['component_scores']['llm_evaluation'], 2)
+        },
+        'detailed_differences': {
+            'dictionary_coverage': round(improved_score['detailed_scores']['dictionary_coverage'] - 
+                                       original_score['detailed_scores']['dictionary_coverage'], 2),
+            'topic_hierarchy': round(improved_score['detailed_scores']['topic_hierarchy'] - 
+                                   original_score['detailed_scores']['topic_hierarchy'], 2),
+            'syntax_complexity': round(improved_score['detailed_scores']['syntax_complexity'] - 
+                                     original_score['detailed_scores']['syntax_complexity'], 2),
+            'llm_evaluation': round(improved_score['detailed_scores']['llm_evaluation'] - 
+                                  original_score['detailed_scores']['llm_evaluation'], 2)
         }
     }
 
@@ -1307,20 +1673,24 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     """
     Create a detailed chart showing the weighted scores comparison
     """
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Create first chart: Main component scores
     plt.figure(figsize=(15, 10))
     
     # Create data for the plot
-    categories = ['Technical Depth', 'Clarity', 'Structure', 'Final Score']
+    categories = ['Technical\nVocabulary', 'Conceptual\nOrganization', 'LLM\nEvaluation', 'Final Score']
     original_values = [
-        weighted_scores['original']['component_scores']['technical_depth'],
-        weighted_scores['original']['component_scores']['clarity'],
-        weighted_scores['original']['component_scores']['structure'],
+        weighted_scores['original']['component_scores']['technical_vocabulary'],
+        weighted_scores['original']['component_scores']['conceptual_organization'],
+        weighted_scores['original']['component_scores']['llm_evaluation'],
         weighted_scores['original']['final_score']
     ]
     improved_values = [
-        weighted_scores['improved']['component_scores']['technical_depth'],
-        weighted_scores['improved']['component_scores']['clarity'],
-        weighted_scores['improved']['component_scores']['structure'],
+        weighted_scores['improved']['component_scores']['technical_vocabulary'],
+        weighted_scores['improved']['component_scores']['conceptual_organization'],
+        weighted_scores['improved']['component_scores']['llm_evaluation'],
         weighted_scores['improved']['final_score']
     ]
     
@@ -1335,7 +1705,7 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     # Customize the plot
     plt.xlabel('Score Components')
     plt.ylabel('Score (0-1)')
-    plt.title('Weighted Score Comparison')
+    plt.title('Main Component Weighted Score Comparison')
     plt.xticks(x, categories)
     plt.legend()
     plt.grid(axis='y', linestyle='--', alpha=0.7)
@@ -1386,6 +1756,110 @@ def create_weighted_scores_chart(weighted_scores, output_dir, timestamp):
     chart_path = os.path.join(output_dir, f"weighted_scores_{timestamp}.png")
     plt.savefig(chart_path, dpi=300, bbox_inches='tight')
     print(f"Created weighted scores chart: {chart_path}")
+    plt.close()
+    
+    # Create second chart: Detailed component scores
+    plt.figure(figsize=(15, 10))
+    
+    # Create data for the plot
+    detailed_categories = [
+        'Dictionary\nCoverage', 
+        'Topic\nHierarchy', 
+        'Syntax\nComplexity', 
+        'LLM\nEvaluation'
+    ]
+    
+    detailed_original_values = [
+        weighted_scores['original']['detailed_scores']['dictionary_coverage'],
+        weighted_scores['original']['detailed_scores']['topic_hierarchy'],
+        weighted_scores['original']['detailed_scores']['syntax_complexity'],
+        weighted_scores['original']['detailed_scores']['llm_evaluation']
+    ]
+    
+    detailed_improved_values = [
+        weighted_scores['improved']['detailed_scores']['dictionary_coverage'],
+        weighted_scores['improved']['detailed_scores']['topic_hierarchy'],
+        weighted_scores['improved']['detailed_scores']['syntax_complexity'],
+        weighted_scores['improved']['detailed_scores']['llm_evaluation']
+    ]
+    
+    # Calculate component differences
+    detailed_differences = [
+        weighted_scores['detailed_differences']['dictionary_coverage'],
+        weighted_scores['detailed_differences']['topic_hierarchy'],
+        weighted_scores['detailed_differences']['syntax_complexity'],
+        weighted_scores['detailed_differences']['llm_evaluation']
+    ]
+    
+    # Set up the bar chart
+    x = np.arange(len(detailed_categories))
+    
+    # Create bars
+    plt.bar(x - width/2, detailed_original_values, width, label='Original', color='#1f77b4', alpha=0.8)
+    plt.bar(x + width/2, detailed_improved_values, width, label='Improved', color='#2ca02c', alpha=0.8)
+    
+    # Customize the plot
+    plt.xlabel('Detailed Components')
+    plt.ylabel('Score (0-1)')
+    plt.title('Detailed Component Weighted Score Comparison')
+    plt.xticks(x, detailed_categories)
+    plt.legend()
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    # Add value labels on top of each bar
+    for i, v in enumerate(detailed_original_values):
+        plt.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
+    for i, v in enumerate(detailed_improved_values):
+        plt.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Add improvement arrows and labels
+    for i in range(len(detailed_categories)):
+        diff = detailed_differences[i]
+        if diff != 0:
+            # Arrow color based on difference
+            arrow_color = 'green' if diff > 0 else 'red'
+            
+            # Position arrow between the bars
+            arrow_x = i
+            arrow_y_start = min(detailed_original_values[i], detailed_improved_values[i]) + (abs(diff) / 2)
+            
+            # Draw the arrow
+            plt.annotate(
+                f"{diff:+.3f}",
+                xy=(arrow_x, arrow_y_start),
+                xytext=(arrow_x, arrow_y_start - 0.02 if diff < 0 else arrow_y_start + 0.02),
+                arrowprops=dict(arrowstyle='->', color=arrow_color, lw=2),
+                ha='center',
+                va='center',
+                fontweight='bold',
+                color=arrow_color
+            )
+    
+    # Add weights as a subtitle
+    weights = weighted_scores['improved']['weights']
+    weight_text = (
+        f"Weights: Dictionary: {weights['dictionary_coverage']*100:.0f}%, "
+        f"Topic: {weights['topic_hierarchy']*100:.0f}%, "
+        f"Syntax: {weights['syntax_complexity']*100:.0f}%, "
+        f"LLM: {weights['llm_evaluation']*100:.0f}%"
+    )
+    
+    plt.figtext(
+        0.5, 0.02,
+        weight_text,
+        ha='center',
+        fontsize=10,
+        fontweight='bold',
+        bbox=dict(facecolor='white', alpha=0.8, edgecolor='none')
+    )
+    
+    # Set y-axis limit to 0-1 with some padding
+    plt.ylim(0, 1.05)
+    
+    # Save the detailed chart
+    detailed_chart_path = os.path.join(output_dir, f"detailed_weighted_scores_{timestamp}.png")
+    plt.savefig(detailed_chart_path, dpi=300, bbox_inches='tight')
+    print(f"Created detailed weighted scores chart: {detailed_chart_path}")
     plt.close()
     
     return chart_path
@@ -1537,6 +2011,111 @@ Scoring criteria:
             }}
         }
 
+def detect_definitions_enhanced(doc, technical_terms=None):
+    """
+    Enhanced detection of definitions using dependency parsing.
+    
+    Args:
+        doc: spaCy processed document
+        technical_terms: List of technical terms to check for definitions
+        
+    Returns:
+        List of dictionaries with terms and their definitions
+    """
+    definitions = []
+    defined_concepts = set()
+    
+    for sent in doc.sents:
+        sent_text = sent.text.strip()
+        if not sent_text:
+            continue
+        
+        # Check if the sentence contains definitional verbs or constructs
+        is_definition = False
+        defined_term = None
+        
+        # Definitional verbs and patterns
+        def_verbs = ["define", "mean", "refer", "be", "represent", "constitute", "denote", "signify"]
+        def_patterns = ["is defined as", "refers to", "means", "is a", "is an", "is the", "can be defined"]
+        
+        # Look for definition patterns with dependency parsing
+        root = None
+        for token in sent:
+            if token.dep_ == "ROOT":
+                root = token
+                break
+        
+        if root and root.lemma_ in def_verbs:
+            # Find subject (potential defined term)
+            subjects = [child for child in root.children if child.dep_ in ("nsubj", "nsubjpass")]
+            
+            # Find objects (potential definitions)
+            objects = [child for child in root.children if child.dep_ in ("attr", "dobj", "pobj")]
+            
+            if subjects and objects:
+                for subj in subjects:
+                    # Extract complete noun phrase
+                    term_tokens = [subj] + list(subj.children)
+                    term_tokens.sort(key=lambda x: x.i)
+                    defined_term = " ".join([t.text for t in term_tokens]).lower()
+                    is_definition = True
+        
+        # Also check for explicit definition markers
+        if any(pattern in sent_text.lower() for pattern in def_patterns):
+            # Simple pattern matching for cases dependency parsing might miss
+            for pattern in def_patterns:
+                if pattern in sent_text.lower():
+                    parts = sent_text.lower().split(pattern, 1)
+                    if len(parts) == 2 and parts[0].strip():
+                        defined_term = parts[0].strip()
+                        is_definition = True
+                        break
+        
+        if is_definition and defined_term:
+            definitions.append({"term": defined_term, "definition": sent_text})
+            defined_concepts.add(defined_term)
+    
+    return definitions, defined_concepts
+
+def detect_examples_enhanced(doc):
+    """
+    Enhanced detection of examples using linguistic analysis.
+    
+    Args:
+        doc: spaCy processed document
+        
+    Returns:
+        List of dictionaries with examples and their details
+    """
+    examples = []
+    
+    # Look for example markers
+    example_markers = ["for example", "for instance", "such as", "e.g.", "to illustrate", 
+                      "specifically", "in particular", "namely", "like", "as seen in"]
+    
+    for i, sent in enumerate(doc.sents):
+        sent_text = sent.text.strip()
+        if not sent_text:
+            continue
+        
+        is_example = False
+        
+        # Check for example markers
+        if any(marker in sent_text.lower() for marker in example_markers):
+            is_example = True
+        
+        # Check for enumerations that might be examples
+        if not is_example and re.search(r'(?:^|\s)(?:1[.)]|first[,:])', sent_text.lower()):
+            # Check if previous sentence has example introducer
+            prev_sent = list(doc.sents)[i-1] if i > 0 else None
+            if prev_sent and any(marker in prev_sent.text.lower() for marker in example_markers):
+                is_example = True
+        
+        if is_example:
+            examples.append({"example": sent_text})
+    
+    return examples
+
 if __name__ == "__main__":
     # Create base output directory
     base_output_dir = "evaluation_results"
@@ -1580,13 +2159,13 @@ if __name__ == "__main__":
             
             # Calculate technical metrics for original report
             original_concept_depth = estimate_concept_hierarchy_depth(original_report)
-            original_technical_terms = count_technical_terms(original_report)
+            original_tech_metrics = count_technical_terms_with_ner(original_report)
             original_examples = count_examples(original_report)
             original_defined_terms = count_defined_terms(original_report)
             
             # Calculate technical metrics for improved report
             improved_concept_depth = estimate_concept_hierarchy_depth(improved_report)
-            improved_technical_terms = count_technical_terms(improved_report)
+            improved_tech_metrics = count_technical_terms_with_ner(improved_report)
             improved_examples = count_examples(improved_report)
             improved_defined_terms = count_defined_terms(improved_report)
             
@@ -1606,7 +2185,8 @@ if __name__ == "__main__":
                     "flesch_score": round(original_score, 2),
                     "concept_hierarchy_depth": original_concept_depth['combined_score'],
                     "actionable_recommendations_count": 0,
-                    "technical_term_count": original_technical_terms,
+                    "technical_term_count": original_tech_metrics['raw_count'],
+                    "dictionary_coverage_percentage": original_tech_metrics.get('dictionary_coverage_percentage', 0),  # Added dictionary coverage percentage
                     "example_count": original_examples,
                     "defined_terms_count": original_defined_terms,
                     "contextual_coherence": {
@@ -1618,7 +2198,8 @@ if __name__ == "__main__":
                     "flesch_score": round(improved_score, 2),
                     "concept_hierarchy_depth": improved_concept_depth['combined_score'],
                     "actionable_recommendations_count": 0,
-                    "technical_term_count": improved_technical_terms,
+                    "technical_term_count": improved_tech_metrics['raw_count'],
+                    "dictionary_coverage_percentage": improved_tech_metrics.get('dictionary_coverage_percentage', 0),  # Added dictionary coverage percentage
                     "example_count": improved_examples,
                     "defined_terms_count": improved_defined_terms,
                     "contextual_coherence": {
@@ -1630,7 +2211,8 @@ if __name__ == "__main__":
                     "word_count_percent_change": round(((improved_length - original_length) / original_length) * 100, 2),
                     "flesch_score_difference": round(improved_score - original_score, 2),
                     "concept_depth_difference": improved_concept_depth['combined_score'] - original_concept_depth['combined_score'],
-                    "technical_terms_difference": improved_technical_terms - original_technical_terms,
+                    "technical_terms_difference": improved_tech_metrics['raw_count'] - original_tech_metrics['raw_count'],
+                    "dictionary_coverage_difference": improved_tech_metrics.get('dictionary_coverage_percentage', 0) - original_tech_metrics.get('dictionary_coverage_percentage', 0),  # Added dictionary coverage difference
                     "examples_difference": improved_examples - original_examples,
                     "defined_terms_difference": improved_defined_terms - original_defined_terms,
                     "coherence_differences": {
@@ -1658,7 +2240,8 @@ if __name__ == "__main__":
             print("\nTECHNICAL METRICS")
             print("=================")
             print(f"Concept hierarchy depth: {original_concept_depth['combined_score']:.2f} → {improved_concept_depth['combined_score']:.2f}")
-            print(f"Technical terms: {original_technical_terms} → {improved_technical_terms}")
+            print(f"Technical terms: {original_tech_metrics['raw_count']} → {improved_tech_metrics['raw_count']}")
+            print(f"Dictionary coverage: {original_tech_metrics.get('dictionary_coverage_percentage', 0):.2f}% → {improved_tech_metrics.get('dictionary_coverage_percentage', 0):.2f}%")  # Added dictionary coverage
             print(f"Examples: {original_examples} → {improved_examples}")
             print(f"Defined terms: {original_defined_terms} → {improved_defined_terms}")
             
@@ -1699,9 +2282,9 @@ if __name__ == "__main__":
             print(f"Improvement: {weighted_scores['difference']} points ({weighted_scores['percent_improvement']}%)")
 
             print("\nComponent Improvements:")
-            print(f"Technical Depth: {weighted_scores['component_differences']['technical_depth']}")
-            print(f"Clarity: {weighted_scores['component_differences']['clarity']}")
-            print(f"Structure: {weighted_scores['component_differences']['structure']}")
+            print(f"Technical Depth: {weighted_scores['component_differences']['technical_vocabulary']}")
+            print(f"Clarity: {weighted_scores['component_differences']['conceptual_organization']}")
+            print(f"Structure: {weighted_scores['component_differences']['llm_evaluation']}")
             
             # Store the overall scores
             original_overall_scores.append(weighted_scores['original']['final_score'])
