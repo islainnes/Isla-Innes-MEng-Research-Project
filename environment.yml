@@ -1,4 +1,4 @@
-name: newest_env
+name: attempt_env
 channels:
   - conda-forge
   - pytorch
@@ -91,6 +91,7 @@ dependencies:
   - xorg-libxdmcp=1.1.5=hb9d3cd8_0
   - zstd=1.5.7=hb8e6e7a_2
   - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu118
       - accelerate==1.4.0
       - aiohappyeyeballs==2.6.1
       - aiohttp==3.11.16
@@ -205,9 +206,9 @@ dependencies:
       - threadpoolctl==3.6.0
       - tiktoken==0.9.0
       - tokenizers==0.21.1
-      - torch==2.6.0+cu118
-      - torchaudio==2.6.0+cu118
-      - torchvision==0.21.0+cu118
+      - torch==2.6.0
+      - torchaudio==2.6.0
+      - torchvision==0.21.0
       - tqdm==4.67.1
       - transformers==4.51.3
       - triton==3.2.0
@@ -221,5 +222,5 @@ dependencies:
       - wrapt==1.17.2
       - xxhash==3.5.0
       - yarl==1.20.0
-prefix: /home3/ssgg36/anaconda3/envs/newest_env
+prefix: /home3/ssgg36/anaconda3/envs/attempt_env
 
