@@ -579,43 +579,6 @@ def assess_quality(improved_text: str, original_text: str, referenced_papers: Di
     improved_citations = set(re.findall(r'\[\d+\]', improved_text))
     citations_preserved = original_citations.issubset(improved_citations)
     
-    # Log detailed metrics
-    logger.info("\nQuality Assessment Details:")
-    logger.info("\nTechnical Depth:")
-    logger.info(f"- Combined Score: {metrics['technical_depth']['combined_score']:.3f}")
-    logger.info(f"- Technical Terms Score: {metrics['technical_depth']['technical_term_metrics']['normalized_score']:.3f}")
-    logger.info(f"- Concept Hierarchy: {metrics['technical_depth']['concept_hierarchy_depth']:.3f}")
-    if 'llm_evaluation' in metrics['technical_depth']:
-        logger.info(f"- LLM Score: {metrics['technical_depth']['llm_evaluation']['score']:.3f}")
-    
-    logger.info("\nClarity:")
-    logger.info(f"- Combined Score: {metrics['clarity']['combined_score']:.3f}")
-    logger.info(f"- Flesch Score: {metrics['clarity']['flesch_score']:.3f}")
-    logger.info(f"- Defined Terms: {metrics['clarity']['defined_terms_count']:.3f}")
-    logger.info(f"- Examples: {metrics['clarity']['example_count']:.3f}")
-    if 'llm_evaluation' in metrics['clarity']:
-        logger.info(f"- LLM Score: {metrics['clarity']['llm_evaluation']['score']:.3f}")
-    
-    logger.info("\nStructure:")
-    logger.info(f"- Combined Score: {metrics['structure']['combined_score']:.3f}")
-    logger.info(f"- Coherence Flow: {metrics['structure']['coherence']['concept_flow']['flow_score']:.3f}")
-    if 'llm_evaluation' in metrics['structure']:
-        logger.info(f"- LLM Score: {metrics['structure']['llm_evaluation']['score']:.3f}")
-    
-    if 'citation_accuracy' in metrics:
-        logger.info("\nCitation Accuracy:")
-        logger.info(f"- Overall Score: {metrics['citation_accuracy']['score']:.3f}")
-        logger.info("\nDetailed Citation Analysis:")
-        for citation in metrics['citation_accuracy']['citation_analysis']:
-            logger.info(f"  [Citation {citation['citation_id']}]:")
-            logger.info(f"  - Score: {citation['score']:.3f}")
-            logger.info(f"  - Justification: {citation['justification']}")
-            if citation['score'] < 0.7:
-                suggestions = metrics['citation_accuracy']['improvement_suggestions'].get(citation['citation_id'], {})
-                if suggestions:
-                    logger.info(f"  - Suggestion: {suggestions.get('suggestion', 'No specific suggestion')}")
-            logger.info("")
-    
     return {
         "metrics": metrics,
         "citations": {
