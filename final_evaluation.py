@@ -121,7 +121,7 @@ def evaluate_technical_depth_with_llm(text):
             'justification': f"LLM evaluation failed: {str(e)}"
         }
 
-def count_technical_terms_with_ner(text):
+def calculate_technical_depth(text):
     """
     Count and identify technical terms using a comprehensive semiconductor dictionary
     first, then supplement with NLP techniques. Returns a balanced technical score
@@ -867,7 +867,4 @@ Scoring criteria:
                 "suggestion": "Manual review recommended due to evaluation error"
             }}
         }
-
-    
- 
 
