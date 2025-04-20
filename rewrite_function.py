@@ -74,9 +74,10 @@ def load_shared_model(model_name, device):
         # Configure quantization settings with less aggressive memory optimization for large GPU
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.bfloat16,  # Changed to bfloat16 for better stability
+            bnb_4bit_compute_dtype=torch.float16,  # Changed to float16 for better compatibility
             bnb_4bit_use_double_quant=False,
-            bnb_4bit_quant_type="nf4"
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_quant_storage=torch.uint8  # Explicitly set storage type
         )
         
         # Large GPU memory settings
@@ -99,7 +100,8 @@ def load_shared_model(model_name, device):
             max_memory=max_memory,
             offload_folder="offload",
             trust_remote_code=True,  # Added for better model loading
-            use_flash_attention_2=False  # Disabled flash attention
+            use_flash_attention_2=False,  # Disabled flash attention
+            attn_implementation='eager'  # Use eager implementation instead of flash attention
         )
         
         tokenizer = AutoTokenizer.from_pretrained(
@@ -772,4 +774,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
