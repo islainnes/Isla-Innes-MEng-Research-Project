@@ -200,9 +200,9 @@ def process_report(json_path):
     original_report = " ".join([section_content.get("original", "") for section_content in sections.values()])
     improved_report = " ".join([section_content.get("improved", "") for section_content in sections.values()])
     
-    # Calculate Flesch scores
-    original_score = textstat.flesch_reading_ease(original_report)
-    improved_score = textstat.flesch_reading_ease(improved_report)
+    # Calculate Gunning Fog Index scores
+    original_score = textstat.gunning_fog(original_report)
+    improved_score = textstat.gunning_fog(improved_report)
     
     # Initialize coherence analyzer
     coherence_analyzer = ContextualCoherenceAnalyzer()
@@ -727,8 +727,8 @@ def create_comparison_charts(results, output_dir):
     
     # Create figure 1: Basic metrics
     plt.figure(figsize=(12, 8))
-    metrics = ['word_count', 'flesch_score']
-    labels = ['Word Count', 'Flesch Reading Ease']
+    metrics = ['word_count', 'gunning_fog_score']
+    labels = ['Word Count', 'Gunning Fog Index']
     x = np.arange(len(metrics))
     width = 0.35
     
@@ -821,7 +821,7 @@ def create_comparison_charts(results, output_dir):
     
     # Basic metrics
     word_count_change = results["comparison"]["word_count_percent_change"]
-    flesch_score_change = (results["comparison"]["flesch_score_difference"] / original["flesch_score"]) * 100 if original["flesch_score"] != 0 else 0
+    gunning_fog_change = (results["comparison"]["gunning_fog_difference"] / original["gunning_fog_score"]) * 100 if original["gunning_fog_score"] != 0 else 0
     
     # Technical metrics
     concept_depth_change = results["comparison"]["concept_depth_difference"]
@@ -840,7 +840,7 @@ def create_comparison_charts(results, output_dir):
     # Add all changes and labels
     percent_changes = [
         word_count_change, 
-        flesch_score_change, 
+        gunning_fog_change, 
         concept_depth_change,
         recommendations_change, 
         tech_terms_change,
@@ -851,7 +851,7 @@ def create_comparison_charts(results, output_dir):
     
     metric_names = [
         'Word Count', 
-        'Flesch Score', 
+        'Gunning Fog Index', 
         'Concept Depth',
         'Recommendations', 
         'Technical Terms',
@@ -1239,7 +1239,7 @@ def calculate_clarity(text):
     
     Returns:
         dict: Dictionary containing clarity metrics (all normalized to 0-1):
-            - flesch_score: Normalized Flesch reading ease score
+            - gunning_fog_score: Normalized Gunning Fog Index score
             - defined_terms_count: Normalized number of defined terms
             - example_count: Normalized number of examples
             - llm_evaluation: LLM-based clarity evaluation
@@ -1248,7 +1248,7 @@ def calculate_clarity(text):
         Exception: If any part of the analysis fails
     """
     # Calculate basic metrics
-    flesch_score = textstat.flesch_reading_ease(text)
+    gunning_fog = textstat.gunning_fog(text)
     
     # Get technical term metrics to use as a base for determining how many terms should be defined
     tech_metrics = count_technical_terms_with_ner(text)
@@ -1317,46 +1317,43 @@ def calculate_clarity(text):
     else:
         technical_term_coverage = 1.0 if defined_terms_count > 0 else 0.0
     
-    # Normalize Flesch score for technical content (target ~30)
-    if flesch_score <= 10:  # Extremely complex, even for technical content
-        normalized_flesch = 0.2
-    elif flesch_score <= 20:  # Very complex technical content
-        normalized_flesch = 0.4
-    elif flesch_score <= 35:  # Optimal range for technical content
-        normalized_flesch = 1.0
-    elif flesch_score <= 50:  # Slightly more readable than needed
-        normalized_flesch = 0.8
-    else:  # Too simple for technical audience
-        normalized_flesch = 0.6
+    # Normalize Gunning Fog Index for technical content (target 12-14)
+    if gunning_fog >= 18:  # Extremely complex, even for technical content
+        normalized_fog = 0.2
+    elif gunning_fog >= 16:  # Very complex technical content
+        normalized_fog = 0.4
+    elif gunning_fog >= 14:  # Upper end of optimal range
+        normalized_fog = 0.8
+    elif gunning_fog >= 12:  # Optimal range for technical content
+        normalized_fog = 1.0
+    elif gunning_fog >= 10:  # Slightly less complex than optimal
+        normalized_fog = 0.8
+    elif gunning_fog >= 8:  # Too simple for technical content
+        normalized_fog = 0.6
+    else:  # Far too simple for technical audience
+        normalized_fog = 0.4
     
-    # Normalize definitions based on enhanced analysis
-    if technical_term_coverage >= 0.7:  # Excellent coverage
+    # Normalize definitions based on enhanced analysis - LESS STRICT VERSION
+    if technical_term_coverage >= 0.5:  # Excellent coverage (lowered from 0.7)
         normalized_defined = 1.0
-    elif technical_term_coverage >= 0.5:  # Good coverage
+    elif technical_term_coverage >= 0.3:  # Good coverage (lowered from 0.5)
         normalized_defined = 0.8
-    elif technical_term_coverage >= 0.3:  # Adequate coverage
+    elif technical_term_coverage >= 0.15:  # Adequate coverage (lowered from 0.3)
         normalized_defined = 0.6
     elif technical_term_coverage > 0:  # Some coverage
         normalized_defined = 0.4
     else:  # No coverage
         normalized_defined = 0.1
     
-    # Normalize examples based on technical terms rather than estimated concepts
-    # Instead of this:
-    # sentences = text.split('.')
-    # total_sentences = len([s for s in sentences if len(s.strip()) > 10])
-    # estimated_concepts = max(1, total_sentences // 3)
-    # example_ratio = example_count / max(1, estimated_concepts)
+    # Use technical terms as basis for normalization - LESS STRICT VERSION
+    example_ratio = example_count / max(1, unique_technical_terms * 0.35)  # Expect examples for ~35% of technical terms (reduced from 50%)
     
-    # Use technical terms as basis for normalization:
-    example_ratio = example_count / max(1, unique_technical_terms * 0.5)  # Expect examples for ~50% of technical terms
-    
-    # Combine raw count with topic coverage
-    if example_ratio >= 0.5 and topic_coverage >= 0.7:  # Excellent - examples for half of technical terms with good distribution
+    # Combine raw count with topic coverage - LESS STRICT VERSION
+    if example_ratio >= 0.35 and topic_coverage >= 0.5:  # Excellent (lowered from 0.5 ratio and 0.7 coverage)
         normalized_examples = 1.0
-    elif example_ratio >= 0.3 and topic_coverage >= 0.5:  # Good
+    elif example_ratio >= 0.2 and topic_coverage >= 0.3:  # Good (lowered from 0.3 ratio and 0.5 coverage)
         normalized_examples = 0.8
-    elif example_ratio >= 0.2 and topic_coverage >= 0.3:  # Adequate
+    elif example_ratio >= 0.1 and topic_coverage >= 0.2:  # Adequate (lowered from 0.2 ratio and 0.3 coverage)
         normalized_examples = 0.6
     elif example_ratio > 0 or topic_coverage > 0:  # Some examples
         normalized_examples = 0.4
@@ -1408,7 +1405,7 @@ def calculate_clarity(text):
     
     # Calculate combined score with updated weights
     combined_score = (
-        0.20 * normalized_flesch +      # 20% weight to readability
+        0.20 * normalized_fog +         # 20% weight to readability
         0.20 * normalized_defined +     # 20% weight to defined terms
         0.20 * normalized_examples +    # 20% weight to examples
         0.40 * llm_score                # 40% weight to LLM evaluation
@@ -1416,7 +1413,7 @@ def calculate_clarity(text):
     
     # Return dictionary with all metrics
     return {
-        'flesch_score': normalized_flesch,
+        'gunning_fog_score': normalized_fog,
         'defined_terms_count': normalized_defined,
         'example_count': normalized_examples,
         'definition_coverage': technical_term_coverage,
@@ -1536,7 +1533,7 @@ def calculate_final_weighted_score(text, llm_technical_depth=None, llm_clarity=N
     metrics = {
         'technical_term_count': technical_metrics['technical_term_metrics']['raw_count'],
         'concept_hierarchy_depth': technical_metrics['concept_hierarchy_depth'],
-        'flesch_score': clarity_metrics['flesch_score'],
+        'gunning_fog_score': clarity_metrics['gunning_fog_score'],
         'defined_terms_count': clarity_metrics['defined_terms_count'],
         'example_count': clarity_metrics['example_count'],
         'contextual_coherence': structure_metrics['coherence'],
@@ -1569,43 +1566,63 @@ def calculate_weighted_score(report_metrics, llm_results):
     Calculate a weighted score (0-1) based on various metrics
     
     Weights are grouped into main categories:
-    1. Technical Vocabulary (25% total)
-       - Dictionary Coverage (25%)
-    2. Conceptual Organization (40% total)
-       - Topic Hierarchy (25%)
-       - Syntax Complexity (15%)
-    3. LLM Evaluation (35%)
+    1. Technical Vocabulary (30% total)
+       - Dictionary Coverage (30%)
+    2. Conceptual Organization (30% total)
+       - Topic Hierarchy (30%)
+    3. LLM Evaluation (40%)
     """
     
     # Make sure we have the split concept hierarchy metrics
     if isinstance(report_metrics['concept_hierarchy_depth'], dict) and 'topic_hierarchy_score' in report_metrics['concept_hierarchy_depth']:
         # Split metrics are available
         topic_hierarchy = report_metrics['concept_hierarchy_depth']['topic_hierarchy_score']
-        syntax_complexity = report_metrics['concept_hierarchy_depth']['syntax_complexity_score']
+        # We no longer use syntax_complexity
     else:
         # If metrics aren't split yet, use the existing combined score
-        topic_hierarchy = report_metrics['concept_hierarchy_depth'] * 0.6  # Approximate based on original weighting
-        syntax_complexity = report_metrics['concept_hierarchy_depth'] * 0.4  # Approximate based on original weighting
+        topic_hierarchy = report_metrics['concept_hierarchy_depth']  # Use the full score for topic hierarchy
     
     # Calculate normalized scores (0-1 scale)
+    
+    # For dictionary coverage, create more granular normalization with 10% as perfect
+    dictionary_percentage = report_metrics.get('dictionary_coverage_percentage', 0)
+    if dictionary_percentage >= 10.0:
+        dictionary_coverage_score = 1.0  # 10%+ gives perfect score
+    elif dictionary_percentage >= 8.0:
+        dictionary_coverage_score = 0.9  # 8-10%
+    elif dictionary_percentage >= 6.0:
+        dictionary_coverage_score = 0.8  # 6-8%
+    elif dictionary_percentage >= 5.0:
+        dictionary_coverage_score = 0.7  # 5-6%
+    elif dictionary_percentage >= 4.0:
+        dictionary_coverage_score = 0.6  # 4-5%
+    elif dictionary_percentage >= 3.0:
+        dictionary_coverage_score = 0.5  # 3-4%
+    elif dictionary_percentage >= 2.0:
+        dictionary_coverage_score = 0.4  # 2-3%
+    elif dictionary_percentage >= 1.0:
+        dictionary_coverage_score = 0.3  # 1-2%
+    elif dictionary_percentage >= 0.5:
+        dictionary_coverage_score = 0.2  # 0.5-1%
+    else:
+        dictionary_coverage_score = 0.1  # <0.5%
+    
     scores = {
         # Technical Vocabulary
-        'dictionary_coverage': min(report_metrics.get('dictionary_coverage_percentage', 0) / 20.0, 1.0),  # 20% coverage is max score
+        'dictionary_coverage': dictionary_coverage_score,
         
         # Conceptual Organization
         'topic_hierarchy': topic_hierarchy,
-        'syntax_complexity': syntax_complexity,
         
         # LLM Evaluation
         'llm_evaluation': llm_results['technical_depth']['score']
     }
     
-    # Define weights
+    # Define weights - redistributed to remove syntax_complexity
     weights = {
-        'dictionary_coverage': 0.25,    # 25%
-        'topic_hierarchy': 0.25,        # 25%
-        'syntax_complexity': 0.15,      # 15%
-        'llm_evaluation': 0.35          # 35%
+        'dictionary_coverage': 0.30,    # 30% (increased from 25%)
+        'topic_hierarchy': 0.30,        # 30% (increased from 25%)
+        'llm_evaluation': 0.40          # 40% (increased from 35%)
     }
     
     # Calculate the weighted score
@@ -1614,9 +1631,8 @@ def calculate_weighted_score(report_metrics, llm_results):
     # Calculate the technical vocabulary score (now just dictionary coverage)
     technical_vocab_score = scores['dictionary_coverage']
     
-    # Calculate the conceptual organization score
-    conceptual_org_score = (scores['topic_hierarchy'] * weights['topic_hierarchy'] + 
-                          scores['syntax_complexity'] * weights['syntax_complexity']) / 0.40
+    # Calculate the conceptual organization score (now just topic hierarchy)
+    conceptual_org_score = scores['topic_hierarchy']
     
     return {
         'final_score': round(weighted_score, 3),
@@ -1628,7 +1644,6 @@ def calculate_weighted_score(report_metrics, llm_results):
         'detailed_scores': {
             'dictionary_coverage': round(scores['dictionary_coverage'], 3),
             'topic_hierarchy': round(scores['topic_hierarchy'], 3),
-            'syntax_complexity': round(scores['syntax_complexity'], 3),
             'llm_evaluation': round(scores['llm_evaluation'], 3)
         },
         'weights': weights
@@ -2182,7 +2197,7 @@ if __name__ == "__main__":
                 "timestamp": timestamp,
                 "original_report": {
                     "word_count": original_length,
-                    "flesch_score": round(original_score, 2),
+                    "gunning_fog_score": round(original_score, 2),
                     "concept_hierarchy_depth": original_concept_depth['combined_score'],
                     "actionable_recommendations_count": 0,
                     "technical_term_count": original_tech_metrics['raw_count'],
@@ -2195,7 +2210,7 @@ if __name__ == "__main__":
                 },
                 "improved_report": {
                     "word_count": improved_length,
-                    "flesch_score": round(improved_score, 2),
+                    "gunning_fog_score": round(improved_score, 2),
                     "concept_hierarchy_depth": improved_concept_depth['combined_score'],
                     "actionable_recommendations_count": 0,
                     "technical_term_count": improved_tech_metrics['raw_count'],
@@ -2209,7 +2224,7 @@ if __name__ == "__main__":
                 "comparison": {
                     "word_count_difference": improved_length - original_length,
                     "word_count_percent_change": round(((improved_length - original_length) / original_length) * 100, 2),
-                    "flesch_score_difference": round(improved_score - original_score, 2),
+                    "gunning_fog_difference": round(improved_score - original_score, 2),
                     "concept_depth_difference": improved_concept_depth['combined_score'] - original_concept_depth['combined_score'],
                     "technical_terms_difference": improved_tech_metrics['raw_count'] - original_tech_metrics['raw_count'],
                     "dictionary_coverage_difference": improved_tech_metrics.get('dictionary_coverage_percentage', 0) - original_tech_metrics.get('dictionary_coverage_percentage', 0),  # Added dictionary coverage difference
@@ -2228,8 +2243,8 @@ if __name__ == "__main__":
             print("=================")
             print(f"Original report word count: {original_length}")
             print(f"Improved report word count: {improved_length}")
-            print(f"Original Flesch score: {original_score:.2f}")
-            print(f"Improved Flesch score: {improved_score:.2f}")
+            print(f"Original Gunning Fog Index: {original_score:.2f}")
+            print(f"Improved Gunning Fog Index: {improved_score:.2f}")
             
             # Show change
             diff = improved_score - original_score
