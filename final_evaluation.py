@@ -7,8 +7,8 @@ import textstat  # Add this import for Gunning Fog
 from typing import Dict
 import os  # Add this for environment variable access
 
-# Initialize OpenAI client with API key from environment variables
-api_key = os.getenv("OPENAI_API_KEY", "")  # Get API key from environment or empty string as fallback
+# Hardcoded API key
+api_key = "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"
 if not api_key:
     print("Warning: OPENAI_API_KEY environment variable not set")
 openai_client = openai.OpenAI(api_key=api_key)
