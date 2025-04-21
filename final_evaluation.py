@@ -5,9 +5,13 @@ import openai
 import json
 import textstat  # Add this import for Gunning Fog
 from typing import Dict
+import os  # Add this for environment variable access
 
-# Initialize OpenAI client with the actual API key from final_evaluation_copy.py
-openai_client = openai.OpenAI(api_key="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")
+# Initialize OpenAI client with API key from environment variables
+api_key = os.getenv("OPENAI_API_KEY", "")  # Get API key from environment or empty string as fallback
+if not api_key:
+    print("Warning: OPENAI_API_KEY environment variable not set")
+openai_client = openai.OpenAI(api_key=api_key)
 
 def analyze_sentence_complexity_normalized(text, nlp):
     """Analyzes syntactic complexity through dependency parsing, normalized to 0-1"""
