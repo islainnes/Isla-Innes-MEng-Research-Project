@@ -19,7 +19,7 @@ module load nvidia/cuda
 source /home3/ssgg36/anaconda3/etc/profile.d/conda.sh
 
 # Activate your conda environment
-conda activate llm_env
+conda activate project_env
 
 # Add these diagnostic lines
 echo "=== Environment Information ==="
