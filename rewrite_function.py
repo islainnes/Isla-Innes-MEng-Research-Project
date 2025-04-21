@@ -100,8 +100,8 @@ def load_shared_model(model_name, device):
             max_memory=max_memory,
             offload_folder="offload",
             trust_remote_code=True,  # Added for better model loading
-            use_flash_attention_2=False,  # Disabled flash attention
-            attn_implementation='eager'  # Use eager implementation instead of flash attention
+            use_flash_attention_2=False,  # Explicitly disable flash attention
+            attn_implementation='eager'  # Explicitly use eager implementation
         )
         
         tokenizer = AutoTokenizer.from_pretrained(
@@ -140,7 +140,14 @@ class CustomGemmaClient:
         self.model_name = "google/gemma-3-27b-it"  # Updated to use 27B model
         self.device = config.get(
             "device", "cuda" if torch.cuda.is_available() else "cpu")
-        self.gen_params = config.get("params", {})
+        
+        # Remove attention parameters from gen_params if they exist
+        self.gen_params = config.get("params", {}).copy()
+        if "use_flash_attention_2" in self.gen_params:
+            self.gen_params.pop("use_flash_attention_2")
+        if "attn_implementation" in self.gen_params:
+            self.gen_params.pop("attn_implementation")
+            
         logger.info(f"Initializing CustomGemmaClient with model {self.model_name} on {self.device}")
         self.model, self.tokenizer = load_shared_model(
             self.model_name, self.device)
@@ -774,5 +781,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
 
 
