@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -c 4
-#SBATCH --gres=gpu:pascal:1
+#SBATCH --gres=gpu:ampere:1
 #SBATCH -p ug-gpu-small
 #SBATCH --qos=normal
 #SBATCH -t 00-20:00:00
