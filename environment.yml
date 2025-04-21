@@ -1,4 +1,4 @@
-name: attempt_env
+name: project_env
 channels:
   - conda-forge
   - pytorch
@@ -222,5 +222,5 @@ dependencies:
       - wrapt==1.17.2
       - xxhash==3.5.0
       - yarl==1.20.0
-prefix: /home3/ssgg36/anaconda3/envs/attempt_env
+prefix: /home3/ssgg36/anaconda3/envs/project_env
 
