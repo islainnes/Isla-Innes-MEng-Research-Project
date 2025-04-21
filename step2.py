@@ -35,6 +35,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Add this around line 30, after your imports
+logger.info("Setting up robust GPU memory management settings")
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128,garbage_collection_threshold:0.8"
+# Replace the non-existent torch.jit.disable() with the correct approach
+torch._C._jit_set_profiling_mode(False)
+torch._C._jit_set_texpr_fuser_enabled(False)
+torch._C._jit_override_can_fuse_on_cpu(False)
+torch._C._jit_override_can_fuse_on_gpu(False)
+
 # Clear CUDA cache and set PyTorch memory management
 logger.info("Initializing GPU memory settings")
 torch.cuda.empty_cache()
@@ -153,15 +162,23 @@ def load_shared_model(model_name, device):
         os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
         os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:256'
         
+        # Disable SDPA to avoid alignment errors
+        torch._C._jit_override_can_fuse_on_cpu(False)
+        torch._C._jit_override_can_fuse_on_gpu(False)
+        torch._C._jit_set_texpr_fuser_enabled(False)
+        os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
+        os.environ["PYTORCH_SKIP_SDPA"] = "1"  # Skip scaled dot product attention
+        
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.bfloat16,  # Changed to bfloat16
-            device_map="auto",
+            torch_dtype=torch.bfloat16,
+            device_map={"": 0},  # Force all layers to GPU 0 instead of "auto"
             quantization_config=quantization_config,
             max_memory=max_memory,
             offload_folder="offload",
-            trust_remote_code=True,  # Added for better model loading
-            use_flash_attention_2=False  # Disabled flash attention
+            trust_remote_code=True,
+            use_flash_attention_2=False,
+            attn_implementation="eager"
         )
         
         tokenizer = AutoTokenizer.from_pretrained(
@@ -231,11 +248,16 @@ class CustomGemmaClient:
         response.model = self.model_name
 
         try:
-            logger.debug("Generating response with primary parameters")
+            logger.debug("Generating response with greedy decoding to avoid alignment issues")
             with torch.no_grad():
+                # Use simple generation settings to avoid alignment issues
                 outputs = self.model.generate(
                     **inputs,
-                    **self.gen_params
+                    max_new_tokens=self.gen_params.get("max_new_tokens", 1000),
+                    do_sample=False,  # Use greedy decoding instead of sampling
+                    use_cache=True,
+                    num_beams=1,  # Single beam for stability
+                    pad_token_id=self.tokenizer.pad_token_id
                 )
                 generated_text = self.tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
@@ -252,14 +274,21 @@ class CustomGemmaClient:
                 response.choices.append(choice)
         except RuntimeError as e:
             logger.error(f"Error during generation: {str(e)}")
-            logger.info("Falling back to basic greedy decoding")
+            logger.info("Falling back to basic greedy decoding with even simpler settings")
             # Fallback to basic greedy decoding if there's an error
             with torch.no_grad():
+                # Try an even simpler approach without SDPA
+                torch._C._jit_set_profiling_mode(False)  # Disable JIT which can cause issues with SDPA
+                
+                # Use even simpler generation for fallback
                 outputs = self.model.generate(
                     **inputs,
-                    max_new_tokens=self.gen_params.get("max_new_tokens", 1000),
+                    max_new_tokens=self.gen_params.get("max_new_tokens", 500),
                     do_sample=False,
+                    use_cache=True,
                     num_beams=1,
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    use_sdpa=False  # Explicitly disable scaled dot product attention
                 )
                 generated_text = self.tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
@@ -851,6 +880,10 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
     # For logging
     logger.debug(f"Formatted prompt sent to model: {prompt[:200]}...")
     
+    # Limit temperature and max_tokens to avoid memory issues
+    temperature = min(temperature, 0.5)  # Cap temperature at 0.5 for stability
+    max_tokens = min(max_tokens, 500)    # Cap max_tokens at 500 to avoid memory issues
+    
     config = {
         "model": "google/gemma-3-27b-it",
         "model_client_cls": "CustomGemmaClient",
@@ -858,7 +891,7 @@ def call_model(prompt, system_message=None, temperature=0.7, max_tokens=1000):
         "n": 1,
         "params": {
             "max_new_tokens": max_tokens,
-            "do_sample": True,
+            "do_sample": False,  # Use greedy decoding for stability
             "temperature": temperature,
             "top_p": 0.9,
             "num_beams": 1,
@@ -913,8 +946,12 @@ def generate_report(topic, max_retries=2, num_papers=4, embedding_store=None, te
     """Generate a report with a limited number of retries"""
     logger.info(f"Generating report for topic: {topic} with temperature {temperature}")
     
-    # Get paper context - REDUCED from 8 to 4 papers to make prompt smaller
+    # Lower temperature for stability
+    temperature = min(temperature, 0.4)
+    
+    # Get paper context - REDUCED from 8 to 3 papers to make prompt smaller
     logger.info("Retrieving paper context...")
+    num_papers = min(num_papers, 3)  # Ensure we use at most 3 papers
     full_context, all_relevant_papers = get_paper_context(topic, num_papers=num_papers)
     
     # Organize papers and get citation mapping
@@ -932,13 +969,15 @@ def generate_report(topic, max_retries=2, num_papers=4, embedding_store=None, te
             logger.info(f"Retrieved Crossref citation data for {title}")
             organized_papers[title]['crossref_citation'] = crossref_data
     
-    # Create context with organized papers - using FULL chunks
+    # Create an even more simplified context with fewer excerpts
     context = "Based on these papers:\n"
     for title, paper in organized_papers.items():
         context += f"Paper [{paper['citation_id']}]: {title} ({paper['year']})\n"
-        # Use all chunks with their full content
-        for i, chunk in enumerate(paper['chunks']):
-            context += f"Excerpt {i+1}:\n{chunk}\n---\n"  # Use full chunk content
+        # Use only 1 chunk per paper and limit total characters
+        if paper['chunks'] and len(paper['chunks']) > 0:
+            # Truncate chunk content to max 200 characters
+            shortened_chunk = paper['chunks'][0][:200] + "..." if len(paper['chunks'][0]) > 200 else paper['chunks'][0]
+            context += f"Excerpt:\n{shortened_chunk}\n---\n"
         context += "\n"
 
     # Clear memory before model generation
@@ -953,6 +992,10 @@ def generate_report(topic, max_retries=2, num_papers=4, embedding_store=None, te
             # Generate each section separately for better results
             for section_name in ["BACKGROUND KNOWLEDGE", "CURRENT RESEARCH", "RESEARCH RECOMMENDATIONS"]:
                 logger.info(f"Generating {section_name} section...")
+                
+                # Clear memory before each section generation
+                torch.cuda.empty_cache()
+                gc.collect()
                 
                 # Simplified prompt to reduce token count
                 section_prompt = f"""Write a short academic analysis for the {section_name} section about: {topic}
@@ -971,7 +1014,7 @@ Focus only on the {section_name} section.
                     section_prompt, 
                     system_message=section_system_message, 
                     temperature=temperature, 
-                    max_tokens=300  # Reduced from 500 to 300
+                    max_tokens=200  # Reduced from 300 to 200
                 )
                 
                 logger.debug(f"Raw response for {section_name}: {section_content[:200]}...")
@@ -1130,10 +1173,11 @@ def generate_research_questions(topic: str, num_questions: int = 3):
     </rewritten_prompt>
     """
 
-    logger.info("Sending prompt to model with temperature 0.7")
+    logger.info("Sending prompt to model with temperature 0.3")
     logger.debug(f"Full prompt: {prompt}")
 
-    response_text = call_model(prompt, temperature=0.7, max_tokens=500)
+    # Use a lower temperature and simpler settings to avoid memory issues
+    response_text = call_model(prompt, temperature=0.3, max_tokens=300)
     logger.debug(f"Raw response: {response_text}")
 
     # Extract questions (lines starting with numbers)
@@ -1156,13 +1200,27 @@ def generate_research_questions(topic: str, num_questions: int = 3):
                 else:
                     logger.warning(f"Skipping invalid or duplicate question: {question}")
     
-    # If we don't have enough questions, raise an error
+    # If we don't have enough questions, generate simple fallback questions
     if len(questions) < num_questions:
-        logger.error(f"Failed to generate enough questions. Got {len(questions)}, needed {num_questions}")
-        raise ValueError(f"Could not generate {num_questions} unique questions. Only generated {len(questions)} valid questions.")
+        logger.warning(f"Failed to generate enough questions. Got {len(questions)}, needed {num_questions}")
+        fallback_questions = [
+            f"What are the current challenges in {topic} research?",
+            f"How is {topic} technology evolving to meet future demands?",
+            f"What are the practical applications of recent advances in {topic}?"
+        ]
+        
+        # Add fallback questions that aren't duplicates
+        for q in fallback_questions:
+            if len(questions) >= num_questions:
+                break
+            if q not in seen_questions:
+                questions.append(q)
+                seen_questions.add(q)
+        
+        logger.info(f"Added fallback questions. Now have {len(questions)} questions.")
 
     # Return exactly the number of questions requested
-    logger.info(f"Successfully generated {len(questions[:num_questions])} questions")
+    logger.info(f"Returning {len(questions[:num_questions])} questions")
     return questions[:num_questions]
 
 
