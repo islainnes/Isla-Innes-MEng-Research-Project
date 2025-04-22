@@ -1,0 +1,53 @@
+[MISSING_PAGE_FAIL:1]
+
+is improved and abnormal case ratio is keeping decrease. So, the preventive actions on FMEA should be timely updated or the outdated actions will impact the scoring of "Occurrence" or "Detection" then the final FMEA effectiveness scores (Table II).
+
+By combing the factors (S\({}_{\text{basic}}\) and C\({}_{\text{FMEA}}\)) mentioned above, the formula of FMEA Effectiveness Index (FEI) is finally optimized (after several demos) as below:
+
+\[\text{FMEA Effectiveness Index (FEI) = 100 - \frac{\text{n}}{\text{N}}*\sum\limits_{\text{real}}^{\text{e}}\left( \text{S}_{\text{basic}}*\left(\text{I}+\text{C}_{\text{basic}}\right)\right)\]
+
+In this formula, n is the actual production line abnormality case count (monthly base, normally) and N is the average case count on last year at the same time.
+
+With FEI building-up, it becomes easy for FABs to do FMEA weakness finding and improve by setting up a FEI scoring trend chart, especially on advanced technology. As Fig. 1 shows, with the aid of FEI, the gap of FMEA (generally, FAB sets up FMEA by technology) between a mature technology and advanced technology is exposed obviously which means some benchmark actions can be internally shared. Additionally, advanced technology also can generate its own improve actions by FEI weakness analysis to improve the risk management after FMEA refinement.
+
+## E-FMEA system and applications
+
+
+The value of FMEA is its implementation on risk management including internal FAB and cross FABs. To make sure exact implementation, a "useful FMEA" must realize "Cross Site Sharing" and "Link to Other Systems" (mentioned on TABLE III). In e-FMEA system, users can define a corresponding matrix table with "FMEA Number", "Technology ID", "Technology Owner" and "Production Line". After that, system can real time automatically trigger a inform message to related owner and FAB when one FMEA has been modified (refer to Fig.3). The receiving site need make a judgment if need follow up or feedback any concern/suggestion to the mother site through e-FMEA system. This modification only can be effective after both sites make alignment to make sure exact sharing.
+
+\begin{table}
+\begin{tabular}{c|c} \hline
+**Comparison Result** & C\({}_{\text{FMEA}}\) \\ \hline
+**Actual performance matched** & **0** \\
+**KMEA** & **0** \\
+**Actual occurrence performance >** & **0.3** \\
+**FMEA** & **0.5** \\
+**Actual defection performance <** & **0.5** \\
+**FMEA** & \\
+**A new failure mode not in original** & **1.0** \\
+**FMEA** & \\ \hline \end{tabular}
+\end{table} TABLE II: C\({}_{\text{FMEA}}\)value matrix table on different comparison results
+
+Fig.1: FEI scoring trend chart on two different technologies
+
+Fig.2: User interface sample from e-FMEA system
+
+Fig.1: FEI scoring trend chart on two different technologiesAfter getting updated information, the next problem is how to make sure new preventive actions can be implemented on wafer manufacture processes. Only systematization on FMEA and build up a "System Net" can completely solve it. Different from traditional FMEA maintenance method, e-FMEA can realize system talks with other systems (manufacture control, routine monitor or process change control systems). New preventive actions or new detection actions can be automatically transmitted to related systems by system links and the receiving systems can do such as monitor frequency tighten or control limit optimization.
+
+
+1. FECP system: FAB Engineering Change Procedure system is used for risk control on all process changes, by linking with FMEA, FECP system can get the latest PRN value from each process stage, the higher RPN value stage means the higher risk on changes which requests more qualification data.
+
+2. NTO System: New Tape-Out System is used for risk gating on new products before being imported to formal manufacture. e-FMEA system will pass process weaknesses by RPN ranking above alarm limit (alarm limit can be adjusted) to NTO system to remind user to collect more verification data on these weaknesses to confirm process robustness before mass production.
+
+3. CA System: Construction Analysis System is used for wafer physical cross-section analysis in order to monitor if baseline performance has shifted or not. By linking to e-FMEA system, CA system can real time queries the risky structure and requests user to get more data to double confirm.
+
+4. Excursion System: All FAB excursion cases with root cause finding, risk assessment on impacted products, containment actions and preventive actions are recorded in this system. e-FMEA system can be treated as a database for lesson learn delivering when user is handling a new case on excursion system.
+
+Specially, FMEA not only used on these four systems but also can be exactly used on every manufacturing system by systematization.
+
+## Conclusion
+
+With the creation of FMEA effectiveness index (FEI), semiconductor manufacturing can realize the real evaluation on FMEA by FEI scoring monitor and comparison. It makes easy for FAB to continuously do FMEA optimization. And, after systematization instead of traditional paper works, the efficiency of FMEA maintenance has been obviously improved and system net with e-FMEA can make sure FMEA be exactly implemented.
+
+The practice on a world leading Foundry shows all production line excursion case ratios (no matter which technology generation) have been improved due to the enhancement on risk management by FEI usage and e-FMEA system implementation (refer to Fig.5).
+

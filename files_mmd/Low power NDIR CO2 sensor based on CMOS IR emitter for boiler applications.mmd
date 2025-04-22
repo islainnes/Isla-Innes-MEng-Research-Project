@@ -1,0 +1,87 @@
+
+Emitter for Boiler Applications
+
+S.Z. Ali\({}^{1}\), A. De Luca\({}^{2}\), Z. Racz\({}^{3}\), P. Tremlett\({}^{4}\), T. Wotherspoon\({}^{4}\), J.W. Gardner\({}^{1,5}\), F. Udrea\({}^{1,2}\)
+
+\({}^{1}\)Cambridge CMOS Sensors Ltd, Cambridge, UK
+
+\({}^{2}\)Department of Engineering, University of Cambridge, Cambridge, UK
+
+\({}^{3}\)School of Engineering and Computing Sciences, University of Durham, Durham, UK
+
+\({}^{4}\)Microsemi Ltd, Caldicot, UK
+
+\({}^{5}\)School of Engineering, University of Warwick, Coventry, UK
+
+## 1 Introduction
+
+The efficiency of domestic gas boilers can be improved by varying the inlet gases based on sensing the composition of the exhaust gases. Of these, carbon dioxide (CO\({}_{2}\)) is an important constituent. One of the most well known methods to measure CO\({}_{2}\) concentration is by Non Dispersive Infra Red (NDIR) Sensors [1-7]. These consist of an IR emitter and an IR detector at opposite ends of an optical path with an optical band pass filter centered at approximated 4.26\(\upmu\)m wavelength. The absorption of this wavelength band by CO\({}_{2}\) gas is used to determine the gas concentration by the amount of signal reaching the detector.
+
+The IR emitter typically used for these devices is a micro-bulb, which is relatively bulky, has high power consumption (for example 500mW or more), and has slow transient times (typically operated around 2Hz). These disadvantages can be overcome by the use of micromachined, silicon based IR emitters, and many have been reported in literature. For example [8-11] use a platinum heater as an IR emitter which when heated to a high temperature (e.g. 500\({}^{\text{o}}\)C) emits IR radiation. The heater is embedded within or is on top of either a dielectric membrane or a microbridge structure for thermal isolation to reduce power consumption. Although these devices are faster and have low power consumption, the use of platinum means that these cannot be fabricated in a standard CMOS process, and hence have higher fabrication costs.
+
+Other devices are based on polysilicon heaters[12,13], including some fabricated in a CMOS process [14], however polysilicon has stability problems at the high temperatures required for these devices (typically above 500\({}^{\text{o}}\)C). Additionally the use of micro-bridge type structures further reduces reliability/stability at high temperatures compared to full membrane type structures.
+
+Here we present a CMOS IR emitter based on a tungsten heater, fabricated in a commercial SOI-CMOS process followed by Deep Reactive Ion Etching (DRIE). Tungsten is stable at very high temperatures (600\({}^{\text{o}}\)C) and is used as an interconnect metal in some high temperature CMOS processes. This allows the IR emitter to achieve high temperatures (which results in higher IR emissions) whilst having all the advantages of CMOS, such as low cost, good process control and the possibility of circuit integration. The use of DRIE allows fabrication of a membrane trench with near vertical sidewalls which results in a smaller chip area as compared to using anisotropic back etch methods.
+
+We present the design and thermal characterisation of these devices, and demonstrate their use as an NDIR sensor for CO\({}_{2}\) measurement in the concentration range typically found in domestic boilers, and show response to CO\({}_{2}\) concentration.
+
+## 2 IR Emitter Design and Characterisation
+
+### _Device Design and Fabrication_
+
+A 1.16\(\times\)1.06mm chip was designed with a 600\(\upmu\)m diameter circular membrane and a 250\(\upmu\)m diameter circular tungsten heater embedded within the membrane. A circular shape was used to reduce mechanical stresses in corners, and the heater was designed carefully in a multi-ring shape to achieve a uniform temperature profile. A temperature sensing diode was also embedded within the membrane, and an N-MOSFET was integrated on the same chip to allow driving of the heater using a gate voltage.
+
+A commercial SOI-CMOS process was used to form the tungsten heater, the temperature sensing diode and the drive N-MOSFET. The DRIE back-etch step is used to form the membrane which thermally isolates the heater from the rest of the chip - reducing power consumption.
+
+A cross-section of the chip is shown in figure 1. The membrane is approximately 5um thick and consists of layers of silicon dioxide with the heater and diode temperature sensor embedded within, and a passivation on top of the chip. A tungsten heat spreading plate is also embedded above the heater to improve the temperature profile. Figure 2 shows the photo of the fabricated chip showing the membrane as well as the on-chip MOSFET.
+
+### _Thermal Characterisation_
+
+To characterize the performance of the device, the heater resistance and diode were calibrated on wafer level using a high temperature chuck fitted to a Signatone probe station. Subsequently the power consumption of the devices was measured across the wafer by applying a current to the heater and measuring the temperature using the change in resistance of the heater. To confirm the temperature it was also measured by applying 65uA to the temperature sensing diode and measuring the change in voltage - which was compared to the earlier calibration. Very similar temperatures were measured using the heater and diode methods. Figure 3 shows the resulting power vs temperature plots of the device, which shows that very low power (70mW DC) is needed to heat the device upto 600oC. Additionally the results are very similar across the wafer showing excellent uniformity from device to device resulting from the use of CMOS technology. Figure 4 shows the comparison of results on a single device using the heater or the diode as the temperature sensor. The results show them to be very close to each other.
+
+Transient measurements were also performed by pulsing the heater with a constant voltage and measuring the temperature using the diode. The result is shown in figure 5 and shows that the emitter needs only 10ms to heat up (10-90% rise time), and only 25ms to cool down. This allows it to be pulsed at 10Hz or higher during operation.
+
+Fig 1: Cross-section of IR Emitter Device with n-channel MOSFET on the same chip.
+
+Fig 4: Comparison of power-temperature curves obtained using the tungsten heater resistance and diode temperature sensor.
+
+Fig 3: Power consumption of the IR emitter at different temperatures. Measurements have been done on 5 different devices across a wafer.
+
+Fig 2: IR Emitter chip with integrated FET drive (1.16\(\times\)1.06mm).
+
+## III NDIR Measurement
+
+To demonstrate the device in an NDIR sensor, the IR emitter was packaged in a TO-5 header and placed in an aluminum tube 5 mm away from a commercial thermopile-based IR detector (Heimman HMS-J21). The detector was packaged with a band pass filter centered at 4.26\(\upmu\)m and a half pass bandwidth of 90nm (which is the absorbtion band for carbon dioxide). A photo of the tube is shown in figure 6. There are holes to allow the diffusion of air/gas in to the tube.
+
+PCBs were mounted on either side and were used to connect the IR emitter and detector. The PCB on the detector side also has an amplification circuit, placed close to the detector to reduce signal noise. The schematic of the circuit (a two stage amplifier with a gain of 4000) is shown in figure 7.
+
+The whole system was then placed in a tight fitting chamber and connected to a gas testing system which allows control of dry air, humid air and carbon dioxide.
+
+The heater was pulsed at 10Hz, 50% duty cycle at 600\({}^{\circ}\)C (which results in an average power consumption of approximately 40mW). The amplified detector signal was measured and recorded using a National Instruments DAQ card.
+
+For domestic boilers the carbon dioxide levels at the exhaust are higher than normal atmospheric concentrations, therefore the testing was done at concentrations of 6-14% by volume. Measurements were performed in dry air as well as 40% humid air.
+
+The signal from the amplifying circuit was analysed by extracting the peak to peak voltage for each pulse and averaging over 20 samples (2 seconds) to reduce noise. The resulting signal for the measurement in dry air is shown in figure 8. As can be seen there is a clear response to CO\({}_{2}\), however the signal is very noisy, and in particularly there seemed to be some 0.05Hz system noise in the signal.
+
+To improve the signal-to-noise ratio, the original signal was averaged over 200 samples (20 seconds) instead of 20 samples, which greatly reduced the noise, however it does have the effect of increasing the effective response time of the sensor. Figure 9 shows the resulting signal, for the measurements with dry and humid air.
+
+The results show good response to carbon dioxide, and with the reduced noise the sensor has a resolution of 0.5% CO\({}_{2}\) in the range 6-14%, and there is very minimal effect of humidity.
+
+Fig 5: Transient heat up and cool down time of the IR emitter.
+
+Fig 8: Sensor response to 6-14% by volume of CO\({}_{2}\), with the signal averaged over 2 seconds.
+
+Fig 6: NDIR Sensor Tube. Inside there is an IR emitter and detector and a PCB at either end to mount the devices and amplify the detector signal.
+
+Fig 7: Circuit used to amplify the IR detector signal.
+
+## IV Conclusions
+
+In this paper we have presented the use of a CMOS IR emitter in a CO\({}_{2}\) NDIR sensor. The IR emitter is on a 1.16\(\times\)1.06mm chip and was operated at 10Hz, at 600\({}^{\text{o}}\)C with an average power consumption of only 40mW. Using a simple optical setup, the sensor showed a resolution of 0.5% CO\({}_{2}\) in the concentration range of 6-14% by volume - which is a typical requirement for boiler applications. The response time for the sensor was 20seconds, and the sensor has minimal sensitivity to humidity.
+
+We have shown that a low cost, low power CMOS IR emitter can be used for detecting CO\({}_{2}\) for boiler applications. We believe that this IR emitter when coupled with a more optimized optical path, and better low noise electronics can greatly improve both the response time and the resolution of the sensor, and result in a low cost, lower power miniature NDIR sensor suitable for the next generation of high efficiency domestic boilers.
+
+## Acknowledgment
+
+This work has been partially funded by the EU FP7 project SOI-HITs (288481) - Smart Silicon-on-Insulator Sensing Systems Operating at High Temperature.
+

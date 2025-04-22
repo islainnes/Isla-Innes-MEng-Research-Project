@@ -1,0 +1,59 @@
+
+T.P.Chow and Ritu Tyagi
+
+Center for Integrated Electronics and
+
+Department of Electrical, Computers and Systems Engineering
+
+
+Tel. (518) 276-2910, FAX (518) 276-8761
+
+## Introduction
+
+In the last few years, several improvements have been made in the silicon material technology and also in the design of new device structures. Currently, most of the power systems are based on Si technology. However, with the continuous demand for higher current and voltage handling capacity, and increased packing density, these Si-based systems seem to be approaching their theoretical limits of device performance. Hence, it becomes essential that we consider other semiconducting materials in order to achieve further improvements in device performance, especially for high-voltage unipolar power devices. Wide bandgap compound semiconductors form the most attractive alternative because of several inherent material advantages like higher thermal conductivity, higher breakdown voltage, larger energy bandgap, and comparable carrier mobility. As a result, several researchers have studied these wide-bandgap compound semiconductors with the aim of finding the most optimum material for power devices to be used under severe electrical and environmental conditions (1)-(6). However, the focus has only been on a few selected compound semiconductors like GaAs, SiC, GaP and diamond. In this work, we have performed a detailed analysis of the entire range of wide bandgap semiconductors including the III-V compounds, the II-VI compounds, the semiconducting oxides, and also some pseudo-binary intermetallic compounds.
+
+## Figures of Merit
+
+In 1963, Johnson (1) evaluated some wide bandgap semiconductors from the viewpoint of discrete devices. He proposed that the basic limit on the device performance of a typical transistor is set by the product of the critical breakdown field, \(\mathrm{E_{c}}\), and the saturated electron drift velocity, \(\mathrm{v_{sat}}\). He defined the figure of merit as \(\mathrm{JM}=(\mathrm{E_{c}}\mathrm{v_{sat}}/\pi)^{2}\). Later, in 1972, Keyes (2) presented his work, wherein he considered the switching speed of transistors. He suggested that a lower limit on the device size can be set by the maximum possible thermal resistance. Therefore, one needs a semiconductor with high thermal conductivity. He defined another figure of merit, \(\mathrm{KM}\), which includes \(\mathrm{v_{sat}}\), thermal conductivity (\(\lambda\)) and the dielectric constant (\(\epsilon\)). Thus, \(\mathrm{KM}=\lambda(\mathrm{v_{sat}}/\epsilon)^{1/2}\). From both these figures of merit, it is clear that the saturation velocity and the dielectric constant tend to limit the expected performance of various semiconductor devices. Further limitations are imposed by the band-gap, the critical breakdown field, and the thermal conductivity. Each of these factors indicate that some of the wide band-gap compound semiconductors would provide significant improvement in semiconductor devices.
+
+There has always been an increasing need for minimization of losses in power devices. To achieve this, one must reduce both the conduction and switching losses. In 1982, Baliga derived a new figure of merit, \(\mathrm{BM}=\epsilon\mu.\mathrm{E_{c}}^{3}\) (\(\mu=\) carrier mobility), which defines the material parameters to minimize conduction losses in power FETs (3). Since BM is based on the assumption that power losses are only due to the current flowing through the ON-resistance, this limit is valid only for low frequencies where the conduction losses are dominant. For high frequencies, one needs to consider the effects of switching losses also. In 1989, Baliga defined a different figure of merit for high frequencies, given by \(\mathrm{BHFM}=\mu.\mathrm{E_{c}}^{2}\) (4).
+
+Another important feature to be considered while selecting a semiconductor for high-voltage power devices is the thermal properties of the semiconductor. Shenai et al (5) proposed three different quality factors (thermal figures of merit) to incorporate all the possible device and heat sink designs used in power devices. These are defined as : \(\mathrm{Q_{T1}}=\lambda\sigma_{\mathrm{A}}\), \(\mathrm{Q_{T2}}=\lambda.\sigma_{\mathrm{A}}.\mathrm{E_{c}}\), and \(\mathrm{Q_{T3}}=\sigma_{\mathrm{A}}\), where\(\sigma_{\rm A}=\epsilon.\mu.\rm E_{c}^{\rm 5}\)).
+
+### Our Approach
+
+The low frequency figure of merit, BM, derived by Baliga (3), assumes the "universal" relationship between energy bandgap and breakdown voltage. However, this relationship does not hold good for wide bandgap semiconductors, conductors (7). In his later work (4), Baliga assumed a linear relationship between energy bandgap and critical electric field. Fig. 1 shows the critical field plotted versus energy bandgap for various semiconductors. It can be clearly seen that the two quantities exhibit a nonlinear power relationship, which can be expressed as : \(\left(\frac{E_{\rm 2}}{E_{\rm 31}}\right)=\left(\frac{E_{\rm 20}}{E_{\rm 41}} \right)^{\alpha}\). Since the critical field value has not been measured for many wide bandgap semiconductors, and interpolation from low bandgap materials (Si, GaAs) has been found to be inadequate (7), we have interpolated \(\rm E_{c}\) by using the above empirical power relationship between the energy bandgap and the critical breakdown field. The constant \(\alpha\) is then determined by using 6H-SiC as the reference to fit the material parameters, as shown below.
+
+\[\alpha=\frac{\ln\left(\frac{E_{\rm 81}}{E_{\rm 81}}\right)}{\ln\left(\frac{E_{ \rm 20}}{E_{\rm 41}}\right)} \tag{1}\]
+
+Now, \(\rm E_{c}(SiC)/E_{c}(Si)=8.10\) and \(\rm E_{g}(SiC)/E_{g}(Si)=2.68\). Therefore, we get :
+
+\[\alpha=\frac{\ln(2.68)}{\ln(8.10)}=0.47 \tag{2}\]
+
+Once the value of \(\alpha\) is known, the critical electrical field for any given semiconductor can be determined using the expression given as :
+
+\[\rm E_{c2}=E_{c1}\exp\left[\frac{\ln\left(\frac{E_{\rm 81}}{E_{\rm 81}} \right)}{\alpha}\right], \tag{3}\]
+
+where \(\rm E_{c1}\) and \(\rm E_{g1}\) are the material parameter values for a reference semiconductor (typically Si).
+
+In this work, we have evaluated seven different figures of merit in order to cover all possible features of power device performance. These include the Johnson's figure of merit (\(\rm JM=(E_{c}.\rm vs/\pi^{2})\)) (1), the Keyes' figsure merit (\(\rm KM=\lambda.(V\rm sat/c)^{1/2}\)) (2), a low-frequency power-device figure of merit (\(\rm BM=\epsilon.\mu.\rm E_{c}^{\rm 2}\)) (5), a high frequency power-device figure of merit (\(\rm BHFN=\mu.\rm E_{c}^{\rm 2}\)) (4), and the three thermal quality factors (\(\rm Q_{T}=\mu.\rm A_{g}\), \(\rm Q_{T2}=\lambda.\sigma_{\rm A}.\rm E_{c}\), and \(\rm Q_{T3}=\sigma_{A}\) (5), where \(\sigma_{\rm A}=\epsilon.\mu.\rm E_{c}^{\rm 2}\)). Since most of the reported values of mobility are on materials of dubious purity, we have chosen to use the highest experimental value in each case. In some cases, like AlN, the reported experimental value is suspiciously low (\(\mu_{\rm p}=14\rm cm^{2}/V.\rm sec\)). Therefore, we also estimated the carrier mobility using relaxation time calculations (\(1090\rm cm^{2}/V.\rm sec\)). It is assumed, for the calculations, that at T = 300K, the carrier transport is dominated by polar scattering process. In our analysis, we used both the calculated and experimental values of carrier mobility to get an estimate of the upper and lower limits for the figures of merit. Table 1 shows the comparison between calculated and experimental mobilities for two of the nitride compounds.
+
+The pseudo-binary intermetallic compounds incorporate a good trade-off between a large energy bandgap of one compound and high carrier mobility of the other. For example, in the case of GaN and InN, GaN has a larger bandgap and InN has a higher mobility. Hence, it is worth analyzing some of these pseudo-binary intermetallic compounds also. In this work, we have examined the entire range of \(\rm Ga_{In-x}N\), \(\rm x\) varying from 1.0 to 0.0, for the various figures of merit. Similar calculations have been performed for \(\rm Al_{c}Ga_{In-x}N\) and \(\rm Al_{x}In_{1-x}N\) compounds, for the solid-solutions of AlN and SiC (experimentally grown by MOCVD (13)) and also for Si/Ge alloys.
+
+\begin{table}
+\begin{tabular}{|c||c|c|} \hline Material & Calculated \(\mu\) & Experimental \(\mu\) (Ref.) \\ \hline GaN & 650 & 440 (8) \\  & & 520 (9) \\  & & 380 (10) \\ \hline AlN & 1090 & 14 (11) \\ \hline InN & - & \(>\) 3000 (12) \\ \hline \end{tabular}
+\end{table}
+Table 1: Comparison between calculated and experimental carrier mobilities for some compounds.
+
+Figure 1: Normalized critical field vs.normalized energy bandgap for various semiconductors.
+
+Furthermore, even though SiC has attracted much attention lately, the focus of research has only been on 3C and 6H polytypes. In this work, we have also analyzed the third polytype, 4B-SiC. It is also worth pointing that 2H-SiC has the largest bandgap among all the SiC polytypes (14). However, its mobility has not yet been determined.
+
+Results
+
+Table 2 summarizes the material parameters and the seven figures of merit (all values being normalized with respect to Si) for all the compound semiconductors analyzed in this work. Due to the lack of information about the material properties, a few figures of merit could not be calculated for some semiconductors. It can be seen that among the various III-V compounds, AlN, GaN, and InN give relatively higher values of BM and BHFM, thereby forming an attractive choice for unipolar power devices. Also, 4H-SiC gives much higher figures of merit than its polytypes, 3C and 6H-SiC, and therefore merits further investigation.
+
+Results for the pseudo-binary intermetallic compounds are shown in Figs. 2-5. In all these cases, the mobility, permittivity, and the bandgap are determined using linear interpolation. It is found that Ga\({}_{0.7}\)In\({}_{0.3}\)N [BM=2740],
+
+[MISSING_PAGE_FAIL:4]
+

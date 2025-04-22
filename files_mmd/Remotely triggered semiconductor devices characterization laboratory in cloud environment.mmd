@@ -1,0 +1,110 @@
+
+
+School of Computing Science and Engineering
+
+VIT University
+
+Vellore 632014, India
+
+
+## I Introduction
+
+Engineering education needs hands-on experience with hardware-based experiments using real instruments and components for providing quality laboratory education. As such, laboratory classes have become an integral part in almost all engineering disciplines. Such laboratories consist of several instrument setups for students who run experiments and perform measurements. However, setting up a remote laboratory is very costly and requires much expertise of the developers. As a result, many institutions particularly in developing countries lack proper facilities in educational laboratories. For addressing this problem, remote laboratories have been setup in different places across the world [1, 2, 3, 4]. The aim of the remote laboratories is to provide computer based interface to the instruments such that the experiments may be triggered, run and data is collected from a remote location. Remote laboratories have the added advantage of the flexibility of time and place of usage as students may access the laboratory from anywhere and anytime.
+
+Development of a remotely triggered laboratory requires implementation of extensive framework to control and manage multiple experiments that vary in nature but belong to the same laboratory module. Some of the important features of a laboratory management system [5] are the scheduling of experiments to decide which users has access to which instruments and when, switching between devices/samples and instrument drivers and web services. Usually such frameworks are limited to a certain domain for access to limited number of users of a particular laboratory course. However, if remote laboratories are to be implemented in large scale, there is a need to implement the laboratory infrastructure and software as advanced business application to increase efficiency and lower the cost of operation. In this paper, the required features in a cloud-based laboratory management system are discussed with a semiconductor devices characterization laboratory as a case study.
+
+## II Cloud Computing
+
+### _What is Cloud Computing?_
+
+Cloud computing is the current practice in developing business oriented web-based applications. It is a set of techniques to distribute computing power among several computing devices and then providing users computing as a set of services such as Software as a Service (SaaS), Platform as Service (PaaS), etc. The user can find and select the services according to their needs and then use them for their own applications.
+
+### _Impact of Cloud Computing on Internet_
+
+Cloud computing has a huge impact on Internet-based applications. It has reduced the need to keep centralized repositories for developers to store and manage the data. Also the users do not require much expertise to perform the computation or implement a new system. Administrators do not need to implement or install new systems from scratch. They can now acquire the service of some service provider and customize them for their needs. Cloud computing also solves one of the biggest problems in business applications like scalability. Any web application is usually meant to be used by multiple users, usually in thousands to millions. Thus, such applications needs to be distributed at multiple locations and users should be able to find and use resources that are most convenient to reach. The whole system can be implemented at a large scale with "little to no" compromise on the reliability.
+
+## III Cloud Computing in Remote Laboratory Framework
+
+Before implementing clouds in remote laboratories, it is necessary to identify where the clouds can be applied in a remote laboratory. Clouds are used to provide computing as aservice. Hence the remote laboratories computing can be implemented as cloud computing. Remote laboratories developed on traditional model are like client server model. The server is connected to the instruments and hosts a web application that takes user inputs and processes them.
+
+### _The Traditional Model_
+
+Traditional laboratory architecture has the usual client server architecture. This server hosts the user's data and experiment related data. It has the following characteristics:
+
+1. Centralized server for control of instruments and user. This server is connected to all the instruments and performs the experiments individually upon receiving a request;
+2. This server hosts all virtual instrument interfaces. The interface collects data from the users and stores them in the server. The server application then collects the user inputs, validates them and performs the experiments;
+3. Once an experiment is completed, the data is then displayed in the client's interface.
+
+### _Scopes of Increasing Efficiency_
+
+The following are the different areas in a remote laboratory where clouds can increase efficiency and provide better services:
+
+* Distributing the system by using local servers for each equipment. Each instrument works differently and uses different drivers and software to run and acquire data. Each local server contains complete functionalities to control each instrument independent of others;
+* Providing the instruments functions as a set of web services. An instrument has a set of functions that are used in combinations for experiment in the laboratory. Hence to develop the laboratory, the user interface must contact and collect data from the server which uses a set of commands. These commands are in form of web services;
+* Replicating the server application at different sites with similar instruments;
+
+## Session H3b
+
+* Students' performance may be recorded. Students are expected to run experiments and submit laboratory reports for performance evaluation. The system needs to track the student performance to evaluate their progress.
+
+## IV Clouds in Remote Laboratories
+
+The modified cloud based architecture of the laboratory is different from the traditional model. The cloud-based architecture is distributed in nature. Each instrument is connected to the local servers. Each local server hosts a set of web services that can be used to run various features of the instruments.
+
+This local server contains the details of the instruments and maintains their states. The Main server or NETLab server [2] is the central controlling station. It acts like a registry of the entire system. This server lists all the local server address and their web services available. Once the users request arrives, it chooses the appropriate local server to operate and proceeds.
+
+The following issues need to be addressed for cloud-based architecture.
+
+1. The part that is most affected is scheduling. Since the same experiment can be done with multiple instruments and the same instrument may be required for multiple experiments. Hence, instead of simple scheduling a user to one particular experiment will not work. The maximum number of users, say n, are determined by the maximum number of instruments available for the experiment. Hence n users' are allowed to book a time slot. Depending upon the current status of each instrument the users request are allotted to a particular experiment. This can be easily done by using the hybrid scheduling mechanisms [2];
+2. Switching which is also an important part of remote laboratory is not affected by the cloud based system since it is based upon each instrument individually. The switching of devices that are under test such as transistors etc. is done only after the experiment request has been forwarded to the local server of the instruments;
+3. Evaluation is required for student performance evaluation. The data generated in this module is basically marks obtained and the reports submitted by the students. This data is stored in the main server and is replicated at some nodes to ensure reliability in case the server fails.
+
+## V Results and Case Study
+
+The NETLab is a laboratory management system used to manage a remote semiconductor device characterization and electronic circuit's laboratory. In the following, semiconductor device laboratory experiments are discussed.
+
+### _Case Study - Device Characterization Laboratory_
+
+This laboratory consists of 10 experiments that use different instruments. Each experiment has unique requirements in
+
+Figure 1: The traditional remote laboratory architecture.
+
+scheduling, switching and also the performance evaluation. The multimedia data may be considered static since, such data is stored as text, images, videos, etc. The multimedia is stored in the NETLab server only.
+
+The laboratory operation/steps are as follows:
+
+* The users connects to the main server. All inputs are taken at this point;
+* The server then determines where to send the experiemtn request;
+* Check the experiment time slot booking.for the requesting user;
+* The request is sent to the selected local server for the instrument using web services based upon the availablity;
+* The "local server" runs the experiment request and switching of devices, if needed;
+* The data is then sent back to the user through the main server.
+
+The laboratory server hosts all the experiment details and store user data related to that site. There may be several such
+
+## Session H3b
+
+laboratory servers for different set of experiments. The students' performance data is also stored in these servers.
+
+### _Increase in Efficiency in Cloud Architecture_
+
+Interestingly, the remote laboratory does not suffer from some of the major risks of the cloud computing:
+
+1. Storage of data over a network raises security concerns. However, in remote laboratories the data generated does not require security in most cases. The data is basically generated from experiments as a part of educational courseware performed by students. Hence it is not necessary to secure the experimental data;
+2. Instrument security may pose a major threat to the system. The instruments are expensive and the web services may be misused to run experiments under conditions that may affect the instruments. This may be countered by installing safety mechanisms and validation at each local point or local server. When the web services are called, the program checks the experiment's given parameter and matches them against threshold values already stored in the data base by the administrator. If any condition is detected that may be harmful to the equipment, the experiment request is not processed and the web service returns an error message;
+3. Another security problem or concurrency problem may occur about the students' data that is saved and accessed through the main NETLab server. This data is proposed to be replicated, i.e., saved in multiple stations and regularly updated. This can be done without errors since the actual number of transactions is low;
+4. Cloud computing sometimes poses problems with reliability. Since the resources are distributed and require up-to-date information for proper utilization, any error at one particular location may lead to the whole system being in an erroneous state. This occurs mostly when the clouds are managed by someone other the regular users. In remote laboratories, however, this problem can be checked as much of the cloud is private. The entire cloud is maintained by a laboratory management system. Also each local point is independent of each other, so that any fault at one particular location does not affect the others;
+5. The remote labs are to be maintained by the respective developers and there should not be risk of lock-in to cloud platform vendors;
+6. The total throughput of the system increases if different instruments that can perform same type of experiments is used in conjunction with each other. If any of the instruments is free then the request is processed at that site;
+7. This architecture can be used to handle the different types of experiments with ease (see Table I).
+
+_978-1-4673-2418-2/12/331.00_ (c2012 IEEE August 20-23, 2012, Hong Kong IEEE International Conference on Teaching, Assessment, and Learning for Engineering (TALE) 2012
+
+Fig. 3: The output characteristics of a NPN transistor in remote laboratory.
+
+Fig. 2: The cloud-based remote laboratory architecture.
+
+## Conclusion
+
+The remote-triggered laboratories are powerful as they provide quality learning contents to students for hands-on laboratory practice. The remote laboratory solves some of the shortcomings of the conventional laboratories by allowing students to use the laboratory from anywhere anytime. This allows the more flexibility of the users and increases the usage of the instruments as well. The remote laboratory has a good potential as a web application and providing services over the Internet. As such it is necessary to introduce new methods into the system to increase usability. In this paper, use of cloud for augmenting remote laboratories is reported.
+

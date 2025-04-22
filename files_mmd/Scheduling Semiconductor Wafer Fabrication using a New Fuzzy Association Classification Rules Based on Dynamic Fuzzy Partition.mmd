@@ -1,0 +1,115 @@
+[MISSING_PAGE_FAIL:1]
+
+on some practical data. Section VII concludes the paper.
+
+**II. Problem Statement**
+
+In the scheduling problem of SWF under consideration in this paper, there are a set of Lots \(J=\{J_{i}|i=1,2,\cdots,N\}\) needed to be processed on a set of machines \(M=\{M_{k}|k=1,2,\cdots,K\}\). Let \(r_{i}\geq 0\) denote the release time of Lot \(J_{i}\). Each Lot \(J_{i}\) is composed of \(n_{i}\) operations \(\{O_{ij}|j=1,2,\cdots,n_{i}\}\). Let \(O=\{O_{ij}|i=1,2,\cdots,N;j=1,2,\cdots,n_{i}\}\) denote the set of all operations. Also, there are a set of receptions \(P=\{\rho_{l}|l=1,2,\cdots,L\}\) which decide the relationship between the operations and the processing machines. Each operation \(O_{ij}\) is relative with a receipt \(\rho_{ij}\in P\). Each machine \(M_{k}\) can only process the operations with the receipt in \(P_{k}\subset P\). The processing time \(p_{ij}^{k}\) of operation \(O_{ij}\) on machine \(M_{k}\) is determined by the corresponding recipe \(\rho_{ij}\in P\) and its corresponding processing machine. Consequently, let \(M_{ij}\subseteq M\) denote the set of machines, each of which can process operation \(O_{ij}\). Let \(O_{k}=\{O_{ij}\in O|M_{k}\in M_{ij}\}\) denote the set of operations that can be processed on machine \(M_{k}\). Considering that each machine cannot process all recipes, that is each machine is dedicated, thus \(M_{ij}\subset M\). According to the processing capacity, the machines are divided into serial processing machines and batch processing machines. On each of serial processing machines denoted by \(M^{s}\subset M\), only one operation can be processed one time, while more than one operation can be batched to be processed on each of batch processing machines denoted by \(M^{b}\subset M\). Each batch processing machine \(M_{k}\in M^{b}\) has a finite batching capacity \(B_{lk}\) for receipt \(\rho_{l}\) which denotes the maximal number of Lots in the same batch. Without loss of generality, assume that \(B_{lk}=1\) for any serial processing machine \(M_{k}\in M^{s}\). On machine \(M_{k}\), once the receipt \(\rho_{l}\) of the processing operation is different from that of the last operation, the setup time denoted \(s_{l}\) is needed. Let \(c_{i}\geq 0\) denote the finish time of Lot \(J_{i}\). Then, the cycle time of Lot \(J_{i}\) is equal to \(c_{i}-r_{i}\).
+
+The scheduling objective is to find a feasible solution such that the mean cycle time \(\sum_{i=1}^{N}(c_{i}-r_{i})/N\) is minimized.
+
+**III. Fuzzy Association Classification Rules**
+
+In the scheduling problem of SWF, some attributes of operation are often uncertain. Compared with the deterministic rule, the fuzzy rule conforms to the decision procedure of the workers more truly. Also, Fuzzy associated classification rules (FACRs) can integrate multiple condition attributes simultaneously, have better adaptability to the change of the problem parameters and can easily integrate the domain knowledge and experience[14]. This paper gives a FACRs based on dynamic fuzzy partition of attribute domain to select the operation with higher scheduling priority for given any two operations.
+
+The inputs of FACRs are some common attribute values of two operations, _i.e._, there are two linguistic values of every condition attribute. The output is a classification token denoting which operation has higher scheduling priority.
+
+For the two different operations, the attribute domain of one operation is partitioned using triangular membership functions named by simple fuzzy partition method, but the one of another is partitioned using triangular membership functions and trapezoid ones according to the linguistic value of the first operation, which is named by dynamic fuzzy partition method. For the simple fuzzy partition method, let \(A_{K_{p},i_{p},i_{q}}^{x_{l_{p}}}\) be the \(i_{q,p}\)th linguistic value of \(x_{l_{p}}(p=1,2,\cdots,k)\), and \(K_{P}\) is the total number of linguistic values of \(x_{l_{p}}\). When \(q=1\), \(A_{K_{p},i_{p},i_{q}}^{x_{l_{p}}}\) corresponds to the first operation. When \(q=2\), it corresponds to the second operation. \(\{A_{K_{p},i_{p},i_{1}}^{x_{l_{p}}}\times A_{K_{p},i_{p},i_{2}}^{x_{l_{p}}}\}\) is a 2-dim fuzzy grid, which consists of two linguistic values of the same attribute of two different operations. For the dynamic fuzzy partition method, without loss of generality, if the linguistic value of the first operation is \(A_{K_{p},i_{p},i_{p},i_{1}}^{x_{l_{p}}}\), the linguistic value of the second operation can be any one fuzzy number in set \(\{A_{K_{p},i_{p},i_{1}}^{x_{l_{p}},-},A_{K_{p},i_{1}}^{x_{l_{p}},i_{1}},A_{K_{ p},i_{p},i_{1}}^{x_{l_{p}},+}\}\), which is the partition of the attribute domain of the second operation. \(A_{K_{p},i_{p},i_{p}}^{x_{l_{p}},-}\) and \(A_{K_{p},i_{p},i_{1}}^{x_{l_{p}},+}\) are 
+
+[MISSING_PAGE_EMPTY:304]
+
+number of the frequent fuzzy grids included in set \(FFG\).
+
+Step 6: Find all the frequent \(2k\)-dim fuzzy grids as follows, \(k=1,2,\cdots,d\).
+
+for \(k=1\)\(to\)\(d\) do
+
+for \(i=1\)\(to\)\(|FFG_{k}^{2}|\) do
+
+for \(j=1\)\(to\)\(|FFG|\) do
+
+Construct the fuzzy grid \(ffg_{k,i}^{2}\otimes ffg_{j}\), where \(ffg_{j}\) is the \(j\)th frequent fuzzy grid in \(FFG\).
+
+If \(FS(ffg_{k,i}^{2}\otimes ffg_{j})\geq\min FS\)
+
+\(FFG_{a}=FFG_{a}\cup ffg_{k,i}^{2}\otimes ffg_{j}\).
+
+\(FFG_{d}=FFG_{d}\cup(ffg_{k,i}^{2}\otimes ffg_{j})_{\cap}\), where \((ffg_{k,i}^{2}\otimes ffg_{j})_{\cap}\) is the set including all subsets of \(ffg_{k,i}^{2}\otimes ffg_{j}\).
+
+
+
+\(FFG=FFG\cup FFG_{a}\).
+
+
+\(FFG=FFG-FFG_{d}\).
+
+Step 7: Generate FACRs suitable for the scheduling problem of SWF according to \(FFG\) as follows.
+
+Generate the antecedence according to each frequent fuzzy grid in \(FFG\) and set the corresponding classification token as the consequence according to the training samples. Additionally, let the fuzzy support of the considered frequent fuzzy grid as the grade of certainty of the corresponding constructed rule \(R\).
+
+Step 8: Generate the inverse rule \(R^{\prime}\) of each rule \(R\) in the above constructed FACRs.
+
+**V. Optimize FACRs**
+
+As mentioned in Section IV, both min_FS_ and the total number of linguistic values of each condition attribute for the simple fuzzy partition are user-specified. In this section, a new Harmony search (HS) algorithm is designed to automatically determine the above-mentioned parameters.
+
+**1. Harmony vector**
+
+Each harmony vector includes \(d+1\) harmony variable values representing \(d\) numbers of linguistic values and min_FS_, respectively. In this paper, each harmony variable is a rand number obeying a normal distribution. Suppose that the harmony memory size is denoted by HMS. The initial \(i\)th harmony vector is described as follows.
+
+\[\mathbf{X}_{i}=\{x_{1}^{i},x_{2}^{i},\cdots,x_{j}^{i},\cdots,x_{d}^{i},x_{d+1}^{i }\},i=1,2,\cdots,HMS \tag{2}\]
+
+**2. Solution representation**
+
+In the HS algorithm, a harmony vector \(\mathbf{X}_{i}=\{x_{1}^{i},x_{2}^{i},\cdots,x_{j}^{i},\cdots,x_{d}^{i},x_{d+1}^{i }\}\) is represented as a \(d+1\)-dim real number vector. It is necessary to convert it to a mixed vector including \(d\) integers and \(1\) real number for evaluating the obtained FACRs.
+
+Let \(S_{i}=\{r_{1}^{i},r_{2}^{i},\cdots,r_{j}^{i},\cdots,r_{d}^{i},\min FS\}\) be the solution representation corresponding to the harmony vector \(\mathbf{X}_{i}=\{x_{1}^{i},x_{2}^{i},\cdots,x_{j}^{i},\cdots,x_{d}^{i},x_{d+1}^{i }\}\), where \(r_{j}^{i}\) is the total number of linguistic values of the \(j\)th (\(j=1,2,\cdots,d\)) condition attribute for the simple fuzzy partition.
+
+In this paper, let the maximum of the total number of linguistic values of each condition attribute for the simple fuzzy partition be \(10\). At the same time, considering that should be larger than \(3\), convert \(x_{j}^{i}(j=1,2,\cdots,d)\) into \(r_{j}^{i}\) as follows.
+
+\[r_{j}^{i}=\text{round}(x_{j}^{i}\times 7)+3 \tag{3}\]
+
+where \(\text{round}(\cdot)\) is the operator used to round the element to the nearest positive integer.
+
+Additionally, considering that \(0<\min FS<1\), let \(\min FS=x_{d+1}^{i}\).
+
+**3. Objective function**
+
+For the harmony vector \(\mathbf{X}_{i}=\{x_{1}^{i},x_{2}^{i},\cdots,x_{j}^{i},\cdots,\)\(x_{d}^{i},x_{d+1}^{i}\}\), the corresponding objective function can be given as follows.
+
+\[f(\mathbf{X}_{i})=-w_{a}ACC(R_{i})+w_{c}|R_{i}| \tag{4}\]
+
+where \(R_{i}\) is the obtained FACRs according to harmony vector \(\mathbf{X}_{i}\), \(ACC(R_{i})\) is the classification accuracy rate of \(R_{i}\) on the training samples, \(|R_{i}|\) is the total number of rules in FACRs, \(w_{a}\) and \(w_{c}\) are the relative weights.
+
+**4. Harmony improvisation scheme**
+
+In this paper, the harmony improvisation scheme[18] including memory consideration, pitch adjustment and random selection is applied to obtain a new harmony \(X_{new}\).
+
+**5. Restart scheme**
+
+In the proposed HS algorithm, the harmony memory evolves by the harmony improvisation scheme. With the process of evolution, the algorithm might trap into local minima. To reduce the probability of the above problem, _HMS_/2 harmony vectors are generated randomly to substitute the worst _HMS_/2 harmony vectors of the harmony memory once the best harmony vector has not been updated in continuous \(T_{\min}\) generations.
+
+**6. Flow chart**
+
+According to the above detailed explanation, the flow chart for obtaining the effect FACRs can be given in Fig.3.
+
+## 1 Algorithm parameters
+
+This section gives the compactness and the approximation capability of the obtained FACRs under different above parameters in Table 1 and Table 2, where \(\delta\) is the total number of linguistic values of each condition attribute for the simple fuzzy partition.
+
+According to Table 1, with different min_FS_ and \(\delta\), the approximation capability of the obtained FACRs is different. According to Table 2, when min_FS_ becomes bigger, the total number of FACR included in the obtained FACRs becomes smaller on overall tendency.
+
+**2. Dispatching rules**
+
+The proposed FACRs are validated compared with the others dispatching rules used in scheduling problem of SWF including SPT, LPT, SRPT, LRPT, FIFO and RANDOM. Table 3 lists the mean value of mean cycle times of 10 instances for each kind of instances, respectively.
+
+The parameters of the Harmony Search algorithm used to optimize FACRs is as follows. The total iteration times is 100. The harmony memory size _HMS_ is 50. _HMCR_ is 0.7. _PAR_ is 0.1. Considering that the classification accuracy rate often is more important than compactness for FACRs, \(w_{a}\gg w_{c}>0\). Here, \(w_{a}=1000\), \(w_{c}=1\).
+
+In this paper, the Minimum batch size (MBS) rule\({}^{[19]}\) is used for batching on the batch processing machine, in which a predetermined minimum batch size \(B^{\min}\) is set as 3. When there are more than one machine, the machine with the lowest load is selected to process the Lot with the highest priority.
+
+The numerical comparison results show that FACRs is better than the others. For all problem instances, the best results can be obtained by FACRs.
+
+## 2 Conclusion
+
+To our best knowledge, this paper is the first attempt that Fuzzy association classification rules (FACRs) is applied to the scheduling problems of SWF. For two different operations, the attribute domain of one operation is partitioned with the simple fuzzy partition method, but the one of another is partitioned with the proposed dynamical fuzzy partition method according to the linguistic value of the first operation. Furthermore, a corresponding simple mining method is presented for obtaining the effective FACRs based on the Apriori algorithm. Also, a Harmony search (HS) algorithm is designed to optimize the rule parameters. At last, computational simulations and comparisons based on the practical data show that the proposed FACRs is more effective for the scheduling problems of SWF.
+

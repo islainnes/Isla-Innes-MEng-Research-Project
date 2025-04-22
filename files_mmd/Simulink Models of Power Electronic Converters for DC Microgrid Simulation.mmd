@@ -1,0 +1,269 @@
+
+for DC Microgrid Simulation
+
+
+
+Institute of Electrical Power Engineering
+
+ul. Koszykowa 75, 00-662 Warszawa, Poland
+
+Email: biczel@ee.pw.edu.pl
+
+
+
+Institute of Electrical Power Engineering
+
+ul. Koszykowa 75, 00-662 Warszawa, Poland
+
+Email: michalsl@ee.pw.edu.pl
+
+## I Introduction
+
+Nowadays new ways of power delivery need to be developed. Several methods of power generation exist. All of them have some advantages and disadvantages. When we take into consideration worldwide fossil fuels resources, political problems and possible scenarios [11] of further changes in power demand, dissipated power resources (DER) and dissipated generation systems (DG) seem to be the most attractive. Systems based on renewable power sources like solar irradiation, wind and water flow, biogas and other biofuels are particularly interesting. On the other hand, power generation based on DG sources allows power delivery to be fossil fuels independent.
+
+Still, some claim that the most important problems now are the global warming and climate change. Although it is easy to find periods in the history of Earth when climate was significantly warmer, people almost all over the world worry about their future existence. Hence, politicians have established an aim for further development - climate protection.
+
+The most important sources of pollution, which can have an impact upon climate, are warming gases like methane, freon and carbon dioxide (\(CO_{2}\)). The most problematic of them is \(CO_{2}\). Emission of either freon or methane can be easily reduced by improving certain technologies, i.e. changing working media in cooling systems or capturing gases from waste dumps. \(CO_{2}\) is released in the process of burning, which is the base of our today's power generation. Approximately 30% of all global \(CO_{2}\) emission is caused by heat power plants [9]. As a result, to solve the problem of \(CO_{2}\) emission new technologies of power generation need to be developed.
+
+No one can imagine producing all the energy consumed all around the world without burning fossil fuels. Therefore, in order to reduce the emission of \(CO_{2}\) new burning technologies, like integrated gasification combined cycle (IGCC) and carbon capture and storage (CCS) are being developed [9].
+
+Another way to decrease the emission of \(CO_{2}\) is developing \(CO_{2}\)-neutral technologies. The goal is very hard to achieve in power generation on mass scale. Still, it becomes much easier in the case of DER and RES. Even now small scale power generation can be \(CO_{2}\)-neutral. However instability and unpredictability of power generation from solar irradiation or wind cause many problems with their integration to present power systems [7].
+
+Another problem with integrating DER into modern power systems is power quality control. DER are usually connected to low voltage distribution networks, which can cause some problems with voltage regulation and stabilization.
+
+The third issue, by many recognized as the most important, is the economy of this solution. New DER systems seem to be more expensive than huge power plants employed at present. As a consequence, new systems have to be carefully designed to avoid significant increase in the cost of power.
+
+Taking into consideration all the above mentioned points, the authors have propose DC microgrid as a possible solution to the problem [2]. However, if one wants to use the microgrid as a new solution for power generation and delivery, one has to take into consideration several issues, i.e.:
+
+* power plant capacity optimisation,
+* control strategy,
+* power generation and delivery costs optimisation,
+* storage system sizing.
+
+As the result of the fact that power generation of RES is unpredictable and uncontrollable, there is no simple analytical method for DC microgrid optimisation. A simulation method should be employed here, i.e. the microgrid simulation model and models of all its components need to be developed. Among the components of the microgrid, power electronic converters are one of the most important. In this paper authors present their own suggestion for their effective modelling.
+
+## II Idea of DC Microgrid
+
+One of the ideas of DC microgrid was presented during previous CPE conference [2]. Other suggested solutions of DC distribution systems can be found in [1][8].
+
+Suffice it to say that a microgrid is a small power system containing all subsystems present in a regular power generation system:
+
+* power plants,
+* storage system,
+* transmission (distribution) network,
+* control system,
+* loads.
+
+Microgrid can operate connected to the power system or off-grid. All devices in the microgrid operate in a way which ensures that load and demand are equal in all time. The microgrid's network has typically only one voltage level - low voltage. Hence, voltage regulation is performed only by power sources and storage system. The network can be an AC or a DC system. Fig. 1 presents the authors' idea of DC microgrid.
+
+**Authors' research focuses on power sources construction and operation. Power plants used in the research are usually based on solar and wind energy, fuel cells and combustion engine generators. Battery storage system can also be employed in the microgrid. A general diagram of the power sources employable in a microgrid is shown in fig. 2.**
+
+## III Power Electronic Converters
+
+in DC Microgrid
+
+As can be seen in fig. 1 and 2, DC microgrid contains numerous power electronic converters. From the point of view of application of power electronic devices, power sources used in the microgrid can be divided into [3]:
+
+* DC sources (solar batteries, fuel cells),
+* AC sources of variable frequency (turbines, some engine generators),
+* AC sources of constant frequency (turbines, engine generators).
+
+Separate category consists in devices for two way energy flow - storage systems and couplings with power systems EPS. The last group consists in inverters for supplying AC loads.
+
+As has been mentioned above, the only control and regulation devices employed in the microgrid are the power plants. The plants behaviour from point of view of the output terminals depends only on power electronic devices. Hence, one can assume that the converters are the most important part of the microgrid. The converters allow, among others:
+
+* voltage control,
+* power flow control,
+* system balancing,
+* fault protection,
+* power sources MPP tracking.
+
+Although almost all known converters can be applied in the system, some are more popular then others. It depends mainly on industrial experience. The most important group of converters are, in case of DC system, DC/DC converters. The most common DC/DC converters in power range of kilowatts are [5]:
+
+* buck converter,
+* boost converter,
+* half bridge converter,
+* bridge converter.
+
+Further considerations are made at the example of half bridge converter, as it consists of all the most important simple parts which form all the other devices (including grid inverters):
+
+* input filter,
+* high frequency inverter,
+* high frequency transformer,
+* high frequency rectifier,
+* output filter.
+
+The diagram of half bridge converter is shown in fig. 3.
+
+## IV Microgrid Modelling
+
+The most important issue, which has an impact upon technical and economical behaviour of the microgrid, is the system design. Unfortunately, there are no tools allowing complex design and optimisation of all components of the microgrid. New ones need to be developed. This chapter describes authors' suggestion on how to do that.
+
+The following phenomena should be investigated through design process:
+
+* power plants production,
+* power flow and balance,
+* storage system behaviour,
+
+Fig. 1: Concept of DC microgrid
+
+Fig. 3: Half bridge converter
+
+Fig. 2: Typical structure of the power plant* voltage stabilisation,
+* voltage transient states.
+
+There are three periods of time in which the phenomena occurs and should be investigated:
+
+* power generation and balance,
+* voltage static behaviour and stabilisation, storage system behaviour,
+* voltage transient states and faults.
+
+Hence, three different simulation tools need to be developed.
+
+There are three groups of devices in the microgrid which have to be designed according to the presented philosophy:
+
+* microgrid network,
+* power plants and storage devices,
+* power electronic devices.
+
+One year period comes from power demand and power sources profiles. They change periodically and one year is the shortest characteristic period, which allows only some technical and economical planning. The most important parameter in the year simulation is the power flow. One can optimise power production, as well as the capacity of power plants and storage capacity. As a result, overall power costs can be optimised. The most variable parameters here are solar irradiation, wind and power demand. Simulation step time is usually set up at from 10 seconds to 10 minutes. In the case the microgrid network is modelled as power balance equation
+
+\[\Delta p(t)=\sum p_{p}(t)-\sum p_{t}(t)-\sum p_{s}(t) \tag{1}\]
+
+where:
+
+\(p_{t}(t)\) - power of power plants,
+
+\(p_{t}(t)\) - loads power,
+
+\(p_{s}(t)\) - power of storage system (less then zero if storage is charged).
+
+A few day period is taken into consideration for simulation of static voltage behaviour. It allows investigating the behaviour of network, power plants, and storage system during fast changes of the input quantities. The most common simulation time here is one day or week, according to solar irradiation and demand profiles. The step time reaches from milliseconds to seconds. The admittance network's model (2) is used in such simulations.
+
+\[\text{I}=\text{YU} \tag{2}\]
+
+where:
+
+I - currents vector,
+
+U - voltages vector,
+
+Y - networks admittance matrix.
+
+The fastest phenomena are connected to rapid changes and faults of load or power sources. Dynamic voltage behaviour is investigated to avoid sudden overvoltages and power shortages. Dynamic behaviour of microgrid's components has to be taken into consideration. Typical simulation time takes from a few to dozen seconds and step time amounts to ca. microseconds.
+
+## V Modelling of the converters
+
+All in all, voltage quality and microgrid behaviour depend on the behaviour of power electronic converters. As a result, modelling of the converters is very important for simulation of the whole microgrid. The most popular converters' simulation method uses such tools as PSIM or TCad. However, those tools were designed for converters simulation and it is not easy to model a network with them. The aim of the simulation is to investigate the internal converter's quantities. Hence, simulation times are usually lower then a second and the step time is about \(10^{-8}\) to \(10^{-7}\) of second. As a consequence, it is impossible to simulate longer periods, e.g. minutes, hours and years. Therefore, modelling of the microgrid network is also difficult.
+
+In the case of the microgrid simulation it is assumed that well-known converters are applied. Therefore, no converters research takes place during the design, and internal states of the converters can be simplified or completely neglected. Instead external behaviour of the converter should be modelled and other simulation tools should be used.
+
+The most common simulation tool for modelling dynamic systems is Mathworks Matlab/Simulink. Authors have proposed three simulation techniques for the three above-mentioned time horizons implemented in Simulink. They are described in the following sub chapters, on example of half bridge converter (fig. 4).
+
+### _Power Flow Model_
+
+**Power flow simulation has been performed to establish the power flow between power plants and load and to check if power is balanced at all times. The following assumptions have been made:**
+
+* **power plants work optimally (i.e. at MPP),**
+* **network losses are neglected,**
+* **converters' regulators work as it was designed.**
+
+To cut long story short, the microgrid operates optimally with observable changes in power balance, primary power and demand changes.
+
+In case of such simulations, power electronic converters are modelled only as losses. All converters in the range of kilowatts have similar efficiency versus normalised load characteristic (fig. 5) [10]. Hence the characteristics are applied in Simulink Look-Up Table block (fig. 6). Output power is calculated with (3).
+
+\[P_{out}=P_{in}\cdot\eta\left(\frac{P_{m}}{P_{N}}\right) \tag{3}\]
+
+**where:**
+
+\(P_{N}\) - converter's nominal power.
+
+Fig. 4: Half bridge converter scheme
+
+Fig. 5: Typical converter’s efficiency characteristic It is obvious that the model is considerably simplified. Still, it is rather fast and hence useful in long term simulations. Efficiency characteristics of the modelled device can be easily changed by employing of producer data or measurements. The model can be simply improved as described in e.g. [8], or [12].
+
+### _Static Model_
+
+**Converters' static model was designed to simulate the microgrid's voltage behaviour. Voltage can change in accordance with solar irradiation, wind speed or power demand fluctuations. The quantities of fluctuations are relatively slow and in the range of seconds. From the point of view of power electronic devices, they can be assumed as almost constant.**
+
+**In fact one of the following assumptions should be met:**
+
+* **the fluctuations are significantly slower then converter's filters time constants,**
+* **converter's output voltage stabilisation are less then 1%,**
+* **possible voltage or current ripples can be neglected.**
+
+**Hence, the converter can be always considered internally in steady state with voltage and current changes only caused by regulators. Converter's power losses can be neglected as well.**
+
+**Taking into consideration all the above points, converter can be considered as a voltage gain (4).**
+
+\[V_{out}=k\cdot V_{in} \tag{4}\] \[I_{in}=k\cdot I_{out}\]
+
+**In case of half bridge converter \(k\) coefficient is represented by (5):**
+
+\[k=D\frac{z_{2}}{z_{1}} \tag{5}\]
+
+**where:**
+
+\(\frac{z_{2}}{z_{1}}\) **- transformer turns ratio;**
+
+\(D\in(0,0.5)\) **- pulse width.**
+
+**The Simulink converter's static model designed in line with the above suggestions is shown in fig. 7.**
+
+**The converter's controller is modelled as parallel voltage and current regulator. Simple PI regulator is used. Typically output voltage and current are regulated. That is why such a controller has been implemented in the described model. Other quantities can also be controlled by power electronic converter, i.e. input current (in the case of fuel cell) or input power (in the case of solar battery). The regulator is modelled as follows: (6), (7) (see fig. 8).**
+
+\[D=\min\left(D_{V},D_{I}\right) \tag{6}\]
+
+**where:**
+
+\(D_{V}\) **- output voltage regulator signal;**
+
+\(D_{I}\) **- output current regulator signal.**
+
+\[\begin{array}{l}D_{V}=\left(V_{ref}-V_{out}\right)K_{PI_{U}}\\ D_{I}=\left(I_{ref}-I_{out}\right)K_{PI_{I}}\\ K_{PI_{X}}=k_{p_{\mu_{x}}}(1+\frac{1}{z_{1_{x}}^{2}})\end{array} \tag{7}\]
+
+**where:**
+
+\(T_{i}\) **- regulator integral time constant;**
+
+\(k_{i^{\prime}}\) **- regulator gain;**
+
+\(V_{ref}\) **- voltage reference value;**
+
+\(V_{out}\) **- voltage measured value;**
+
+\(I_{ref}\) **- current reference value;**
+
+\(I_{out}\) **- current measured value.**
+
+## VI Comparison of Simulation Results
+
+**To proof the method authors have performed simulation of the half bridge converter with elements and parameters listed below:**
+
+* **input filter capacitance**
+* **voltage divider capacitance**
+* **output filter inductance**
+* **output filter capacitance**
+* **output** filter capacitance**
+* **load resistance**
+* **load resistance**
+* **input voltage regulator gain**
+* **voltage regulator integration time constant**
+* **current regulator gain**
+* **current regulator gain**
+* **current regulator integration time constant**
+* **current regulator regulator gain**
+* **current regulator integration time constant**
+
+**First, PSIM simulation was performed as a point of reference. The results are shown in fig. 9.**
+
+**Then Simulink simplified static model has been designed and tested. The results of comparison of both simulation techniques are shown in fig. 10 and 11. As can be seen, simplified model does not accurately reflect dynamic behaviour of the converter. But it was not the aim of the simulation. Nonetheless, static voltage level and response time are modelled accurately.**
+
+## VII Conclusion
+
+**A simulation method for accurate modelling of static behaviour of power electronic converter has been presented. The comparison of the authors' method and schematic simulation in PSIM has also been presented. As has been shown, the model is not accurate in transient states but it has not been the aim of the modelling.**
+
+**The most important advantage of the authors' model is the speed of the simulation. The modelling technique has been designed to simulate complicated power systems, like DC microgrid, which consist of several power electronic devices. The half bridge converter's simulation using authors' model takes less then one second. The same converter simulation in PSIM takes about 30 seconds.**
+
+**Due to the fact that the model is very fast in reproducing static behaviour of the converter, it can be used for designing complicated models of power systems with the limitation to static simulation where all quantities change slowly and converters can be assumed to always operate in a steady state. The aim of the research has been reached.**
+

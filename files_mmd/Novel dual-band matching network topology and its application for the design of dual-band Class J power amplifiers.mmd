@@ -1,0 +1,54 @@
+
+
+
+## I Introduction
+
+In wireless communication systems, multiple standards have been implemented to meet the past and present demands of different applications. This proliferation of wireless standards, operating over multiple frequency bands, has increased the demand for multi-band RF components. As the power amplifier (PA), dominates the carbon footprint of the RF front-end, it is imperative that a multi-band PA satisfy stringent power efficiency requirements.
+
+Several multi-band PA designs have been outlined in the literature. One approach is to design a reconfigurable PA using micro-electromechanical systems (MEMS) to create tunable matching networks (MNs), which can be reconfigured to provide optimal matching at multiple frequencies [1]. Although this technique adds flexibility to the MN design, it also increases the power loss in the MN due to the increased bill of materials and size of the MN. It is also limited by the reconfiguration time of the MEMS components, and the fact that this solution cannot operate at multiple frequencies simultaneously. Alternatively, a concurrent multi-band PA uses a static MN that simultaneously provides optimal impedance transformations at multiple frequencies and is more amenable to cellular base station applications. While this solution solves the problems associated with reconfigurable PAs, it intensifies the design complexity and provides increased theoretical and practical barriers to supporting additional frequency requirements. Furthermore, a multi-band MN must simultaneously provide optimal matching conditions at the fundamental frequencies, as well as the second and third harmonic frequencies, thus multiplying the frequency requirements of the impedance transformation.
+
+To design a concurrent multi-band, multi-harmonic MN, a solution was proposed to transform a complicated multiple frequency impedance transformation into an equivalent serialized combination of single-band MNs [2][3]. This technique uses a sequence of low-pass filtering blocks, called impedance buffers, to ensure that consecutive MNs do not impact the behavior of the matching impedance seen at higher frequencies. Given that each impedance buffer can increase the MN length by \(\lambda\)/4, the efficiency of the PA will be degraded due to increased dielectric losses in the MN.
+
+The fundamental multi-band impedance MN can also be designed based on a multi-section impedance transformer [4] technique, or a MN designed for different frequency operation modes [5]. While the multi-section impedance transformer is extendable to additional frequency bands, the multi-mode MN is more compact, thus providing higher performance for dual-band applications.
+
+In this paper, we start by reformulating the problem by designing a Class J dual-band PA so that the fundamental and harmonic impedance matching constraints become relaxed. In fact, in a class J PA one can benefit from the existence of multiple sets of fundamental and harmonic impedances that share the same RF performance (efficiency and output power) as degree of freedom during the choice of the optimum impedances for each of the targeted operating frequencies. In addition, it was proven that the Class J operating mode reduces the sensitivity to harmonic matching that is evident in Class B designs, thereby relaxing the matching constraints at the second and third harmonic of each band [6]. Thus by choosing this operating condition, we can achieve the flexibility that is needed to design a simple compact MN that provides a competitive power-efficiency without the need for any explicit harmonic MN structures.
+
+Section II will describe the systematic approach devised to design a multi-harmonic dual-band MN. This approach will be applied in section III to design a dual band class J PA. The simulation and measurement results will be presented in section IV.
+
+## II Dual band Matching Networks Design
+Fig. 1 shows the topology of the dual band MN used to match complex impedances to 50 ohms, as needed by packaged transistors. The following subsections will provide details on the different modules that form the dual band MN.
+
+#### Ii-A1 Real-to-Complex Impedance Transformation
+
+The impedance transformation shown in Fig. 2 is used to transform the two complex impedances, \(Z_{1}\) and \(Z_{2}\), at the chosen operating frequencies f\({}_{1}\) and f\({}_{2}\), to an arbitrary real impedance, R (G=1/R). An open-circuited stub (TL1), short-circuited stub (TL2), and transmission line (TL3) were required to complete this transformation with enough degrees of freedom.
+
+The impedance transformation to the real axis has to be carefully conducted to minimize its effects on the quality factor of the overall MN. Therefore, the transmission line (TL1, TL2, TL3) length must be \(<\!<\lambda/4\) and G \(\approx\Re(1/Z_{\text{z}})\approx\Re(1/Z_{\text{z}})\).
+
+#### Ii-A2 Real-to-Real Impedance Transformation
+
+The second impedance transformation is a dual-band transp impedance filter designed to match the conductance G to 1/50 Siemens. This impedance transformation was completed by combining dual-band filter theory in [8] with the generalized trans-impedance filter theory in [7]. Using this method, a first-order lumped element low pass prototype filter is transformed into a single-band lumped band pass filter (centered at f\({}_{0}\)= (f\({}_{1}\)+f\({}_{2}\))/2), and then is transformed into a distributive dual-band pass filter shown in the Fig. 3. The highlighted sections in Fig. 3 denote the topology of the dual-band resonator and J-inverter used to implement the distributed dual band filter [8].
+
+### _Dual-Band Harmonic Matching Considerations_
+
+Although the Class J design space relaxes the requirements on the harmonic impedances, it is important to include an additional element that can tune the harmonics to the less sensitive region of the Smith Chart. As shown in Fig. 1, a transmission line (TL4) with the Z\({}_{0}\)=1/G and variable length is added between the real-to-real and the real-to-complex impedance transformations to tune the harmonics, such that the efficiency and output power are mostly optimized. Hence, by choosing the fundamental impedances from the Class J design space, we have eliminated the need for a complicated harmonic MN. Since the impedance looking into the real-to-real impedance transformation is 1/G, adding this transmission line will not affect the matching at the fundamental impedance.
+
+## III Dual Band Class J Pa Design
+
+A 45W GaN HEMT device from Cree was used design a prototype. First a load/source-pull analysis was conducted to identify the suitable fundamental impedances (see Table 1) at the two targeted frequencies.
+
+Using the method proposed in section II, a dual-band MN is implemented where 1/G=8.3 ohm for the load MN and 6 ohm for the source one. In addition, a first-order filter is used in the synthesis of the real to real impedance transformation. Fig. 4 shows the targeted and actual fundamental impedances at 0.8GHz and 1.9GHz, which demonstrates the capacity of this technique to simultaneously match the two impedances with good accuracy. It is worth mentioning that an RC circuit was used to ensure the stability of the transistor at low frequencies.
+
+Fig. 1: Dual-band Matching Network Topology
+
+Fig. 3: Dual-band Distributed Real-to-Real Trans-Impedance Filter
+
+Fig. 2: Complex-to-Real Fundamental Impedance Transformation
+
+## IV Measurement Results
+
+A PA prototype was fabricated (see Fig. 5) and the drain efficiency and output power results at 0.8GHz and 1.9GHz are shown in Fig. 6 and Fig. 7 respectively. Compared to the simulation results, the measurement results indicate that a frequency shift occurred at the two bands. It was later determined that this error is due to a discrepancy between the value of the actual dielectric constant of the substrate and the one used during the electromagnetic simulations (provided in the datasheet). The impact was less pronounced in the low band than in the higher band. Nevertheless a drain efficiency of about 74.4% at the lower band and 57.6% at the upper band were recorded.
+
+## V Conclusion
+
+A new systematic approach for the design of a dual-band MN was proposed. It combined the automated synthesis of a dual-band filter with the relaxed harmonic tuning requirements of the Class-J mode of operation, to systematically design a dual-band PA. The measurement results show peak efficiencies of about 74.4% at around 0.8GHz and 57.6% at around 1.9GHz with an output power of about 46dBm. Assuming the manufacturing error is eliminated, a dual-band PA design technique has been presented that provides a competitive performance without the need for multiple RF front-ends or combiners, as required with single-band PAs.
+

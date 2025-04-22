@@ -1,0 +1,72 @@
+
+Consideration of Equipment Flexibility and Loading Balance in Semiconductor Wafer Fabrication
+
+Ya-Tang Chuang1, Yi-Hung Chang, Jr-Fong Dang, Ren-Chyi You, Steven Min Chang
+
+
+Hsinchu, Taiwan, R.O.C.
+
+
+## I Introduction and Literature Review
+
+In 300-mm semiconductor manufacturing factories, several factors affect wafer fabrication performance such as coordinated batching, super-hot lots, and QTime restrictions [1]. QTime restriction is a crucial factor in advanced technology process since the QTime violations result in wafer scrap cost occurring. To avoid QTime violations, operators would have clever skills and abundant experience to solve a complex allocation problem considering thousands of decisions [2][5]. Usually, in wafer fabrication, the flow of each wafer contains 300-900 processing steps [8]. Processing step depends upon complexity of electronic circuit (IC) layout. Therefore, multi-station scheduling problem in high technology wafer fabrication is extremely difficult.
+
+In the real-world, there exists a situation where the flexible capacity can be applied to meet various process demands. However, the setup time occurs once we intend to utilize the flexible capacity. It follows that how to efficiently utilize the flexible capacity to meet the demand under the QTime restrictions can be a challenge in the multi-station scheduling problem. [3][4]. In addition, the major criteria to evaluate the success of semiconductor fabrication factories are target of throughput, line balance, and bottleneck equipment utilization [6]. In our paper, we apply the proposed standard criteria of lost rate, throughput and cycle time, to measure the performance of our proposed model.
+
+To the best of our knowledge, none or very few papers address the multi-station scheduling problem and consider the flexible capacity and QTime restrictions. Our major purpose is to provide a capacity allocation decision to minimize wafer scrap and cycle time. We apply the mixed integer programming to solve for our scheduling problem.
+
+## II Problem Description and Model Formulation
+
+Taiwan Semiconductor Manufacturing Company (tsmc) manufactures several technology electronic products in the same assembling line. The advanced technology leads to theshort QTime. Furthermore, in a modern fab, the equipment is supposed to produce several technology products. Then we intend to investigate the loading of the equipment. The equipment can be categorized into two types: chamber and non-chamber. This paper is not limited itself to discuss the chamber or non-chamber equipment scheduling. The features of the tool families also results in the challenge of developing the scheduling. We propose a scheduling model to manage the equipment feature and to meet several customers' requirements within their due dates.
+
+The semiconductor manufacturing production environment consists of several stations with different QTime restrictions. For simplicity, we address the consecutive Qtime restriction throughout this paper. In addition, due to some factors such as customers' requirements, one may apply the flexible capacity to process lots. Note that the flexible capacity requires setup time and is with no restriction. We can depict the multi-station QTime scheduling problem as shown in Figure 1. In Figure 2, flexible capacity can produce several products of different technology in some stations.
+
+In this paper, our proposed model considers the flexible capacity to avoid the QTime violations. Without lose of generality, we let the flexible capacity be limited. In addition, the setup time of the flexible capacity for each job is assumed to be the same in each station. In the following, we introduce the mixed integer programming to solve the scheduling problem. The notations utilized in this study are listed as below.
+
+\begin{tabular}{l l} _Indices_ & \\ \(i\) & The job \(i\), \(i\)=1,2,\(\ldots\), \(m\). \\ \(j\) & The equipment \(j\), \(j\) = 1,2,\(\ldots\), \(n\). \\ \(t\) & The station \(t\), \(t\)=1,\(\ldots\), \(T\). \\ \end{tabular}
+
+\begin{tabular}{l l} _Variables_ & \\ \(O_{u}\) & The Qtime violation time of job \(i\) in station \(t\) \\ _TS_ & The makespan \\ \(D\) & The difference among the total process time of each equipment \\ \(s_{u}\) & The starting time of job \(i\) to be processed in station \(t\) \\ \(x_{ui}\) & The binary variable to determine job \(i\) processed by equipment \(j\) in station \(t\) or not \\ \(y_{u}\) & The binary variable to determine the flexible capacity to be applied to process job \(i\) in station \(t\) or not \\ \(e_{u}\) & The ending time of job \(i\) to be processed in station \(t\) \\ \end{tabular}
+
+\begin{tabular}{l l} _Parameters_ & \\ \(a_{u}\) & The weight of the variable \(O_{u}\) in station \(t\) \\ \(b_{i}\) & The setup time of flexible capacity to process job \(i\) \\ \(arr_{u}\) & The arrival time of job \(i\) in station \(t\) \\ \(q_{u}\) & The remaining Qtime of job \(i\) in station \(t\) \\ \(p_{u}\) & The requiring process time of job \(i\) in station \(t\) \\ \end{tabular}
+
+\begin{tabular}{l l} _Scheduling model_ & \\ \end{tabular}
+
+In this paper, we formulate the real-world semiconductor production environment as following mathematical model.
+
+\[Min\quad a_{u}\sum_{i=1}^{\overline{\kappa}}O_{u}+TS+D \tag{1}\]
+
+\[s.t. \tag{2}\]
+
+\[\begin{split} s_{u}\leq q_{u}+O_{u},\forall i=1,\ldots,m, \forall t=1,\ldots,T.\\ \mathit{arr_{u}}\leq s_{u},\forall i=1,\ldots,m,\forall t=1, \ldots,T.\\ \end{split} \tag{3}\]
+
+\begin{tabular}{l l} _ASMC 2013_ & \\ \end{tabular}
+\[\sum_{j=1}^{n}x_{ij}=1,\forall i=1,...,m,\forall t=1,...,T\,. \tag{4}\] \[s_{i}+p_{ia}+b_{i}y_{i}=e_{ia},\forall i=1,...,m,\forall t=1,...,T\,. \tag{5}\]
+
+The objective function (1) is to minimize the makespan considering the QTime violation time and difference among the total process time of each equipment \(D\). As we can see, the variable \(Q_{ia}\) of each job \(i\) in station \(t\) is with parameter \(a_{ia}\) which would be greater than 1 due to the yield issue. We utilize (2) to show the starting time of job \(i\) in station \(t\) would be earlier than its remaining QTime \(q_{ia}\) to satisfy its quality specification. Eq. (3) states that the starting time of job \(i\) in station \(t\) would be later than its arrival time processed by the previous station. In addition, job \(i\) is supposed to be processed by an equipment \(j\) in station \(t\) as shown in (4). Eq. (5) describes relation between the starting time and the ending time once lot \(i\) is processed by the flexible capacity in station \(t\).
+
+## III Numerical Study
+
+In practical application, this scheduling model is applied to solve 300-mm wafer fabrication problem in a tsmc leading factory. In addition, the required data to solve for the model is prepared. The require process time of a job varying with different recipes. We know that the requiring process time of each job can be obtained by the historical data and assists us to predict the arrival time of the job. The QTime is defined by process integration department. Therefore, we are able to know the remaining QTime of each job based on the job waiting time and its QTime specification. We collect around one month data before scheduling model released. Then we utilize the data to be the baseline to compare with the improving results derived via our scheduling model. We apply the commercial software to solve for the scheduling problem.
+
+In the following, we would introduce the resulting outcomes derived by our scheduling model. We rearrange the data for comparative purpose. We find that our scheduling model makes following major contributions. First one is to eliminate wafer scrap in SPUT, which is abbreviated from sputter area. Second, this scheduling improves operators' work efficiency without manual assignments of lots. The scheduling model provides precise automatic dispatch result.
+
+Figure 4 shows that tool lost rate average improves 60% and daily throughput increases additional 70% during one month data collection. We define the lost rate as the shortness of the targets.
+
+In the practical area, the cycle time also improves 19% as shown in Figure 5. To summarize the resulting outcomes, our scheduling system improves the productivity efficiency.
+
+## IV
+
+Figure 4: Trend chart of throughput and lost rate
+
+Figure 5: Trend chart of cycle time
+
+Figure 3: Trend chart of QTime violation ratio
+
+Figure 4: Trend chart of throughput and lost rate
+
+Conclusion
+
+This paper studies a multi-station scheduling problem in consideration of equipment capacity flexibility and line balance. We focus on the problem of resource allocation, where our scheduling model is able to efficiently assign job to the equipment. The performance greatly improves our production system and can be extended to advanced technology production lines with less time for implementing.
+
+Future research is planned as follows. The proposed model would take the uncertainty of customers' products and reliability of the equipment into consideration
+

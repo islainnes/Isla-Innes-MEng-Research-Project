@@ -1,0 +1,62 @@
+Ku-Band Groove-Gap-Waveguide Dual-Band Bandpass Filter With Multi-Transmission-Zero Sharp-Rejection Transfer Function
+
+
+\({}^{\#}\)Department of Signal Theory and Communications, University of Alcala, Polytechnic School, Alcala de Henares 28871, Madrid, Spain
+
+\({}^{1}\)mohamed-malki@ieee.org, \({}^{2}\)li-yang@ieee.org, \({}^{3}\)roberto.gomez.garcia@ieee.org
+
+## I Introduction
+
+In the last few years, groove gap waveguide (GGW) has emerged as an interesting technological solution for the development of advanced RF passive devices [1]. When compared to conventional waveguide, GGW technology offers several benefits for millimeter-wave bandpass filter (BPF) design. First of all, it is well known that the main advantage of GGWs is its potential to circumvent EM-leakage and/or passive-intermodulation issues that can appear when the physical contact between the multiple metal layers is not perfect. This is of paramount importance at high-frequency ranges due to the miniaturzation levels required for RF components and their difficulty of assembly. Moreover, other important merits are introduced by the GGW solution, such as the reduction of the mechanical complexity and fabrication costs. Additionally, some initial studies have been already carried out demonstrating that multipotactor breakdown power levels can be enhanced in GGW, as well as corona discharge breakdown in inductive-type BPFs [2, 3]. All these features make GGW technology a promising candidate for the development of advanced high-frequency BPFs aimed at high-power-handling scenarios, such as for the RF front-ends of satellite-communication systems.
+
+Despite their potential relevance as described above, only a very few number of GGW-based RF BPFs with transmission zeros (TZs) have been proposed in the open technical literature [4, 5, 6, 7, 8, 9, 10]. They exploit different RF operational mechanisms and configurations, such as cross-coupled-GGW-cavity-resonator filter schemes--e.g., quadruplet-type--in single- and multi-layer realizations, engraved GGW cavities with different depths, spoof-surface-plasmon-polariton GGWs, or in-line coupled-GGW-cavity-resonator filter configurations with an additional input reactive load for multi-TZ generation.
+
+In the case of GGW filters with multi-passband transfer functions, much less efforts have been carried out up to date despite their unquestionable relevance for the RF front-ends of modern multi-band/multi-standard RF-wireless applications. To the best of the authors' knowledge, only four designs of GGW multi-band BPFs have been proposed [11, 12, 13, 14]. For example, in [11], a dual-band BPF using two vertically-stacked GGW dual-mode cavities is shown. However, it has a reduced amount of TZs below and above the lower and upper passbands, respectively, and no experimental demonstration is provided. In [12], a dual-band BPF using a single GGW dual-mode cavity resonator in a multi-layer structure is developed, but it suffers from low filtering selectivity due to the lack of stopband TZs. In [13], a two-layer GGW dual-band BPF based on a split-type topology with source-load coupling is suggested. Nevertheless, it is limited to a second-order design and the upper TZs closest to the two passbands are not fully adjacent to them so that their upper cut-off slopes are not very abrupt. Finally, a GGW wide-band dual-band filtering device with co-integrated power-division functionality that operates in the millimeter-wave range is described in [14]. However, the stopband power-attenuation levels and spectral width of the inter-band region are limited.
+
+An innovative class of high-selectivity GGW dual-band BPF that avoids the use of cross couplings and multi-mode resonators is presented. It exhibits ultra-sharp-rejection capabilities at both sides of the two main passbands due to the generation of multiple stopband TZs through two different mechanisms. The structure and RF operational principles of the engineered GGW dual-band BPF for a Ku-band third-order design example are detailed in Section II. For experimental-demonstration purposes, a proof-of-concept prototype of this Ku-band GGW dual-band BPF design is fabricated and tested.
+
+## II Design Concept of Ku-Band GGW Multi-TZ Sharp-Rejection Dual-Band BPF
+
+The details of the engineered type of GGW multi-TZ sharp-rejection dual-band BPF for a particular Ku-band third-order design example with lower and upper passbands centered at 13.7 and 16 GHz, respectively, are shown in Fig. 1. Specifically, its 3-D and 2-D views--with indication of dimensions--are represented in Fig. 1(a) and (b), respectively, whereas its conceptual block diagram is illustrated in Fig. 1(c). As can be seen, as the extension of the GGW BPF design approach that was presented in [10] to the dual-band BPF case, it consists of the two following main circuit blocks:
+
+* A third-order dual-band BPF block arranged in a split-type configuration and based on coupled GGW cavity resonators, which exhibits a three-pole dual-band BPF response with three TZs within the inter-band region.
+* An oversized cavity connected at the input port of the referred third-order split-type dual-band BPF block, which operates as an input reactive load creating two more TZs between passbands along with multiple TZs below and above the lower and upper passbands, respectively.
+
+In this manner, by means of the combination of the filtering actions associated to the two aforementioned building circuit blocks, an overall third-order dual-band BPF response with five TZs between passbands and various TZs below and above the lower and upper passbands, respectively, can be obtained.
+
+As the first design step of the dual-band BPF of this study, its core GGW was designed to exhibit a stopband range covering the 12-18 GHz frequency interval. To accomplish this, an artificial magnetic conductor (AMC) was designed by carefully determining the dimensions of the GGW pins, as illustrated in the inset of Fig. 2. The resulting GGW dispersion diagram, which is depicted in this figure, reveals a stopband range going from 6.31 to 22.6 GHz without any undesired mode, thus fully encompassing the intended bandwidth within which the two main filter passbands will be allocated.
+
+Subsequently, following an analogous procedure to the one adopted in [10] for its single-band BPF counterpart, the design of the overall dual-band BPF was carried out. The third-order split-type dual-band BPF block was initially designed in the core GGW attending to the coupling-routing diagram in Fig. 1(c), where the pair of GGW cavities of each split-type section and the adjacent cavities of contiguous split-type stages were capacitively and inductively coupled, respectively. Then, the dimensions of the input reactive load--i.e., oversized cavity--were adjusted to produce the additional TZs at convenient locations so that to increase the overall filter selectivity. In this process, the optimization of these two constituent circuit blocks first and of the whole dual-band BPF later was needed.
+
+The EM-simulated--with Ansys HFSS--power transmission and input-reflection responses of the overall Ku-band GGW multi-TZ sharp-rejection dual-band BPF design in Fig. 1, along with those of its constituent split-type dual-band BPF block, are depicted in Fig. 3. As can be seen, the generation of the extra TZs through the input reactive load--i.e., \(\text{TZ}_{1}\), \(\text{TZ}_{2}\), \(\text{TZ}_{5}\), \(\text{TZ}_{7}\), and \(\text{TZ}_{8}\) in Fig. 3(a)--added to the intrinsic ones due to the split-type dual-band BPF block--i.e., \(\text{TZ}_{3}\), \(\text{TZ}_{4}\), and \(\text{TZ}_{6}\) in Fig. 3(a)--is proven. Thus, an enhanced-selectivity dual-band BPF response with quasi
+
+Fig. 1: Designed GGW multi-TZ sharp-rejection third-order dual-band BPF. (a) 3-D view. (b) 2-D view with indication of dimensions in mm. (c) Equivalent block diagram (\(f_{r1}\) and \(f_{r2}\) are the natural frequencies of the resonating nodes that differ from the center frequencies of the produced dual passbands according to the split-type principle as described in [15]).
+
+Fig. 2: Dispersion diagram of the GGW and dimensions of the constituent pin (\(h=6.5\) mm, \(a_{p}=1.3\) mm, \(p/2=1.53\) mm, and \(g=0.1\) mm).
+
+elliptic-shape passbands and an increased number of TZs is obtained in the total filter.
+
+Finally, the EM-simulated electric-field-intensity distributions of the designed Ku-band GGW high-selectivity dual-band BPF in Fig. 1 for three different frequencies--i.e., lower-passband center frequency and frequencies of two TZs created by the split-type dual-band BPF block and the input reactive load, respectively--are shown in Fig. 4. As observed, they respectively reveal the weaker or stronger action of the input reactive load as expected depending of the considered cases.
+
+## III Experimental Results
+
+To experimentally validate the proposed design of Ku-band GGW sharp-rejection dual-band BPF with multiple out-of-band TZs--whose layout and EM-simulated responses were provided in Figs. 1 and 3, respectively--, a proof-of-concept prototype has been constructed and measured. Aluminum material and computer numerical control (CNC) milling were employed for the fabrication of its main structure.
+
+The photographs of the built GGW dual-band BPF circuit are shown in Fig. 5. Its EM-simulated and measured--with a Keysight 5224A network analyzer--power transmission, input-reflection, and in-band group-delay responses are compared in Fig. 6. As can be seen, a fairly-close agreement between the EM-simulated and measured results is obtained. The main measured performance metrics of this GGW dual-band BPF prototype for its lower and upper passbands, respectively, are as follows: center frequencies of 13.67 and 16 GHz, 3-dB absolute bandwidths equal to 351 and 495 MHz--i.e., 2.6% and 3.1% in relative terms--, minimum in-band power-insertion-loss levels of 0.45 and 0.38 dB, in-band power-matching levels above 13.6 and 15.9 dB, and maximum in-band group-delay
+
+Fig. 4: EM-simulated electric-field-intensity distributions of the designed GGW multi-TZ sharp-rejection dual-band BPF in Fig. 1. (a) Lower-passband center frequency at 13.73 GHz. (b) TZ frequency at 15.61 GHz produced by the split-type dual-band BPF block—i.e., TZ\({}_{6}\) in Fig. 3(a). (c) TZ frequency at 13.33 GHz produced by the input reactive load—i.e., TZ\({}_{1}\) in Fig. 3(a).
+
+Fig. 5: Photographs of the manufactured prototype of GGW multi-TZ sharp-rejection dual-band BPF (overall dimensions without connectors: \(69.37\times 57.2\times 14.7\) mm\({}^{3}\)).
+
+Fig. 3: EM-simulated power transmission (\(|S_{21}|\)) and input-reflection (\(|S_{11}|\)) responses of the designed GGW multi-TZ sharp-rejection dual-band BPF in Fig. 1 and its constituent third-order split-type dual-band BPF block. (a) In-band detail. (b) Wide-band response.
+
+variations of 2.1 and 2.4 ns. A total of eight TZs are measured in the represented spectral range at 13.31, 14.07, 14.16, 15.15, 15.31, 15.59, 16.64, and 17.64 GHz, respectively.
+
+## IV Conclusion
+
+A type of Ku-band GGW dual-band BPF with sharp-rejection filtering transfer function and a plurality of TZs at both sides of the two transmission bands has been reported. It exploits two different approaches for the multi-TZ generation in its demonstrative third-order implementation, as follows: (i) three inter-band TZs created by a core dual-band BPF block consisting of a GGW-cavity-resonator split-type topology and (ii) two more inter-band TZs and various TZs below and above the lower and upper passbands, respectively, produced by an oversized-cavity-based reactive load connected at its input port. Thus, a quasi-elliptic-type dual-passband filtering response is realized in the total dual-band BPF without cross couplings. A 13.7/16-GHz dual-band BPF prototype has been built and tested for experimental-validation purposes. To the best of the authors' knowledge, this is the GGW dual-band BPF circuit with highest selectivity and number of TZs reported up to date.
+
+## Acknowledgment
+
+This work has been supported by the Spanish Ministry of Economy, Industry, and Competitiveness (State Research Agency) under Project PID2023-149096OB-I00.
+

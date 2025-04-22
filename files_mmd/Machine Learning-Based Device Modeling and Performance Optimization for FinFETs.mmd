@@ -1,0 +1,86 @@
+
+
+Manuscript received 18 July 2022; revised 11 November 2022; accepted 19 November 2022. Date of publication 23 November 2022; date of current version 29 March 2023. This work was supported by the National Natural Science Foundation of China (NSFC) under Award 62074100. This brief was recommended by Associate Editor S. Long. _(Corresponding author: Haifan Zhang.)_
+
+The authors are with the School of Information Science and Technology, ShanghaiTech University, Shanghai 201210, China (e-mail: zhangif@shanghatiech.edu.cn; jingyi@shanghaitech.edu.cn; zhouq@shanghaitech.edu.cn).Color versions of one or more figures in this article are available at [https://doi.org/10.1109/TCSII.2022.224172.Digital](https://doi.org/10.1109/TCSII.2022.224172.Digital) Object Identifier 10.1109/TCSII.2022.32241721549-7747 (c) 2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+
+## I Introduction
+
+A
+
+LONG with the rapid shift from the planar MOSFET to the three-dimensional device in the semiconductor industry, device compact modeling becomes more challenging due to the demand for technology development. FinFET outperforms the traditional bulk CMOS due to its extraordinary properties [1]. BSIM-CMG [2] was proposed to model the physical effects of common multigate FETs, including FinFETs. CMG stands for "common multigate" where all the multiple gates are electrically connected and share a common gate voltage. However, for complex 3D structures (such as monolithic 3D FET, Nanowire/Nanosheet FET) and FETs fabricated by advanced materials (such as FeFET), developing extra physics-based models is time-consuming and laborious.
+
+Recently, several attempts have used machine learning (ML) as an alternative way to deliver fast and accurate device modeling [3, 4, 5, 6, 7, 8, 9, 10]. Klemme et al. [3] has presented a ML-based approach to predict the transfer curves of Negative Capacitance FinFET with high accuracy. Zhang and Chan [7] has developed artificial neural networks (ANN) models for generic transistors and boosted the accuracy with a current and voltage data preprocessing scheme. Autoencoder has been used to predict I-V and C-V curves [4, 10] and also to extract MOSFET contact resistance [5]. The optimization of device is to find the optimal combination of device parameters under given performance metrics. The traditional optimization process requires thousands of time-consuming technology computer-aided design (TCAD) simulations to predict the device performance. Therefore, the high efficiency of device performance is hard to obtain. Furthermore, as mentioned before, the physics-based models for emerging technologies are hard to develop, which makes the optimization even harder. Some related works have shown that ML is promising to facilitate the optimization process. Wang et al. [6] has developed a compact modeling methodology for advanced Design Technology Co-Optimization and path-finding activities based on ML. A complete flow that uses a ML approach to rapidly generate cell libraries has been proposed [11]. In [10], geometry and work function are considered, but only three parameters (gate length, fin top width and gate metal work function) are included as input features.
+
+Most of the previous works only developed ML-based device model for specific devices with fixed geometry. These models cannot be directly applied to device performance optimization. Therefore, it is essential to develop ML-based device model that predicts I-V and C-V curves for devices with different geometry profiles. As shown in Fig. 1, we propose a ML-based flow that completes two tasks: device modeling and performance optimization. The modeling section of the flow predicts I-V and C-V curves from device definition parameters. We choose the nine representative parameters as the input features, including parameters that characterize the geometry, doping, stress and work function profile. The performance optimization part finds optimized combinations of these parameters based on the ML-based device model. The switching current ratio \(I_{on}/I_{off}\) is commonly used as a measure of the DC characteristics of the device, while \(RC\) delay is used as a measure of the AC characteristics [12]. We use these two metrics as indicators to optimize the DC and AC performance of the device respectively.
+
+The proposed ML-based device modeling is completed in two phases. In the first phase, ANN models are trained to predict discrete anchor points on the I-V and C-V curves from FinFET parameters. In the second phase, continuous I-V and C-V curves can be fitted with another ANN model.
+
+Through this two-phase process, the ML-based model can predict continuous I-V and C-V curves from device features.
+
+A traditional device performance optimization procedure requires extensive TCAD simulation in conjunction with design of experiments (DOE). The more factors the experiments cover, the more TCAD simulations are required. A full factorial experiment contains all possible combinations of the levels of factors investigated [13]. Our method reduces the required simulations from thousands to hundreds. Assisted by the ML-based device model, we evaluate 10,000 different device instances and search for the optimized device parameter combinations with highest \(I_{on}/I_{off}\) and lowest \(RC\). The predicted DC and AC performance are verified by TCAD simulation and have a mean average precision of 98.6%. Since the running time of ML-based model is on level of _ms_ which is negligible compared to the TCAD simulation, we can get more optimized candidates by expanding the volume of search samples.
+
+## II ML-Based Device Modeling
+
+We use a 2-Fin FinFET PMOS device shown in Fig. 2 as the example device. The device structure is labeled as 7 nm node by 2018 IRDS with 32 nm fin pitch and 54 nm poly pitch. It is worth noting that our methods can be easily applied to future emerging devices. The nine parameters used as input features include gate length (\(I_{g}\)), proximity (\(pro\)), fit top width (\(W_{top}\)), fin angle (\(A_{fin}\)), spacer thickness (\(T_{spr}\)), fin height (\(H_{fin}\)), S/D doping concentration (\(N_{sd}\)), Ge fraction (\(X_{ge}\)), and work function (\(WF\)). The ranges of values we set for these parameters are shown in Table I. These input features are main factors that affect the electrical performance. The proposed method can be applied to other geometrical parameters or wider ranges of values as long as the training dataset is generated accordingly. In previous research, 1,000-2,000 TCAD simulations are required to train the ML model with sufficient accuracy [10]. In this brief, we achieve high accuracy with only 160 samples. 80% of them are used for training, and the remaining 20% are used for testing.
+
+### _ANN Model for Predicting Discrete I-V and C-V Curves_
+
+Modeling with an original ANN structure without domain expertise (WoDE) requires a large number of dataset to ensure the accuracy. With domain expertise (WDE), we increase the precision with restricted training set. Especially, \(I_{ds}\) at sub-threshold region is more sensitive to geometrical parameters
+
+Fig. 1: ML-based device modeling and performance optimization framework **(Left)**. The illustrations of different ANN models **(Right)**. The original ANN model consists of one hidden layer and uses a sigmoid activation function. The refined ANN model incorporates domain knowledge and predicts different targets for different regions.
+
+Fig. 2: **(a) Three-dimensional schematic diagram of PMOS FinFET post the middle of line process. **(b)** The cross-section on fin along fin direction. **(c)** The cross-section on gate along gate direction. Note that FinFET structure-related parameters are labeled in **(b)** and **(c)**.
+
+than it in threshold region, which makes it even more difficult to predict accurately. We solve this problem by combining ANN with physical knowledge and switching fitting target.
+
+Electrical data are sampled in \(V_{gs}\)'s range of 0 to 0.75V at an interval of 0.075V. We train independent models for predicting the current or capacitance value under each sampled \(V_{gs}\). First, the ANN models we employ are three-layer multilayer perceptron neural networks. The neuron number of the hidden layer for each model is chosen within \(\{20,\,30,\,50\}\) as a hyperparameter. Another hyperparameter we use to control the learning process is the learning rate, which is selected among \(\{0.01,\,0.03,\,0.05\}\). We choose the best combination of these hyperparameters based on testing accuracy. For the non-linear relationship, each hidden layer is activated by sigmoid function. We use mean absolute percentage error (MAPE) and \(R^{2}\) score to measure the inference performance. They are both commonly used as the evaluation metrics for regression problems. For convenience, we define mean absolute percentage accuracy (MA) as \(1-MAPE\). The MAPE function is defined as:
+
+\[MAPE=\frac{1}{n}\sum_{i=1}^{n}\frac{|Y_{i}-\hat{Y}_{i}|}{Y_{i}} \tag{1}\]
+
+This equation will not raise undefined division errors since the actual current or capacitance value will not be zero. \(R^{2}\) score is another commonly used metric to measure regression accuracy. It expresses the mean error of the prediction concerning the total variance. The \(R^{2}\) score is defined as:
+
+\[R^{2}=1-\frac{\sum_{i=1}^{n}(Y_{i}-\hat{Y}_{i})^{2}}{\sum_{i=1}^{n}(Y_{i}-\hat {Y})^{2}} \tag{2}\]
+
+where \(\hat{Y}=\frac{1}{n}\sum_{i=1}^{n}Y_{i}\) is the mean value of actual values.
+
+At \(V_{gs}<V_{r}\), where \(V_{t}\) is the threshold voltage, the distribution of current \(I_{ds}\) is highly unbalanced. For example, when \(V_{gs}=0\), the range of \(\mathbf{OFF}\) current magnitude varies from \(10^{-11}\)A to \(10^{-7}\)A. In addition to standardization of the output, we also need take the logarithm of the output. Taking logarithm will increase prediction accuracy, and improve \(R^{2}\) score from 0.627 to 0.985. The original ANN model takes the following data preprocessing techniques:
+
+1. taking the logarithm of \(I_{ds}\) output data if \(\max(I_{ds})>10\cdot\min(I_{ds})\),
+2. standardization of both original and logarithm output data,
+3. normalization of input features.
+
+The overall inference accuracy results of discrete points on I-V and C-V curves are shown in Table II. In order to further increase the inference accuracy of \(I_{ds}\) at subthreshold region, we construct a WDE network using the following method. A practical definition for threshold voltage \(V_{t}\) is the \(V_{gs}\) at which \(I_{d}=100\ \text{nA}\times W/L\), since \(I_{d}\) is proportional to \(e^{\pi(V_{gs}-V_{t}/\eta kT)}\), it can be written as
+
+\[I_{d} = 100\ \text{nA}\cdot\frac{W_{\textit{eff}}}{L_{\textit{eff}}} \cdot e^{\frac{4(V_{gs}-V_{t})}{9kT}}=100\ \text{nA}\cdot\frac{W_{\textit{eff}}}{L_{\textit{eff}}}\cdot 10^{ \frac{V_{gs}-V_{t}}{38}} \tag{3}\] \[I_{\textit{off}} = 100\ \text{nA}\cdot\frac{W_{\textit{eff}}}{L_{\textit{eff}}} \cdot 10^{\frac{-V_{t}}{38}} \tag{4}\]
+
+In the equations above, \(W_{\textit{eff}}\) is the effective channel width, which is equal to \(W_{\textit{stop}}+2\cdot H_{\textit{fin}}/\tan(A_{\textit{fin}})\), \(L_{\textit{eff}}\) is the effective channel, and \(SS\) is the subthreshold slope. Despite the fact that different device instances correspond to different threshold voltages, we set an average value to separate subthreshold and saturation regions, as shown in Fig. 3. For \(I_{ds}\)\(<\) 0.3V, we change the fitting target from \(log(I_{ds})\) to \(log[I_{ds}\cdot L_{\textit{eff}}/(100\ \text{nA}\cdot W_{\textit{eff}})]\). The inference accuracy results of \(I_{ds}\) at different \(V_{gs}\) using both WoDE and WDE methods are shown in Table III. In most cases, the WDE method outperforms WoDE, especially when the training dataset is small. We investigate the influence of dataset size on prediction accuracy. A training set of 80 samples enables an \(I_{\textit{off}}\) MA of 0.87. The entire dataset we use for training contains 160 samples which is large enough to ensure high modeling accuracy.
+
+### _ANN Model for Fitting Continuous I-V and C-V Curves_
+
+The aforementioned models obtain accurate predictions of discrete I-V and C-V curves. Furthermore, we implement an
+
+Fig. 3: An example of \(I_{ds}\), \(C_{gs}\) curves from TCAD simulation and ANN prediction in test dataset. To predict different anchor points in the curve, electrical parameters are classified into different regions and are trained with different ANN structures.
+
+ANN model to fit continuous device modeling curves. Inspired by the recent device modeling work [14], we use separate neural networks to predict \(I_{ds}\) from \(V_{gs}\) with different scaling (original and logarithm scale), and then derive the final I-V curves by interpolating these two subnets. With original scaling, the neural network predicts \(I_{ds}\) accurately at higher \(V_{gs}\) but diverge from the baseline at lower \(V_{gs}\). The situation is just the opposite with logarithm scaling.
+
+The first subnet takes logarithm operation for \(I_{ds}\) in the subthreshold region, and the second subnet operates \(I_{ds}\) without data preprocessing. A range from 0.375V to 0.488V is set as the transitional region. We use continuous interpolation to combine the two models to guarantee the continuity of fitted curves. This model bridges the prediction of discrete points and the modeling of continuous I-V and C-V curves. Fig. 4 shows the example prediction results of \(I_{ds}\), and logarithm of \(I_{ds}\) with \(V_{gs}\) as input. Unlike previous works which focus on fitting one curve accurately as an alternative to SPICE mode, our method predict multiple curves accurately under different parameter combinations as an alternative to TCAD simulation.
+
+## III ML-Based Performance Optimization
+
+We use our ML-based device model to assist performance optimization in two ways. First, we conduct single factor analysis using the ANN model as an alternative to TCAD simulation and show that our method requires less time to generate data. Then, we search for the optimized device parameter combinations that maximize \(I_{on}/I_{off}\) and minimize \(RC\) delay. TCAD simulation results prove that results obtained by our ML-based method are accurate and optimal.
+
+The analysis results are shown in Fig. 5. The optimized values for each factor are shown in Table V. The correlation and optimized values obtained by our ML-based method is accurate compared to the TCAD simulation results.
+
+In addition to single-factor analysis, our ML-based device model enables multi-objective all-factors optimization. From 10,000 random combinations generated, we obtain 12 best device instances that satisfy the condition that \(I_{on}/I_{off}>4.2\times 10^{5}\) and \(RC<3.25\times 10^{-12}\)s. An example of 1,000 combinations' performance and the target region are shown in Fig. 6. The optimized results obtained are shown in Table IV, including simulation results by TCAD and predicted results by ML-based device model. In these cases, the highest \(I_{on}/I_{off}\) and the lowest \(RC\) we achieve are \(4.37\times 10^{5}\) and \(3.06\times 10^{-12}\)s, respectively. The average MA of predicted \(I_{on}/I_{off}\) and \(RC\)
+
+Fig. 4: Predictions of \(I_{ds}\) and logarithm of \(I_{ds}\) with \(V_{gs}\) as input. **(a)** and **(d)** belongs to the ANN model that takes logarithm of \(I_{ds}\) as output. **(b)** and **(e)** belongs to the ANN model that takes \(I_{ds}\) as output. **(c)** and **(f)** belongs to the combined ANN model. The combined model uses logarithm network results at subthreshold region, and original network results at saturation region. It uses the interpolation of the two network results for transitional quadratic region. The interpolation ratio is continuous thus the continuity of I-V curve is guaranteed.
+
+Fig. 5: Single-factor analysis results of \(I_{on}/I_{off}\) and \(RC\) with TCAD simulation and ANN models.
+
+compared to TCAD result is 98.6%. It proves that our ML-based method can predict electrical performance and optimize multiple objectives under constraints.
+
+## IV Conclusion
+
+Our work demonstrates that ML can be used to conduct modeling of FinFET's I-V and C-V curves from geometrical parameters with high accuracy. Moreover, ML is also a promising alternative to TCAD simulation and DOE can facilitate electrical performance prediction and optimization. The ML-based device model can facilitate performance optimization with multiple objectives. It is expected that the same methodology can be applied to other novel devices to catch up with the fast technology development.
+

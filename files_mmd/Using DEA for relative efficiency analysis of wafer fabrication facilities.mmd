@@ -1,0 +1,91 @@
+
+
+Wan-Ling Lin, Chen-Fu Chien, Wen-Chih Chen, Wen-Chin Wu, Hsin-Yin Wang, Ren-Tsun Kuo, Ming-Hsuan Chou
+
+wllina@tsmc.com, cfchiena@tsmc.com, wenchih@faculty.netu.edu.tw, wewu@tsmc.com, hywangc@tsmc.com,
+
+rtkuo@tsmc.com, g9634519@oz.nthu.edu.tw
+
+
+No.8, Li-Hsin 6th RD., Science-Based Industrial Park, Hsin Chu, Taiwan, R.O.C.
+
+Phone: + Phone: + 886-35055627 Fax: + 886-36667758
+
+## I Introduction
+
+Conventional fab performance evaluation utilizes a set of key performance indicators (KPIs), such as labor productivity and cycle time, to represent various aspects of the production. Different KPIs may lead to inconsistent conclusions because of the tradeoffs among objectives. To resolve this challenge, data envelopment analysis (DEA), a liner programming method considering multiple resources and products/services simultaneously, is adopted for relative comparison among production sites.
+
+DEA is a linear programming method that can deal with multiple inputs and outputs simultaneously. DEA is a non-parameter method that does not require predetermined weights to input and output factors. DEA has been applied for measuring the relative efficiency in many fields, including banking [1], education [2], hospitals [3], and power industry [4]. DEA has been also widely applied to efficiency measurement of semiconductor industry. For example, Leachman et al. [5] applied DEA to study the efficiencies of ten leading wafer fabs in the Competitive Semiconductor Manufacturing Program. They proposed two different DEA models using die output (D) and effective revenue (R) as the corresponding output, respectively. Both models included all five inputs, which are total wafer starts (WS), number of steppers (SN), direct headcount (DH), indirect headcount (IDH) and clean-room size (CR). Carbone [6] applied DEA to identify areas of best practice within a fab. He used mean time between failure (MTBF), scrap rate, cycle time, machine downtime as inputs, and wafer moves, overall equipment efficiency (OEE), and activity ratio as the outputs. This paper studies the relative efficiency of wafer fabrication facilities by a two-stage DEA model. The results diagnose the inefficient records and identify the best practices for efficient operations.
+
+The remainder of this paper is organized as follows. Section II describes the proposed two-stage overall efficiency model and the DEA models used in this study. Section III details the empirical study and illustrates the results of efficiency evaluation. Section IV concludes with the finding of this study and future research directions.
+
+## II Two-stage overall efficiency model
+
+This section introduces a two stage model to describe wafer fabrication process. It describes the production process from resources to final wafer products. We decompose the production process into two dimensions as production efficiency and manufacturability. Notions of DEA are also discussed.
+
+Wafer is typically considered as a key output indice for production and performance evaluation. However, in addition to the effort of production, some uncontrollable factors also effect fab operation and performance. For example, product type and product mix, these are assigned by businese strategies allocating to each fab. The process thus can be decomposed into two stages, and the Substantial performance inefficiency is uncovered in both production and non-production dimensions. We separate layers and wafers as the output of two stages, respectively. Figure 1 shows the two-stage model developed.
+
+Stage 1 represents the transformation from resources to photo layers, which is mainly in charge by manufacturing teams, and is referred to as the productivity or production efficiency. Stage 2 is the process transforming photo layers into wafer outputs, and is mainly determined by product and process design, which is the responsibility of non-production units such as R&D. This transformation is referred to as the manufacturability.
+
+We conduct an inter-facility comparison for performance evaluation. The fabs under evaluation are on the basis of the same input and output factors. However, the scales of these fabs are different in terms of, for example, total labor, the total floor space, and the total installed capacity. Therefore, using
+
+Figure 1: Fab production processDEA without predetermined weights, is adequate to evaluate their relative efficiencies.
+
+The output-oriented CCR DEA model [7] is applied to evaluate the overall efficiency in productivity and manufacturability as follows.
+
+\[\max \phi_{k}^{t} t=1,2\] \[s.t. \sum_{j=1}^{n}\lambda_{j}x_{ij}\leq x_{ik} i=1,2,\cdots,m;\] \[\sum_{j=1}^{n}\lambda_{j}y_{ij}\geq\phi_{k}^{t}y_{jk} r=1,2,\cdots,s;\] \[\lambda_{j}\geq 0\]
+
+Where \(t\) indicates stage 1 (production) and stage 2 (manufacturability). Let \(\phi_{k}^{t}\) and \(\phi_{k}^{2^{*}}\) be the optimal values in stage 1 and stage 2, respectively. If \(\phi_{k}^{t^{*}}=1\), then DMU k is said to be CCR-efficient in production; if \(\phi_{k}^{2^{*}}=1\), then DMU k is said to be CCR-efficient in manufacturability. In stage 1, we use headhunt, equipment, space, and time as \(m=4\) inputs, and effective layers is the \(s=1\) output. In stage 2, we use effective layers as the only input ( \(m=1\)), and effective wafer outs be the output ( \(s=1\)).
+
+Another popular DEA model is the BCC model proposed by Banker et al. [8], the output-oriented BCC DEA model is as follows.
+
+\[\max \theta_{k}^{t} t=1,2\] \[s.t. \sum_{j=1}^{n}\lambda_{j}x_{ij}\leq x_{ik} i=1,2,\cdots,m;\] \[\sum_{j=1}^{n}\lambda_{j}y_{ij}\geq\phi_{k}^{t}y_{jk} r=1,2,\cdots,s;\] \[\sum_{j=1}^{n}\lambda_{j}=1\] \[\lambda_{j}\geq 0\]
+
+The optimal solutions \(\phi_{k}^{t^{*}}\) and \(\theta_{k}^{t^{*}}\) determine the inefficiency scale due to scale aspect. The scale efficiency is defined as \(\frac{\phi_{k}^{t^{*}}}{\theta_{k}^{t^{*}}}\). If \(\frac{\phi_{k}^{t^{*}}}{\theta_{k}^{t^{*}}}=1\), indicates DMU k is at the most productive scale size (MPSS); if \(\frac{\phi_{k}^{t^{*}}}{\theta_{k}^{t^{*}}}<1\), it is either at decreasing returns to scale (DRS) or increasing returns to scale (IRS). According to Joe and Shen [9], IRS prevails for \(\frac{\phi_{k}^{t^{*}}}{\phi_{k}^{t^{*}}}<1\) and \(\sum_{j=1}^{n}\lambda_{j}^{*}<1\), and suggests to downsize the production scale.
+
+## III Empirical Study
+
+This section apply DEA to evaluate economic efficiency on fabrication operations. This empirical study involves the following tasks: 1) the determination of input and output factors for evaluating operating efficiency of the selected DMUs, and 2) the discussion of the DEA results.
+
+### _Inputs and Outputs_
+
+The definitions of input and output factors are detailed. Furthermore, we also check the input and output factors for validation.
+
+* Effective layers (L): is the total number of effective mask layers produced monthly.
+* Effective wafer outs (W): is the total number of effective wafers produced monthly.
+* Headcount (HC): is the total number of direct and indirect labor.
+* Equipments (MC): is the total installed capacity of steppers and scanners used in the fab during the particular month.
+* Space (S): is the total floor space used and available for manufacturing.
+* Time (T): is total cycle time needed to produce total number of layers (including effective and defective layers).
+
+For the validation of the developed DEA model, we examined the assumptions of the "isotonicity" relationships between the input and output factors, i.e., an increase in any input should not result in a decrease in any output. Table 1 shows the resulting correlation of selected input and output factors is positive, these factors follow the isotonicity assumptions.
+
+### _Overall Efficiency Analysis_
+
+In this study, we analyze the production efficiency and manufacturability of four fabrication facilities (fabs) within the same corporate in Taiwan. We collected historical data for the last three years, and there are total 156 records. The CCR model evaluates the overall efficiencies of these fabs in two stages. Figures 2 and 3 show the CCR-efficient in production and manufacturability, respectively. It is found Fab A and Fab C have the worse CCR-efficient scores in production (Figure 2). It means that Fab A and Fab C providing fewer layers than Fab B and Fab D by using the same resources.
+
+[MISSING_PAGE_FAIL:3]
+
+## IV Conclusion
+
+This study develops a two-stage overall efficiency model to solve the contention of fabs efficient evaluation and clearly define the responsibility on production and manufacturability. It also shows a fab does not have consistent better performance in both stages. Thus, this study provides a good framework to evaluate efficiency fairly.
+
+The results of the DEA analyses provide diagnosis for inefficient records and identify best practices for efficient operations. Knowing whether the resource is properly utilized is the foundation for future improvements and/or production decision.
+
+## Author Biography
+
+**Wan-Ling Lin** is a senior engineer of Industrial Engineering Division at tsmc. She has been working in capacity/cost/CapEx/headcount management and tool/people productivity improvement.
+
+**Chen-Fu Chien** is the Deputy Director of Industrial Engineering Division at tsmc, who is also a Professor of Industrial Engineering and Engineering Management on-leave from National Tsing Hua University since 2005. His research areas include decision analysis, modeling and analysis for semiconductor manufacturing, manufacturing strategy, and data mining.
+
+**Wen-Chih Chen** is an Assistant Professor at Department of Industrial Engineering and Management in National Chiao Tung University, Taiwan. His current research interests focus on performance evaluation and decision making analysis in semiconductor manufacturing.
+
+**Wen-Chih Wu** is a Department Manager of Industrial Engineering Division, tsmc. He has been working in fab planning of 8" and 12" fabs, tsmc.
+
+**Hsin-Yin Wang** is a section manager of Industrial Engineering Division in Taiwan Semiconductor Manufacturing Company, Ltd. She has been working in fab planning, strategic planning, capacity/cost/CapEx/headcount management and tool/people productivity improvement.
+
+**Ren-Tsun Kuo** is a section manager of Industrial Engineering Division in tsmc. He has been working in semiconductor capacity and cost management for more than 10 years, and is currently pursuing the Ph.D. degree in National Tsing Hua University, Taiwan.
+
+**Ming-Hsuan Chou** is a M.S. student in Industrial Engineering and Engineering Management at the National Tsing Hua University. Her research interests include data envelopment analysis, performance evaluation and opera-tion research.
+
+Figure 5: Technical efficiency in production

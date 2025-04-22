@@ -1,0 +1,37 @@
+
+
+OhkYum Kwon\({}^{2}\), UlHui Kwon\({}^{1}\), DaeSin Kim\({}^{1}\)
+
+\({}^{1}\) Data and Information Technology Center, \({}^{2}\) sinch P A Group, Foundry Manufacturing Technology Center
+
+
+Hwasung-si, Gyeonggi-do, Republic of Korea.
+
+* Email Address:_hyeok.kim@samsung.com (J.Kim).
+
+## I Introduction
+
+Recently, the PMIC becomes more important as the market of portable electronic products growing up and expanding. PMIC performs a role of supplying stable power to a number of blocks and converting an input voltage to fit each block. The BCD process providing various LDMOS for 8V to 40V applications is well-known for a suitable process for PMIC [1,2]. However, the BCD process has some underlying difficulties owing to the limited number of layers relating to the cost of production [3]. Diverse types of LDMOS and hundreds of devices are manufactured simultaneously with the same IIP layer and different pattern sizes in BCD process, which is a root cause of increased process instability. Therefore, the simulation of not only the performance of the device but also the variation of the process is requested to develop the BCD process.
+
+In this paper, the novel simulation flow using machine-learning and statistical process modelling that suggested in Fig.1 is proposed to improving both performance and process stability of new low voltage NLDMOS with 0.13\(\mu\)m BCD process, which is a suitable of a device for mobile application using 3.3 \(\sim\)5V battery in Fig. 2[4].
+
+## II Method
+
+### _Statistical process modeling_
+
+LDMOS is made with the Self-align BODY IIP process that creates the stable short channel regions and forms the gate poly pattern simultaneously shown in Fig. 3(a) [5]. In order to decrease the substrate resistance (Rsub) for the reliability of LDMOS, higher energy and more dosage are used in self-align BODY accompanied with the thicker photoresist (PR) [6,7]. However, the excessive PR etching is inevitable to form the precise pattern with thick PR and it causes the PR slope variation across the entire wafer. Therefore, the shapes of PR patterns are bound to be different depending on the location for the reason that a variety type of LDMOS are formed at the same process step. Particularly, the difference between inner and outer PR shapes of PBODY process is the outstanding issue of LDMOS, mainly used as a form of multi-finger structure. Figure 3(b) shows the Vtgm/ldsat distribution by such variation, especially between inner-outer transistors due to PR pattern density [8].
+
+The relation between the different PR slopes and the Vtgm/ldsat distribution is verified with TCAD simulation. The channel doping profile determining Vtgm of LDMOS varies with PR slope, due to the difference of boron concentration penetrated through PR shown in Fig. 4 and 5.
+
+Fig. 1: New simulation methodology using machine learning and statistical process modeling
+
+Fig. 2: NLDMOS: cross-section (a) and simulation structure (b).
+
+[MISSING_PAGE_FAIL:2]
+
+[MISSING_PAGE_FAIL:3]
+
+Especially, the relation between PR slope variation and Vignm distribution is verified using the entire wafer's in-line data and TCAD analysis. For development of LDMOS in BCD process, PBODY IIP parameters are trained and optimized with AMOS, which is an in-house tool for ML. Also, the condition selected by Machine-learning is tested in BCD process and shows a good match with simulation data.
+
+Machine-leaning and statistical process modeling are applied to the new method and the effectiveness of the method is verified through TCAD and silicon analysis. Finally, we obtain the improved result for performance and \(\Delta\)Vignm of new LDMOS and enhanced the competitiveness of the BCD process.
+

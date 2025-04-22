@@ -1,0 +1,48 @@
+
+
+Power and Wide-band-gap Electronics Research Laboratory (POWERlab)
+
+
+
+1 mohammad.samizadeh@epfl.ch, elison.matioli@epfl.ch
+
+## I Introduction
+
+Using wide-band-gap (WBG) semiconductor devices leads to considerable reduction of conduction losses in power converters with respect to Si devices, as they provide a lower specific ON-resistance [1]. WBG semiconductor devices also exhibit a significantly lower gate capacitance with respect to their Si counterparts, which enables WBG devices to operate at much higher switching frequencies. This leads to a considerable size reduction in passive components, therefore, a much higher power density can be achieved [2]. This property together with the ease of integration, also paves the way towards monolithilically integrated power circuits, which operate at megahertz switching frequencies [3].
+
+The recently observed energy dissipation caused by resonantly charging and discharging of the output capacitance (\(C_{\text{OS}}\)) of WBG semiconductor devices, however, severely limits their performance at high switching frequencies [4]-[8]. This can result in significantly lower-than-expected efficiencies in power converters [9]. Using large-signal measurement methods such as Sawyer-Tower (ST) [4] and nonlinear resonance [7], a frequency-dependent energy dissipation was measured in WBG transistors. This was in contrary to the previously observed frequency-independent \(C_{\text{OS}}\) losses in Si superjunction (SI) transistors [10, 11].
+
+In all of the commonly used large-signal measurement techniques of \(C_{\text{OS}}\) losses, separate measurements are needed at different operation points, including voltage-swing, frequency, and d/d/f, which makes it difficult to obtain a full view of \(C_{\text{OS}}\) losses in different devices. Furthermore, practical constraints such as power-frequency trade-off in power amplifiers, can substantially limit the loss characterization in transistors especially at high frequencies. A recently proposed method based on a small signal modeling approach, suggested a simple way to fully characterize the frequency-dependent \(C_{\text{OS}}\) losses in WBG transistors [8]. The device output capacitance can be modeled by an effective \(C_{\text{OS}}\) (\(C_{\text{OS}}^{\text{eff}}\)) in series with a resistance \(R_{\text{S}}\). These parameters, which can be easily measured by an impedance analyzer, show a complete view of frequency-dependent \(C_{\text{OS}}\) losses in power transistors. In this work we demonstrate the selection of devices with lowest \(C_{\text{OS}}\) losses based on this modeling approach, just using a simple small-signal measurement, and corroborate them with thermal measurements.
+
+## II Small-Signal Model
+
+Fig. 1a shows the proposed model for output capacitance, including a nonlinear capacitance in series with resistance \(R_{\text{S}}\) and in parallel with resistance \(R_{\text{P}}\). The effect of \(R_{\text{P}}\) is dominant at DC, while \(R_{\text{S}}\) significantly contributes to high-frequency \(C_{\text{OS}}\)-losses (Fig. 1b). Small-signal measurements of the quality factor (\(Q\)-factor) of the \(C_{\text{OS}}\) show a considerable lossy behavior for \(C_{\text{OS}}\) of WBG transistors (Fig. 1c). By applying voltage \(v(t)\) to the output capacitance, and considering \(R_{\text{S}}\) as a perturbation element, the power loss in \(R_{\text{S}}\) can be written as \(P_{\text{DISS}}=R_{\text{S}}\) (\(C_{\text{OS}}\) d/d)\({}^{2}\). Considering an operation frequency \(f\), we obtain the charging/discharging \(C_{\text{OS}}\) energy dissipation as
+
+\[E_{\text{DISS}}=2R_{\text{S}}(\frac{\text{d}v}{\text{d}t})\int_{0}^{V}C_{\text {OS}}^{2}\ \text{d}v \tag{1}\]which shows a dv/d\(t\)-dependence of \(E_{\text{DISS}}\). Considering a sinusoidal excitation with frequency \(f\) we have
+
+\[E_{\text{DISS}}=4R_{\text{S}}fV^{2}C_{\text{OSS}}^{\text{eff}\ 2} \tag{2}\]
+
+where we introduce the following term of effective \(C_{\text{OSS}}\), related to the portion of \(C_{\text{OSS}}\) that contributes to power dissipation:
+
+\[C_{\text{OSS}}^{\text{eff}}=\sqrt{\frac{1}{V}\int_{0}^{V}C_{\text{OSS}}^{2}\ \mathrm{d}v} \tag{3}\]
+
+Equation (2) represents \(E_{\text{DISS}}\) exclusively as a function of \(R_{\text{S}}\) (which can be measured) and \(C_{\text{OSS}}^{\text{eff}}\) (which can be extracted from datasheet).
+
+Fig. 2 shows three steps for \(E_{\text{DISS}}\) extraction based on the introduced method, for a 1200-V 36-A SiC MOSFET. In the first and second steps, \(C_{\text{OSS}}^{\text{eff}}\) and \(R_{\text{S}}\) are obtained. The data presented in datasheet can be used to extract \(C_{\text{OSS}}^{\text{eff}}\) (Fig. 2a), while \(R_{\text{S}}\) should be measured with an impedance analyzer (Fig. 2b). In the third step, \(E_{\text{DISS}}\) is calculated using (1). To verify the predicted results, we compared the results corresponding to the frequency of 1-MHz, with large-signal measurement results, which shows an excellent agreement (Fig. 2c).
+
+Fig. 1: (a) A model for output capacitance of transistors (OFF state) where \(C_{\text{OSS}}\) is a nonlinear voltage-dependent capacitance and \(R_{\text{S}}\) and \(R_{\text{P}}\) represent losses at low and high frequencies, respectively. (b) Schematic of quality-factor (\(Q\)-factor) of output capacitance of a transistor representing the amount of \(C_{\text{OSS}}\) losses. The effect of \(R_{\text{S}}\) (mainly corresponding to the leakage current) is dominant at DC, while \(R_{\text{S}}\) significantly contributes to the switching dynamics and \(C_{\text{OSS}}\) losses. (c) Measured \(Q\)-factor of output capacitance of several commercial WBt transistors versus frequency at \(V_{\text{DS}}=40\) V. The gate and source of transistors where shorted (\(C_{\text{OSS}}=C_{\text{BS}}+C_{\text{CB}}\)). The amount of losses (\(2\)-\(10\)%) is given with the previously measured losses using large-signal methods [4, 5].
+
+Fig. 2: Procedure of \(C_{\text{OSS}}\) loss evaluation in wide-band-gap transistors. (a) In the first step, the effective \(C_{\text{OSS}}\) is extracted using (3) based on data reported in datasheet. (b) The series resistance \(R_{\text{S}}\) measured at 40 V versus frequency is measured in the next step. The inset shows the measurement set-up with a E4990A 50-MHz impedance analyzer. (c) Using (1), and based on the effective \(C_{\text{OSS}}\) and \(R_{\text{S}}\), the \(C_{\text{OSS}}\) energy dissipation can be calculated. The results corresponding to the frequency of 1-MHz is illustrated (solid line) showing a good agreement with large-signal measurements based on ST method.
+
+## III Selection of Devices with Lowest \(C_{\rm{OS}}\) Losses
+
+The small-signal method to evaluate \(E_{\rm{DBS}}\) is a simple technique showing a general view of \(C_{\rm{OS}}\) losses in WBG transistors and, therefore, can be used to select \(R\)-loss devices. Among WBG transistors within the same \(R_{\rm{OS}}\) and voltage rating, the values of \(C_{\rm{OS}}\) are generally the same; hence, the value of \(R_{\rm{S}}\) determines the level of \(C_{\rm{OS}}\) losses. As a result, a single measurement determines the device with lowest amount of \(C_{\rm{OS}}\) losses, which is preferable for high switching frequency power circuits.
+
+We selected four WBG transistors with similar current capability of \(\sim\)30-A based on GaN (devices A and B) and SiC (devices C and D). A detailed description of the selected devices is presented in Table I. Figs. 3a-d represent the measured \(C_{\rm{OS}}\) versus voltage at two different frequencies 1-MHz and 10-MHz, for devices A-D, respectively. These figures show that all of the selected devices have the same range of \(C_{\rm{OS}}\) values, and the measurement results agree with the values reported in datasheet.
+
+Fig. 3: Measured \(C_{\rm{OS}}\) versus drain-source voltage at 1 MHz (solid red line) and 10 MHz (dashed blue line) as well as data reported in datasheet (discrete points) for (a) device A (GaN), (b) device B (GaN), (c) device C (SiC), and (d) device D (SiC), all 600/650-V rated with \(\sim\)30-A current rating (Table I). The figures show consistency of \(C_{\rm{OS}}\) over frequency as the valid assumption of the proposed method. (d) Series resistance (\(R_{\rm{S}}\)) of the four devices versus frequency. The method simply predicts lowest and highest losses for devices A and D, respectively. Thermographs of (l) device C and (g) device D (gate and source shorted), both with the same package, submitted to 75-V peak-to-peak sinusoidal waveform (charging and discharging \(C_{\rm{OS}}\)) at three different frequencies 1 MHz, 2 MHz, and 3 MHz. Device D shows considerably higher losses, as predicted by the proposed method.
+
+## IV Conclusion
+
+We proposed a new \(C_{\text{OS}}\) model and measurement technique that enables selection of devices with lowest \(C_{\text{OS}}\)-losses among different WBG transistors, just by performing one small-signal measurement: \(R_{\text{g}}\)-versus-frequency. It is also possible to use the measured \(R_{\text{g}}\) together with \(C_{\text{OS}}^{\text{eff}}\) (which can be extracted from datasheet) to estimate the amount of \(C_{\text{OS}}\) losses. The generality and robustness of this method enables it to quantify \(C_{\text{OS}}\) losses of WBG transistors, which is a crucial source of losses in soft-switched power converters, and to select devices with the best performance.
+

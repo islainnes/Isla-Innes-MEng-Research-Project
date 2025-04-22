@@ -1,0 +1,114 @@
+
+
+Department of Information and Industrial Engineering,
+
+
+
+## I Introduction
+
+Semiconductor wafer fabrication process is characterized with re-entrant and batch processes. These characteristics make planning and control of manufacturing system quite difficult. Many models and techniques have been developed to achieve more accurate description of wafer fabrication processes and the better estimates of manufacturing performances in various levels of operations such as planning, control, and even strategic points of view.
+
+Re-entrant processing is one of the most unique features that semiconductor wafer manufacturing has. Due to re-entrant line, a wafer can have multiple layers on it and desirable electronic properties. In light of planning and control, this feature of process makes production managers so concerned in achieving good manufacturing performances in the way of reducing cycle time, increasing throughput, and lowering work-in-process level. To make it harder, batch processing in some machines makes the system more complicated to handle.
+
+Batch processing in wafer manufacturing is to simultaneously process several wafers on a single machine for efficient use of highly expensive machine and physical limitation of equipment. This type of process can be easily found at annealing process in the furnaces in front-end fabrication and burn-in processing in backend. Since batching process, more often than not, causes unbalance among down- and up-stream processes and delay in front of batch machines, this is one of the most habitual concerns for most production managers working in wafer fabrication. Therefore, efficient handling of batch processing machines is a very crucial issue in semiconductor wafer manufacturing.
+
+This study is motivated by production managers in wafer manufacturing who are constantly concerned about cycle time reduction with the maximum throughput of wafer fabrication. Throughout the review of manufacturing processes, we found that many problems are originated from batching operations and these make the line performances getting worse. Other than that, there are still issues to be examined and solve, but proper handling of batching operation is one of the most urgent actions to be taken. The questions we have to answer are obvious: (i) How can the delay of wafers in front of batching machines be avoided? (ii) How much can we reduce the cycle time of the concerned batching process? (iii) Can the improvement of the concerned batching process be good for the whole fabrication line? If so, how much is it good? This study, at first, is performed to answer the first two questions.
+
+In this study, we try to find the optimal batch sizes for a certain process in wafer fabrication, which gives the minimum average cycle time for wafer and in turn the better balance among processes. In order to do this, we define the problem, formulate it, and develop a simple procedure to find a solution. The paper is organized as follows: Section 2 reviews the related literatures on semiconductor wafer manufacturing along with re-entrant process and batch sizing problem. Section 3 identifies the relationship between batch size and cycle time in wafer fabrication process. In section 4, we presents an optimal batch size model and solution procedure. Section 5 illustrates how the batch size model and solution procedure works using a numerical example obtained from a real wafer manufacturing plant. Finally, concluding remarks and future research areas are addressed.
+
+## II Related literatures
+
+Abundant literatures are found on semiconductor wafer fabrication process along with re-entrant process. Surprisingly enough, however, no significant research can be found to tackle the batch sizing problem in shop floor control level, except a few scholars such as Hopp and Spearman [1] and Karmarkar [2] who address the batching effect on capacity,utilization, and cycle time. Most researches on batch sizing deal with ordering policy in production and supply chain level. As a result, this section reviews only the literatures on re-entrant process focused on semiconductor wafer fabrication.
+
+There are a lot of literatures addressed on the features of semiconductor process. Uzsoy et al. [3] reviewed production planning and scheduling models and methodologies in semiconductor manufacturing. They stressed the linkage between production planning and shop floor control to be successful. Gupta and Sivakumar [4] proposed a look-ahead batching (LAB) strategy for a single batch processing machine with due-date objectives, which can be considered as a bottleneck process in semiconductor fabrication, and showed LAB policy results in better performances than minimum batch size (MBS) policy. Park et al. [5] estimated the performance of the re-entrant lines with mixture of batch and single-job machines using mean-value analysis (MVA) that is shown to provide good accurate estimates for such as average cycle time and throughput. For re-entrant process model, Petri net model has been developed to be useful in evaluating scheduling and work-release policies [6]. Kubiak et al. [7] developed a scheduling algorithm for minimizing total mean flow time in the re-entrant job shop with a single hub. Vargas-Villamil and Reivera [8] proposed two-layer hierarchical framework for control and optimization of re-entrant manufacturing line using model predictive control policy.
+
+The problem of batch sizing in semiconductor wafer fabrication is hardly tackled in academic area. For the importance and practical points of view, more significant attention needs to be paid to this problem. This research is motivated in the process of solving the problems questioned by production managers in wafer fabrication, who badly want to reduce long cycle time and unbalance experiencing everyday in their own production line.
+
+## III Batch Sizing in Wafer Fabrication
+
+In manufacturing process, batching is adopted for avoiding setups, improving balance among workstations, and simultaneous processing which increases machine utilization. These purposes are achieved and evaluated in terms of various performance measures such as cycle time, throughput, work-in-process, utilization, etc. Particularly, in this study, we mainly focus on cycle time reduction by means of batching because in the case we studied, the company was concerned about reducing cycle time of supply chain which includes not only manufacturing processes but also whole logistic functions of company.
+
+As mentioned earlier, there are batching processes in wafer fabrication such as annealing in furnace and burn-in test. Batching processes are surely needed to maximize machine utilization and transporting efficiency. In wafer fabrication, batching also affects line balance which in turn affects work-in-process and cycle time. Unbalance between two consecutive machines inevitably results in waiting of wafers. In addition, re-entrance processes flow makes wafer fabrication more complicated and difficult to control. In this section, we identify the characteristics of wafer fabrication processes and relationship between batch size and cycle time.
+
+Wafer fabrication consists of many various processing steps. Each step adds a new layer on wafer. Typical semiconductor device such as D-RAM requires 20-25 layers while semiconductor for LED has only 4-5 layers. The basic processes in each step include photolithography, deposition, and annealing process, as shown in Fig. 1. Photolithography makes photo-sensitive resistance patterns which are photomasked, etched away, and finally put into detail paths on wafer's surface. In deposition process, patterns are growing and coated by depositing technology. Then, in annealing process, the wafer is baked in furnace so that the patterns are strengthened for having desirable properties.
+
+As illustrated in Fig. 1, each layer is produced by visiting three consecutive processes on three different types of machines. Since a wafer has to have a certain number of layers, it visits three processes as many as the number of layers. This is why wafer fabrication process is called re-entrant process.
+
+Scheduling re-entrant processes is quite challenging. Furthermore, each process has multiple parallel machines and a wafers need to be efficiently allocated on available machines, which also makes scheduling more complicated. When we look at the detail of processes, the problem is getting even more difficult to handle. Fig. 2 illustrates the complexity of annealing process. Suppose wafer requires three types of layers: T-, R-, and B-layer. Each machine in annealing process can process only certain types of layers. For example, the machine type 1 can process all three layers, but machine type 2 can process only R- and B-layer. In terms of load balancing, this situation results in unbalanced arrival of wafers on the machines and affects whole system performances. Re-entrant processes make things worse than ordinary serial processes.
+
+Unlike other two processes, annealing process is done in batch of wafers on each type of machines. In our study, while seeking reduction of cycle time, we need to figure out what factors significantly influence the choice of batch sizes.
+
+Fig. 1: Wafer fabrication process Hopp and Spearman[1] clearly shows how batch sizes affect cycle time as shown in Fig. 3 which explains two things: (i) There exists the smallest batch size that yields a stable system, otherwise cycle time increases in non-linear fashion, (ii) In stable manufacturing system, due to wait-for-batching, cycle time increases proportionally in the batch size.
+
+This means an optimal batch size can be determined to minimize total cycle time. The next section presents how this problem is formulated and solved by a proposed procedure.
+
+## IV Bathich Sizing Model and Algorithm
+
+With characteristics of wafer fabrication process, we try to find an optimal batch size for each machine type which gives minimum cycle time.
+
+The nomenclatures in this paper are as follows:
+
+\[i \text{Index of machine type (\emph{1,2,... N})}\] \[j \text{Index of layer (\emph{1,2,... L})}\] \[Z_{i} \text{Maximum batch size of }i\text{ machine type}\] \[ca_{i} \text{Coefficient of variance of batch arrivals}\] \[ce_{i} \text{Coefficient of variance of processing time of machine type }i\] \[m_{i} \text{The number of type }i\text{ machines}\] \[Ra_{j} \text{Arrival rate of }j\text{layer}\] \[V_{ij} \text{= 1, if machine type }i\text{ can produce }j\text{ layer,}\] \[k_{i} \text{Batch size for machine type }i\] \[ra_{i} \text{Arrival rate to machine type }i\] \[u_{i} \text{Utilization of machine type }i\] \[te_{i} \text{Effective processing time of machine type }i\]
+
+We begin with analyzing total cycle time.
+
+### _Finding total cycle time_
+
+We assume that total cycle time of given process consists of wait-to-batch-time (\(WTBT\)), queue time in front of machine (\(CT_{q}\)), and processing time itself (\(te\)). Thus, total cycle time of given process is expressed as follows:
+
+\[CT\ =\sum_{i=1}^{N}WTBT_{i}+CT_{q_{i}}+te_{i} \tag{1}\]
+
+#### Iv-A1 Wait-to-batch-time (WTBT)
+
+Obviously, wait-to-batch-time is proportional to batch size and in opposite direction to process time. Thus, the following expression can be easily obtained [13]:
+
+\[WTBT_{i}=\frac{(k_{i}-1)}{2\cdot te_{i}} \tag{2}\]
+
+#### Iv-A2 Queue time (\(Ct_{q}\))
+
+Using general queuing formula for parallel machines, waiting time in front of machine type \(i\) is given as follows:
+
+\[CT_{q_{i}}=\frac{ca_{i}^{2}+ce_{i}^{2}}{2}\cdot\frac{u_{i}^{\frac{T(in_{i}+1) -1}{2}}}{m_{i}(1-u_{i})}\cdot te_{i} \tag{3}\]
+
+Since equation (3) is not represented in terms of batch size, we replace utilization with the following formula:
+
+\[u_{i}=\frac{te_{i}\cdot ra_{i}}{k_{i}\cdot m_{i}} \tag{4}\]
+
+Then, we have a waiting time as a function of batch size.
+
+#### Iv-A3 Effective processing time (te)
+
+Figure 3: Relationship between batch size and cycle time
+
+Figure 2: Re-entrant annealing processes
+
+We know that effective processing time of machine type \(i\) is dependent on batch size \(k\), even though the exact formula is unknown. In general, effective processing time is computed as sum of setup time and total processing time of a batch. Also, the larger batch size is, the longer effective processing time may be. Thus, we represent effective processing time as a function of \(k\) as follows:
+
+\[te_{i}=g_{i}(k_{i})\propto k_{i} \tag{5}\]
+
+#### Iv-A4 Arrival rate (raj) to each machine type
+
+Semiconductor fabrication process is re-entrant process in the way that a wafer visits the similar set of processes for each layer (step). Since each layer requires different types of available machines, as a result each machine type has different arrival rates of wafers. This situation needs to be considered for computing the appropriate arrival rates of machine types.
+
+For fairwise allocation of arrivals, arrival rate of each layer can be obtained by weighted average of effective processing rates of machine types as shown in equation (6).
+
+\[ra_{i}=\sum_{j=1}^{L}Ra_{j}\times\frac{\raisebox{-1.29pt}{\includegraphics[width=1.29pt]{images/g_{i}(k_{i})}}\raisebox{-1.29pt}{\includegraphics[width=1.29pt]{images/g_{i}(k_{i})}} \raisebox{-1.29pt}{\includegraphics[width=1.29pt]{images/g_{i}(k_{i})}}\raisebox{-1.
+
+### _Results_
+
+The enumeration procedure gives the optimal results as shown in Table II.
+
+The optimum batch sizes of machine type 1 and 2 are 7 and 8 units, respectively. The average minimum cycle time is 1.97 minutes. According to the result, the longer cycle time is obtained by adopting the larger or smaller batch size than the optimal batch size. It indicates that either delay due to over utilization or wait-to-batch time for large batch size results in the longer cycle time, as mentioned in section 3.
+
+The optimality of batch sizes is illustrated using a graph of Fig. 5. We can observe there exist a minimum cycle time point with the corresponding batch sizes.
+
+Observing that the Ca of machine type 2 is much larger than type 1, we performed a set of experiments to see how Ca affects the optimal batch sizes. As shown in Table III, the results indicate that more variable the lo arrival patterns are, the larger batch size is required to make up the variability, otherwise the machines experience w utilization and loss of capacity which in turn affects the average cycle time of wafers.
+
+## VI Conclusion and Future Study
+
+This study presents how batch size can affect average cycle time of work-in-process in re-entrant manufacturing processes with parallel machines. A typical manufacturing example is found in semiconductor wafer fabrication. We formulate this problem as a batch sizing model and propose an enumeration procedure to find the optimal batch sizes. The model is based on calculating average cycle time in terms of batch sizes and arrival rates are computed in consideration of re-entrant process. Even though the procedure is quite straightforward, it can be useful in real manufacturing environment because of physical and economical limitation of equipments.
+
+A numerical example has been made of modified data set from a real manufacturing company. The optimal batch sizes are obtained using the proposed procedure and we observed there exists a minimum cycle time.
+
+For further research, the procedure needs to be improved in efficiency of computation. Also, simultaneous determination of batch sizes in multiple processes is another challenging problem. Finally, full-scale application to real manufacturing environments is needed to verify the usefulness of the model.
+

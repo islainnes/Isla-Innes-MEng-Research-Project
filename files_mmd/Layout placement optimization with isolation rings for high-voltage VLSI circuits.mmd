@@ -1,0 +1,95 @@
+
+ Chih-Wei Lee  Hwa-Yi Tseng  Chi-Lien Kuo  Chien-Nan Jimmy Liu  Chin Hsia
+
+Dept. of Electrical Engineering, National Central University, Jung-Li City Taiwan, ROC
+
+## 1 Introduction
+
+Because simultaneous optimization between different specifications is often required, manually designing the analog circuits to meet the requirements is often considered as a difficult task that takes a lot of time. If proper CAD tools can be developed to solve this bottleneck, the design cycles can be significantly reduced. Thus, various design automation approaches have been proposed as substitutes for sophisticated manual sizing procedures [1]. They can help designers to shorten the timing cost of analog design and simultaneously produce high-performance specified circuits.
+
+In recent years, more and more applications require high-voltage ICs, such as vehicle electronics, photovoltaic modules, AC/DC converters, etc. In high-voltage circuits, the operating voltage is much higher than the voltage in typical circuits. Therefore, in high-voltage circuit design, there are a lot of different design rules and different types of components. The layouts of high-voltage ICs also have many intrinsic restrictions and additional considerations.
+
+In the literature, there are a lot of works proposed for analog layout automation [2]. In [3, 4], the authors proposed a hierarchical tree structure based on B*tree [5] to handle the layout placement works of analog circuits with On() complexity. This is the first work that focuses on analog layout automation. In recent years, there are many researches [6-10] on studying the analog placement problem with more layout constraints, such as matching, proximity, etc. However, there is still no work proposed for the layout automation of high-voltage analog circuits. A lot of manual works are still required, which slow down the product development process.
+
+In VLSI layout, isolation rings are often placed around some sensitive components to prevent the interference of outside noise. Since the operation voltage range is quite large in high-voltage circuits, isolation rings are almost required for every component to protect them from being influenced by the signals with exceeding voltage values. As shown in Fig. 1, an isolation ring is a metal wall around the protected device. Therefore, it will occupy a large area compared to the original device. However, the layout placement with isolation rings has some different considerations. For example, in typical layout placement problems, the area of each module is not changed during the layout process. However, when two isolation rings with the same type are put together, they can be merged into one isolation ring to reduce the total area, as shown in the right of Fig. 1.
+
+Furthermore, isolating rings must be rectangles in the design rules. Therefore, dead space might appear with the isolation rings, as illustrated in the left of Fig. 2. If we change the placement within the left isolation ring, it is possible to eliminate the dead space, as illustrated in the right of Fig. 2. Although there is no dead space within the isolation rings in Placement 2, the total area of this placement is still larger than the area of Placement 1. This implies that the shape function of each isolation ring should be considered simultaneously during the layout optimization. And different shape may have different area of each isolation ring, which is different to the typical circuit layout.
+
+For the placement optimization of high-voltage circuits, this paper proposes a placement flow to consider both symmetry constraints and isolation rings. First, we analyze the size and constraints of the P-cell elements in the original circuits. Following the extracted constraints, we will adjust the location of transistors inside every isolation rings to change the shape of isolation rings. Meanwhile, different shapes of isolation rings will be considered simultaneously during the placement algorithm to optimize the layout area. According to the experimental results, the proposed placement algorithm is able to reduce the chip area for high-voltage designs with isolation rings and still keeps the algorithm efficiency.
+
+## 2 Background Knowledge
+
+### Analog Placement Considerations
+
+Analog circuits are more sensitive than digital circuits. Therefore, more constraints are required for the placement and routing for analog circuits. The commonly referred analog layout considerations are briefly explained as follows.
+
+In analog circuits, it is common to have a pair of symmetrical devices. In order to make the electrical characteristics of the devices in a pair equivalent to each other, symmetrical placement is often a basic requirement for those devices. The symmetrical characteristics plays an important role for reducing output signal offset. Besides symmetrical placement, the orientation of those symmetrical devices and the impedance of their routing nets should be kept the same as much as possible. Therefore, a lot of layout automation works for analog circuits have been proposed for this issue.
+
+Figure 1: Effect of sharing isolation rings
+
+Figure 2: Different placement of isolation ringsProximity property is often mentioned in many related works, too. Because of the process variations, different locations in the wafer may have different device parameters. For sensitive analog circuits, such kind of parameter difference may lead to performance degradation or function failure. In order to reduce the process variation effects, some sensitive devices are required to be placed at nearby locations to minimize the parameter difference between those devices, which is often referred as the proximity constraints in previous works.
+
+### Isolation Rings in High-Voltage Circuits
+
+In order to avoid the influence from different voltages at other components, isolation rings are almost required for every component in high-voltage circuits. An isolation ring is often composed of P-Guard and N-Guard. P-Guard is connected to a low voltage and N-Guard is connected to a high voltage. In this way, a P-N junction diode is created to stop the exceeding voltage from entering the internal elements. There are some special design rules for the isolation rings. Hence, they can be a rectangle only and often occupy large area, which become the bottleneck to optimize the layout area of high-voltage circuits.
+
+In order to reduce the area of isolation rings, the components that belong to the same isolation ring should be put in consecutive locations. However, due to the rectangular requirement, the grouping for isolation rings is not exactly the same to the proximity property. In the example shown in Fig. 3, block 1, 2, 3 belong to a group, and block 4, 5, 6, 7 belong to another group. If rectangular requirement is not considered, proximity property will try to eliminate the dead space while grouping those blocks, as illustrated in Fig. 3. However, isolation rings cannot be inserted into this placement because they have to be a rectangle. If those two groups are shifted directly to leave enough space for the isolation rings, a lot dead space will be generated that waste the layout area. Therefore, different considerations are required for the layout placement in high-voltage circuits with isolation rings.
+
+### Analog Placement Algorithms
+
+Hierarchical B*-tree [3, 4] is a popular model to handle the layout placement works of analog circuits. In order to briefly explain this model, a two-stage operational amplifier shown in Fig. 4 is chosen as an example. With the symmetrical and proximity requirements from users, the hierarchical clustering constraints for constructing the tree model are shown in Fig. 5, and the corresponding hierarchical B*-tree is shown in Fig. 6(a).
+
+In order to handle more analog constraints, the hierarchical framework is extended to allow the hierarchy nodes presented in ASF-B*-trees (automatically symmetric-feasible B*-tree). The concept of ASF-B*-tree is illustrated in Fig. 7[3]. When packing the HB*-tree, all matching group nodes are first traversed to generate the corresponding matching placement of the devices in each matching groups. To consider the case when some nodes are not in a right-skewed sub-tree, a disjoint-set data structure is adopted to keep track if the modules in the same proximity group are channel-adjacent during packing, as shown in Fig. 6(b).
+
+The analog placement algorithm proposed in [3] is based on the framework of hierarchical B*-trees and simulating annealing. There are many perturbation operations for HB*-trees, such as rotating one device module, swapping two nodes, move a node to another place, and so on. Before selecting a node from an HB*tree to perform one of the perturbations, we should select either the top-level HB*-tree or any other HB*-tree. The probability to be selected is proportional to its size. Finally, according the cost function, which is often the total area of the layout placement, the best placement can be obtained through the SA procedure.
+
+## 3 Proposed Layout Optimization Algorithm
+
+The proposed placement flow for high-voltage circuits is shown in Fig. 8. If the original layout from designers is available, the SKILL parser will automatically extract the layout constraints such as length, width, symmetry, etc. Following those constraints, the proposed flow can optimize the layout area and still keep the desired layout properties. If no initial layout is available, users can input those layout constraints manually. Next, a modified hierarchical B*-tree will be constructed to include the isolation ring information for the placement flow. Based on the modified hierarchical B*-tree, a simulated annealing (SA) process is applied to find out the optimized placement, with several modifications to consider the shape and sharing of isolation rings. In the following sections, we will briefly introduce the modified tree structure and the corresponding SA operations.
+
+Figure 4: Schematic of a two-stage operational amplifier [3]
+
+Figure 5: The hierarchical clustering constraints for 2-stage OPA [3]
+
+Figure 6: The HB*-tree packing considering horizontal irregularly straight line boundary [3]
+
+Figure 7: ASF-B*-trees placement and result
+
+### _Modified Hierarchical B*-Tree_
+
+As explained in previous sections, the nodes within the same isolation ring have to be placed together. However, this is not exactly the same as the proximity property due to the rectangle requirement of isolation rings, as illustrated in Fig. 3. Therefore, we add an extra isolation ring (IR) level to the hierarchical B*-tree, as illustrated in Fig. 9. Fig. 9(a) is the proposed tree structure, and Fig. 9(b) is the corresponding placement of those nodes. Each IR node should be a rectangle shape to meet the design rules. The nodes included in an IR node could be symmetry nodes, non-symmetry nodes, or contour nodes. But an IR node cannot include another IR node. In other words, each IR node can be treated as an independent hierarchical B*-tree. The layout symmetry and proximity properties can still be kept within each IR node.
+
+In the modified hierarchical B*-tree, the placement inside each IR node is performed independently. At IR level, an overall placement is performed again to find out the placement of those isolation ring groups. Because the shape and area of each IR node will affect the placement results at IR level, the area computation should be modified to support such kind of hierarchical calculation. In traditional approach, the placement within each isolation ring is performed independently. Then, the shape and area of each isolation ring is fixed to do a top-level placement. Without global consideration, this may lead to the solution as the Placement 2 of Fig. 2. Under the proposed model, the IR nodes are flexible to find out the placement with minimal area. Therefore, we can obtain the result with smaller area as the Placement 1 of Fig. 2, which is not the best solution for the left isolation ring.
+
+### _SA-Based Placement Optimization_
+
+After the tree structure is constructed for the layout, simulated annealing (SA) based approach is adopted in this work to search for the results with optimized total area. The proposed SA-based optimization flow for the modified hierarchical B*-tree is shown in Fig. 10. Because there are 3 levels in the proposed tree model, we set a priority among those levels to apply SA operations. However, after a change is applied, the cost function of each level will be updated accordingly to find the globally optimal solution.
+
+The key operation in SA-based placement optimization is the tree perturbation. Since the proposed tree model is extended from the hierarchical B*-tree, the basic tree perturbation operations in this work, such as node insertion/deletion, node swapping, module rotating, etc., are similar to the original work. In order to maintain the hierarchical B*-tree structure, there are some constraints during tree perturbation. First, the node to be deleted or exchanged cannot be the boundary node. If a node is going to be inserted at the boundary, it has to be inserted to the right child node. Second, while inserting a node into the symmetry nodes, it has to be inserted to the left child node. If the node to be deleted or exchanged is a symmetry node, its child trees have to be deleted or exchanged together. We can't orient symmetry nodes or boundary nodes.
+
+In the SA procedure, the cost function adopted in this work is the overall area. By using a bottom-up calculation, the area of each node at each level can be obtained based on Eq.(1), which is similar to the previous works.
+
+\[Cost\,Function\,=\,Area(considering\,DRC)=x_{max}\,\star y_{max} \tag{1}\]
+
+However, this work has to deal with the merging of two consecutive IR nodes. Since the total area after merging two isolation rings is always smaller than the original area, we assume that the two isolation rings with the same type will automatically merged if they are placed at the consecutive locations. In such cases, the area calculation has to be updated also, as illustrated in Fig. 11. If two groups share the same isolation ring, the distance between isolation rings can be ignored. The new area can be obtained through Eq.(2), in which \(d\) is the minimum distance between two isolation rings, \(r\) is the thickness of an isolation ring, and \(l\) is the height of an isolation ring.
+
+\[Cost\,Function\,=\,Area(considering\,DRC)=x_{max}\,\star y_{max}-(d+2r)\,+l \tag{2}\]
+
+Fig. 11: Area computation after merging isolation rings
+
+Fig. 8: Proposed Layout Optimization Algorithm
+
+Fig. 10: SA flow for the modified HB-tree
+
+Fig. 9: Modified hierarchical B*-treeExperimental Results
+
+The proposed algorithm is implemented in C++ and SKILL to build a layout automation tool for high-voltage circuits in Virtuoso. All the programs are executed on 64-bit Linux platform with a 3.5GHz Intel(r) Xeon(r) Processor and 64GB memory. All the test circuits are implemented with TSMC 0.25um high-voltage process. In order to reduce the layout efforts, the basic devices inside those circuits are all generated through the P-cell provided by foundry. The layout automation tool in this work only deals with the placement and routing of those cells.
+
+The test circuits are those level shifters used in the high-voltage pulse transmitter of an ultrasonic image capture system. Each circuit has different specifications and different architectures. Fig. 12 shows the circuit architecture of case II as an example. Due to the quite different voltage operation range at each component, all components must be covered in an isolation ring to protect them from being affected by other components. The circles in Fig. 12 are the groups that can be put into the same isolation rings. Please be noted that those devices in the same circle are not necessary to be put into the same isolation ring. They can be divided into 2 or more isolation rings if necessary. With those information, the proposed algorithm will determine the best shapes and locations of those isolation ring groups and deal with the placement inside each isolation ring simultaneously. Users can also set the range of aspect ratio while searching the results.
+
+The experimental results of the 6 different level shifters are shown in Table I. Using case II as an example, its layout comparison before and after optimization is shown in Fig. 13. The original layouts, which are done by designers manually, do not consider the global effects from the shape of each isolation ring and do not consider the sharing between different isolation rings, either. Therefore, the proposed algorithm is able to obtain significant improvements on the overall layout area. And the layout constraints extracted from the original layout, such as symmetry and proximity, are still kept in the new layout to guarantee the layout quality. Because the proposed algorithm is extended from the concept in [4] with one more hierarchy to handle the groups of isolation rings, the placement works are still very efficient. Even though the shape, area, and sharing of isolation rings should be considered simultaneously, the automatic layout process can still be finished in just a few seconds for all cases.
+
+## 5 Conclusion
+
+Although high-voltage VLSI circuits are even more difficult to design, very few CAD works are available to help. In this paper, a placement optimization flow is proposed to consider both symmetry constraints and isolation rings for the layout automation of high-voltage circuits. Through changing the location of transistors inside every isolation rings, different shapes of isolation rings will be considered simultaneously during the placement algorithm to optimize the layout area. Because the original layouts, which are done by designers manually, do not consider the global effects from the shape of each isolation ring and do not consider the sharing between different isolation rings, the proposed algorithm is able to obtain significant improvements on the overall layout area as shown in 6 different test cases. Even though the shape, area, and sharing of isolation rings should be considered simultaneously, the automatic layout process can still be finished in just a few seconds for all cases. These results have demonstrated that the proposed placement algorithm is an effective and efficient approach to help the layout automation of high-voltage designs with isolation rings.
+

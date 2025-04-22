@@ -1,0 +1,43 @@
+
+M.A. Helal1, S. Bull, S.N. Kaunga-Nyirenda, J.J. Lim and E.C. Larkins
+
+Photonic and RF Engineering Group, Electrical Systems and Optics Research Division, Faculty of Engineering,
+
+University of Nottingham, University Park, Nottingham, NG7 2RD, U.K. (*email: eexmahel1@nottingham.ac.uk)
+
+## I Introduction
+
+High-power laser diodes are attractive for high-power laser systems because of their efficiency, compactness and low cost. Large volume cavities are required for high emitter power, but large vertical and lateral cavity dimensions make the beam quality sensitive to multimode operation [1]. To suppress the lasing of higher order modes, careful design is required to increase the modal discrimination and attenuate the propagation of undesired modes [2]. External feedback can strongly influence the beam quality. For example, asymmetric external feedback can reinforce the lasing of a particular mode of a broad area laser diode to improve its brightness. Wavelength selective feedback can also be used to injection lock the laser emission wavelength (e.g. for spectral beam combining).
+
+For powers in the 100-1000 W range, the beams from a large number of laser diodes need to be combined - usually using incoherent or spectral beam combining. In this case, unwanted reflections can excite higher order modes within the cavity, reducing the beam quality - a problem which becomes more important as the optical system becomes more complex. While some reflections at the emitter level may be part of the required feedback, parasitic reflections at the system level must also be considered. Finally, external feedback also affects the degradation of high-power laser bars [3, 4]. In this work, we seek to simulate the effects of these reflections by coupling a commercial optical modelling tool (Zemax) to a physics-based simulation tool for laser diodes and bars [1, 4].
+
+## II Typical High-Brightness Diode Laser System
+
+A high-brightness diode laser system typically consists of multiple laser diodes. These may be single emitters or arrays of emitters, also known as laser bars. The output beams of these emitters or bars need to be collimated with beam collimation optics before they can be combined with further optical elements. Beam combination techniques can be classified as incoherent, spectral or coherent. The output of the beam combination stage must finally be focused through further optics into an optical fibre. Fig. 1 shows the layout of such a typical high-brightness diode laser system.
+
+## III Laser Simulation and Optical Design Tools
+
+As the performance of direct diode laser systems continues to increase in terms of power and beam quality, the use of predictive physics-based simulation tools has grown in importance. _Specalase_ is a quasi-3D continuous wave multi-wavelength laser simulator, which simultaneously solves the electrical, thermal and optical properties of a high-brightness laser diode [1]. The optical fields are modelled using the 2D wide-angle finite difference beam propagation method. Multiple wavelength operation is modelled by including spontaneous emission coupling and the dispersion of the gain and refractive index. Multiple vertical modes can also be modelled by using appropriate modal confinement factors, propagation constants and free-carrier absorption coupling.
+
+_Specalase_ has been shown to accurately reproduce the output characteristics of high-brightness diode lasers [1]. As the model also includes non-linear effects (e.g. thermal lensing, spatial hole burning) in high-brightness lasers, _Specalase_ can also properly simulate the dependence of the beam parameters on current. _Barlase_ is based on multiple, coupled instances of _Specalase_. It is able to simulate an entire array of lasers, including the current competition between the individual laser emitters and the thermal crosstalk between them [4].
+
+In this work, a commercial optical modelling package
+
+Fig. 1: Schematic diagram of the setup of a typical high-brightness diode laser system.
+
+(Zemax) is used to model the beam propagation through the external optics of the laser diode module/system. The non-sequential ray tracing mode was chosen for its ability to model complex reflections, its computational efficiency and its ability to model the large divergence of the laser beam along the fast axis. The bi-directional, incoherent coupling of the laser diode simulators and the optical modelling package will allow the full simulation and optimisation of external cavity laser systems. This will permit the investigation of the impact of both deliberate and parasitic reflections, as well as the effects of misaligned and/or non-ideal optics.
+
+## IV Coupling the Laser Output to Zemax in 1D
+
+_Speclease_ calculates the optical fields within a single laser cavity and provides the near-field and the far-field patterns of its output beam. Additionally, _Barlase_ calculates the near- and far-field patterns of the combined output beam of the bar. The field patterns are converted into an input ray distribution for the optical modelling tool, which then models the propagation of the rays through the external optical system, to produce transmitted rays for the output of the laser system, reflected rays coupled back into the laser diode and scattered rays. The transmitted rays represent the intended output beam of the laser module or system. Reflected rays are the intended optical feedback from the external cavity (e.g. for beam and/or wavelength stabilisation). Scattered rays are parasitic reflections off the surfaces of the optical elements, some of which couple into the output beam and some of which couple back into the laser diode. The remaining scattered rays represent power loss. We are particularly interested in the rays coupling back into the laser facet. While some of these will be part of intentional feedback the rest are completely parasitic and will affect the performance of the laser emitter/bar. These rays must be converted back into a near-field pattern at the output facet, which will be allocated and added to the various vertical modes using an overlap integral.
+
+To understand the complexity of the problem, we began by coupling _Speclase_ with Zemax to simulate the operation of a single external cavity laser. As illustrated in Fig. 2, the near-field pattern of the vertical fundamental mode was converted to a far-field pattern. These were used to produce an input ray distribution for Zemax and propagated through a collimating lens and a mirror.
+
+Fig. 3 shows the propagation of the output rays. The dark blue lines represent the rays emanating from the cavity and the light blue ones represent the reflected rays, coming back from the mirror and impinging on the laser facet.
+
+While the light blue rays are the essential for the feedback required, all of the other rays (coloured red) are parasitic reflections. The situation becomes more complicated when the other modes in the cavity are included. Furthermore, as more optical elements are added to the system, the number of possible parasitic reflections increases rapidly - and also includes those from neighbouring emitters.
+
+## V Challenges and Outlook
+
+The challenge for now is the conversion of the reflected rays, incident on the facet, back into a near-field pattern. The accuracy of this process requires the ability to track the phase of the rays. While the goal is to reinforce or stabilise the fundamental mode, the parasitic reflection components within the near-field will give rise to the higher-order modes. Thus, once the near-field pattern of the reflected beam is reconstructed at the facet, the parts of this field coupled to each of the vertical cavity modes will be calculated from their associated overlap integrals and added to the fields internally reflected by the diode facet. Once the parasitic reflections from the external cavity are included, the designs of both the internal and external cavity can be optimised to suppress the oscillation of the undesired modes [2]. The role of parasitic feedback to the emitters of a bar will also be investigated with respect to current competition and thermal runaway effects, which can increase the bar degradation rate.
+

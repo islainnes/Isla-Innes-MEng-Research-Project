@@ -1,0 +1,130 @@
+Managing power semiconductor obsolescence by press-pack IGBT substitution
+
+A.Golland & F.Wakeman & G.Li
+
+
+
+Chippenham, Wiltshire, SN15 1GE, UK
+
+Tel.: +44 / (0) - 1249 441135
+
+Fax: +44 / (0) - 1249 659448
+
+E-Mail: ash@westcode.com
+
+URL: [http://www.westcode.com](http://www.westcode.com)
+
+## Keywords
+
+*IGBT>>, <<Traction application>>, <<Fast recovery diodes>>, <<Power semiconductor device>>, <<Reliability>>
+
+## Abstract
+
+Press-pack IGBTs are identified as a possible replacement for obsolete power semiconductor technology. Traction power electronic systems using thyristor technology are compared to those substituted with press-pack IGBTs, with and without additional modifications to optimise performance. Example applications are used to demonstrate the viability of substituting press-pack IGBT technology into existing and fully refurbished thyristor based systems, as a solution for obsolescence. The characteristics of available and future press-pack IGBTs are described.
+
+## Introduction
+
+Over the last 30 years power electronic systems have become established in traction for a diverse range of equipment from an ac drive in a locomotive to auxiliary power converter for the air-conditioning and lights in a passenger coach. Many of the older systems are now in need of either replacement or refurbishment. It is often the case that the project engineer is forced into the costly latter solution due to the obsolescence of key components such as the power semiconductors. Fast thyristors, Reverse conducting thyristors and GTO thyristors were the components of choice in ac drives and dc choppers until they were replaced in more recent designs with new technology such as the module IGBT. Now semiconductor manufacturers are often reluctant or unable to supply the older parts or charge high premiums to resurrect old production processes. It is also often the case that the equipment owners demand upgrades with the latest technology. Implementation of refurbishment with new power semiconductor technologies such as isolated base modules is not compatible with the mechanical systems used in the original designs, reduces the number of reusable parts and requires extensive redesigns. An alternative is to take new silicon technology, such as the IGBT and package it in the form of the old; it is the press-pack IGBT which fulfils this alternative solution.
+
+Press-pack IGBTs have been shown to exhibit electromechanical performance equal to, or better than, single die pressure contact thyristor technology [1-3]. The elimination of all wire and substrate bonds minimises stress in the die. Each IGBT or diode die is mounted in its own individual subassembly, an exploded view of which is inset in figure 1. The die subassemblies are paralleled to give the requiredrating, figure 1 illustrates an exploded internal view of a 900 A, 5.2 kV [4] device. Individual gates are contacted via a sprung pin, which is communally connected to the external gate termination via a planar distribution board. The package outline, figure 2, is mechanical compatibility with a conventional thyristor and GTO thyristor. Which presents the opportunity to introduce the advantages of the IGBT while maintaining the same, or similar mechanical system designs.
+
+### Design features of Press-pack IGBT Traction system
+
+Background
+
+The development of high power GTO thyristors with ratings of up to 6 kA and 6 kV allowed equipment designers much greater freedom in their choice of circuit topology. With the limitations of bulky, lossy and noisy commutation circuits gone, designers were free to develop large asynchronous ac drives for both industrial and transportation applications with ratings up to several tens of megawatta.
+
+In the early 1990s the development of the IGBT offered further improvements in switching performance, wider safe operating and simpler gate drive requirements when compared to GTO thyristors. Consequently IGBTs rapidly gained favour with designers and soon began to dominate the power semiconductor market. Semiconductor manufacturers were quick to react to this and soon the majority of manufacturers focused their entire efforts on IGBT development and ceased manufacture of GTO thyristors all together.
+
+For the industrial drives market the transition from GTO thyristor to IGBT technology was relatively painless as industrial users are regularly upgrading their facilities to meet changing market demands. In contrast, the transportation sector faces a very significant impact from this technology transition. The demands placed on semiconductors in traction drives, particularly in terms of reliability and lifetime are an order of magnitude greater than industrial expectations. For instance, a typical ac traction propulsion system built in the mid 1980s may now only be approaching half-life refurbishment. While some GTO thyristors are still supported by manufacturers many are not and it is questionable as to whether any company will still be manufacturing in 20 or 30 years time.
+
+Due to limitations in manufacturing technology, the packaging of IGBTs tends to be based around multi-chip modules, whereby several IGBT die are connected in parallel on an insulated substrate to achieve the required ratings. These modules are clearly not compatible with equipment designed around pressure contact GTO thyristors. This makes a pressure contact IGBT a valuable tool in securing the future serviceability of GTO thyristor based traction equipment.
+
+Fig 1: Exploded view press-pack IGBT Fig 2: Press-pack IGBTThe building blocks of ac propulsion converters for railway traction
+
+The majority of modern ac propulsion systems tend to consist of a single phase four quadrant font end converter, a three phase 4 quadrant back end converter and a rheostatic braking chopper all connected to a common dc link. More often these elements are constructed from a common phase leg arrangement to facilitate modular construction. The three principal GTO thyristor phase leg circuits used are shown in figure 3. The left hand circuit uses a conventional RCD snubber, the center circuit is commonly know as the McMurray [5] configuration and the right hand circuit is commonly known as the Undeland / Marqaurdt [6] circuit.
+
+The design of all of these circuits is primarily governed by the limitations of GTO thyristors and freewheel diodes. Specifically the turn-on rate of rise of current and the turn-off rate of rise of voltage of the GTO thyristor and the maximum commutation rate capability of the diode - fundamentally the safe operating area of the semiconductors. The d/dt reactors and dv/dt snubber circuits common to all three arrangements by necessity store energy, this energy must then be dissipated before the next switching cycle to preserve the function of the circuit. Both McMurray and Undeland arrangements are designed to reduce component count, component size and power dissipation, but ultimately they perform essentially the same function.
+
+If we compare the GTO thyristor circuits to that of the conventional IGBT circuit we see a significantly different approach as seen in figure 4.
+
+Here the designer utilises the IGBTs inherent ability to limit d/dt and dv/dt due to their controlled switching action and much wider safe operating area. The objective now becomes one of minimising self-inductance in the circuit to limit impressed dv/dt and voltage due to turn-off of both the IGBT and diode. The most important advance has been the development of diodes capable of switching at very high commutation rates.
+
+Figure 4: Conventional IGBT phase leg arrangement
+
+Figure 3: Conventional, McMurray and Undeland GTO thyristor phase leg arrangements
+
+### Replacement strategy
+
+When considering replacing the replacement of GTO thyristors by press-pack IGBTs there are several options to consider.
+
+1. Make a like for like replacement whereby only the GTO thyristor and its associated gate drive unit are replaced with a new IGBT and suitable gate driver. All other components and mechanical parts remain the same as shown in figure 5 left-hand circuit. This option requires the least engineering and presents the least risk, however it does not take any advantages that IGBTs offer over GTO thyristors. The total power loss in the converter may well increase in lower switching frequency applications and in most cases the implementation of safe short circuit shut down is not possible due to the high commutation loop inductance present.
+2. Make some optimisation to the circuit in addition to item 1. This would include removal / minimisation of the di/dt reactor and reducing the sububer capacitance accordingly while maintaining the basic arrangement as shown in figure 5 right-hand circuit. This option requires a little more engineering, verification and presents higher risk than option one. The higher rates of change of current and voltage can present additional electrical and mechanical stress to the load and higher radiated and conducted harmonics. That said, this option allows for significant improvements in converter efficiency as well as short circuit safe operating area.
+3. Full optimisation of the power circuit. In addition to items 1 and 2 this would include replacing / relocating the dc link bus bars and capacitors to minimise self-inductance and elimination of the sububer networks similar to the conventional IGBT circuit shown in figure 4. This option requires a major redesign of the power electronics but allows for a fully optimised solution offering minimal power loss and high levels of reliability.
+4. Replacement of the entire converter. Ultimately, this is likely to offer the best solution, but it comes at the highest cost and risk.
+
+### Component choice - Under standing ratings
+
+When choosing a suitable IGBT to replace a given GTO thyristor it is important to understand some fundamental differences in their respective ratings and basic description. Comparing the basic voltage ratings is relatively straightforward as both the breakdown or rated voltage and the dc link voltage are consistent in their meaning for both devices. However, more care must be taken when comparing current ratings. GTO thyristors are normally rated for maximum controllable anode current, i.e. the maximum current that may by commutated by gate control. Whereas, IGBTs are normally rated for a nominal dc collector current which is based upon the maximum permissible dissipation at a given case temperature. In general, an IGBT can control twice its rated collector current and often more in applications with both turn-on and turn-off sububer circuits as seen in the GTO thyristor circuits of figure 3. If we also consider thermal properties of the device, we can conclude that typically a press-pack IGBT will generally replace a GTO thyristor with twice its nominal current rating.
+
+Figure 5: Unmodified and partially optimised phase leg arrangementTo further understand these issues we will consider the case of replacing a GTO thyristor with a press-pack IGBT in the conventional RCD snubber phase leg arrangement. The majority of high power GTO thyristor drives were based around large area 4.5 kV technology operating at 2.8 kV dc link. Recent advances in press-pack IGBT technology have led to the development of devices suitable for these applications. Here we compare the replacement of a Westcode G2000VC450 GTO thyristor rated 2000 A and 4500 V by a Westcode T1200EA45A press-pack IGBT rated at 1200 A and 4500 V.
+
+Table I shows the drive operating conditions used for the study.
+
+Table I - Drive operating conditions
+
+\begin{tabular}{|l|l|} \hline Parameter & Value \\ \hline dc link voltage & 2800 Vdc \\ \hline Output voltage & 1500 Vac \\ \hline Output current & 855 A \\ \hline Load power rating & 2000 kW \\ \hline Load power factor & 0.9 \\ \hline Modulation & Sinusoidal PWM \\ \hline Snubber capacitor & 3 μF \\ \hline di/dt reactor & 30 μH \\ \hline \end{tabular}
+
+The individual GTO thyristor and IGBT losses along with the total losses for the entire switch circuit including di/dt reactor and snubber (half phase leg) were calculated over the range of carrier frequencies 100 Hz to 1 kHz. Various configurations were analysed based on the options 1, 2 and 3 as discussed in the previous chapter along with the GTO thyristor case. Figures 6 and 7 show the results as a function of frequency. The results marked LRCD GTO and LRCD IGBT show the losses for the original circuit configuration for the GTO thyristor and press-pack IGBT respectively. The results marked RCD show the losses for a partially optimised condition including removal of the di/dt reactor and reduction of the snubber capacitance to 1 μF. The results marked Opt IGBT show the losses for a fully optimised arrangement. In the latter two cases the removal of the di/dt reactor results in significantly higher commutation rate of the freeshnel diode and as such in this calculation the diodes considered are Westcode's new E1500VC450 High Power Sonic-FRD which are specifically designed for such application.
+
+It can be seen in the case of direct replacement of the GTO thyristor by press-pack IGBT, that at operating frequencies above 250 Hz, the press-pack IGBT offers both lower device and system losses. This is due to the lower switching losses but higher conduction losses typical of IGBT technology when compared to GTO thyristor technology. High power propulsion drives used in locomotives typically operate from 150 Hz to 300 Hz, at these frequencies the differences in losses between the two approaches are negligible and this proves to be a promising solution. Lower power drives applied to electrical multiple units and auxiliary supplies more commonly operate at or around 500 Hz, here press-pack IGBTs are clearly a better solution.
+
+When we consider the partially and fully optimised solutions it can be seen that the semiconductor losses increase by approximately 25% at low carrier frequencies and less as carrier frequency increases. However, the system losses are much lower for the partially and fully optimised press-pack IGBT case, these improvements being enhanced with increasing carrier frequency. At first sight this approach may look prohibitive, however improved thermal performance of these press-pack IGBT's when compared to equivalent GTO thyristors largely compensates for this effect. Furthermore, the much-reduced thermal load placed on the cooling system further offsets this problem. The designer must balance the cooling requirements and previously mentioned dv/dt and risk issues, with the benefits gained from an optimised approach including lower component count, improved reliability, improved fault tolerance and, of course, improved efficiency.
+
+## Application examples
+
+In the previous section we considered the theoretical case of three-phase ac traction drives however we shall now look at some actual applications involving dc drives. Currently many of the major obsolescence issues involve dc drives. This is due to the fact that much of this equipment built pre 1980's has already reached the end of its design life and original equipment manufacturers are often unwilling or unable to provide continued support. Very often the equipment still has important roles to play and therefore refurbishment to give an extension of the design life may be appropriate.
+
+Polish Rail type E10 shunting locomotive
+
+An opportunity was presented by the need to upgrade five Polish Rail type E10 shunting locomotives. The locomotives run directly from the 3 kV dc supply line, which is fed to the chopper via a filter. The chopper unit drives four traction motors arranged in two groups of series connected pairs. IEL was awarded the contract to completely refit the locomotive's control system and power electronics while
+
+Figure 7: Total switch circuit losses as a function of carrier frequency
+
+retaining the original chassis and running gear. Working with Westcode, IEL chose this opportunity to evaluate replacing the fast thyristor chopper units with new press-pack IGBT chopper units. Westcode designed and supplied the power semiconductor assemblies, including cooling, snubbers gate drives and sharing circuits, figure 8.
+
+During the refurbishment, the existing four fast thyristor assemblies (two chopper and two commutation), were replaced by three identical press-pack IGBT based assemblies (two for motor control and one for dc link control and breaking) figure 9 left. After extensive testing in the laboratory, the units were commissioned in the locomotives in April 2004 and have been operating without incident, the rail authority having expressed much satisfaction with the upgrade. Figure 9 shows examples of waveforms obtained during testing of the completed unit. When operating at a dc link voltage of 4 kV and a load current of 800 A, the left-hand waveform shows an individual press-pack IGBT collector current and voltage, while the right-hand waveform shows the voltage across two series connected press-pack IGBTs along with individual device voltages.
+
+### RSA Rail type 8E shunting locomotive
+
+A further project is now underway to replace obsolete reverse conducting thyristor (RCTs) in the chopper units of Siemens Class 8E shunting locomotives operated by Spoornet in the RSA. The locomotive operates directly from a nominal 3 kV dc catenery, feeding the chopper via a dc link filter capacitor. The auxiliary resonant commutated chopper, comprising two series stacks each of four RCTs, feeds the main traction motors comprising two groups of two series connected, series wound dc motors, figure 10 left. The RCTs are immersion cooled in an oil filled tank, which dictates the need for fully hermetic semiconductors making the press-pack IGBT an ideal choice for the upgrade.
+
+To benchmark this refurbishment, live testing of the chopper units under operational conditions was conducted on a locomotive. Figure 10 right shows the original chopper unit voltage and current waveforms when operating at full power, rolling against the brakes.
+
+Figure 8: Refurbished chopper and installation
+
+Figure 9: Refurbished chopper circuit and waveforms
+
+The two RCT stacks were replaced with a single press-pack IGBT stack comprising four 2.5 \(\mathrm{kV}\), 1500 A devices in series. As the IGBTs are gate-controlled devices, the commutation circuit was no longer needed so the bulky commutation capacitor was removed along with the commutation RCTs. The commutation reactor was initially retained to protect the freewheeling diodes from excessive di/dt at commutation, figure 11 left. During initial testing of the prototype experiments were made with new High Power Sonic-FRD diodes capable of repetitive switching at over 3000 A/\(\mathrm{\SIUnitSymbolMicro s}\). These new diodes in turn facilitated the disconnection of the commutation reactor. This not only reduces undesirable transient voltages induced but also significantly improves robustness and overall efficiency by further optimisation of the snubber circuits consummate with series connection of the press-pack IGBTs. Figure 11 right shows the refurbished chopper unit voltage and current waveforms when operating at full power, rolling against the brakes. It can be seen that the refurbished unit performs consistently with the original design. Analysis of the results shows significant efficiency improvements of 34% when compared the original design.
+
+Figure 11: Refurbished chopper circuit and test waveforms
+
+Figure 10: Original chopper circuit and test waveforms
+
+Figure 12, left to right, shows the original RCT and replacement press-pack IGBT stacks, the complete chopper assembly and unit in its oil tank installed on a locomotive.
+
+### Press-pack IGBT technology
+
+Press-pack IGBT technology has evolved to a state where a wide range of products are available, from several manufacturers [7], [8] & [9], eliminating previously held concerns of the product being single source. While the characteristics of specific technologies may vary, the essential functionality and compatibility can be maintained within system designs. Devices are available with voltage ratings from 2.5 kV to 5.2 kV and current ratings from 160 A to 1.5 kA. Among these, 'new' 4.5kV devices are available which offer true hard switching IGBT characteristics [10][11], based around newly introduced high voltage SPT (Soft Punch Through) die [12]. These die offer unrivalled ruggedness, combined with an exceptional Safe operating area. Table II gives the key ratings for a selection of commercially available press-pack IGBTs.
+
+### Conclusion
+
+The problems of obsolescence of high power semiconductor technologies and its effects on end users have been introduced. In particular the problems facing the railway industry now and the likelihood that this situation will become severe over the next decade have been highlighted.
+
+A full review of the case of GTO thyristor based asynchronous traction propulsion drives has shown the press-pack IGBT to be an excellent candidate for solving many of the issues associated with this particular issue. Several approaches have been explored and the key relative merits of each solution identified.
+
+\begin{table}
+\begin{tabular}{|l|c|c|c|c|c|c|} \hline  & \multirow{2}{*}{V\({}_{\text{CE}}\)} & \multirow{2}{*}{I\({}_{\text{C}}\)} & Typical & Anti & \multirow{2}{*}{Outline} & \multirow{2}{*}{Outline} & \multirow{2}{*}{Outline} \\  & & on-state & parallel & & & & \\  & & voltage & diode & & & & \\ \hline T0360NA25A & \multirow{2}{*}{2500V} & 3600A & 3.6V & ✓ & A & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{1-1} \cline{5-5} \cline{7-7}
+
+Case studies of practical examples of two dc chopper systems using fast thyristors and RCTs were briefly described. The results gained from this experience confirm that press-pack IGBTs are ideally suited to this application area.
+

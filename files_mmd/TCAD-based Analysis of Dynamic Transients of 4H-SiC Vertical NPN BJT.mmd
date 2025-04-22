@@ -1,0 +1,68 @@
+
+
+_Electrical Engineering University of Bristol_
+
+
+
+
+0000-0002-7682-9486
+
+
+_Electrical Engineering University of Bristol_
+
+
+
+0000-0002-6471-0429
+
+
+_Compound Semiconductors Applications Catapult_
+
+
+
+rg.uk
+
+## I Introduction
+
+4H-SiC vertical BJTs offer several advantages over Silicon BJTs [1, 2] and SiC MOSFETs [3, 4] including lack of the gate oxide, lower ON-state resistance, simpler manufacturing process, and significantly higher DC current gain attributed to smaller base and drift regions [5, 6, 7]. The reduced base width enhances the emitter injection efficiency, a crucial factor in power BJTs, leading to higher current gain [8, 9, 10]. Based on the recent publications, the room temperature DC current gain of SiC BJTs (\(\beta\)) reaches close to 257-335 by improvements in epitaxial growth quality and surface passivation, along with optimised device shape [11, 12, 13, 14].
+
+This paper evaluates the dynamic performance of high voltage 4H-SiC NPN BJTs. The analysis are based on experimental measurements together with modelling through Silvac TCAD to describe the charge transient dynamics.
+
+## II Experimental setup and TCAD validation
+
+The cross-sectional structure of the high voltage vertical NPN 4H-SiC BJTs in this paper is depicted in Fig. 1, while the parameters used in the TCAD model are shown in Table. 1.
+
+## III Analysis of dynamic transient
+
+The measurements were performed using different base resistances to assess the influence of base current. The base and collector currents 4H-SiC BJTs turn off almost concurrently, attributed to the small dimensions of the 4H-SiC BJT and its low minority carrier lifetime. Increasing the base resistance at high collector currents leads to a fall in the collector current as shown in Fig. 3. This is confirmed by TCAD models in Fig. 4 & 5, becoming more severe when the base resistance is increased to \(\text{R}_{\text{Base}}=11.75\)\(\Omega\) due to reduction of the base current beyond what is needed to keep the transistor at on-state at the given collector current. Also, as the base resistance increases, the voltage drop across it enlarges, resulting in a reduction in the forward voltage across the base-emitter junction that is critical for forward-biasing the base-emitter junction. The reduced effective voltage at the base-emitter junction is critical in the SiC device given its high built-in junction voltage, in range of 2.8 V compared with
+
+\begin{table}
+\begin{tabular}{l c} \hline
+**Device** & **4H-SiC BJT** \\ \hline \hline
+**N-Drift Thickness (um)** & 22 \\ \hline Doping of N-drift (cm\({}^{3}\)) & \(1.6\times 10^{15}\) \\ \hline Doping of N\({}^{*}\) (cm\({}^{3}\)) & \(1.7\times 10^{18}\) \\ \hline Emitter Interface Doping (cm\({}^{3}\)) & \(1\times 10^{19}\) \\ \hline Doping of P-base (cm\({}^{3}\)) & \(8\times 10^{16}\) \\ \hline Doping of N\({}^{*}\) Substrate (cm\({}^{3}\)) & \(1\times 10^{19}\) \\ \hline \end{tabular}
+\end{table}
+Table 1: Device parameters used in TCAD model.
+
+Figure 2: : IV output of TCAD model of 4H-SiC NPN BJT for \(\text{I}_{\text{Base}}=40\) mA & 60 mA, both compared with datasheet.
+
+Figure 1: Cross-section of the vertical 4H-SiC NPN BJTs.
+
+Silicon's 0.7 V. Consequently, the SiC BJT cannot remain fully saturated, leading to collapse of the collector current to a level that can be supported by the reduced base current.
+
+With smaller inductors in the test circuit, the rate of rise in current increases, leading to higher currents which can rise to levels that would be unsustainable for the SiC BJT given its base current. Notably, for smaller load inductor sizes, while the initial collector current may be higher, the tested SiC BJT exhibits a maximum DC current gain of 166, surpassing manufacturer's specified gain of 100. As the collector current attempts to increase further for the provided base current, the DC current gain begins to decline. This phenomenon can be attributed to the saturation characteristics of the current gain under HLL. As the collector current increases, the gain enters a saturation region. This impacts the transistor's ability to sustain higher current levels, leading to the observed collapse in collector current before the device turns off.
+
+Fig. 4: Collector current distribution of SiC NPN BJT with \(\text{R}_{\text{Base}}=3.75\ \Omega\ \&\ 11.75\ \Omega\) for \(\text{L}_{\text{Load}}=2\ \text{mH}\) at Point 1 in Fig. 3.
+
+Fig. 5: Collector current distribution of SiC NPN BJT with \(\text{R}_{\text{Base}}=3.75\ \Omega\ \&\ 11.75\ \Omega\) for \(\text{L}_{\text{Load}}=2\ \text{mH}\) at Point 2 in Fig. 3.
+
+Fig. 3: Modelled and measured results of collector current of 4H-SiC NPN BJT with \(\text{R}_{\text{Base}}\)=\(3.75\ \Omega\ \&\ 11.75\ \Omega\) for \(\text{L}_{\text{Load}}\)=\(2\ \text{mH}\) at \(25^{\circ}\)C, indicating Points 1 & 2 in the transients which correspond to time stamps \(39.1\ \upmu\text{s}\ \&\ 45\ \upmu\text{s}\), respectively.
+
+Fig. 6: Modelled and measured transients of the collector current of 4H-SiC NPN BJT with different load inductor and \(\text{R}_{\text{Base}}\)=\(7.75\ \Omega\) at \(25^{\circ}\)C, indicating Points 1 & 2 in the transients which correspond to time stamps \(42\ \upmu\text{s}\ \&\ 45\ \upmu\text{s}\), respectively.
+
+Fig. 7: Collector current distribution of SiC NPN BJT with inductors of \(2\ \text{mH}\ \&\ 4\ \text{mH}\) for \(\text{R}_{\text{Base}}\)=\(7.75\ \Omega\) at Point 1 in Fig. 6.
+
+Fig. 8: Collector current distribution of SiC NPN BJT with inductors of \(2\ \text{mH}\ \&\ 4\ \text{mH}\) for \(\text{R}_{\text{Base}}\)=\(7.75\ \Omega\) at Point 2 in Fig. 6.
+
+## IV Conclusion
+
+Experimental measurements and TCAD-based analysis have revealed a key trend in dynamic transients of 4H-SiC BJTs, which showed concurrent base and collector current turn-off transients due to the lower minority carrier lifetime and thinner base region, even at high injection level current densities. However, SiC BJTs exhibited collector current collapse under conditions of high base resistance that reduce the base current injection, leading to operational stability challenges under high level injection, i.e. in case the transient is through surge currents.
+

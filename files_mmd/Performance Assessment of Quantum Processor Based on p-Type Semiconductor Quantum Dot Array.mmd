@@ -1,0 +1,71 @@
+
+
+_Department of ECE_
+
+_University of Florida_
+
+Gainesville, FL, 32611
+
+
+
+_Department of ECE_
+
+_University of Florida_
+
+Gainesville, FL, 32611
+
+
+
+_Department of ECE_
+
+_University of Florida_
+
+Gainesville, FL, 32611
+
+
+## 1 Introduction
+
+Significant progress has been made in the hardware realization of quantum computing based on semiconductors. Two-qubit quantum gates and small-scale quantum processors with high computing speed and high fidelity have been demonstrated on semiconductors [1][2][3]. For example, two-qubit quantum gates based on hole spins in Germanium (Ge) with a fast two-qubit gate operation with a gate time of \(\sim\)20 ns, and high fidelity of 99.3% have been demonstrated [3]. In group IV semiconductors such as silicon (Si) and Ge, nuclear spin dephasing can be removed through isotope engineering, which is ideal for building a "quiet" semiconductor material system to host qubits. Furthermore, by leveraging the semiconductor industry, semiconductor-based quantum hardware can provide a scalable, low-cost quantum computing platform with extremely high integration density.
+
+Motivated by these recent experiments and the potential of semiconductor QDs for quantum computing in the noisy intermediate-scale quantum (NISQ) era, it is imperative to develop computer-aided simulation and design methods for the design of quantum processors based on semiconductor QD array. While top-down approaches have been generally used for quantum computing algorithms and circuits, co-design of quantum software and hardware has been reported recently [4]. A bottom-up approach that encapsulates essential material and device physics to quantum circuit modeling can facilitate the co-design of semiconductornanotstructure. The details of the Hamiltonian parameters are listed in Ref.[5].
+
+To simulate the quantum gate device shown in Fig. 2(b), numerical device simulations are first performed by solving a 3-D Poisson equation with the Schrodinger equation by using the finite element method (FEM). The single-particle wave equation and eigen-energies obtained from the FEM Schrodinger-Poisson device simulation can be subsequently used to parameterize the tunnel coupling and on-site Coulomb repulsion terms in the quantum gate Hamiltonian as described below.
+
+To understand the quantum gate operation on the computational basis, the Hamiltonian can be projected to the computational basis of \(\{\ket{\uparrow\uparrow}\), \(\ket{\downarrow\uparrow}\), \(\ket{\downarrow\downarrow}\}\) by using the Schrieffer-Wolff transformation. The effective Hamiltonian can be expressed as,
+
+\[H_{eff}\approx H_{B}\big{(}g_{1}g_{1}s_{1,2}+g_{2}B_{2}s_{2,2}\big{)}+J\left(s_ {1}\cdot s_{2}-\frac{1}{4}\right)\!\!, \tag{1}\]
+
+where \(s_{1,2}\) are the spin-1/2 operator on QD1 (QD2), the subscript z denotes its z component, and the exchange interaction can be expressed as,
+
+\[J\approx 2t_{c}^{2}(U_{1}+U_{2})/\big{(}(U_{1}-\epsilon)(U_{2}+\epsilon)\big{)}. \tag{2}\]
+
+In the symmetrically biased case, i.e., \(\epsilon=0\), modulation of exchange is achieved through modulation of the tunnel coupling by the barrier gate voltage. It is important to model the dependence of the tunnel coupling on the barrier gate voltage accurately. The lowest energy levels of the DQD structures are binding and anti-binding "molecular" orbits. The value of the tunnel coupling \(t_{c}\) between the DQDs can be simulated numerically from the difference between the energies of the lowest anti-binding and binding states, \(E_{AB}\) and \(E_{B}\), \(t_{c}=|E_{AB}-E_{B}|/2\)[5].
+
+At the symmetrically biased point, the tunnel noise is dominant over the detuning noise. The tunnel noise Hamiltonian in the basis of \(\{\ket{\uparrow\downarrow},\ket{\uparrow},S_{20},S_{02}\}\) can be expressed as,
+
+\[H_{n}=\begin{cases}0&0&1&1\\ 0&0&-1&-1\\ 1&-1&0&0\\ 1&-1&0&0\\ \end{cases}\delta t_{c}. \tag{3}\]
+
+where \(\delta t_{c}\) is the stochastic fluctuation of the tunnel coupling due to charge noise. \(\delta t_{c}\) is assumed to follow a Gaussian distribution with a mean value of 0 and the standard deviation of \(A_{n}\), which characterizes the noise amplitude. In the time domain, the noise is assumed to obey the stochastic time dynamics of random telegraph noise [6], with a characteristic time of \(\tau_{n}\). In the isotopically purified semiconductor, dephasing due to nuclear spins can be neglected. We, therefore, focus on charge noise in this work.
+
+To simulate the time evolution and quantum dynamics of the quantum gate and circuit, we use a quantum trajectory method (QTM). In this method, multiple quantum evolution paths in the presence of noise are tracked, and their statistical average behaviors are used to calculate the density matrix and quantum fidelity.
+
+## III Results
+
+To test a basic 2-qubit quantum gate, the devices as shown in Fig. 2(b) is simulated. Figure 3(a) shows the valence band of this 2-qubit system, and the simulated ground state (dashed
+
+Fig. 1: Overview of the proposed multiscale simulation method for Ge hole-based quantum gates and quantum circuits.
+
+Fig. 2: (a) Schematic layout of a \(2\times 2\) QD array for a quantum processor. PG is the \(\ell\)th plunger gate, and BG is the \(\ell\)th barrier gate. (b) The schematic device structure between 2 neighboring QDs cut at the dashed line in (a).
+
+Fig. 1: Overview of the proposed multiscale simulation method for Ge hole-based quantum gates and quantum circuits.
+
+line). The corresponding wave function of the binding state and the next anti-binding state is shown in Fig. 3(b) and 3(c), respectively.
+
+The two-qubit quantum gate performance is assessed next. The tunnel coupling between DQDs in two-qubit gates is calculated as a function of the DQD spacing and barrier gate as shown in Fig. 4(a), [5]. Compared to Si holes, the Ge holes achieve a larger quantum tunnel coupling at various applied barrier gate voltages, due to a smaller in-plane effective mass and enhanced entanglement. Figure 4(b) shows the quantum gate time T\({}_{\text{CZ}}\) as a function of the device size. To achieve a fast, sub-10 ns CZ gate time, a DQD spacing of \(L_{s}<37\) nm is needed for Ge holes. However, only \(L_{s}<13\) nm is needed for Si, which is nearly 3 times more stringent. Fig. 4(c) shows the normalized CZ gate time of Ge shows less device-to-device variability compared to that of Si due to the smaller effective mass of Ge [5].
+
+Quantum dynamic characteristics are explored by simulation of the rabi oscillation in the 2-qubit CPHASE gate by using the QTM, which is shown in Fig. 5(a). An envelope function of spin up probability \(p_{\text{up}}=\exp{(-(t/\tau)^{2})}\) fitted to the simulated oscillation with the extracted phenomenological charge noise magnitude as \((\delta t_{\text{c}})\approx 0.24\)\(\mathrm{\SIUnitSymbolMicro}\) and \(\tau=180\)\(ns\) by comparing to the experimental data from [3]. Then a QD array processor is examined by preparing a variational quantum eigensolver (VQE) ansatz state in simulation a \(\mathrm{BeH_{2}}\) molecule, which is shown schematically in Fig. 5(b) and can be realized in a processor as Fig. 5(c). The results indicate the potential of Ge-hole-based QD array processors in preparing the ansatz quantum states with high quantum fidelity in the variational quantum algorithm simulations, as shown in Fig. 5(d).
+
+## IV Conclusions
+
+A multiscale simulation method is developed to model and assess the group-IV-semiconductor-hole-based QD array for the quantum processor. The multiscale process takes a bottom-up approach, which allows essential device physics to be incorporated in the assessment of quantum circuit performance for a semiconductor-based quantum processor. The simulation results indicate that two-qubit quantum gates based on holes in Ge can achieve fast gate speed, and smaller device variability compared to their Si counterpart. Furthermore, multiscale quantum circuit simulations of the Ge QD array processor show its potential to achieve high fidelity in preparing the ansatz state in variational quantum algorithm simulations.
+

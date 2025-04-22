@@ -1,0 +1,35 @@
+[MISSING_PAGE_FAIL:1]
+
+[MISSING_PAGE_FAIL:2]
+
+On the SystemC reference model side, the workflow is as follows:
+
+* The entry point for the SystemC side is the **sc_main** function where the UVMC TLM ports with lookup strings are defined.
+* A **simple_target_socket** receives transactions from the scoreboard.
+* Upon receiving a transaction, an event signals that the reference model's inputs are ready.
+* After calculating the expected output, another event triggers a thread that uses a **tlm_analysis_port** to send the output back to the scoreboard.
+
+During the **connect phase**, the registration of the TLM lookup strings takes place when calling the UVMC TLM instances. This lookup string works as a reference to the instance and is registered globally across both SystemC reference model and UVM TestBench.
+
+Before UVM's **end_of_elaboration** phase, the UVMC will **over** and match the similar lookup strings of the registered ports. The matched ports will interact with each other to send and receive transactions. If there is a port with no match, an error is reported, and the simulation is dropped. Because we are working with cross-language verification, synchronization inside the UVM TestBench is very important, as we need to make sure what is being compared is what was initially drived to the DUT. To achieve this synchronization, two points were taken into consideration:
+
+* The initial synchronization occurs during the driving and sampling of transactions. The UVM driver employs a clocking block that waits for the clock's positive edge to drive the signals.
+
+As the driver sends signals to the DUT, it simultaneously changes the value of **enable** signal to high at the monitor to signal a driving operation as shown in Figure 3. The monitor will only sample if the **enable** signal is set to high and after a certain number of clock cycles. This prevents any sampling without driving, leading to improved reporting.
+
+* The second synchronization takes place in the **uvm_scoreboard**. Figure 4 shows two queues that are defined in the scoreboard, and are used to make sure we are comparing the right data. The first queue stores the received actual response (DUT response) gathered
+
+\begin{table}
+\begin{tabular}{|c|p{142.3pt}|p{142.3pt}|p{142.3pt}|} \hline
+**Paper** & **Key Contributions** & **Limitations** & **Our Proposed Improvement** \\ \hline
+[8] & Compared high-level languages with SystemVerlio for building reference models & Generic payload data array size length limitation in SystemC. & A Python script that takes the **uvm_sequence_item** class file as an input, and generates the required code for sending and receiving data. \\ \hline
+[11] & Presented methods for data transfer between SystemC and SystemVerlio, including TLM 1.0 and TLM 2.0 approaches. & Generic payload data array size length limitation in SystemC. Solved by designing a custom-made conversion algorithm for each connection using TLM-2.0 libraries & **Our Proposed Improvement** \\ \hline
+[12], [13] & Investigated UVM integration with SystemC and their IFS environment, showcasing compatibility with various simulators without reliance on proprietary technologies. & Requires verification environment changes. & A Python script that does not require any custom-made conversions as it uses the UVM native generic payload class. \\ \hline
+[14] & Interfacing SystemC reference models with UVM verification environments using UVMC. & TLM compatibility issues and integration with SystemVerlio. & Easier way to connect with SystemC reference models. \\ \hline \end{tabular}
+\end{table} TABLE I: Related Work Summary
+
+Fig. 3: Driver-Monitor Synchronization Workflow
+
+Fig. 2: TestBench architecture and connections
+
+[MISSING_PAGE_FAIL:4]

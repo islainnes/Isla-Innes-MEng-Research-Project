@@ -1,0 +1,104 @@
+
+
+
+_Calibre Semi Manufacturing_
+
+_Siemens ED4_
+
+Seongnam, Republic of Korea
+
+
+
+_Calibre Semi R&D_
+
+_Siemens ED4_
+
+Seongnam, Republic of Korea
+
+
+
+_Calibre Semi Manufacturing_
+
+_Siemens ED4_
+
+
+
+
+_Calibre Semi Manufacturing_
+
+_Siemens ED4_
+
+
+
+## I Introduction
+
+### _High-product-mix manufacturing_
+
+In recent times, the semiconductor foundry industry has undergone noteworthy evolutions, particularly marked by the ascendancy of high-product-mix manufacturing. The paradigm shift towards customized product designs underscores the imperative for adaptability in the manufacturing process. This trend is conspicuous across major technology entities, ranging from industry giants such as Apple, Microsoft, Google, and Amazon to nascent startups, all endeavoring to procure bespoke chip designs tailored for diverse applications, notably in the realm of artificial intelligence (AI).
+
+Effectively overseeing the simultaneous production of diverse products within the fabrication facility poses formidable challenges, encompassing a multitude of chambers, intricate process steps, and variances in designs and technology nodes. The intricacies of this multifaceted scenario are clearly illustrated in Fig. 1. Consequently, there exists a pressing need to formulate robust strategies for the governance of high-product-mix manufacturing. The absence of control in this dynamic environment holds the potential to precipitate diminished yields and escalated operational costs. This necessitates a proactive approach to devise and implement effective management strategies for the complex landscape of high-product-mix manufacturing within the semiconductor foundry industry.
+
+### _Chemical vapor deposition process challenges_
+
+In the context of high-product-mix manufacturing, the chemical vapor deposition (CVD) processes, involving the deposition of a solid material onto the substrate from a gaseous phase through surface reactions, encounter formidable challenges characterized by variations in deposition thickness attributed to both the design layout of devices and the conditions within CVD process chambers. As highlighted in Fig. 2(a), the irregularities in film thickness between single and double pitches are distinctly evident [1]. Moreover, Fig. 2(b) presents transmission electron microscopy (TEM) images that effectively illustrate variations in silicon nitride film thickness between patterns of wide and narrow widths [2]. Extending beyond the spatial dimensions between line patterns, numerous other design features have the potential to contribute to variations in film thickness [3].
+
+The absence of precise control over thickness across a diverse array of layout designs, coupled with resultant film variability, has the potential to significantly influence critical transistor parameters such as thre
+
+Fig. 1: High-product-mix manufacturing within semiconductor foundry
+
+Fig. 2: (a) Schematic of the difference in film thickness between single and double pitches, (b) TEM images of film thickness differences between patterns of wide and narrow widthscapacitance. This, in turn, can ultimately lead to the undesirable consequence of yield loss [1].
+
+Fig. 3 illustrates the drift in the CVD film growth rate during a preventive maintenance (PM) cycle and the chamber-to-chamber variances observed at various stages of the PM cycle. It is important to clarify that the PM cycle refers to the entire process cycle between PMs. These variations arise from the reduction in surface area and the consumption of reactive gas on the inner wall of the CVD chamber, a consequence of the accumulated by-product polymer build-up [4]. Given the inevitability of employing multiple chambers, attending to chamber-by-chamber variation emerges as a primary focus. Successfully addressing time-series variation throughout the PM cycle and attaining chamber matching within the CVD process are critical endeavors to mitigate potential throughput loss [4].
+
+The variability in CVD film thickness arises from a combination of design features and chamber characteristics, presenting a challenge for control through run-to-run (R2R) advanced process control (APC) methods. Simultaneously managing numerous new product introductions (NPI) within a single day introduces an additional layer of complexity. This paper proposes a machine learning (ML)-based virtual metrology (VM) approach as an innovative solution for effective process control in high-product-mix fabrication facilities (fabs). The efficacy of this approach is exemplified within the context of CVD process control through simulated scenarios.
+
+## II Methodology
+
+### _Extended VM_
+
+In an ideal scenario, achieving precise control would involve monitoring each wafer for process control. However, this requirement introduces additional metrology, resulting in extended processing times and escalated overall costs. To address this challenge, the concept of VM has been formulated. Conventional VM relies on data from the process chamber, known as fault detection and classification (FDC), to predict metrology results. These predictions can then be seamlessly integrated into the process control system, particularly in the context of R2R control [5].
+
+Within this paper, the extraction and application of design features, such as pattern density and perimeter, for predictive purposes across varied layouts and technologies are emphasized. This proposition gains particular significance in the domain of high-product-mix manufacturing, as described in the extended VM model, illustrated in Fig. 4. The feature extraction process is efficiently executed through the utilization of an electronic design automation (EDA) software. Originally introduced for layout design optimization, specifically in hotspot detection, this feature extraction process leverages spatial relations of layout patterns, thereby extracting valuable characteristics from complex layouts associated with specific products.
+
+### _Modeling by advanced machine learning_
+
+The integration of these design features into FDC data at the chamber level is facilitated through the utilization of advanced ML software [6-10]. This methodology employs sophisticated ML techniques, including a modified gradient boosted tree algorithm, to construct the extended VM model, as depicted in Fig. 5. The process begins with Shapley analysis to select a subset of input features (e.g., the top N important features) for training, aiming to prevent the model from overfitting. Subsequently, using OPTUNA's hyperparameter optimization, a light gradient-boosting machine (LightGBM) model is trained based on the best set of hyperparameters. This multi-step approach culminates in the final extended VM model. LightGBM, a decision tree model, is selected for its notable speed compared to GBM or extreme gradient boosting (XGBoost) and its low memory requirements during training on large datasets, making it ideal for lab applications. In the realm of ML modeling, the tuning of hyperparameters is crucial for both performance and efficiency. OPTUNA significantly aids in enhancing the tuning process by employing a Bayesian optimization approach.
+
+The modeling dataset is sourced from a high-volume foundry lab, encompassing three distinct technology nodes and encompassing 70 unique products processed across 15 CVD chambers. These chambers are configured within 5 equipment units, each equipped with 3 chambers. In the model training phase, 70% of the dataset is utilized, leaving the remaining 30% for subsequent model testing.
+
+Fig. 4: Extended VM model
+
+Fig. 5: ML flow for the extended VM modeling
+
+Fig. 3: CVD film growth rate drifts during PM cycle and variations between chamber-to-chamberIn Fig. 6, the outcomes of the VM modeling are presented. The X-axis and Y-axis delineate the actual and predicted thickness, respectively, on the graph. Specific thickness targets for each node are omitted due to confidentiality constraints. Each color on the graph corresponds to a chamber, while the shape indicates the product. Model fitness is evaluated using the R\({}^{2}\) metric. The extended VM model, incorporating both design features and FDC, demonstrates significantly improved performance. A comparative analysis with the conventional VM model, which excludes design features, highlights superior outcomes with the inclusion of design data. Additionally, a VM model relying solely on design features is deemed impractical.
+
+In Fig. 7, a detailed analysis by product is presented, focusing on the root mean square error (RMSE) of the VM model with and without design features. Conversely, Fig. 8 provides an in-depth examination by chamber, assessing the RMSE of the VM model with and without FDC. Across a majority of the segmented cases, the extended VM model, incorporating both design features and FDC data, consistently shows significantly improved performance.
+
+## III Results
+
+### _Proposed APC system_
+
+Fig. 9 presents the conceptual framework of the proposed APC system, strategically utilizing the extended VM model for R2R control. This innovative system integrates crucial components, including design features, FDC, and real-time measurements to precisely attain the targeted thickness. Notably, in instances where the deviation between the actual and predicted thickness, known as the prediction error, exceeds predefined specifications, an automatic update mechanism is triggered for the extended VM model. This update process seamlessly incorporates additional data within a predefined time window, ensuring the adaptability and accuracy of the model in response to dynamic manufacturing conditions.
+
+### _Control simulation_
+
+Fig. 10 provides a comprehensive representation of the results derived from the time-series evaluation of the proposed APC system through precise control simulation. Significantly, the process capability (Cpk) experiences a noteworthy enhancement, surging from 0.86 to an impressive 1.30. The proposed APC system, in its operational effectiveness, systematically mitigates variations inherent in the R2R deposition film thickness. This strategic intervention by the APC system results in the successful attainment of the desired target thickness, orchestrated through seamless updates to both the extended VM model and the CVD process recipe.
+
+It is imperative to emphasize that the focus of the control simulation is primarily directed towards a singular technology node (YY nm) owing to constraints associated with the dataset's limited size. Despite this limitation, the APC system adeptly handles and processes multiple products across a spectrum of diverse chambers, showcasing its applicability and efficacy in real-world manufacturing scenarios.
+
+Fig. 8: RMSE comparison of the VM model with and without FDC by chamber
+
+Fig. 6: The outcomes of VM modeling
+
+Fig. 7: RMSE comparison of the VM model with and without design features by product
+
+Fig. 9: The conceptual framework of the proposed APC system, utilizing the extended VM model for R2R control Fig. 11 provides a visual representation of the observed reduction in thickness variation on a chamber-by-chamber basis. Despite the successful integration of the APC system, discernible residual chamber-to-chamber variations persist. To effectively address this challenge, one potential solution involves the establishment of dedicated VM models tailored for each individual chamber. This approach strategically tackles sensor-to-sensor variations and accommodates the distinctive characteristics inherent to each chamber's operational dynamics within the semiconductor manufacturing process.
+
+An alternative way for refinement lies in the exploration of more efficient R2R feedback actions, presenting an opportunity for further improvement in the overall control and precision of the manufacturing process. This underscores the importance of ongoing research endeavors and benchmarking exercises to delineate and refine strategies for future advancements in this dynamic and evolving domain.
+
+Upon contrasting the insights from Fig. 11, it is evident that the incorporation of design features assumes a pivotal role in mitigating product variations, as underscored by the delineations in Fig. 12. This observation emphasizes the significance of integrating the APC system with the extended VM model within the operational framework of the CVD process, especially within a high-product-mix foundry fab characterized by the presence of multiple equipment units.
+
+## IV Conclusion
+
+In response to the increasing requirement for customized products across a diverse customer base, there arises a heightened necessity for adaptability in manufacturing. Our proposition entails the incorporation of a ML-based extended VM model, enriched by the inclusion of design features and FDC, into the APC system, serving as a resilient process control solution meticulously designed for the complications of high-product-mix manufacturing. Validation of this proposed solution through simulation results distinctly underscores its exceptional efficacy, particularly within the context of the CVD process, and more specifically, within the operational domain of a high-product-mix foundry fab.
+

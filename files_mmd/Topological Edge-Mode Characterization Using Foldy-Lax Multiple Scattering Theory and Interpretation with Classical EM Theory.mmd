@@ -1,0 +1,52 @@
+
+
+\({}^{1}\)_Zhejiang University-University of Illinois at Urbana-Champaign Institute_
+
+Haining, Zhejiang 314400, China
+
+\({}^{2}\) College of Information Science and Electronic Engineering, Zhejiang University
+
+Hangzhou 310027, China
+
+\({}^{3}\)Department of Electrical and Computer Engineering, University of Illinois at Urbana-Champaign
+
+Urbana, IL 61801, USA
+
+zyfeng@zju.edu.cn, Z. Feng
+
+srtan@intl.zju.edu.cn, S. Tan
+
+Authorized licensed use limited to: University of Durham. Downloaded on April 21,2025 at 18:38:32 UTC from IEEE Xplore. Restrictions apply.
+
+## I Introduction
+
+Topological photonic crystals have great potentials to be applied in microwave and optical engineering due to their distinct electromagnetic properties. Wang et. al. first showed in 2008 that the topologically protected edge modes propagate unidirectionally without reflections along the interface of yttrom-iron-grant (YIG) gyromagnetic photonic crystal and alumina crystal [1]. The existence of exotic one-way edge-modes can be predicted by the bulk-edge correspondence principle in quantum physics associated with gaps in between bands with different Chern numbers [2]. Novel and efficient methods have recently been developed to characterize the band structure of topological photonic crystals [3, 4] and the Chern number [5].
+
+However, the modeling of topological edge modes in various engineering designs is still a challenging problem as it involves wave interactions with multitude scatterers of special constitutive parameters. In this paper, we present a recently developed efficient method [6] to solve such problem using the Foldy-Lax multiple scattering theory (MST). The Foldy-Lax MST represents the scattering from a single scatterer in terms of the T-matrix of the scatterer and a handful exciting field coefficients upon the scatterer. The exciting field coefficients are solved through the coupled Foldy-Lax multiple scattering equations. Such approach significantly reduces the number of unknowns by eliminating the need to discretize the scatterers and the space in between them. The approach also allows us to study the point source responses inside the crystal, i.e., the Green's function, with various configurations. The Green's function is fundamental to understand complex field responses in a linear system, and it allows us to reinterpret the topological wave phenomena in classical EM theory. In this paper, we illustrate such interpretations by analyzing the line source field responses within and at the interfaces of two-dimensional photonic crystals comprised of gyromagnetic scatterers and alumina scatterers, respectively.
+
+II Formulation of Using Foldy-Lax Multiple Scattering Theory to Characterize The Topological Edge-modes
+
+For a structure where there are \(N\) scatterers, let us represent the exciting field on scatterer \(p\) centered at \(\overline{\rho}_{p}\) as
+
+\[\psi^{ex(p)}=\sum_{-\infty}^{+\infty}w_{n}^{(p)}J_{n}\left(k\left|\overline{ \rho}-\overline{\rho}_{p}\right|\right)e^{in\phi_{\overline{\rho}\overline{ \rho}}}. \tag{1}\]
+
+The corresponding scattering field from the scatterer can be linked to the exciting field by the \(T\) matrix
+
+\[\psi^{s(p)}=\sum_{-\infty}^{+\infty}T_{n}w_{n}^{(p)}H_{n}^{(1)}\left(k\left( \overline{\rho}-\overline{\rho}_{p}\right)\right)e^{in\phi_{\overline{\rho} \overline{\rho}}} \tag{2}\]
+
+where the \(T\) matrix coefficients \(T_{n}\) is defined and solved in [4, 6].
+
+In the Foldy-Lax MST, the exciting field upon the \(p_{th}\) scatterer is contributed by the direct incident field and the scattering field from all the other scatterers,\[\psi^{ex(p)}=\psi_{inc}+\sum_{q=1,q\neq p}^{N}\psi^{s(q)} \tag{3}\]
+
+With Eqs. (1) and (2), Eq. (3) can be re-expressed as
+
+\[\sum_{-\infty}^{+\infty}w_{n}^{(p)}J_{n}\left(k\left|\overline{p}- \overline{p}_{p}\right|\right)e^{in\phi_{\overline{p}\overline{p}}} \tag{4}\] \[=\psi_{inc}\] \[+\sum_{q=1,q\neq p}^{N}\sum_{m=-\infty}^{+\infty}T_{m}w_{m}^{(q) }H_{m}^{(1)}\left(k\left(\overline{p}-\overline{p}_{q}\right)\right)e^{in\phi_ {\overline{p}\overline{p}}}\]
+
+Using the addition theorem, Eq. (4) can be converted into a matrix equation to solve all of the exciting field coefficients \(\omega_{m}\)'s. The scattering fields and total fields can then be computed through Eq. (2) and relevant superpositions.
+
+## III Results and Discussions
+
+The accuracy of the Foldy-Lax multiple scattering theory has been validated in [6] by comparing with the method of moments (MoM) and COMSOL simulations. In this section, we first apply the method to solve the 2D Green's function due to a line source within a gyromagnetic YIG photonic crystal of square lattice and within a conventional alumina crystal of triangular lattice, respectively. The YIG material is characterized by a tensor permeability with non-zero off-diagonal elements when placed in an external DC magnetic field. We then solve the Green's function when the line source is placed at the interface of the two crystals. We consider the polarization when the E field is along the axis of the scatterers. We choose the oscillation frequency within the band gaps of both crystals when the topological edge states can potentially be excited.
+
+The field snapshots shown in Fig. 1 indicates that the Green's function, confined localized to the source, is rotating counterclockwise within the YIG crystal but stay stable in the alumina crystal. Such exotic behaviors of the Green's function allow us to explain the topological edge states using the classical waveguide theory. In Fig. 2, the line source is placed at the interface of the two crystals while the separation between the two crystals is varying. In the stop band, we can view the gap between the two crystals as a parallel plate waveguide with the lowest mode relevant to the polarization \(\mathrm{TE}_{1}\) mode. In (a), the separation is small, and the operation frequency is below the cutoff frequency of \(\mathrm{TE}_{1}\) mode. Thus, conventionally, the excited field by the source would be evanescent in both directions. However, the interaction of the evanescent mode with the crystal interface leads to counterclockwise field rotation in the YIG crystal and the fields being blocked and reflected by the alumina crystal interface. This interaction drives a surface wave that propagates unidirectionally towards right along the interface. Such guidance condition would fail as the separation between the two crystals increases and when the operation frequency exceeds the cutoff frequency, as illustrated in (b).
+

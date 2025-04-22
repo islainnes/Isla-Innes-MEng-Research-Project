@@ -1,0 +1,47 @@
+Organic and carbon nanotube electronics for flexible nanoscale high-frequency circuits and physical unclonable function
+
+
+_I. Physikalisches Institut, Georg-August Universitat Gottingen, Gottingen, Germany_
+
+_2Institute for Applied Physics, Technische Universitat Dresden, Dresden, Germany_
+
+_3Institut fur Physik, Ludwig-Maximilians Universitat Munchen, Munchen, Germany_
+
+_4Institut fur Physik, Universitat der Bundeswehr Munchen, Nenubiberg, Germany_
+
+_5Institut fur Informatik, Ludwig-Maximilians Universitat Munchen, Munchen, Germany_
+
+_6Electrical and Computer Engineering, University of Connecticut, Storrs CT 06269, USA_
+
+*Contact: james.borchert@uni-goettingen.de, phone +49-551-39-27648
+
+## I Introduction
+
+Realizing the full potential for electronics based on carbonaceous materials has been one of the great challenges undertaken by scientists and engineers in many research groups in the 21\({}^{\text{st}}\) century, spanning from fundamental research in chemistry and physics to electrical and materials engineering. In particular, owing to the amenability of these materials to large-area, room temperature processing, the prospect of producing flexible electronics in a whole host of application realms has been a significant driving force [1]. In particular, flexible electronics based on organic semiconductors and carbon nanotubes have been investigated intensively.
+
+### _High-frequency organic electronics on flexible substrates_
+
+The efforts of several groups to improve the dynamic performance of organic transistors over the past few years has yielded recent significant recent milestones, including the first organic thin-film transistors (TFTs) and the first vertical organic field-effect transistors (VOFETs) demonstrating transit frequencies, \(f_{T}>100\) MHz [2, 3], a high-speed organic rectifier reaching a rectifying frequency of 78 MHz [4], and flexible low-voltage organic TFTs with voltage-normalized \(f_{T}\) of 7 MHz/V [5]-[7]. This last approach was recently adapted to fabricate nanoscale organic TFTs and circuits using direct-write electronic beam lithography on glass and flexible polyethylene naphthalene substrates (Fig. 1) [8], including unipolar inverters that showed switching-delay time constants corresponding to a supply voltage-normalized frequency of 6 MHz/V.
+
+### _Physical unclonable function: a brief introduction_
+
+Current practice in cryptography and information security traditionally employs so-called _"secret binary keys"_ that are permanently stored in non-volatile memory in order to secure electronic devices and communication. Unfortunately, this approach faces its limits in modern settings, for example in the upcoming internet of things with its billions of interconnected devices: Due to their mobile and resource-constrained nature, IoT devices have become increasingly vulnerable to both physical and software-based (e.g., virus/malware) attacks, calling for new means of protection. A promising recent alternative consists of a hardware security primitive known as "physical unclonable function" or PUF, which exploits the unavoidable variations in the fabrication of electronic or optical devices. A PUF can be excited from the outside by one or more "stimuli" or challenges \(C_{i}\), producing corresponding responses \(R_{i}\). These (reasonably stable) responses are a function of the unique disorder in the PUF and the applied challenge,
+
+Fig. 1: Nanoscale flexible organic thin-film transistors fabricated using direct-write electron beam lithography.
+
+constituting a unique fingerprint. The number, unpredictability and independence of the challenge-response pairs (\(C_{i}\), \(R_{i}\)) often determines the strength of a given PUF. Thus, an ideal materials system is one which shows a high degree of random variability that can be harnessed in the responses.
+
+## II Physical Unclonable Function Based on Unsorted carbon nanotube Random Networks
+
+Single-walled carbon nanotubes (SWCNTs) are one-dimensional macromolecular carbon allotropes that can show either metallic or semiconducting properties depending on their chirality. The high charge-carrier mobility and suitability of SWCNTs for large-area solution processing has made them an interesting candidate for a variety of novel electronics applications. The inherent variability in unsorted SWCNTs has recently been shown to also be of potential use in producing electrical PUF devices [10]-[14]. In [14] a random network of unsorted SWCNTs was used in a multi-contact device where the resistances between individual pairs of contacts were used to build contour maps that acted as the output of the PUFs.
+
+We investigated an expansion on this approach using gating as an additional tuning parameter for the output of the PUF [15]. Our first test devices (Fig. 2) were fabricated in a multi-contact field-effect transistor arrangement on doped Si/SiO\({}_{2}\) wafers using standard photolithography. The SWCNT networks were deposited by dip-coating and patterned using reactive ion etching. Our initial tests of this design have included DC measurements of each of the unique two-contact configurations (66 for the 12-contact layout). Assuming that a single gate and drain voltage are used, for the above 12-contact layout, the total number of combinations is greater than \(10^{5}\). It may be then possible to increase the number of combinations further by considering multiple values for the gate and/or drain voltages.
+
+## III Conclusions
+
+Flexible electronics based on organic semiconductors continues to progress towards high-frequency applications. Meanwhile, PUF is an emerging opportunity for flexible electronics based on inherently flexible carbonaceous materials, such as carbon nanotubes. Our preliminary investigations utilizing SWCNT networks in field-effect transistors on non-flexible silicon substrates show promise for creating electrical PUFs. This approach can be easily extended to flexible substrates with a fully patterned gate layer. Other challenges and opportunities for these devices will be discussed.
+
+## Acknowledgment
+
+SH thanks dtec.bw - Digitalization and Technology Research Center of the Bundeswehr for support. UR thanks the AFOSR project FA9550-21-1-0039 for support.
+

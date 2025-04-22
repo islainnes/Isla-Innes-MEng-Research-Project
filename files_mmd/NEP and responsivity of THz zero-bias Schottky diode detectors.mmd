@@ -1,0 +1,30 @@
+
+Jeffrey L. Hesler and Thomas W. Crowe
+
+
+## I Introduction
+
+This article describes the characterization of zero-bias Schottky detectors that have been developed at Virginia Diodes, Inc. The Schottky diode detector has a long history of use for the detection of power at mm- and submm-wavelengths [1]. Diode detectors can operate at ambient or cryogenic temperature and have an extremely fast response time compared with other room temperature detectors, such as Golay cells, pyroelectric detectors, or bolometers [2, 3]. An important factor in considering the usefulness of all diode detectors is the excess noise sources beyond thermal and/or shot noise, such as 1/f or flicker noise. Although zero-bias diodes cannot generate significant excess noise at very low input power levels; as the input power is increased the flicker noise also increases and eventually becomes the dominant noise mechanism. Measurements of the noise properties of the diode as a function of bias voltage were performed to determine the detection level at which flicker noise will become important.
+
+VDI's Schottky diode detectors, shown in Fig. 1, use rectangular waveguide housings and the entire circuit is optimized for operation over the full single-moded waveguide band without any mechanical tuners. Their responsivity typically ranges from about 4,000 V/W at 100 GHz to 400 V/W at 900 GHz. The primary goal of this investigation has been to characterize the sensitivity of the VDI zero-bias detectors. Measurements of the diode responsivity, NEP, and noise as a function of bias are presented.
+
+## II Measurements of Detector Responsivity
+
+The voltage responsivity of a standard WR-6.5 zero-bias detector was measured across the waveguide frequency band, as shown in Fig. 2. The input power to the detector was kept in the range from 3-5 \(\mu\)W, which
+
+Fig. 1: Photograph of a VDI WR-5.1 Zero-bias Detector.
+
+Fig. 2: The measured responsivity as a function of frequency across the waveguide band of the WR-6.5 detector. Also shown is the noise equivalent power, calculated from the measured noise at zero-bias with no RF power.
+
+insured that the detector was operating in the square-law region. A WR-6.5 directional coupler was used to set the input power into the detector and to thereby eliminate the effect of standing waves on the measurement. The measured peak responsivity of 4,000 V/W is somewhat below the theoretical estimate of 6,000 V/W [4] for this detector. The discrepancy can be attributed to a combination of conductor loss and also the effect of the diode junction capacitance on the input coupling.
+
+## III Noise Measurements of Schottky diodes in the low signal regime
+
+As a start to understanding the noise properties of these detectors, measurements were made of their noise as a function of bias. The test configuration consisted of a low noise operational amplifier (input noise 3.2 nV/\(\backslash\)Hz) with a gain of 100 followed by a Tektronix TDS744 digital oscilloscope. For the biased cases a DC block was used to avoid saturating the low noise amplifier. In order to verify the accuracy of the system, the noise properties of 1 k\(\Omega\) to 10 k\(\Omega\) resistors were measured, and the measurements agreed with theoretical predictions to within 10%. Next, the thermal noise of an unbiased WR-6.5ZBD detector was measured, yielding a value of 5.4 nV/\(\backslash\)Hz. The measured zero-bias resistance of the diode is 1.8 k\(\Omega\), corresponding to a thermal noise voltage of 5.4 nV/\(\backslash\)Hz, which is in excellent agreement with the measured value.
+
+When the detector is used to measure small signals, this thermal noise will be the dominant noise source. From Fig. 3 we can see that below a voltage of approximately 1 mV the noise is dominated by the thermal noise. If we assume a typical responsivity of 1000 V/W then this indicates that for RF powers below about 1 uW the flicker noise is dominated by the thermal noise. Thus, the measured noise voltage and responsivity can be used to calculate the NEP of the detector for low input power levels. As shown in Fig. 2, the low power, zero-bias NEP varies from about 1.5 to 2 pW/\(\backslash\)Hz across the detector band. Such high sensitivity is expected for any zero-bias diode detector with high responsivity when there is no incident RF power; since only thermal noise can be generated under this condition.
+
+## IV Conclusion
+
+Measurements of the responsivity and noise properties of VDI's zero-bias detectors have been performed. These detectors have been demonstrated to be extremely fast devices (r <<1 nS) with broad operational bandwidth and high sensitivity. At small signal levels they have excellent NEP; approximately 1.5 pW/\(\backslash\)Hz near 150 GHz; rising to approximately 20 pW/\(\backslash\)Hz at 800 GHz. This low-signal NEP could be significantly improved by optimizing the signal coupling to the detector over a narrower frequency band. However, the detector is designed for optimal coupling across the full waveguide band, which makes it more useful for general applications.
+

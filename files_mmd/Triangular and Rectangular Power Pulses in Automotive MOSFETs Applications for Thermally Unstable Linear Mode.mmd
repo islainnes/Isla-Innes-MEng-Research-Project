@@ -1,0 +1,110 @@
+Triangular and Rectangular Power Pulses in Automotive MOSFETs Applications for Thermally Unstable Linear Mode
+
+
+_Automotive MOSFET Applications_
+
+_Neveria_
+
+Manchester, United Kingdom
+
+
+VijayAKrishna Satyamsetti
+
+_Automotive MOSFET Applications_
+
+_Neveria_
+
+Manchester, United Kingdom
+
+
+
+_Automotive MOSFET Applications_
+
+_Nexperia_
+
+Manchester, United Kingdom
+
+
+
+
+_Automotive MOSFET Applications_
+
+_Neveria_
+
+Manchester, United Kingdom
+
+
+
+_Automotive MOSFET Applications_
+
+_Neveria_
+
+Manchester, United Kingdom
+
+
+## I Introduction
+
+Latest advancements in trench MOSFETs target very low on-state resistance \(\mathrm{R_{DSon}}\) and thus low conduction losses. For the same \(\mathrm{R_{DSon}}\) die-size reduces with every trench technology which generally leads to worse linear mode performance [1]. During this mode, MOSFETs are electrothermally stressed and biased by high drain currents and high drain voltages simultaneously, which leads to high power dissipation. Generally, for high enough \(\mathrm{V_{DS}}\) and time pulses, MOSFETs operate in a thermally unstable regime which severely reduces their capability [2]. Despite this, many applications such as battery isolation, capacitor pre-charge and low dropout regulation include linear mode operation. Among these, the MOSFET may be conducting a linearly decreasing current with constant \(\mathrm{V_{DS}}\) or its \(\mathrm{V_{DS}}\) decreases linearly with constant drain current (\(\mathrm{I_{D}}\)), and therefore dissipate a triangular shaped power pulse. When designing a MOSFET for linear mode operation, device failure is prevented by referring its operating point to the datasheet Safe Operating Area (SOA) chart. The SOA is specified for a mounting base temperature (\(\mathrm{T_{mb}}\)) of 25\({}^{\circ}\)C, or higher, and a single rectangular pulse. In case of operation during thermal instability the analysis becomes more complicated since the junction temperature cannot be estimated accurately, and it requires lengthy testing if the pulse is not rectangular, and its duration is not explicitly stated in the datasheet SOA. Hence, a methodology for fast verification of MOSFET operation within the SOA for non-rectangular power pulses in thermal instability is needed.
+
+In this paper, the operation of MOSFETs for triangular power pulses is described using two methods: testing and simulation. Additionally, the proposed techniques have been verified using Neexperia automotive power MOSFETs. During this verification we have also considered different trench technology devices from Neperia Trench 6 and Trench 9, with \(\mathrm{V_{DS}}\) rating of 40V and 100V and in different package types, such as LFPAK56 and LFPAK88.
+
+The rest of this paper is organised as follows: in section II MOSFET SOA is described and proposed methods of junction temperature estimation are shown. Furthermore, concepts of thermal stability and thermal instability in linear mode are introduced. Section III focuses on the testing verification using active clamp circuits and results. Section IV presents the development of t proposed thermal instability models. Section V provides conclusions and prospects.
+
+## II Concept
+
+In case of non-rectangular power pulses, the safe operation of a MOSFET can be verified in two ways. Firstly, the maximum junction temperature (\(\mathrm{T_{jmax}}\)) can be monitored and verified to be lower than its maximum rating (175\({}^{\circ}\)C for automotive power MOSFETs), by means of a precision electrothermal model or a Foster or Cauer RC models, as shown in Fig. 1. Alternatively, the application's working point (\(\mathrm{V_{DS}}\) and \(\mathrm{I_{D}}\)) can be compared against the device SOA and verify that it lies within it after applying a power shape conversion at constant energy. This can be implemented by keeping constant either the peak value or the pulse duration, as shown in Fig. 2. This analysis is exact if the MOSFET is operating in thermal stability since the average die temperature is fairly constant across it. These same considerations can be applied to operation in the ohmic region and during avalanche [3]. However, it might be inaccurate for operation in the thermally unstable part of the saturation region due to hotspot formation.
+
+On the SOA graph, thermal instability is indicated by a two-slopes line and an additional inflexion. An example is given in Fig. 3, where the inflexion point Z is located at around 5V for a 1ms pulse.
+
+The limit given by the solid line A is inversely proportional to the thermal impedance junction-to-mounting base (Zd\({}_{\text{ij,(m-all)}}\)) of the device. This limit can be calculated using an RC thermal model, like the Cauer model shown in Fig. 1. The dashed line B indicates the performance of the device during thermal instability. Here the MOSFET is unstable and cannot safely reach a uniform junction temperature due to the uneven distribution of current across its die, i.e., due to hotspot formation [4]. A method to treat this is to consider that the device has a higher thermal impedance than the Zd\({}_{\text{ij,(m-all)}}\) and a maximum limit of 175\({}^{\circ}\)C [5]. This phenomenon eventually leads to thermal runaway and destruction, with burn marks appearing near the center of the die and close to the die bonding structure [1, 6, 7]. Applications such as capacitive pre-charge (soft-start) and active clamp, used as inductive load clamping and in protection circuits, show a decreasing power with time. The main difference between the two is that in case of soft-start the reducing V\({}_{\text{DS}}\) leads the working point to move towards the left of the SOA chart away from the thermal instability region, with lower risks of thermal runaway compared to active clamp.
+
+## III Testing Campaign and Design of Experiments
+
+For our studies, active clamp tests, using the circuit in Fig. 4, were conducted at Nexperia's Product Measurement Laboratory in Manchester, together with SOA testing, to find the current I\({}_{\text{D,max}}\) at different V\({}_{\text{DS}}\) and time pulses for triangular and rectangular pulses. The results from the active clamp testing are plotted against time to interpolate the MOSFET capability for any given pulse.
+
+Fig. 5 shows part of the testing results, as last-passed values. The safe values for I\({}_{\text{D,max}}\) during active clamp at 0.5ms and 1ms have been found by interpolating the current of the _least performant_ samples. At 0.5ms the capability for a triangular pulse is calculated to be 67.6A, and thus around -2.2 times that of a rectangular one, measured at 31.0A. Likewise, at 1ms the triangular capability is 45.2A, -1.9 times higher than that of a rectangular pulse at 23.3A. Notice that these values are higher than the limit shown in the SOA of Fig. 3 due to derating of the datasheet. Therefore, the same conversion of Fig. 2 can be applied to MOSFETs operating in thermal instability, since:
+
+\[\text{I}_{\text{D,active clamp}}\approx 2\times\text{I}_{\text{D, SOA}} \tag{1}\]
+
+These same tests and calculations have been conducted on a larger sample pool, shown in Table I. The design of experiments contains MOSFETs with LFPAK56 and LFPAK88 packages, V\({}_{\text{DS}}\) rating of 40V and 100V, standard and logic gate level voltage and Nexperia T6 and T9 trench technologies. The selected R\({}_{\text{DS}}\) provides a range of die sizes from small (BUKSY153-100E) to large (BUK7S1R0-40H), corresponding to high and low on-state resistance, respectively. The complete list of results is shown in Table II. The ratio between active clamp and SOA current limits varies between 1.7 and 2.4. This variation might have multiple reasons. For one, due to the destructive nature of these tests the same sample cannot be tested for both SOA and active clamp, therefore, despite choosing only MOSFETs from the same real, manufacturing spreads in datasheet parameters will lead to variation in current ratings. Additionally, as shown in Fig. 4, V\({}_{\text{DS}}\) is not always perfectly flat due to the diode clamp voltage changing over time, which leads to a higher active clamp to SOA ratio.
+
+Fig. 1: Cauer thermal model.
+
+Fig. 4: Active clamp circuit, waveforms for BUK7S1R0-40H at V\({}_{\text{DS}}=22\)V.
+
+Fig. 3: BUK7S1R0-40H SOA graph: thermal stability and instability lines.
+
+Fig. 5: Results of SOA and active clamp tests for BUK7S1R0-40H at V\({}_{\text{DS}}=20\)V.
+
+Fig. 2: Power shape conversion of triangular pulse into rectangular pulse.
+
+## IV Thermal Instability Model
+
+Two thermal models, shown in Fig. 6 and Fig. 7 have been developed in a generic SPICE format to describe the thermal instability shown by the BUK7S1R0-40H.
+
+The model in Fig. 6 predicts the behaviour across a range of \(\rm V_{DS}\) for a given time pulse of \(\rm 1ms\), and it comprises a voltage dependent (thermal) resistor \(\rm R^{*}_{th(j,mb),1ms}\) based on (2), with slope \(\rm m_{e}\) and intercept \(\rm b_{r}\) of a straight line in a log-log plot (the SOA chart).
+
+\[\rm R^{*}_{th(j,mb),1ms}=(V_{DS}m)\times(10^{hp}) \tag{2}\]
+
+Equation (3) is used to calculate the value of thermal resistance given: dissipated power (\(\rm V_{DS}\times I_{D,max}\)) and MOSFET temperature budget; where \(\rm T_{j,max}\) is 175\({}^{\circ}\)C and \(\rm T_{ab}\) is 25\({}^{\circ}\)C, as stated at the bottom of the SOA chart (refer to Fig. 3). The values for \(\rm m_{e}\) and \(\rm b_{r}\) are then calculated using any two points (\((V_{DS1}\), \(I_{D,max1}\)) and \((V_{DS2}\), \(I_{D,max2}\))) on the 1ms line of the dataset SOA where thermal instability occurs, using (4) and (5).
+
+\[\rm R^{*}_{th(j,mb)}=(T_{j,max}-T_{mb})/(V_{DS}\times I_{D,max}) \tag{3}\]
+
+\[\rm m_{e}=(log_{10}(I_{D,max2})-log_{10}(I_{D,max1}))/\] \[\rm(log_{10}(V_{DS2})-log_{10}(V_{DS1})) \tag{4}\]
+
+\[\rm b_{r}=log_{10}(I_{D,max2})-m_{e}\times log_{10}(V_{DS2}) \tag{5}\]
+
+The model shows the MOSFET's junction operating at a "proxy" temperature of 175\({}^{\circ}\)C at the maximum current indicated in the datasheet SOA graph, obtained using a modified version of (2) to express \(\rm I_{D,max}\) for a given \(\rm V_{DS}\). This is fed into a behavioral current generator \(\rm P_{diss}\) used to calculate the dissipated power in the MOSFET.
+
+The Cauer model in Fig. 7 is time independent and valid only for a \(\rm V_{DS}\). Once \(\rm R^{*}_{th(j,mb)}\) is calculated for all the pulse durations given in the SOA (\(\rm 10\mu s\), \(\rm 100\mu s\), \(\rm 1ms\), \(\rm 10ms\), \(\rm 100ms\) and \(\rm 2s\) - DC) and different \(\rm V_{DS}\), the model is created using a recursive algorithm [8] executed in MATLAB and 6 datapoints corresponding to the \(\rm R^{*}_{th(j,mb)}\) calculated at the aforementioned pulse durations. This Cauer model can be used with a power pulse of arbitrary shape, including triangular ones. For a rectangular pulse of 311W the junction temperature reaches 175\({}^{\circ}\)C showing that, as per datasheet, the maximum current for a 1ms pulse at a \(\rm V_{DS}\) of 20V is 15.55A (refer to Fig. 3). As theorized, the same limit is reached for a triangular pulse of 650W peak power, \(\sim\)2.09 times the power of the rectangular pulse.
+
+This last model can also be used to estimate the "proxy" temperature of the junction in case of a fast train of pulses, whose frequency does not allow the junction to return to its initial temperature, as shown in Fig. 8. This cumulative behavior, which leads to the average junction temperature to increase and then plateau, would not be possible to estimate otherwise.
+
+## V Conclusions and Future Work
+
+To improve the design cycle, in case of capacitive pre-charge and active clamping, this paper has presented empirical evidence relating triangular power pulses to rectangular power pulses and a fixed-voltage Cauer model for a power MOSFET operating in a thermally unstable linear mode. This model has been derived for the BUK7S1R0-40H. However, it can be obtained for any device using simple interpolation of its datasheet SOA, and allows for a fast and improved evaluation of the MOSFET's operation during thermal instability under single and multiple power pulses. The validity of the model has been verified using measurements of rectangular (SOA) and triangular (active clamp) power pulses over a broad selection of MOSFETs, including different package types, die sizes, V\({}_{\text{DS}}\) ratings, gate voltage levels and trench technologies. Future work will involve a third model valid for any V\({}_{\text{DS}}\) and time pulse, also considering the influence of temperature, widening its usage to applications where MOSFETs operate in thermal instability under variable conditions. Additionally, this model could be integrated, together with the existing Cauer model valid for operation outside thermal instability, within Nexperia electrothermal models, providing designers with the complete thermal behavior of a power MOSFET.
+
+## Acknowledgment
+
+The authors thank Dr. Adam Brown at Nexperia Manchester for his contributions to this paper.
+

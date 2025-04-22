@@ -1,0 +1,298 @@
+
+A. R. Burgers, Cor Leguijt, Peter Lolgen, and Wim C. Sinke
+
+Manuscript received September 19, 1995; revised June 26, 1996. The review of this paper was arranged by Editor P. N. Panayototos. This work has been carried out within the framework of the program "Solar Cells for the 21st Century" from the Netherlands Organization for Scientific Research NWO with support from The Netherlands Energy Research Foundation ECN. A. R. Burgers and V. C. Sinke are with ECN Renewable Energy, 1755 ZG Petten, The Netherlands. C. Leguijt was with ECN Renewable Energy, 1755 ZG Petten, The Netherlands. He is now with Energy North West (ENW), 1009 DC Amsterdam, The Netherlands. P. L. Lolgen was with ECN Renewable Energy, 1755 ZG Petten, The Netherlands. He is now with Siemens AG, Munich, Germany.
+
+
+## I Introduction
+
+Many attempts were made to arrive at simple closed-form formulas for the dark current and minority carrier concentrations in highly doped regions. These are useful for optimizing doping profiles and gaining physical insight into electrical behavior. In solving the transport equations for arbitrary doping profiles, there is always a compromise between accuracy and simplicity. There are various ways to combine these as well as possible.
+
+After a literature discussion we introduce our new coordinate transformation. The transformation simplifies the transport equations considerably. It turns out that one material parameter, the newly introduced "characteristic dark current," plays a central role. The physical interpretation of the characteristic dark current will be clarified. The transformation yields simpler forms of previous expressions. The transformed equations have a symmetry which is exploited to obtain directly from any analytic dark current expression a counterpart. Examples on usage of the symmetry will be given.
+
+Next, two first-order nonlinear differential equations for the dimensionless recombination velocity \(S\) and its reciprocal \(\tau\) are derived and analyzed. Starting from an approximate initial solution, which coincides with the exact solution for uniformly doped regions, and linearizing the differential equations around this initial solution yields two new expressions. The exact solution is shown to be included between both new expressions.
+
+The limiting behavior of the new expressions is compared with previous analytical expressions. The new expressions are compared with the exact numerical solution and previous analytical expressions for several profiles.
+
+## II Literature
+
+In 1989, Cuevas and Balbuena [1] a review of literature in this field, which we will update here for dark current computations. Models are grouped by the method they use.
+
+### _Assumption of Special Relations Between the Material Properties_
+
+When special relations between material properties are assumed, closed form analytical solutions possible of the second-order equation for the current density are possible. The accuracy of the assumption limits the usefulness of the expressions obtained. Abenante [2] assumes \(D_{p}=KN_{d}^{H}\) with \(H\) and \(K\) some constants, \(D_{p}\) the diffusion coefficient and \(N_{d}\) the doping concentration.
+
+Lindholm [3] assumes \(\tau(x)\approx N(x)^{\!\!-\!m}\) and exponential dependence of the doping concentration \(N\) on depth and that the electric field is position independent. Verhoef and Sinke [4] extend the model of Lindholm with adjustable apparent bandgap narrowing. Instead of working with an average value of the mobility \(\mu\) as Lindholm does, they use a power-law dependence of \(\mu\) on \(N\).
+
+Selvakumar [5] and Rinaldi [6] solve the transport equations assuming constant \(C_{s}=\eta_{0}D_{n}/L_{n}\). The problem is to find a good estimate for \(C_{s}\) in case of nonuniform doping. Rinaldi [6] obtained a much improved estimate for this average value.
+
+### _Transparency is Assumed_
+
+Del Alamo _et al._[7] uses the differential equation for the recombination velocity \(S\). Assuming transparency, analytic solutions are obtained. The applicability of the expressions is limited by the simplifying physical assumptions.
+
+### _Breakdown of the Region Under Analysis_
+
+_in Several Subregions_
+
+The highly doped region is divided into several subregions. Simple analytical solutions for individual regions are coupled together, making the final solution less simple. Amantea [8] distinguishes regions where transport is either field--or diffusion dominated. Fossum and Shibib [9] distinguish highly doped regions where bandgap narrowing and majority carrier degeneracy are important and a lowly doped region where that is not the case. A third region near the surface is distinguished with short lifetimes. This region is characterized by an effective recombination velocity.
+
+Jankovic and Karamarkovic [10] combine this regional approach with the differential equation for \(S\).
+
+_Iterative solutions_ are attempted to the system of differential equations or a reformulation of it. Applying one iteration gives simple analytical expressions which can be sufficiently accurate. Park _et al._[11], Cuevas [12] and Rinaldi [13] make direct use of the transport equations for current density and carrier concentration. Rinaldi [13] shows that for thin emitters and the right choice of \(C_{8}\) the model of Selvakumar [5] is equivalent to his new first-order approximation. For thick emitters this method requires many iterations.
+
+De Castro and Rudan [14] transform the transport equations to an integral equation for the excess carrier concentration. Iterative solution of this equation converges fast, but does not give simple expressions.
+
+Our work falls into this last category. It uses iterative methods for the differential equation of \(S\).
+
+## III Transport Equations and Coordinate Transformation
+
+In this section, we will present a coordinate transform, which simplifies the transport equations, making them more suitable to subsequent analysis.
+
+We focus on p-type material. For n-type material the derivation is completely analogous. Let \(n_{0}\) and \(n_{\mathcal{O}}\) be the equilibrium concentrations of electrons in the doped material and intrinsic material, respectively, and \(\triangle n(x)=n(x)-n_{0}(x)\) be the excess electron concentration. The minority carrier current \(J_{n}\) consists of a drift and a diffusion component. The electric field \(E_{n}\) for the drift component is given by
+
+\[E_{n}=\frac{D_{n}}{\mu_{n}}\ \frac{d}{dx}\bigg{(}\underline{\log}\left( \frac{n_{\mathcal{O}}^{2}}{n_{0}}\right)\bigg{)}=-\frac{D_{n}}{\mu_{n}}\bigg{(} \frac{dn_{0}}{dx}\bigg{)}\frac{1}{n_{0}}. \tag{1}\]
+
+The two low injection minority carrier transport equations are written as follows:
+
+\[J_{n}= q\mu_{n}nE_{n}+qD_{n}\frac{dn}{dx}=qD_{n}\bigg{[}\frac{dn}{dx}-\frac{n }{n_{0}}\bigg{(}\frac{dn_{0}}{dx}\bigg{)}\bigg{]} \tag{2}\] \[\frac{dJ_{n}}{dx}= \frac{q}{\tau_{n}}\triangle_{\tau_{n}} \tag{3}\]
+
+We assume the silicon surface is at \(x=0\) and that it has a recombination velocity \(S_{0}\). This corresponds to the boundary condition
+
+\[J_{n}(0)=q\triangle n(0)S_{0}. \tag{4}\]
+
+We define the normalized excess carrier concentration \(\nu=\triangle n/n_{0}\). With these definitions we obtain (see e.g., Cuevas [1])
+
+\[J_{n}= qD_{n}n_{0}\frac{d\nu}{dx} \tag{5}\] \[\frac{dJ_{n}}{dx}= \frac{qn_{0}}{\tau_{n}}. \tag{6}\]
+
+Two material constants are needed, \(D_{n}n_{0}\) and \(n_{0}/\tau_{n}\). The crucial step is to define a new coordinate \(y(x)\) as follows:
+
+\[y(x)=\int_{0}^{x}\frac{d\xi}{L_{n}(\xi)}. \tag{7}\]
+
+In the sequel, differentiation with respect to \(y\) will be indicated by the symbol \({}^{\prime}\). Effectuating transformation (7) which is different from the coordinate transformation of Rinaldi [6] on (5) and (6) leads to
+
+\[J_{n}= q\frac{D_{n}}{L_{n}}n_{0}\nu^{\prime} \tag{8}\] \[J_{n}^{\prime}= q\frac{D_{n}}{L_{n}}n_{0}\nu^{\prime} \tag{9}\]
+
+where we used \(L_{n}^{2}=D_{n}\tau_{n}\). Now we define a characteristic dark current \(J_{0c}=qn_{0}D_{n}/L_{n}\). This \(J_{0c}\) is equivalent to the \(Q_{S}\) of Rinaldi [6]. This leads to
+
+\[J_{n}= J_{0c}\nu^{\prime} \tag{10}\] \[J_{n}^{\prime}= J_{0c}\nu. \tag{11}\]
+
+We see a formally simple set of equations with only one material constant explicit. However the diffusion length \(L_{n}\) is still required to do the coordinate transform. If both sides are divided by \(J_{0c}\) we obtain
+
+\[\nu= \frac{1}{J_{0c}}J_{n}^{\prime} \tag{12}\] \[\nu^{\prime}= \frac{1}{J_{0c}}J_{n}. \tag{13}\]
+
+This exposes a nice symmetry between \(J_{n}\) and \(\nu\) which will turn out to be useful later on.
+
+## IV Differential Equations for \(J_{n}\nu\nu\), and \(s\)
+
+In this section, we will introduce the normalized effective recombination velocity \(s\) and its reciprocal \(r\). We will derive second-order linear differential equations for \(J_{n}\) and \(\nu\) and nonlinear first-order differential equations for \(s\) and \(r\).
+
+Without loss of generality, it is assumed in this work that the recombination velocity is known at \(y=0\), with the device present at \(y>0\). For every \(y\)-coordinate, we define a recombination velocity \(S(y)\) as used by del Alamo _et al._[7]. \(S(y)\) describes the effective recombination velocity of the region to the left of \(y\)
+
+\[S(y)=\frac{J_{n}(y)}{q\triangle n(y)}. \tag{14}\]We define a dimensionless recombination velocity \(s=SL_{n}/D_{n}\) and its reciprocal \(r=1/s\). \(s\) can be expressed in terms of \(\nu,J_{n}\) and \(J_{\text{Oc}}\) as follows:
+
+\[s(y)=\frac{S(y)L_{n}(y)}{D_{n}(y)}=\frac{J_{n}(y)n_{0}(y)}{\triangle n(y)J_{ \text{Oc}}(y)}=\frac{J_{n}(y)}{J_{\text{Oc}}(y)\nu(y)}. \tag{15}\]
+
+If we know \(s\), we can decouple (10) and (11) using (15) and reduce them to first-order equations
+
+\[\nu^{\prime}=s\nu \tag{16}\] \[J_{n}^{\prime}=rJ_{n\star} \tag{17}\]
+
+From the system of (10) and (11), it is straightforward to obtain two linear second-order differential equations for \(J_{n}\) and \(\nu\)
+
+\[\nu^{\prime\prime}+\nu^{\prime}\frac{J_{\text{Oc}}^{\prime}}{J_{ \text{Oc}}}-\nu=0 \tag{18}\] \[J_{n}^{\prime\prime}-J_{n}^{\prime}\frac{J_{\text{Oc}}^{\prime }}{J_{\text{Oc}}}-J_{n}=0. \tag{19}\]
+
+On differentiation of (16) and (17) and subsequent substitution of (18) and (19) we obtain two equivalent first-order nonlinear differential equations for \(s\) and \(r\)
+
+\[s^{\prime}= 1-s^{2}-s\frac{J_{\text{Oc}}^{\prime}}{J_{\text{Oc}}} \tag{20}\] \[r^{\prime}= 1-r^{2}+r\frac{J_{\text{Oc}}^{\prime}}{J_{\text{Oc}}} \tag{21}\]
+
+We have as boundary condition \(s(0)=s_{0}=S_{0}L_{n}(0)/D_{n}(0)\). Note that (21) can be rewritten as follows:
+
+\[r^{\prime}=1-r^{2}-r\bigg{(}\frac{1}{J_{\text{Oc}}}\bigg{)}^{\prime}\bigg{/} \frac{1}{J_{\text{Oc}}}. \tag{22}\]
+
+By comparing (20) and (22) we can conclude that any analytical expression \(s(w)=G(s_{0},J_{\text{Oc}}(y),w)\) obtained for the differential equation for \(s\) can be immediately transferred to one for \(r\) by replacing \(J_{\text{Oc}}\) by its reciprocal and \(s_{0}\) by \(r_{0}\).
+
+## V The Characteristic Dark Current \(J_{\text{Oc}}\) and Passivation
+
+This section will discuss the physical meaning of the characteristic dark current \(J_{\text{Oc}}\) and show how to work with the differential equations for \(s\) by looking at the case of a uniformly doped region with a p-n junction at \(y=w\). In the uniform doping case, (20) reduces to
+
+\[s^{\prime}=1-s^{2}. \tag{23}\]
+
+The solution to this equation with dimensionless recombination velocity \(s_{0}\) at \(y=0\) can be written in several equivalent forms
+
+\[s(y)=\frac{s_{0}+\tanh(y)}{s_{0}\tanh(y)+1}=\frac{s_{0}\cosh(y)+\sinh(y)}{s_{0 }\sinh(y)+\cosh(y)}. \tag{24}\]
+
+In order to calculate the dark current, the junction is assumed to be in reverse bias. We therefore have \(\triangle n(w)=-n_{0}\) or equivalently \(\nu=-1\). Suppose we want to compute the contribution to the dark current of the region \(0\leq y\leq w\). We proceed as follows:
+
+\[J_{r0}(w)= -qS(w)\triangle n(w)=qn_{0}\frac{D_{n}}{L_{n}}s(w)=J_{0}\text{-}s (w)\] \[= J_{0}\text{:}\frac{s_{0}\cosh(w)+\sinh(w)}{s_{0}\sinh(w)+\cosh(w )}. \tag{25}\]
+
+For a high-low junction this is the familiar result encountered in many textbooks, for instance Sze [15]. For thick regions or large \(w\) this equation reduces to
+
+\[J_{r0}(\infty)=J_{0\star}\]
+
+We see that in the case of a uniformly doped infinitely thick region, the characteristic dark current \(J_{0\text{C}}\) corresponds to its dark current.
+
+From (24) it is possible to define passivation. An infinitely thick region has a \(s=1\). This corresponds with a recombination velocity \(D_{n}(0)/L_{n}(0)\). If the surface recombination velocity at \(y=0\) (with the device present at \(y\!>\!0\)) happens to be \(D_{n}(0)/L_{n}(0)\), we could replace the air at \(y\!<\!0\) in a thought experiment with uniformly doped material with the same doping level as at the surface \(y=0\).
+
+This half space of uniformly doped material could be characterized at \(y=0\) by a recombination velocity of \(D_{n}/L_{n}\). We therefore call a surface passivated if \(S_{0}\!<\!D_{n}(0)/L_{n}(0)\). Otherwise it is unpassivated.
+
+## VI Usage of Symmetry
+
+The symmetry found between \(s\)- and \(r\)-equation can be exploited as noted at the end of Section IV. Suppose we have an analytical expression for the dark-current of the following general form:
+
+\[J_{r0}(w)=J_{0\text{C}}(w)\text{s}(w)=J_{0\text{C}}(w)G(s_{0},J_{0\text{C}}(y), w). \tag{26}\]
+
+A new analytical dark current expression is then
+
+\[J_{r0}(w)=J_{0\text{C}}(w)/r(w)=J_{0\text{C}}(w)/G(r_{0},1/J_{0\text{C}}(y), w). \tag{27}\]
+
+Park _et al._[11] presented a model of dark current calculations of highly doped regions make direct use of the (2) and (3). This work has been generalized by Cuevas [12] and Rinaldi [13, 6]. We will demonstrate the usage of symmetry by applying it to this work. First it is shown how these expressions look using our coordinate transform. We define
+
+\[A(y)=\sum_{i\equiv 1}^{\infty}A_{2i-1}(y)\quad\overline{A}(y)= \sum_{i=1}^{\infty}\overline{A}_{2i-1}(y)\] \[B(y)=\sum_{i\equiv 0}^{\infty}B_{2i}(y)\quad\overline{B}(y)= \sum_{i\equiv 0}^{\infty}\overline{B}_{2i}(y)\]with \(A_{2i\!-\!1}(y),\overline{A}_{2i\!-\!1}(y),B_{2i}(y),\overline{B}_{2i}(y)\) recursively defined as follows:
+
+\[B_{0}(y) = 1\] \[\overline{B}_{0}(y) = 1\] \[A_{2i\!+\!1}(y) = \int_{0}^{y}\frac{1}{J_{0:\!c}(y_{1})}\overline{B}_{2i}(y_{1})\, dy_{1}\] \[\overline{A}_{2i\!+\!1}(y) = \int_{0}^{y}J_{0:\!c}(y_{1})B_{2i}(y_{1})\,dy_{1}\] \[B_{2i}(y) = \int_{0}^{y}\frac{1}{J_{0:\!c}(y_{1})}\overline{A}_{2i\!-\!1}(y_{ 1})\,dy_{1}\] \[\overline{B}_{2i}(y) = \int_{0}^{y}J_{0:\!c}(y_{1})\Delta_{2i\!-\!1}(y_{1})\,dy_{1}.\]
+
+The functions \(A(y),B(y),\overline{A}(y)\) and \(\overline{B}(y)\) were assigned their names in analogy with the work of Park, Rinaldi, and Cuevas for easy reference and have the following properties:
+
+\[\overline{B}(y) = J_{0:\!c}A^{\prime}(y)\quad\overline{B}^{\prime}(y)=J_{0:\!c}A(y)\] \[\overline{A}^{\prime}(y) = J_{0:\!c}B(y)\quad\overline{A}(y)=J_{0:\!c}B^{\prime}(y)\] \[\overline{B}(0) = 1\quad A(0)=0\] \[\overline{A}(0) = 0\quad B(0)=1.\]
+
+Since the pairs \(\{\overline{A}(y),B(y)\}\) and \(\{A(y),\overline{B}(y)\}\) satisfy (10) and (11), \(A(y)\) and \(B(y)\) represent two independent solutions for the excess carrier concentration while \(\overline{A}(y)\) and \(\overline{B}(y)\) represent two independent solutions for \(J_{n}(y)\). Park puts the junction at \(y=0\) thus \((\nu(0)=-1)\) and the recombining surface at \(x=W\). We introduce \(w=y(W)\). The solution to transport equations with boundary condition \(s_{w}=-J_{n}(w)/J_{0:\!c}(w)\nu(w)\) is
+
+\[\nu(y) = -B(y)+J_{n0}(0)A(y) \tag{28}\] \[J_{n}(y) = -\overline{A}(y)+J_{n0}(0)\overline{B}(y)\] (29) \[J_{n0}(0) = \frac{\overline{A}(w)+s_{w}J_{0:\!c}(w)B(w)}{\overline{B}(w)+s_{w }J_{0:\!c}(w)A(w)}. \tag{30}\]
+
+Approximate expressions can be obtained by truncating the series expansions. Table I shows the number of terms retained in successive approximations as proposed originally by Park and in Rinaldi [13]. The comparison demonstrates that the notion of order of the approximation is not well-defined in this context as noted by Cuevas [12] and Rinaldi [13].
+
+Cuevas [12] and Rinaldi [13] independently presented improved approximate solutions based on retaining the same number of terms in both the nominator and denominator. These approximations are also given in Table I. We will refer to these approximations as homogeneous \(n\)th-order truncations to distinguish them from the \(n\)th-order approximations from Park.
+
+Consider the 0th-order approximation from Park. In our notation it reads
+
+\[J_{n0}(w)=s_{0}J_{0:\!c}(0)+\overline{A}_{1}(w). \tag{31}\]
+
+The symmetry mapping changes \(\overline{A}_{2i\!-\!1}\) into \(A_{2i\!-\!1}\) and vice versa and \(\overline{B}_{2i}\) into \(B_{2i}\) and vice versa. Applying the symmetry mapping from \(r\) to \(s\) equation we obtain
+
+\[J_{n0}(w) = \frac{1}{r_{0}\frac{1}{J_{0:\!c}(0)}+A_{1}(w)} \tag{32}\] \[= \frac{s_{0}J_{0:\!c}(0)}{1+s_{0}J_{0:\!c}(0)A_{1}(w)}.\]
+
+This is the 0th-order approximation from Rinaldi [13]. In the same way it can be demonstrated that the homogeneous approximations of Cuevas [12] and Rinaldi [13] are invariant under this symmetry mapping. As it should be, the exact series solution (30) is also invariant under the symmetry mapping.
+
+The symmetry mapping can be applied to the analytical solution obtained in Rinaldi [6], which reads in our notation
+
+\[u^{\prime}_{PI,1}(y) = \cosh(y)+s_{0}\sinh(y) \tag{33}\] \[J_{n0,PI,1}(y) = \sqrt{\frac{\int_{0}^{w}J_{0:\!c}(y)u^{\prime}_{PI,1}(y)^{2}\,dy} {\int_{0}^{w}\frac{1}{J_{0:\!c}(y)}u^{\prime}_{PI,1}(y)^{2}\,dy}}\] (34) \[\psi_{1} = A_{1}(w)J_{n0,PI,1}(y)\] (35) \[J_{n0}(w) = J_{n0,PI,1}\bigg{[}\frac{s_{0}J_{0:\!c}(0)+J_{n0,PI,1}\tanh(\psi_ {1})}{J_{n0,PI,1}+s_{0}J_{0:\!c}(0)\tanh(\psi_{1})}\bigg{]}. \tag{36}\]
+
+Applying the symmetry mapping we find
+
+\[u^{\prime}_{PI,2}(y) = s_{0}\cosh(y)+\sinh(y) \tag{37}\] \[J_{n0,PI,2}(y) = \sqrt{\frac{\int_{0}^{w}J_{0:\!c}(y)u^{\prime}_{PI,2}(y)^{2}}{ \int_{0}^{w}\frac{1}{J_{0:\!c}(y)^{2}}u^{\prime}_{PI,2}(y)}}\] (38) \[\psi_{2} = \overline{A}_{1}(w)/J_{n0,PI,2}(y)\] (39) \[J_{n0}(w) = J_{n0,PI,2}\bigg{[}\frac{s_{0}J_{0:\!c}(0)+J_{n0,PI,2}\tanh\psi_ {2}}{J_{n0,PI,2}+s_{0}J_{0:\!c}(0)\tanh\psi_{2}}\bigg{]}. \tag{40}\]
+
+This is a first new analytical expression for the dark current.
+
+## VII First-Order Newton Approximation
+
+In this section, we will show how an initial solution can be improved through linearization of either the differential equation for \(s\) or the \(r\).
+
+Let the operator \(L(s)\) be defined as follows:
+
+\[L(s)=s^{2}-1+s\biggl{(}\frac{J_{0\text{c}}^{\prime}}{J_{0\text{c}}}\biggr{)} \boldsymbol{\cdot} \tag{41}\]
+
+Let \(s_{i}\) be an initial solution which satisfies the boundary condition \(s_{\text{i}}(0)=s_{0}\). Let \(\epsilon_{i}=s_{i\!+\!1}-s_{i}\). The operator \(L\) can be linearized as follows by discarding the \(\epsilon_{i}^{2}\) term:
+
+\[L(s_{i\!+\!1}) = (s_{i}+\epsilon_{i})^{2}-1+(s_{i}+\epsilon_{i})\biggl{(}\frac{J _{0\text{c}}^{\prime}}{J_{0\text{c}}}\biggr{)} \tag{42}\] \[\approx (s_{i}^{2}+2s_{i}\epsilon_{i})-1+(s_{i}+\epsilon_{i})\biggl{(} \frac{J_{0\text{c}}^{\prime}}{J_{0\text{c}}}\biggr{)}\] \[= \,L(s_{i})+(s_{i\!+\!1}-s_{i})\biggl{(}2s_{i}+\biggl{(}\frac{J_{ 0\text{c}}^{\prime}}{J_{0\text{c}}}\biggr{)}\biggr{)},\]
+
+An improved solution is found by demanding
+
+\[\begin{split} s_{i\!+\!1}^{\prime}+L(s_{i\!+\!1})\approx s_{i\!+\!1}^{ \prime}+L(s_{i})+\epsilon_{i}\biggl{[}2s_{i}+\biggl{[}\frac{J_{0\text{c}}^{ \prime}}{J_{0\text{c}}}\biggr{]}\biggr{]}=0.\end{split} \tag{43}\]
+
+An important thing to note is that the discarded \(\epsilon_{i}^{2}(y)\) is always positive. This means that \(s^{\prime}\) and \(r^{\prime}\) are overestimated in the linearization. This implies that for all iterates (except the initial solution) one has the useful inclusion \(1/r_{i}(y)\leq s(y)\leq s_{i}(y)\). On expansion of \(L(s_{i})\) we obtain
+
+\[s_{i\!+\!1}^{\prime}+s_{i\!+\!1}\biggl{(}\frac{J_{0\text{c}}^{\prime}}{J_{0 \text{c}}}+2s_{i}\biggr{)}=1+s_{i\star}^{2}. \tag{44}\]
+
+In analogy to (16) we can define for every iterate \(s_{i}\) a corresponding normalized excess carrier concentration \(\nu_{i}\)
+
+\[\nu_{i}(y)=\exp\left(\int_{0}^{y}s_{i}(y)\,dz\right)\!. \tag{45}\]
+
+The solution of the differential (44) is elementary. An integrating factor \(h_{s,i}\) is \(J_{0\text{c}}J_{i}^{2}\). With the help of this integrating factor we get
+
+\[s_{i\!+\!1}(w)=\frac{s(0)h_{s,i}(0)+\int_{0}^{w}h_{s,i}(y)(1+s_{i}(y)^{2})\; dy}{h_{s,i}(w)}\boldsymbol{\cdot} \tag{46}\]
+
+On expressing \(s_{i}\) in \(\nu_{i}\) we obtain an alternative formulation
+
+\[\begin{split}& s_{i\!+\!1}(w)\\ &=\frac{\nu_{i}(0)\nu_{i}^{\prime}(0)J_{0\text{c}}(0)+\int_{0}^{ w}J_{0\text{c}}(y)(\nu_{i}^{\prime}(y)^{2}+\nu_{i}(y)^{2})\;dy}{\nu_{i}(w)^{2}J_{0 \text{c}}(w)}\boldsymbol{\cdot}\end{split} \tag{47}\]
+
+Note that by imposing \(\nu_{i\!+\!1}(y)=\nu_{i}(y)\) and \(s_{i\!+\!1}(y)\) and \(s_{i\!+\!1}(y)\) and \(s_{i\!+\!1}(y)\) one looks for a fixed point of the Newton iteration process and in this way one obtains an integral equation for either \(\nu(y)\) or \(s(y)\), Also note that although the differential equations for \(r\) and \(s\) are equivalent, the linearizations are not equivalent.
+
+## VIII Choice of Starting Solution
+
+The idea is to take as a first approximation the solution of the general (20) by discarding the term \(sJ_{0\text{c}}^{\prime}/J_{0\text{c}}\) leading to (23). We obtain the following start solution \(s_{1}(y)\) for the \(s\)-equation
+
+\[s_{1}(y)=\frac{s_{0}\alpha\text{cosh}(y)+\sinh(y)}{s_{0}\sinh(y)+\cosh(y)} \boldsymbol{\cdot} \tag{48}\]
+
+In this case we have \(\nu_{1}(y)=C(\alpha\text{cosh}(y)+s_{0}\sinh(y))\) with \(C\) some arbitrary constant. We introduce the function \(\kappa(y)=\nu_{1}(y)^{2}+\nu_{1}^{\prime}(y)^{2}\) which can be written as
+
+\[\kappa(y)=(1+s_{0}^{2})\cosh(2y)+2s_{0}\sinh(2y).\]
+
+We obtain for \(s_{2}(w)\) and by analogy for the \(r\)-equation for this initial approximate solution
+
+\[s_{2}(w) = \frac{s_{0}J_{0\text{c}}(0)+\int_{0}^{w}J_{0\text{c}}(y)\kappa(y) \,dy}{J_{0\text{c}}(w)(\alpha\text{cosh}(w)+s_{0}\sinh(w))^{2}} \tag{49}\] \[r_{2}(w) = \frac{\frac{s_{0}}{J_{0\text{c}}(0)}+\int_{0}^{w}\frac{\kappa(y) }{J_{0\text{c}}(y)}\,dy}{\frac{1}{J_{0\text{c}}(w)}(s_{0}\cosh(w)+\sinh(w))^{2}}, \tag{50}\]
+
+From the expressions (49) and (50), we can directly derive expressions for the total dark current of a nonuniformly doped region analogous to the derivation in Section V for uniformly doped regions
+
+\[J_{n0,s}(w) = \frac{s_{0}J_{0\text{c}}(0)+\int_{0}^{w}J_{0\text{c}}(y)\kappa(y) \,dy}{(\alpha\text{cosh}(w)+s_{0}\sinh(w))^{2}} \tag{51}\] \[J_{n0,r}(w) = \frac{(s_{0}\alpha\text{cosh}(w)+\sinh(w))^{2}}{\frac{s_{0}}{J_{0 \text{c}}(0)}+\int_{0}^{w}\frac{\kappa(y)}{J_{0\text{c}}(y)}\,dy}. \tag{52}\]
+
+Our analytical expressions (51) and (52), are formally different from those in Rinaldi [6] and from the truncated series expansions from Section VI and therefore new.
+
+One can easily check that formula's (51) and (52) reproduce the exact result for the case of uniform doping independent of the thickness of the profile. This is in contrast with the truncated Park-like expressions from Section VI, which are truncated Taylor series expansions of the relevant hyperbolic functions around a point, whereas we linearize a differential operator.
+
+In order to get a feeling for the expressions is it useful to look at some extreme cases. For \(w=0\) both our linearizations and the truncated Park-like solutions yield the correct value \(s_{0}J_{0\text{c}}(0)\).
+
+Table II gives limiting values for \(J_{n0,s}(w)\) and \(J_{n0,r}(w)\) for various cases. These will be compared with limiting cases for other expressions. First we compare with the homogeneous first-order expression from Cuevas [12] and Rinaldi [13] which reads in our notation
+
+\[J_{n0}(w)=\frac{s_{0}J_{0\text{c}}(0)+\int_{0}^{w}J_{0\text{c}}(y)\,dy}{1+s_{0}J_ {0\text{c}}(0)\!\int_{0}^{w}\!\frac{1}{J_{0\text{c}}(y)\,dy}}\boldsymbol{\cdot} \tag{53}\]Equation (53) is correct in the limit of thin regions for all values of \(s_{0}\). By comparing (53) with the limiting expressions from Table II one can see that the linearization based on (51) coincides with (53) for low \(s_{0}\) as does the 0th-order Park (31) while the linearization based on (52) coincides with (53) for high \(s_{0}\) values as does the 0th-order Rinaldi (32).
+
+Equation (51) does not give the correct limiting value for small \(w\) for a high \(s_{0}\) value and (52) does not give the correct value for a low \(s_{0}\) value, although the deviations are not as big as in the case of the 0th-order Park and Rinaldi approximations as will be demonstrated in the results section.
+
+For opaque regions, the following relation can be easily established between our approximate solutions \(J_{n0,r}\) and \(J_{n0,s}\) and that of Rinaldi [6]:
+
+\[\lim_{w\rightarrow\infty}\sqrt{J_{n0,r}(w)J_{n0,s}(w)}=\lim_{w\rightarrow\infty }\;J_{n0,\text{equars (33-36)}}. \tag{54}\]
+
+## IX Results
+
+We performed simulations for six doping profiles. Three doping profiles (shown in Fig. 1), as used in a solar cell Back Surface Fields (BSF), resulting from an implantation simulation program were used: one transparent, one opaque and an intermediate profile. Also three Gaussian doping profiles were used
+
+\[N_{a}(x)=N_{p}\bigg{(}\frac{N_{p}}{N_{b}}\bigg{)}^{-x/W)^{2}}. \tag{55}\]
+
+A peak doping level of \(N_{p}=1\times 10^{20}/\text{cm}^{3}\) and a base doping level \(N_{b}=1\times 10^{16}/\text{cm}^{3}\) were used. For the width
+
+Fig. 1: The three simulated BSF implanted doping profiles used. See Table I for transparency and dose of the profiles.
+
+Fig. 3: Comparison for simulated BSF implantation profile 1 of the normalized dark current \(s\left(W\right)=J_{n0,1}\left(W\right)/J_{n_{c},\left(W\right)}\) for different values of the dimensionless recombination velocity at the surface according to the exact solution and the two linearized solutions (49) and (50).
+
+Fig. 2: Comparison for simulated BSF implantation profile 1 and three values of the dimensionless recombination velocity at the surface of the exact solution of the differential equation for \(s\) and the two linearized solutions (49) and (750.
+
+of the profiles we used 0.01 \(\mu\)m, 1 \(\mu\)m, and 100 \(\mu\)m, Table III lists the doses, transparencies and \(D_{n}/L_{n}\) at the surface for the profiles used. Two measures were used for the opacity of the profiles
+
+\[\zeta_{1}= \sqrt{\overline{A}_{1}(w)A_{1}(w)}=\sqrt{\int_{0}^{w}J_{0c}(y)\, dy\int_{0}^{w}\frac{1}{J_{0c}(y)}\,dy} \tag{56}\] \[\zeta_{2}= \int_{0}^{W}\frac{1}{L_{n}(x^{\prime})}\,dx^{\prime}. \tag{57}\]
+
+The definition for \(\zeta_{1}\) (56) is from Rinaldi [6]. The definition for \(\zeta_{2}\) (57) follows directly from our coordinate transform. In these cases both definitions lead to rather similar opacity values. The definition for \(\zeta_{2}\) seems to be somewhat simpler.
+
+The differential equation for \(s\) (2) can be solved numerically. Fig. 2 shows for profile 1 how the exact solution is enclosed between the results based on linearization for both \(r\) and \(s\) equation. Even though this is an almost transparent profile, the \(s\) profile based on (49) is less accurate for high \(s_{0}\) values and the \(s\) profile based on (50) is less accurate for low \(s_{0}\) values. Fig. 2 also shows the start solution according to (48). The start solution departs little from a constant since profile 1 is almost transparent. The start solution is much improved upon.
+
+Figs. 3-5 show the normalized dark current \(s(W)=J_{\mathrm{r0}}(W)/J_{0c}(W)\) for the three simulated implantation profiles. For the thickest profiles there is little influence of the recombination velocity at the surface, indicating the usefulness of both \(\zeta_{1}\) and \(\zeta_{2}\).
+
+Table IV shows the normalized dark current \(s(W)=J_{\mathrm{r0}}(W)/J_{0c}(W)\) for the three Gaussian profiles. A tabular representation has been chosen since in a graph some of the differences are indiscernable. Different solutions are compared. Both the solution from Rinaldi, (33)-(36), and our variant, (37)-(40), are very accurate. Unfortunately, they do not include the exact solution. Our approximate solutions (51) and (52) do provide an inclusion and are not more than 15% off for the whole range of transparencies. The average value of our linearizations is not more than 10% off. The truncated series expansions from Section VI are inaccurate for thick regions as expected.
+
+## X Conclusions
+
+The coordinate transformation with the diffusion length \(L_{n}\) results in a simple formulation of the transport equations. After the coordinate transform only one position dependent material property, \(J_{0c}\), describes the problem. The diffusion length is
+
+Fig. 4: Comparison for simulated BSF implantation profile 2 of the normalized dark current \(s\left(W\right)=J_{\mathrm{r0}}\left(W\right)/J_{0c}\left(W\right)\) for different values of the dimensionless recombination velocity at the surface according to the exact solution and the two linearized solutions (49) and (50).
+
+Fig. 5: Comparison for simulated BSF implantation profile 3 of the normalized dark current \(s\left(W\right)=J_{\mathrm{r0}}\left(W\right)/J_{0c}\left(W\right)\) for different values of the dimensionless recombination velocity at the surface according to the exact solution and the two linearized solutions (49) and (50).
+
+still needed, but hidden in the coordinate transform. \(J_{\text{Oc}}\) is the dark current of an infinitely thick uniformly doped layer. Because of its central role in the analysis and its physical meaning we coin the term "characteristic dark current" for \(J_{\text{Oc}}\). The symmetry between the equations for the normalized carrier concentration and the current density has been exploited to obtain directly a counterpart for any analytic dark current expression. This led to a variant of the analytical expression in Rinaldi [6].
+
+A simple dimensionless form has been derived of the differential equation for the effective dimensionless recombination velocity \(s_{\star}\) A similar equation can be written down for its reciprocal \(r=1/s\). Starting from a solution, which coincides with the exact solution for uniform doping, and applying a linearization technique to both the differential equations for \(s\) and \(r\), two new approximate expressions were obtained for the dark current of a highly doped region.
+
+A useful result is that linearizations of the differential equations for \(s\) and \(r\) provide an inclusion of the exact solution. The computation time of the linearizations is dominated by calculation \(\cosh(2y)\) and \(\sinh(2y)\) weighted averages of \(J_{\text{Oc}}(y)\) and its reciprocal. Also the coordinate transform has to be computed. From the calculations and limiting expressions we see that for transparent regions and low recombining surfaces we can best use approximations based on linearization of the equation for \(s\) and for highly recombinative surfaces the linearization of \(r\).
+
+The new expressions were compared with previous solutions for six doping profiles. Our new expressions give a good estimate of the dark current. The estimates are much better than those obtained from truncated series solutions for electrically opaque profiles. The estimates are simpler but less accurate than those obtained in Rinaldi [6] and our variant of that. For the latter estimates, also the integrals of \(J_{\text{Oc}}(y)\) and its reciprocal have to be computed in addition to the computations required for the linearizations.
+
+## Acknowledgment
+
+The authors would like to thank two of the reviewers for a thorough review and some valuable suggestions.
+

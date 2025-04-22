@@ -1,0 +1,542 @@
+# Toward a Circuit Theory of Communication
+
+Michel T. Ivrlac and Josef A. Nossek,
+
+Manuscript received August 31, 2009; revised December 23, 2009; accepted January 27, 2010. Date of publication April 12, 2010; date of current version July 16, 2010. This paper was recommended by Editor W. A. Serdijn.
+
+The authors are with the Institute for Circuit Theory and Signal Processing, Technische Universitat Munchen, 80333 Munich, Germany (e-mail: ivrlac@tum.de; nossek@tum.de; nossek@tum.de).Digital Object Identifier 10.1109/TCSL2010.2043994
+
+###### Abstract
+
+Electromagnetic field theory provides the _physics_ of radio communications, while information theory approaches the problem from a purely _mathematical_ point of view. While there is a law of conservation of energy in physics, there is no such law in information theory. Consequently, when, in information theory, reference is made (as it frequently is) to terms like energy, power, noise, or antennas, it is by no means guaranteed that their use is consistent with the physics of the communication system. Circuit theoretic multiport concepts can help in bridging the gap between the physics of electromagnetic fields and the mathematical world of information theory, so that important terms like energy or antenna are indeed used consistently through all layers of abstraction. In this paper, we develop circuit theoretic multiport models for radio communication systems. To demonstrate the utility of the circuit theoretic approach, an in-depth analysis is provided on the impact of impedance matching, antenna mutual coupling, and different sources of noise on the performance of the communication system. Interesting insights are developed about the role of impedance matching and the noise properties of the receive amplifiers, as well as the way array gain and channel capacity scale with the number of antennas in different circumstances. One particularly interesting result is that, with arrays of lossless antennas that receive isotropic background noise, efficient multistreaming can be achieved no matter how densely the antennas are packed.
+
+ Antenna losses, channel capacity, circuit theory of communications, impedance matching, multi-input-multi-output (MIMO) systems, physical channel models, receive array gain, transmit array gain.
+
+## I Introduction
+
+The analysis and optimization of communication systems involves a host of technical and scientific disciplines. In the case of radio communications, these include electromagnetic field theory, radio-frequency engineering, and signal, coding, and information theories. The first two disciplines form part of the _physical_ theory of communications, for the laws of nature, like the Maxwell equations or the major conservation laws, play a central role in their concepts and methods. In contrast, signal, coding, and information theories are essentially _mathematical_ theories. As such, they are not based on the laws of nature but rather on definitions and mathematical logic. Only in conjunction with the physical disciplines can one attempt a complete theory where predictions can be put to the test by experiment. To this end, it is crucial that the mathematical and physical layers of abstraction are consistent with each other.
+
+There are several important terms, like "energy," "power," "antenna," "signal," or "noise," which are used in both physical and mathematical disciplines. Yet, from a physics point of view, energy, for instance, is a quantity for which there exists a law of conservation, while in signal and information theories, energy is commonly represented by the squared magnitude of some complex number, for which there _need not_ be any law of conservation. Only in the context of wave digital filters [1] is it customary that energy in the signal processing context (called pseudoenergy there) is consistent with physical energy and can be exploited to make sure that the signal processing system is stable. Therefore, special care has to be taken such as to _ensure_ that energy in the information theoretic layer of abstraction is consistent with physical energy. To better understand this problem, consider the additive white Gaussian noise (AWGN) channel, shown in Fig. 1, which is popular in information theory and signal processing. For example, a vector \(\boldsymbol{x}\) of \(N\) signals is presented to the input of the channel, and a vector \(\boldsymbol{y}\) of \(M\) signals is observed at its output
+
+\[\boldsymbol{y}=\boldsymbol{H}\boldsymbol{x}+\boldsymbol{\vartheta}\]
+
+where the vector \(\boldsymbol{\vartheta}\) models an AWGN of a known variance. The transmit power is _defined_ to be proportional to the average squared Euclidean norm of \(\boldsymbol{x}\) while the \((M\times N)\)-dimensional matrix \(\boldsymbol{H}\) is called "channel matrix." It got its name due to the fact that once it is known, the information capacity of the awGN channel can be computed [2]. Hence, from an information theory point of view, the channel matrix tells all about the channel.
+
+The channel input vector \(\boldsymbol{x}\) has to be related somehow with a relevant physical quantity of the communication system: perhaps with a voltage or an electric field strength. However, physical power (or energy) cannot be obtained from just one such quantity, but instead, a _conjugated pair_[3] is needed, for example, voltage and electric current, or electric and magnetic field strength. Hence, in a physical description of the channel,
+
+Fig. 1: Abstract model of a communication system showing the domains of physical and mathematical modelings. From the perspective of the latter, it is a vector awGN channel; from the view point of the former, it is a multiport.
+
+there are twice as many variables (one conjugated pair for each input and each output) than in the information theoretic description. By identifying each conjugated pair with one _port_ of an \((M+N)\) port, the noiseless input-output relationship needs an \((M+N)\times(M+N)\) matrix which connects one half of the port variables with the other half [4]. Because \(MN<(M+N)^{2}\), the channel matrix does not have enough degrees of freedom to capture the complete physics of the channel. Yet, from an information theory point of view, it _has to_ tell everything about the channel.
+
+Nevertheless, this conflict can be resolved by making use of the _additional_ degrees of freedom which come from the relationship between the information theoretic channel input and output on the one hand and some of the physical port variables on the other. By virtue of this relationship, the physical context can be "encoded" into the channel matrix \(\boldsymbol{H}\) such that the correct channel capacity can be obtained in the usual way within the information theory layer of abstraction. In Fig. 1, this relationship is represented by the blocks termed DAC (digital-to-analog converter) and ADC (analog-to-digital converter). These terms are used in an abstract sense since it is not merely the technical part of the conversion between the digital and analog domains that takes place, but, more importantly, the conversion between the mathematical and the physical layer of abstraction.
+
+What this conversion looks like depends on how physical quantities (i.e., the conjugated port variables) are related to the mathematical channel inputs and outputs. In the case of radio communication systems, it may appear that electric and magnetic field strengths are natural physical quantities to relate. Indeed, this approach is taken in [5, 6, 7], where the electromagnetic field equations are brought into a direct contact with information theory. However, this type of approach has the following two major drawbacks. First, field and information theories are not easily united, for both are mature theories which rely on a set of quite different mathematical methods (such as the solution of partial differential equations in continuous space-time on the one hand and statistics and linear algebra on the other). The successful application of such "electromagnetic information theory" requires profound understanding of both theories. The second drawback is related to the treatment of noise. Because classical electromagnetic field theory is a deterministic theory, modeling random noise is difficult. In fact, [5, 6, 7] have _no_ physical noise model. Gaussian random variables just pop up without their relationship with the physical origins of noise or their interaction with the antennas and the receiver (low-noise amplifier and impedance matching network) being made. Because, in information theory, noise is just as important as the signal, the lack of a physical noise model is a serious drawback.
+
+Both the aforementioned problems are solved when the modeling of the physical aspects of communication systems is founded on _circuit theory_. This comes about because of the following three reasons. Regardless of its physical origin, noise is easy to deal with in circuit theory [8, 9, 10, 11]. In particular, the superposition of contributions of different noise sources (such as amplifier and background noises received by the antennas) directly leads to the important concept of the _noise figure_ and its circuit theoretic minimization by _noise matching_. Second, the algebraic mathematical treatment of circuit theoretic multiports interfaces smoothly with signal and information theories. Finally, the complexity of electromagnetic field theory is encapsulated within the multiport model and henceforth does not have to be dealt with directly in signal or information theory. Electromagnetic field theory is therefore confined to the _behavior_ of those multiports which model the antennas and propagation aspects of communications. Instead of trying to establish an electromagnetic information theory, we therefore propose to employ a _circuit theory as a medium between the physical world of electrodynamics and the mathematical world of signal and information theories_.
+
+A circuit theoretic approach for modeling communication systems is not new. Wallace and Jensen have used this idea in [12] where they analyze the effect of mutual antenna coupling on channel capacity. We start out with similar ideas as in [12], but with a more rigorous and systematic approach, we are able to actually perform an in-depth analysis of the communication system and obtain some valuable insights. We begin by developing a multiport model for radio communication systems and justify the assumptions that we make on the way. The multiport model covers the physics of signal generation, transmit impedance matching, mutual antenna coupling, receive impedance matching, and noise. For the latter, we distinguish between extrinsic noise that is received by the antennas and intrinsic noise, which originates from the receive amplifiers and their subsequent circuitry.
+
+The \(N\) transmit-side and \(M\) receive-side antennas, together with the medium that connects the transmitter and receiver, are jointly modeled by one single \((M+N)\) port. Its circuit theoretic description (for example, its scattering or impedance matrix) has to be derived from electromagnetic field theory. Once this is done, the antennas and propagation aspects of communications are completely encapsulated by the multiport such that one does not have to bother with the field equations any longer but can proceed with a much easier multiport matrix description. In this paper, we focus on isotropic antennas that are arranged into uniform linear arrays. With a bare minimum of field theory (essentially using only the concept of the Poynting vector and the law of conservation of energy), we derive in Section III all the necessary properties of the impedance matrix of the antenna multiport.
+
+In Section IV, the developed multiport model is applied to study the impact of impedance matching, mutual antenna coupling, and noise properties on different aspects of communications. As a relevant performance measure, we define the _array gain_ in terms of the improvement of the receiver signal-to-noise ratio (SNR) with respect to using only a single antenna at the receiver and the transmitter. Interestingly, it turns out that one has to distinguish between a transmit array gain and a receive array gain, for both are not always identical. We study both array gains in different circumstances and particularly pay attention to how they depend on the number of antennas. It is well known in the antenna and propagation literature [13] that, under certain circumstances, the array gain can grow with the square of the number of antennas. While we confirm this result, we also show that the receive array gain can even grow exponentially with the number of antennas.
+
+Multi-input-multi-output (MIMO) systems are considered in Section V, where the general procedure is developed on how to "encode" the complete physical context into the channel matrix.
+
+By doing so, one makes sure that information theoretic results which are based on this channel matrix are automatically consistent with the physics of the communication system. We demonstrate the power of this approach by analyzing what happens to the channel matrix when the antennas are packed closer and closer. Under certain conditions, the channel matrix can converge to a scaled identity as the antenna separation is reduced toward zero, which shows that efficient multistreaming is possible even with compact arrays.
+
+An analysis of the impact of antenna losses on the array gain and the array efficiency is given alongside a comment on a frequently cited result by Yaru [14]. It turns out that obtaining a high array gain from lossy antennas with a high efficiency is possible provided that the antenna separation and excitation are chosen optimally.
+
+_Notation:_ In the following, we use bold lowercase letters for vectors and bold uppercase letters for matrices. An exception from this rule are bold uppercase letters that are accented by an arrow (')--these refer to 3-D field vectors (e.g., electric field). The expectation operation is denoted by \(\mathrm{E}[\![\cdot]\!]\), while \(*\), \(\mathrm{T}\), and \(\mathrm{H}\), are the complex conjugate, the transposition, and the complex conjugate transposition, respectively. Moreover, \(||\!\!\cdot||_{\mathrm{F}}\) denotes the Frobenius norm, and \(\mathbf{I}_{\mathbf{n}}\) and \(\mathbf{O}_{m\times n}\) are the \(n\)-dimensional identity matrix and the \(m\times n\) zero matrix, respectively.
+
+## II Multiport System Model
+
+The physical modeling of multi-antenna radio communication systems which is founded on the circuit theoretic concept of linear multiports is shown in Fig. 2. It consists of four basic parts: _signal generation_, _impedance matching_, _antenna mutual coupling_, and _noise_, which will be discussed in more detail in the following. Before that, however, some general assumptions applied in this paper deserve to be mentioned.
+
+### _Port Variables, Bandwidth, and Power_
+
+Complex voltage \((v)\) and current \((i)\) envelopes serve as port variables. The associated real-valued bandpass signals are sufficiently _narrow in bandwidth_ compared with the center frequency such that the term
+
+\[\lim_{T\rightarrow\infty}\frac{1}{2T}\int_{-T}^{T}\mathrm{Re}\left\{v^{*}(t) \dot{v}(t)\right\}\mathrm{d}t\]
+
+is (in a very good approximation) the _average active power_\(P\), which flows into the port. Interpreting \(v\) and \(i\), as information carrying, and hence, random signals, we have
+
+\[P=\mathrm{E}\left[\mathrm{Re}\{v^{*}\dot{i}\}\right] \tag{1}\]
+
+provided that the time average can be replaced by the ensemble average (which we assume to be the case). The bandwidth shall also be small enough such that the multiports are described by their network properties evaluated at the center frequency.
+
+### _Signal Generation_
+
+In the multiport model shown in Fig. 2, the number of antennas at the transmit side is denoted by \(N\geq 1\). The generation of the physical signal that is to be transmitted is modeled by \(N\) voltage sources which are connected in series with resistances \(R>0\). The \(i\)th voltage source is described by its complex voltage envelope \(\upsilon_{\mathrm{G},i}\), where \(i\in\{1,2,\ldots,N\}\). The maximum average power that can be delivered by the \(i\)th generator equals \((1/4)\mathrm{E}[|\upsilon_{\mathrm{G},i}|^{2}]/R\).
+
+### _Impedance Matching Networks_
+
+It can be advantageous to use impedance matching networks as a medium between the antenna array and the amplifiers or signal generators. These matching networks can be designed to ensure that the available power of the signal generators is delivered into the antennas (_power matching_) or that the SNR at the outputs of the receive amplifiers is as large as it can be (_noise matching_, [8, 9]) or any other goal one desires [15]. The transmitter-side impedance matching network is modeled as a linear \(2N\) port, described by its impedance matrix \(\mathbf{Z}_{\mathrm{MT}}\in\mathbb{C}^{(2N)\times(2N)}\). \(\Omega\)
+
+\[\begin{bmatrix}\mathbf{v}_{\mathrm{I}}\\ \mathbf{v}_{\mathrm{A}}\end{bmatrix}=\begin{bmatrix}\mathbf{Z}_{\mathrm{MT}11}&\mathbf{Z}_ {\mathrm{MT}12}\\ \mathbf{Z}_{\mathrm{MT}21}&\mathbf{Z}_{\mathrm{MT}22}\end{bmatrix}\begin{bmatrix} \mathbf{i}_{\mathrm{T}}\\ -\mathbf{i}_{\mathrm{A}}\end{bmatrix} \tag{2}\]
+
+Fig. 2: Linear multiport model of a radio multi-antenna communication system covering signal generation, impedance matching, antenna mutual coupling, and noise of both extrinsic (received by the antennas) and intrinsic (from low-noise amplifiers and remaining circuitry) origins.
+
+[MISSING_PAGE_FAIL:4]
+
+[MISSING_PAGE_FAIL:5]
+
+### _Transmit Power and Noise Covariance_
+
+The _transmit power_ is defined
+
+\[P_{\rm Tx}= \,{\rm E}\left[{\rm Re}\left\{{\mathbf{v}}_{\rm T}^{\rm H}{\mathbf{\xi}}_{ \rm T}\right\}\right]\] (22) \[= \,{\rm E}\left[{\rm Re}\left\{{\mathbf{v}}_{\rm A}^{\rm H}{\mathbf{\xi}}_{ \rm A}\right\}\right]\] (22a) as the sum of the average active powers that flow into the \[N\] ports at the transmitter side of the matched multiport system. As the matching networks are lossless, the so-defined transmit power is also equal to the average active power that flows into the transmit antenna array. _Assuming lossless antennas, the transmit power is also equal to the radiated power_\(P_{\rm rad}\). We will come back to this important point later on. From (21), we have \({\mathbf{v}}_{\rm T}={\mathbf{Z}}_{\rm T}{\mathbf{\xi}}_{\rm T}\), and \({\mathbf{Z}}_{\rm T}^{\rm H}={\mathbf{Z}}_{\rm T}^{\rm H}\) holds true because of reciprocity (recall from Section II-C that the matching networks are reciprocal such that the cascade of matching networks and multi-antenna multiport is reciprocal). As \({\mathbf{v}}_{\rm T}={\mathbf{v}}_{\rm G}-R{\mathbf{\xi}}_{\rm T}\)
+
+\[P_{\rm Tx}=\frac{1}{4R}{\rm E}\left[{\mathbf{v}}_{\rm G}^{\rm H}{\mathbf{B}}{\mathbf{v}}_{ \rm G}\right] \tag{23}\]
+
+with the "power-coupling" matrix
+
+\[{\mathbf{B}}=4R(R{\mathbf{\Pi}}_{\rm N}+{\mathbf{Z}}_{\rm T}^{*})^{-1}{\rm Re}\{{\mathbf{Z}}_ {\rm T}\}(R{\mathbf{\Pi}}_{N}+{\mathbf{Z}}_{\rm T})^{-1} \tag{24}\]
+
+for which \({\mathbf{B}}={\mathbf{B}}^{\rm H}>{\mathbf{0}}\) holds true, because the transmit power is positive for any \({\mathbf{v}}_{\rm G}\neq{\mathbf{0}}\). The noise covariance is defined as
+
+\[{\mathbf{R}}_{\mathbf{\eta}}={\rm E}[{\mathbf{\eta}}{\mathbf{\eta}}^{\rm H}]\in\mathbb{C}^{M \times M}\cdot{\rm W}. \tag{25}\]
+
+With (5), (10), and (18), we obtain
+
+\[{\mathbf{R}}_{\mathbf{\eta}}=\frac{\beta R_{\rm T}^{2}}{R}{\mathbf{Q}}{\mathbf{T}}{\mathbf{Q}}^{ \rm H} \tag{26}\]
+
+where the dimensionless matrix \({\mathbf{\upsilon}}\in\mathbb{C}^{M\times M}\) is defined as
+
+\[{\mathbf{\varUpsilon}}=\frac{1}{R_{\rm T}^{2}}{\mathbf{Z}}_{\rm R}{\mathbf{Z}}_{\rm R}^{*} -\frac{2R_{\rm N}}{R_{\rm T}^{2}}{\rm Re}[\rho^{*}{\mathbf{Z}}_{\rm R}\}+\frac{R_{ \rm N}^{2}}{R_{\rm T}^{2}}{\bf I}_{M}+\frac{\beta}{\beta}{\mathbf{F}}_{\rm R}{\bm {\phi}}{\mathbf{F}}_{\rm R}^{\rm H}. \tag{27}\]
+
+## III Multi-Antenna Multiport
+
+Shifting our focus back to the antenna multiport, what can we say about its impedance matrix \({\mathbf{Z}}_{\rm A}\)? Certainly it depends on the type of antennas, their spatial arrangement, the distance between the transmitter and the receiver, and on the medium connecting them. Obviously, this is a complicated problem. In order to handle it here, we shall restrict the discussion to simple antennas in simple arrangements with a simple medium, yet complex enough such that the important physical effects of multi-antenna communications are visible.
+
+The Hertzian dipole may come into mind when searching for a "simple" antenna. Nevertheless, the authors prefer yet a simpler approach: the _isotropic_ antenna. This concept enjoys extreme popularity in the literature of array signal processing and information theory (e.g., [23, 24, 25, 26, 27]), obviously because of its inherent simplicity. The only trouble is that isotropic electrodynamic vector fields do not exist [18]. The reason for this is that the isotropic vector field, far enough removed from the antenna, is _not_ supposed to change when we turn the antenna in _any_ direction. Only radially symmetric vector fields fulfill such a requirement. However, radial symmetry causes the curl of a vector to be zero, such that the Maxwell equations permit radially symmetric fields in free space only for the _static_ case. Nevertheless, the idea of the isotropic antenna can be saved if we do not think _only_ in terms of the electric and magnetic field vectors, but in terms of the Poynting vector field which is the cross product of the electric and magnetic field vectors [28]. _The isotropic antenna is defined such that the radial component of the Poynting vector is independent of the direction_. Hence, the isotropic antenna shall be isotropic with respect to the radiated power density instead of electric or magnetic field vectors. This is permitted by the Maxwell equations.
+
+With the additional assumption that the isotropic antennas are lossless, one can find \({\rm Re}[{\mathbf{Z}}_{\rm AT}]\) and \({\rm Re}[{\mathbf{Z}}_{\rm AR}]\) just from the law of conservation of energy. Later, it will become clear that the real part is all one needs to know about \({\mathbf{Z}}_{\rm AT}\) and \({\mathbf{Z}}_{\rm AR}\) regarding the _analysis_ of a matched multi-antenna system. Hence, this is good news. Furthermore, the real part of the impedance matrix of a linear array of isotropic antennas is qualitatively the same as one would obtain for a linear array of Hertzian dipoles [29]. This shows that the concept of isotropic antennas, albeit simple, does capture the essential physics of mutual near-field coupling.
+
+### _Radiated Power_
+
+In order to calculate the real part of the impedance matrix of an array of isotropic antennas, let us first take a look into the behavior of "ordinary" antennas. We can compute the power \(P_{\rm rad}\) which is radiated by an ordinary antenna in free space by integrating the Poynting vector over any closed surface \(\partial V\) which completely surrounds the antenna [30]. With the vectors \({\mathbf{\widetilde{B}}}\) and \({\mathbf{\widetilde{H}}}\) of the complex envelopes of the electric and magnetic fields, this becomes
+
+\[P_{\rm rad}=\int\limits_{\partial V}{\rm E}\left[{\rm Re}[{\mathbf{\tilde{E}}}^{* }\times{\mathbf{\widetilde{H}}}]\right]{\rm d}{\mathbf{\tilde{A}}}. \tag{28}\]
+
+By placing the antenna in the origin of a spherical coordinate system (see left-hand side of Fig. 3) and choosing for \(\partial V\) the surface of a sphere of radius \(r\) centered in the origin, we can express the radiated power as
+
+\[P_{\rm rad}=\int\limits_{0}^{2\pi}\int\limits_{0}^{\pi}{\rm E}\left[{\rm Re} \left\{E_{\theta}^{*}H_{\phi}-E_{\phi}^{*}H_{\theta}\right\}\right]r^{2}\sin( \theta){\rm d}\theta{\rm d}\phi_{*} \tag{29}\]
+
+Let \(r\) be large enough such that the surface of the sphere is inside the far field of the antenna; then, the electromagnetic field is a spherical transversal electrical wave [18]
+
+\[[E_{r}\quad E_{\theta}\quad E_{\phi}]=\frac{{\rm e}^{-{\rm j}kr}}{r}\left[0 \quad F_{\theta}(\theta,\phi)\quad F_{\phi}(\theta,\phi)\right] \tag{30}\]
+
+wherein \(k=2\pi/\lambda\) is the wavenumber, \(\lambda\) is the wavelength, and \(F_{\theta}\) and \(F_{\phi}\) are functions specific to the antenna used. The empty-space Maxwell equation \({\mathbf{\widetilde{H}}}=({\rm j}/\omega m_{0}){\mathbf{\nabla}}\times{\mathbf{\widetilde{E}}}\) used in (30), with \(\mu_{0}=4\pi\times 10^{-7}\ {\rm H}/{\rm m}\) and the angular frequency \(\omega\), requires that \(H_{\theta}=-E_{\phi}/Z_{0}\) and \(H_{\phi}=E_{\theta}/Z_{0}\), where \(Z_{0}=m_{0}c\approx 377\ \Omega\) and \(c\) is the speed of light. Hence, (29) becomes
+
+\[P_{\rm rad}=\frac{1}{Z_{0}}\int\limits_{0}^{2\pi}\int\limits_{0}^{\pi}{\rm E} \left[{\mathbf{|}}E{\mathbf{|}}^{2}\right]r^{2}\sin(\theta){\rm d}\theta{\rm d}\phi \tag{31}\]where \(|E|^{2}=|\vec{E}|\vec{E}|_{2}^{2}=|E_{\theta}|^{2}+|E_{\phi}|^{2}\) is the intensity of the electric field. Let us write (30) as
+
+\[\vec{E}=\tilde{\alpha}(\theta,\phi)\cdot\frac{\mathrm{e}^{-\vec{j}\mathrm{i} \mathrm{r}\tau}}{r}\cdot\vec{e}_{0}(\theta,\phi),\qquad\vec{e}_{0}\cdot\vec{ \boldsymbol{r}}=0 \tag{32}\]
+
+where \(\vec{e}_{0}\) is a unit vector pointing in the direction of the electric far field and
+
+\[\tilde{\alpha}(\theta,\phi)=\frac{F_{\theta}(\theta,\phi)}{\vec{e}_{0}\cdot \vec{e}_{\theta}}=\frac{F_{\phi}(\theta,\phi)}{\vec{e}_{0}\cdot\vec{e}_{\phi}}.\]
+
+Because \(\vec{e}_{0}\) is a unity vector, one can see by taking the magnitude of (32) that \(|\tilde{\alpha}(\theta,\phi)|^{2}=r^{2}|E|^{2}\). Since (31) does not depend on \(\vec{e}_{0}\), we do not need to know where the electric field vector is pointing. We just look at its magnitude
+
+\[P_{\mathrm{rad}}=\frac{1}{Z_{0}}\int\limits_{0}^{2\pi}\int\limits_{0}^{\pi} \mathrm{E}\left[|\tilde{\alpha}(\theta,\phi)|^{2}\right]\sin(\theta)\mathrm{d }\mathrm{d}\phi. \tag{33}\]
+
+### _Array Impedance Matrix_
+
+Consider two identical antennas, one located in the origin, as before, and another one which is displaced by the distance \(d\) along the negative \(z\)-axis, as shown in the right-hand side of Fig. 3. The electric field at a point \(P\), far away from the antennas, can be written as the linear superposition \(\vec{\boldsymbol{E}}=\vec{\boldsymbol{E}}_{1}+\vec{\boldsymbol{E}}_{2}\). The electric fields generated by each antenna
+
+\[\vec{\boldsymbol{E}}_{1}=\alpha_{1}(\theta,\phi)\cdot\frac{ \mathrm{e}^{-\vec{j}\mathrm{i}\mathrm{r}\tau}}{r}\cdot\vec{e}_{0,1}(\theta, \phi) \tag{34}\] \[\vec{\boldsymbol{E}}_{2}=\alpha_{2}(\theta,\phi)\cdot\frac{ \mathrm{e}^{-\vec{j}\mathrm{i}\mathrm{r}\tau^{\prime}}}{r}\cdot\vec{e}_{0,2}( \theta,\phi)\]
+
+where \(r\) and \(r^{\prime}\) are the distances between the point \(P\) and the first and the second antenna, respectively (see right-hand side of Fig. 3). Now, let these two identical antennas be oriented in the same way and excited by currents of complex envelopes \(i_{1}\) and \(i_{2}\), respectively. Then, we have \(\vec{e}_{0,1}=\vec{e}_{0,2}=\vec{e}_{0}\) and
+
+\[\alpha_{1}(\theta,\phi) \equiv\alpha(\theta,\phi)\cdot\dot{i}_{1} \tag{35}\] \[\alpha_{2}(\theta,\phi) \equiv\alpha(\theta,\phi)\cdot\dot{i}_{2}.\]
+
+When \(i_{2}=0\), the second antenna does not change the field of the first and vice versa (see also the discussion in Section II-D on antenna mutual coupling). Hence, the function \(\alpha(\theta,\phi)\) is _not_ influenced by the neighboring antenna--it is the same function we would obtain if only one antenna was present in the first place.
+
+The distance \(r^{\prime}\) can be expressed in terms of \(r\) and elevation \(\theta\) (see right-hand side of Fig. 3)
+
+\[r^{\prime}=r\sqrt{1+\frac{d^{2}}{r^{2}}+\frac{2d}{r}\cos\theta}\approx r+d\cos \theta,\qquad r\gg d \tag{36}\]
+
+so that, in a large enough distance \(r\gg d\) in the far field, we obtain from \(\vec{\boldsymbol{E}}=\vec{\boldsymbol{E}}_{1}+\vec{\boldsymbol{E}}_{2}\), using (34)-(36)
+
+\[\vec{\boldsymbol{E}}=\alpha(\theta,\phi)\frac{\mathrm{e}^{-\vec{j} \mathrm{i}\mathrm{r}\tau}}{r}(i_{1}+i_{2}\mathrm{e}^{-\vec{j}\mathrm{i}\mathrm{ j}\mathrm{d}\cos\theta})\vec{e}_{0}(\theta,\phi)\] (37) \[=\alpha(\theta,\phi)\boldsymbol{a}^{\mathrm{T}}(\theta)\dotBecause \(\mathbf{C}_{\mathrm{T}}\) depends on the mutual distances between the antennas and the latter depend on the spatial arrangement of the antennas, we consider a simple arrangement: the _uniform linear array_, where the antennas are aligned along the (negative) \(z\)-axis. To this end, we generalize the array steering vector from (38) to the case of \(N\) antennas
+
+\[\mathbf{a}(\theta)=\!\left[1\ \mathrm{e}^{-\mathrm{j}kd\cos\theta}\ \mathrm{e}^{- 2\mathrm{j}kd\cos\theta}\ \cdots\ \mathrm{e}^{-(N-1)\mathrm{j}kd\cos\theta}\right]^{ \mathrm{T}} \tag{46}\]
+
+where \(d\) is the distance between neighboring antennas. When we apply (46) in (44) and integrate, we arrive at
+
+\[\mathbf{C}_{\mathrm{T}}=\mathbf{C}_{N} \tag{47}\]
+
+where
+
+\[\mathbf{C}_{K}=\!\left[\!\!\!\begin{array}{ccccc}1&j_{0}(kd)&j_{0}(2kd)&j_{0}(3kd )&\cdots\\ j_{0}(kd)&1&j_{0}(kd)&j_{0}(2kd)&\ddots\\ \vdots&\ddots&\ddots&\ddots&\ddots\end{array}\!\!\!\!\right]\!\in\!\!\!\!\! \mathrm{R}^{K\times K} \tag{48}\]
+
+\[j_{0}(x)=\!\frac{\sin x}{x} \tag{49}\]
+
+while the index \(K\) specifies the dimension of the matrix. Note that \(\mathbf{C}_{K}\) is a real-valued Toeplitz matrix which happens to be positive definite for \(d>0\). The last property follows from the fact that the radiated power is always nonnegative, regardless of what excitation currents are used, and \(R_{\mathrm{r}}>0\). Because (49) has zeros for \(kd\in\pi\star\mathbb{N}\), we see that (since \(k=2\pi/\lambda\))
+
+\[\frac{2d}{\lambda}\in\mathbb{N}\iff\mathbf{C}_{K}=\mathbf{I}_{K}. \tag{50}\]
+
+When we align isotropic antennas in such a way that all mutual distances are integer multiples of half the wavelength, the mutual coupling completely disappears. On the other hand, as \(d\to 0\), the matrix \(\mathbf{C}_{K}\) tends to the all-one matrix, such that its smallest eigenvalue \(\xi\to 0\). Recalling the discussion of the unilateral approximation from Section II-F, we therefore see with the help of (15) that the critical distance between the transmitter and the receiver increases unboundedly as \(d\to 0\). Hence, the antenna separation cannot be made arbitrarily small without having to move the receiver arbitrarily far away from the transmitter. However, we will see that most of the effects of mutual coupling on the performance of the communication system already occur for rather moderate values of \(d\).
+
+Regarding the receive impedance matrix \(\mathbf{Z}_{\mathrm{AR}}\), we have
+
+\[\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}=R_{\mathrm{r}}\cdot\mathbf{C}_{\mathrm{R}}=R_ {\mathrm{r}}\cdot\mathbf{C}_{M}. \tag{51}\]
+
+### _Transimpedance Matrix_
+
+Finding the mutual coupling between the antennas of the receiver and the transmitter is complicated by the fact that the mutual coupling depends on the medium that connects the receiver and the transmitter. In order to keep things simple, we consider only the case where the receiver and the transmitter are located in free space. Suppose the receiver is located at elevation \(\theta_{\mathrm{T}}\) from the transmitter's point of view. Similarly, the transmitter is located at elevation \(\theta_{\mathrm{R}}\) from the receiver's point of view (see Fig. 4). Let us call \(r_{m,n}\) the distance between the \(m\)th receive and \(n\)th transmit antennas. Then, \(r_{m,n}=r+\Delta r_{m,n}\), where
+
+\[\Delta r_{m,n}=d(n-1)\cos(\theta_{\mathrm{T}})+d(m-1)\cos(\theta_{\mathrm{R}}) \tag{52}\]
+
+while \(r\) is the distance between the first antenna of the transmitter and the first antenna of the receiver. The electric field vector \(\mathbf{\vec{E}}_{m,n}\) at the \(m\)th antenna of the receiver excited by the \(n\)th antenna of the transmitter becomes
+
+\[\mathbf{\vec{E}}_{m,n}=\alpha_{0}\frac{\mathrm{e}^{-\mathrm{j}kr}}{r}\vec{e}_{0} \cdot\mathrm{e}^{-\mathrm{j}k\Delta r_{m,n}}\cdot\mathbf{i}_{\Delta,n}. \tag{53}\]
+
+Recall from the discussion in Section II-D that (53) requires \(\mathbf{\dot{i}_{\mathrm{B}}}=\mathbf{0}\) such that the antennas at the receiver do not disturb the field. Herein, \(\mathbf{\dot{i}_{\mathrm{B}}}\) is the vector of the complex current envelopes of the receiver-side ports of the multi-antenna multiport (see Fig. 2). The corresponding open-circuit voltage \(\mathbf{v}_{\mathrm{B}}\) is proportional to the strength of the total electric field
+
+\[\upsilon_{\mathrm{B},m}=\mathrm{const}\cdot\mathbf{\vec{e}}_{0}\cdot\sum_{n=1}^{N} \mathbf{\vec{E}}_{m,n}=\gamma\sum_{m=1}^{N}\!\mathrm{e}^{-\mathrm{j}k\Delta r_{m,n} }\cdot\mathbf{i}_{\Delta,n}\quad\quad\forall m \tag{54}\]
+
+where \(\gamma\in\mathbb{C}\cdot\Omega\) is a constant and \(\mathbf{\dot{i}_{\mathrm{B}}}=\mathbf{0}\). With the transmit and receive array steering vectors
+
+\[\mathbf{a}_{\mathrm{T}}(\theta)= \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!
+
+[MISSING_PAGE_EMPTY:120]
+
+case when \(d\gg\lambda/2\), the transmit array gain more or less equals the number \(N\) of antennas, only to raise sharply once \(d\) is reduced below \(\lambda/2\). It approaches \(N^{2}\) from below as \(d\to 0\). However, recall from Section II-F that one cannot allow for an arbitrarily small \(d\), for this would cause the critical distance \(D_{\mathsf{crit}}\) between the receiver and the transmitter increases unboundedly. One can show that the smallest eigenvalue \(\xi\) of the matrix \(\mathcal{G}_{\mathsf{T}}\) has the property \(\xi=\operatorname{finc}(N)\mathbin{\boldsymbol{\cdot}}(d/\lambda)^{2(N-1)}+O( d/\lambda)^{2N}\). Imagine that we have \(N=3\) closely spaced (\(d\ll\lambda\)) antennas and that we decrease the antenna spacing to half. Then, \(\xi\) reduces by a factor of 16, causing the critical distance (15) to become four times as long. By allowing \(N=10\) antennas, this increase of the critical distance would already become 512 fold. This clearly indicates that, with more antennas inside the array, we should be more conservative with a small antenna separation. On the other hand, we see from Fig. 5 that decreasing \(d\) below some limit does not increase the transmit array gain by any significant amount. In fact, a moderate separation of \(\lambda/4\) ensures that the transmit array gain comes about 1 dB close to \(N^{2}\). In particular, for a moderate number of antennas, those large array gains can indeed be realized, as is confirmed by experimental results with monopole antennas [32, 33].
+
+Fig. 6 shows the transmit array gain in the front-fire direction. For efficient beamforming, one has to put the antennas considerably apart. As can be seen, there is a finite optimum antenna separation which is always larger than \(\lambda/2\) but smaller than \(\lambda\). In the front-fire direction, the transmit array gain grows linearly with the number of antennas, yet its maximum value is larger than \(N\). It is intriguing that as \(d\to 0\), there is no difference between \(2N-1\) and \(2N\) antennas with respect to transmit array gain.
+
+Another interesting problem arises when the number of antennas is increased while the length \(L\) of the uniform linear antenna array is kept constant such that
+
+\[d=\frac{L}{N\mathbin{\boldsymbol{\cdot}}1}.\]
+
+The array becomes more and more densely packed as we increase the number of antennas. How much transmit array gain is obtainable in this case? Fig. 7 shows the result for beamforming in the end-fire direction and \(L=6\lambda\). Note that the transmit array gain is given in decibels. For a small \(N\), the antenna separation is large (\(d>\lambda\)) such that mutual antenna coupling is relatively low and the transmit array gain behaves more or less like that when no coupling was present. However, once \(N\) is large enough such that the distance reduces somewhat below \(\lambda\), the transmit array gain essentially stays constant (actually, it drops a little bit). The reason for this peculiar behavior can be found in Fig. 5: When \(d\) is within the range aforementioned, the transmit array gain reduces with decreasing distance in a way which compensates the increase which comes from having larger \(N\) values. This continues until \(N\) is large enough such that the antenna separation drops below \(\lambda/2\). Then, the transmit array approaches a quadratic growth with respect to \(N\). The transmit array gain in the end-fire direction is theoretically unbounded--there is no hard limit for the transmit array gain that can be achieved by an antenna array of any fixed size.
+
+For beamforming in the front-fire direction, the situation is rather different, as we can see from Fig. 8 which shows the transmit array gain in linear scaling. As \(N\) is increased such that \(d\) drops for the first time below \(\lambda\), the transmit array gain makes a sudden jump. It roughly doubles its value when going
+
+Fig. 5: Transmit array gain \(\lambda\)\(\operatorname{T_{\mathsf{X}}}\) in the end-fire direction as a function of the antenna separation for a different number \(N\) of antennas.
+
+Fig. 6: Transmit array gain \(\lambda\operatorname{T_{\mathsf{X}}}\) in the front-fire direction as a function of the antenna separation for a different number \(N\) of antennas.
+
+Fig. 7: Transmit array gain in decibels (\(\uparrow\)) for a fixed array size and beamforming in the end-fire direction.
+
+from seven to eight antennas. This effect can be understood by looking back at Fig. 6: In the front-fire direction, the maximum transmit array gain occurs for a separation \(d\), which is slightly below \(\lambda\). As a further decrease of \(d\) leads to a decreasing transmit array gain, there is once more a compensation effect, such that in Fig. 8, the transmit array gain remains almost constant (it actually drops a little bit) as \(N\) is increased. Only when \(N\) becomes large enough such that \(d\) is reduced below half the wavelength does the strong mutual coupling cause the transmit array gain to grow again, however very slowly and irregularly.
+
+### _Noise Matching_
+
+In contrast to the transmit array gain, the receive array gain does depend on receiver impedance matching. Consequently, it makes sense to talk about the important technique of _noise matching_ first, before approaching the receive array gain. Let us start with a single receive antenna. For this case, the circuit shown in the upper part of Fig. 9 is equivalent to the system shown in Fig. 2. The single receive antenna port is modeled here by its Thevenin/Helmholtz equivalent: two voltage sources with complex envelopes \(u_{\mathrm{S}}\) and \(\tilde{v}_{\mathrm{N}}\) for the signal voltage and the received noise, respectively, and a series impedance equal to the antenna impedance \(Z_{\mathrm{AR}}\). The job of the impedance matching twoport is to transform the antenna impedance from \(Z_{\mathrm{AR}}\) into \(Z^{\prime}_{\mathrm{AR}}\). Therefore, it makes sense to use the equivalent circuit shown in the lower part of Fig. 9, where the matched antenna is modeled by two voltage sources with complex envelopes \(u^{\prime}_{\mathrm{S}}\) and \(\tilde{v}^{\prime}_{\mathrm{N}}\), respectively, and a series impedance \(Z^{\prime}_{\mathrm{AR}}\). Because the impedance matching network is lossless, it can be shown (see Appendix B) that
+
+\[\mathrm{E}\left[\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\! \left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left| \!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\! \left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\left|\!\! \left|\!\left|\!\problem back into the single-antenna case [35] by employing an impedance matching network which _decouples_ the antennas. Hence, the receive impedance matrix of the matched antenna array becomes
+
+\[\mathbf{Z}_{\mathrm{R}}=Z_{\text{Qerk}}\mathbf{I}_{M}. \tag{83}\]
+
+With the topmost equations in (19) and (20), a lossless reciprocal impedance matching network described by (84), as shown at the bottom of the page, gets the job done nicely. Note that, from (19), there is
+
+\[\mathbf{Z}_{\mathrm{RT}}=\mathrm{j}\sqrt{\mathrm{Re}\{Z_{\text{opt}}\}}\mathrm{Re} \{\mathbf{Z}_{\mathrm{AR}}\}^{-1/2}\mathbf{Z}_{\mathrm{AR}}\mathbf{F}_{\mathbf{T}}^{\mathrm{T}}. \tag{85}\]
+
+Even though the receive-side antennas are _de_coupled, the mutual antenna coupling sneaks into the transimpedance matrix of the matched system via the matrix \(\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}\). Therefore, _a decoupled antenna array is substantially different from an array of uncoupled antennas_.
+
+### _Receive Array Gain_
+
+We have \(N=1\) transmit antenna, such that \(\mathbf{D}=\mathbf{d}\in\mathbb{C}^{M\times 1}\) is a column vector, and the SNR from (59) becomes
+
+\[\mathrm{SNR}=\frac{4P_{\mathrm{Tx}}}{B}\cdot\mathbf{\frac{\left|\mathbf{r}^{\mathrm{H }}\mathbf{d}\right|^{2}}{\mathbf{r}^{\mathrm{H}}\mathbf{R}_{\mathbf{q}}\mathbf{r}}}, \tag{86}\]
+
+The SNR is largest for \(\mathbf{r}=\kappa\mathbf{R}_{\mathbf{\eta}}^{-1}\mathbf{d}\), where \(\kappa\neq 0\) is an arbitrary constant such that the maximum SNR becomes
+
+\[\mathrm{maxSNR}=\frac{4P_{\mathrm{Tx}}}{B}\cdot\mathbf{d}^{\mathrm{H}}\mathbf{R}_{ \mathbf{\eta}}^{-1}\mathbf{d}. \tag{87}\]
+
+With (58), it then follows that
+
+\[A_{\mathrm{Rx}}=\frac{\mathbf{d}^{\mathrm{H}}\mathbf{R}_{\mathbf{\eta}}^{-1}\mathbf{d}}{ \left(\mathbf{d}^{\mathrm{H}}\mathbf{R}_{\mathbf{\eta}}^{-1}\mathbf{d}\right)\Bigr{|}_{M=1}}. \tag{88}\]
+
+With (18), (19), (57), and (26), we find
+
+\[\mathbf{d}^{\mathrm{H}}\mathbf{R}_{\mathbf{\eta}}^{-1}\mathbf{d}=\zeta\cdot\mathbf{a}_{\mathrm{R} }^{\mathrm{H}}F_{\mathrm{R}}^{\mathrm{H}}\mathbf{\Upsilon}^{-1}\mathbf{F}_{\mathrm{R}} \mathbf{a}_{\mathrm{R}} \tag{89}\]
+
+where \(\zeta=R\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!That means, for zero background noise, the receive array gain is exactly the same as the transmit array gain of the same array.
+2. _Effectively noiseless amplifiers_\((\mathrm{NF}_{\mathrm{min}}=1)\). This case is allowed in theory and corresponds to the situation where amplifier noise originates solely from the thermal agitation of the electrons in the real part of its input admittance. In this case, the noise resistance \(R_{\mathrm{N}}=0\), and from (82), indeed, \(\mathrm{NF}_{\mathrm{min}}=1\). This time \[\varliminf_{\mathrm{NF}\to 1}A_{\mathrm{Rx}}=M\cdot\frac{\mathbf{a}_{\mathrm{R}}^{ \mathrm{H}}(\theta_{\mathrm{R}})\mathbf{\phi}^{-1}\mathbf{a}_{\mathrm{R}}(\theta_{ \mathrm{R}})}{\mathbf{a}_{\mathrm{R}}^{\mathrm{H}}(\theta_{\mathrm{R}})\mathbf{a}_{ \mathrm{R}}(\theta_{\mathrm{R}})},\] (96) When the antennas are the dominant noise source, then the receive array gain is usually different from the transmit array gain.
+3. _Isotropic extrinsic noise_\((\mathbf{\phi}=\mathbf{C}_{\mathrm{R}})\). In the case that the background noise which is received by the antenna array happens to have a very special covariance matrix, namely, \(\mathbf{\phi}=\mathbf{C}_{\mathrm{R}}\), we find \[\varliminf_{\mathbf{\phi}\to\mathbf{C}_{\mathrm{R}}}A_{\mathrm{Rx}}=M\cdot\frac{\bm {a}_{\mathrm{R}}^{\mathrm{H}}(\theta_{\mathrm{R}})\mathbf{C}_{\mathrm{R}}^{-1}\mathbf{ a}_{\mathrm{R}}(\theta_{\mathrm{R}})}{\mathbf{a}_{\mathrm{R}}^{\mathrm{H}}(\theta_{ \mathrm{R}})\mathbf{a}_{\mathrm{R}}(\theta_{\mathrm{R}})}.\] (97) For \(\mathbf{\phi}=\mathbf{C}_{\mathrm{R}}\), the receive array gain is again equal to the transmit array gain, _regardless_ of the noise figure. It can be shown (see Appendix D) that the case \(\mathbf{\phi}=\mathbf{C}_{\mathrm{R}}\) is indeed possible and corresponds to _isotropic_ background radiation.
+
+### _On Scaling Laws_
+
+We have seen that transmit and receive array gains are both capable of growing as the square of the number of antennas, provided that optimum beamforming is applied in the end-fire direction. While the transmit array gain does not depend on the type of transmit impedance matching, the achievable SNR does depend on receive impedance matching. Its largest value is achieved when _noise matching_ is employed. However, what happens to the SNR if a different impedance matching technique is used? It shall not come as a surprise to see that the SNR is lower than that in the case of noise matching, but how about the dependence on the number of antennas?
+
+To this end, let us introduce a different matching technique and refer to it as _IZ-matching_. Herein, the receive impedance matching multiport is described by
+
+\[\mathbf{Z}_{\mathrm{MR}}=\mathrm{j}\begin{bmatrix}\mathbf{O}_{M}&\mathrm{Re}\{\mathbf{Z}_ {\mathrm{AR}}\}\\ \mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}&-\mathrm{Im}\{\mathbf{Z}_{\mathrm{AR}}\}\end{bmatrix}.\]
+
+As can be easily verified from the first line of (19), this causes \(\mathbf{Z}_{\mathrm{R}}=\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}\). Hence, the effect of this matching technique is to remove the imaginary part of \(\mathbf{Z}_{\mathrm{AR}}\) and keep its real part as is. The antennas therefore remain coupled. Let us now see what maximum SNR can be achieved using _IZ-matching_ and compare it to the case of noise matching. One merely has to evaluate (87) separately for those two matching techniques.
+
+There is a single transmit antenna positioned in the end-fire direction of the receiver (\(\theta_{\mathrm{R}}=0\)). We set the noise parameters as \(\hat{\beta}/\beta=R_{\mathrm{N}}/R_{\mathrm{r}}=10^{-3}\), \(\rho=0\), and \(\mathbf{\phi}=\mathbf{C}_{\mathrm{R}}\). The distance between the neighboring antennas of the receive array is \(d=\lambda/4\). Fig. 10 shows the resulting maximum SNR in decibels as a function of the number of antennas, while the transmit power is kept constant. For noise matching, we can observe an (almost) quadratic growth (6 dB per doubling the antenna number) of SNR with the antenna number. As expected, the SNR is always larger than that with _IZ-matching_. However, it might be surprising that, with _IZ-matching_, the SNR can increase _exponentially_ with the antenna number. In this example, the increase is about 8 dB for each additional antenna. At a high SNR, the channel capacity is proportional to the logarithm of SNR [36] such that an exponential growth of SNR translates into a _linear_ growth of channel capacity with the number of receive antennas. The linear growth of capacity is commonly--yet wrongly--attributed only to systems with multiple antennas at _both_ ends of the link [2]. Of course, _IZ-matching_ is not really favorable because it starts out with a penalty in SNR due to the impedance mismatch (in this example, about 25 dB). This penalty is never quite made up, even by exponential growth of SNR, for the latter eventually flattens out. It is an interesting phenomenon that, with _IZ-matching_, the SNR is not monotonic in the antenna number. In this example, going from six to seven antennas actually decreases the SNR.
+
+## V MIMO Communications
+
+Let us now proceed further and consider radio communication systems which employ multiple antennas at _both_ ends of the system. These so-called MIMO systems have been extensively analyzed in the information theory literature, particularly for Gaussian-distributed signals and noise (e.g., [2, 27, 37, 38, 39]). The MIMO system is modeled
+
+\[\mathbf{y} = \mathbf{H}\mathbf{x}+\mathbf{\phi} \tag{98}\] \[\mathrm{E}\begin{bmatrix}\|\mathbf{x}\|_{2}^{2}\end{bmatrix} = P_{\mathrm{Tx}}\] (98a) \[\mathrm{E}\begin{bmatrix}\mathbf{\phi}\mathbf{\partial}^{\mathrm{H}}\end{bmatrix} = \sigma^{2}\mathbf{\mathrm{I}}_{M} \tag{98b}\]
+
+where the \(N\)-dimensional vector \(\mathbf{x}\) is called "channel input," the \(M\)-dimensional vector \(\mathbf{y}\) is called the "channel output," while \(\mathbf{\phi}\) is the vector of zero-mean, additive, white, complex, and circularly symmetric Gaussian noise. The matrix \(\mathbf{H}\in\mathbb{C}^{M\times N}\) is called the channel matrix. For a given channel matrix, the channel capacity of the MIMO system can be computed [2].
+
+Fig. 10: Maximum SNR as a function of antenna number at the receiver for different matching techniques and constant transmit power.
+
+[MISSING_PAGE_FAIL:14]
+
+and identically distributed (i.i.d.) zero-mean and unity-variance complex Gaussian entries.
+
+### _Channel Rank of Densely Packed Antenna Arrays_
+
+One of the key properties of MIMO systems is their ability to transfer multiple data streams at the same time using the same band of frequencies. For example, consider a system with two antennas at each end of the link. Let
+
+\[\mathbf{H}=\mathbf{U}\begin{bmatrix}s_{1}&0\\ 0&s_{2}\end{bmatrix}\mathbf{V}^{\rm H}\]
+
+be the singular value decomposition of \(\mathbf{H}\), where \(\mathbf{U},\mathbf{V}\in\mathbb{C}^{2\times 2}\) are unitary matrices and \(s_{1}\geq 0\) and \(s_{2}\geq 0\) are its two singular values. In new variables \(\mathbf{x}^{\prime}=\mathbf{V}^{\rm H}\mathbf{x}\) and \(\mathbf{y}^{\prime}=\mathbf{U}^{\rm H}\mathbf{y}\), we obtain from (98)
+
+\[\mathbf{y}^{\prime}=\begin{bmatrix}s_{1}&0\\ 0&s_{2}\end{bmatrix}\mathbf{x}^{\prime}+\mathbf{\theta}^{\prime}\]
+
+where \(\mathbf{\vartheta}^{\prime}=\mathbf{U}^{\rm H}\mathbf{\theta}\). Since \(\|\mathbf{x}^{\prime}\|_{2}^{2}=\|\mathbf{x}\|_{2}^{2}\) and \(\mathrm{E}[\mathbf{\vartheta}^{\prime}\mathbf{\vartheta}^{\prime\rm H}]=\mathrm{E}[ \mathbf{\vartheta}\mathbf{\vartheta}^{\rm H}]\), the "primed" MIMO system aforementioned and the original system (98) are identical from an information theory view point (as long as all the signals are Gaussian distributed). However, the primed MIMO system has a diagonal channel matrix which directly shows the possibility to transfer _two_ independent data streams simultaneously, without having the streams interfere with each other. Of course, this only works as long as both \(s_{1}\) and \(s_{2}\) are strictly positive. That is, of course, only the case when \(\mathbf{H}\) has a full rank.
+
+What is going to happen to the rank of the channel matrix \(\mathbf{H}\) if the separation \(d\) between the two antennas in the transmit and receive arrays is reduced more and more? Without considering mutual coupling, the antennas ultimately look like a single antenna--the same way the MIMO system would behave as if only one antenna was present at each end of the link. In other words, without mutual coupling, the channel matrix is rank deficient; hence, its determinant vanishes as we reduce \(d\to 0\). However, what is the result when we take mutual coupling into account?
+
+To this end, let there be _two_ paths connecting the transmitter to the receiver, for example, one direct path in the line of sight and another path via some reflectors. The \(k\)th path departs the transmit array in the direction \(\theta_{\rm T,k}\) and arrives at the receive array from the direction \(\theta_{\rm R,k}\), where \(k\in\{1,2\}\). The transimpedance matrix \(\mathbf{Z}_{\rm ART}\) is then given as a linear superposition of (57) for the two paths
+
+\[\mathbf{Z}_{\rm ART}=\sum_{k=1}^{2}\gamma_{k}\mathbf{a}_{\rm R}(\theta_{ \rm R,k})\mathbf{a}_{\rm T}^{\rm T}(\theta_{\rm T,k}), \tag{108}\]
+
+Note that \(\mathbf{Z}_{\rm ART}\) converges to a scaled all-one matrix, as \(d\to 0\); hence, it becomes rank deficient. However, when we substitute (108) into (105), one can show (after some lengthy algebraic calculation) that
+
+\[\det\lim_{d\to 0}\mathbf{H}=-3\zeta^{2}\gamma_{1}\gamma_{2}(\cos( \theta_{\rm R,1}) -\cos(\theta_{\rm R,2}))\] \[\times(\cos(\theta_{\rm T,1})-\cos(\theta_{\rm T,2}))\]
+
+where \(\zeta=\mathrm{e}^{-3\varphi}/R_{\rm F}\). _Effective multistreaming is possible irrespective of how densely the antennas are packed_. In order to demonstrate this effect in an even more striking way, let us consider
+
+\[\theta_{\rm R,1}= \,\theta_{\rm T,2}=\pi/2-\arccos\sqrt{2/3}\approx 55^{\circ}\] \[\theta_{\rm R,2}= \,\theta_{\rm T,1}=\pi/2+\arccos\sqrt{2/3}\approx 125^{\circ}\] \[\gamma_{1}= \,\gamma_{2}=\gamma,\]
+
+The channel matrix now becomes, as \(d\to 0\)
+
+\[\lim_{d\to 0}\mathbf{H}=2\zeta\gamma\begin{bmatrix}1&0\\ 0&1\end{bmatrix}.\]
+
+This intriguing result shows that it is possible to transfer two data streams free of mutual interference, which are even capable to carry _the same_ information rate, despite the fact that \(d\to 0\). Of course, \(d\) cannot really be arbitrarily small as we have pointed out in Section IV-A. However, we can anticipate that wireless MIMO systems comprising compact antenna arrays (minimum antenna spacing below half the wavelength) have the potential for multistreaming.
+
+## VI Lossy Antennas--Array Gain and Efficiency
+
+Up to now, only lossless antennas were considered in this paper. However, while antennas may not have too much loss, the little loss they have may become important, in case comparatively large electric currents have to flow in order to radiate a given power. In particular, for very low antenna separation, the losses inside the antenna can strongly reduce the array gain. It is therefore important to carefully design the antenna separation.
+
+In the following, we assume ohmic losses in the transmitter-side antennas. The real part of the transmit impedance matrix then becomes
+
+\[\mathrm{Re}\{\mathbf{Z}_{\rm AT}\}=R_{\rm d}\mathbf{I}_{\rm N}+R_{\rm f}\mathbf{C}_{\rm T }=R_{\rm r}\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{\rm r}}\mathbf{I}_{\rm N}\right) \tag{109}\]
+
+where \(R_{\rm d}>0\) is the _dissipation resistance_ of each antenna.
+
+### _Transmit Array Gain of Lossy Antenna Arrays_
+
+The transmit array gain for a lossy array is defined as
+
+\[A_{\rm Tx}\stackrel{{\mbox{\small\bf def}}}{{=}}\frac{\max\limits \limits_{\rm CRT}\left.\left.\frac{\max\limits_{\rm CRT}\left|M=1}{\mathrm{ SNR}\right|_{\frac{M}{R_{\rm d}}=0}}\right|_{P_{\rm Tx}=\rm{cryst}}. \tag{110}\]
+
+Therefore, the maximum SNR achievable by using all \(N\)_lossy_ antennas at the transmitter is compared with the SNR achievable when only one single _but lossless_ antenna is employed at the transmitter, while the same transmit power is used in both cases. Note that transmit power is defined as the power flowing into the antenna array. Since the antennas are lossy now, the transmit power is larger than the radiated power.
+
+The denominator of (110) is very similar to that of (58); the only difference is that, in the numerator of (110), we have to cater for the antenna losses. With (109), we only have to replace in (72) the matrix \(\mathbf{C}_{\rm T}\) by \(\left(\mathbf{C}_{\rm T}+(R_{\rm d}/R_{\rm r})\mathbf{I}_{\rm N}\right)\)
+
+\[A_{\rm Tx}=N\cdot\frac{\mathbf{a}_{\rm T}^{\rm H}(\theta_{\rm T})\left(\mathbf{C}_{ \rm T}+\frac{R_{\rm d}}{R_{\rm r}}\mathbf{I}_{\rm N}\right)^{-1}\mathbf{a}_{\rm T}( \theta_{\rm T})}{\mathbf{a}_{\rm T}^{\rm H}(\theta_{\rm T})\mathbf{a}_{\rm T}(\theta_{ \rm T})}. \tag{111}\]It is easy to see that
+
+\[A_{\rm Tx}|_{R_{\rm d}>0}<A_{\rm Tx}|_{R_{\rm d}=0} \tag{112}\]
+
+for \(\mathbf{C}_{\rm T}^{-1}\) and \((\mathbf{C}_{\rm T}+(R_{\rm d}/R_{\rm r})\mathbf{I}_{N})^{-1}\) have the same eigenvectors, but the latter has smaller corresponding eigenvalues, because \(\mathbf{C}_{\rm T}\) is positive definite and \(R_{\rm d}/R_{\rm r}>0\).
+
+Fig. 11 shows the transmit array gain as evaluated from (111) and beamforming in the end-fire direction and a uniform linear array of \(N=4\) isotropic antennas. For lossless antennas (\(R_{\rm d}=0\)), the largest array gain is achieved as \(d\to 0\) and approaches \(N^{2}\) from below. However, as \(R_{\rm d}>0\), a too small value for \(d\) is disastrous for the transmit array gain. On the other hand, there is an optimum separation \(d_{\rm opt}\) for which the transmit array gain is maximum. From Fig. 11, \(d_{\rm opt}\) is always less than half the wavelength. Because \(\lambda/2\)-spaced isotropic antennas are uncoupled [see (50)], we can conclude that _with the correct antenna spacing, the antenna mutual coupling always improves the transmit array gain compared with uncoupled antennas, regardless of how lossy the antennas are._
+
+Note from Fig. 11 that, for \(R_{\rm d}/R_{\rm r}\leq 10^{-2}\), one can achieve with \(N=4\) antennas a transmit array gain \(A_{\rm Tx}>10\), provided one uses the optimum antenna separation and applies the optimum beamforming vector (see Section VI-B).
+
+The optimum antenna separation depends on the direction of beamforming, number of antennas, and the ratio \(R_{\rm d}/R_{\rm r}\). Fig. 12 shows the results for the end-fire direction and a uniform linear array of isotropic radiators, e.g., with \(N=4\) antennas which have \(R_{\rm d}=10^{-3}\times R_{\rm r}\), we have \(d_{\rm opt}\approx 0.21\lambda\). However, \(N=8\) antennas with an \(R_{\rm d}=10^{-2}\times R_{\rm r}\) need a little bit more room to breathe. They are most happy with \(0.37\lambda\) space between neighbors. Note from Fig. 12 that the more antennas we have, or the more lossy they are, the more close \(d_{\rm opt}\) comes to \(\lambda/2\).
+
+### _Array Efficiency_
+
+Recall from Section IV-A that the transmit impedance matching strategy has no impact on the transmit array gain. Hence, we can choose any matching strategy we like. For mathematical convenience, let us use power matching as defined in (103). A generator voltage envelope vector \(\mathbf{\upsilon}_{\rm G}\) then lets electric currents flow through the antennas according to
+
+\[\mathbf{i}_{\rm A}=\frac{-\rm j}{2\sqrt{R}R_{\rm r}}\left(\mathbf{C}_{\rm T}+\frac{R _{\rm d}}{R_{\rm r}}\mathbf{I}_{N}\right)^{-1/2}\mathbf{\upsilon}_{\rm G} \tag{113}\]
+
+which is easily verified by the elementary analysis of the circuit in Fig. 2. The power that is dissipated in the antenna array is then given by
+
+\[P_{\rm d} = R_{\rm d}{\rm E}\left[\|\mathbf{i}_{\rm A}\|\mathbb{Z}\right] \tag{114}\] \[= \frac{R_{\rm d}}{4RR_{\rm r}}{\rm E}\left[\mathbf{\upsilon}_{\rm G}^ {\rm H}\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{\rm r}}\mathbf{I}_{N}\right)^{- 1}\mathbf{\upsilon}_{\rm G}\right]. \tag{114a}\]
+
+From (63), the optimum vector of generator voltage envelopes is given by
+
+\[\mathbf{\upsilon}_{\rm G,opt}=\zeta\cdot\mathbf{\upsilon}_{\rm G}\cdot\left(\mathbf{C}_{ \rm T}+\frac{R_{\rm d}}{R_{\rm r}}\mathbf{I}_{N}\right)^{-1/2}\mathbf{a}_{\rm T}^{ \ast} \tag{115}\]
+
+where \(\mathbf{\upsilon}_{\rm G}\in\mathbf{\mathbb{C}}\cdot\mathbf{V}\) is the information carrying signal which we want to transfer to the receiver and \(\zeta\) is a constant. Because of power matching, we have \(\mathbf{B}=\mathbf{I}_{N}\), and it follows from (23) and (115), setting \(\mathbf{\upsilon}_{\rm G}=\mathbf{\upsilon}_{\rm G,opt}\) that
+
+\[P_{\rm Tx}=\frac{|\zeta|^{2}{\rm E}\left[|\mathbf{\upsilon}_{\rm G}|^{2}\right]}{4 R}\mathbf{a}_{\rm T}^{\rm T}\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{\rm r}} \mathbf{I}_{N}\right)^{-1}\mathbf{a}_{\rm T}^{\ast}. \tag{116}\]
+
+Substituting (115) for \(\mathbf{\upsilon}_{\rm G}\) in (114a), the dissipated power can be written with the help of (116) as
+
+\[P_{\rm d}=P_{\rm Tx}\frac{R_{\rm d}}{R_{\rm r}}\frac{\mathbf{a}_{\rm T}^{\rm T} \left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{\rm r}}\mathbf{I}_{N}\right)^{-2}\bm {a}_{\rm T}^{\ast}}{\mathbf{a}_{\rm T}^{\rm T}\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}} {R_{\rm r}}\mathbf{I}_{N}\right)^{-1}\mathbf{a}_{\rm T}^{\ast}}. \tag{117}\]
+
+The array efficiency is then defined as
+
+\[\eta_{\rm A}=\frac{P_{\rm rad}}{P_{\rm rad}+P_{\rm d}}=\frac{P_{\rm rad}}{P_{ \rm Tx}}=\frac{P_{\rm Tx}-P_{\rm d}}{P_{\rm Tx}} \tag{118}\]
+
+Fig. 11: Transmit array gain of a lossy array of isotrops with beamforming in the end-fire direction.
+
+Fig. 12: Optimum antenna separation for end-fire beamforming as a function of the amount of loss \((R_{\rm d}/R_{\rm r})\).
+
+which is the ratio of radiated power to the total power supplied into the antenna array. With (117), we obtain
+
+\[\eta_{\rm A}=1-\frac{R_{\rm d}}{I_{\rm F}}\frac{\mathbf{a}_{\rm T}^{\rm H}\left(\mathbf{C }_{\rm T}+\frac{R_{\rm d}}{R_{\rm F}}\mathbf{I}_{\rm N}\right)^{-2}\mathbf{a}_{\rm T}}{I_ {\rm F}}\frac{\mathbf{a}_{\rm T}^{\rm H}\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{ \rm F}}\mathbf{I}_{\rm N}\right)^{-1}\mathbf{a}_{\rm T}} \tag{119}\]
+
+where \(P_{\rm d}=P_{\rm d}^{*}\) is used. In Fig. 13, the array efficiency of a uniform linear array of lossy isotropic antennas is shown, which is employed for beamforming in the end-fire direction. The distance between antennas is chosen such as to maximize the array gain (see Fig. 12). The array efficiency depends only very little on the number of antennas. It mostly depends on the ratio \(R_{\rm d}/R_{\rm F}\). From Fig. 13, we can observe that the array efficiency is actually quite high, provided that the optimum antenna separation is chosen and the optimum excitation (115) is used. For \(10^{-4}<R_{\rm d}/R_{\rm F}<10^{-2}\), the array efficiency ranges between 80% and 99.5%. For example, with \(N=4\) and \(R_{\rm d}/R_{\rm F}=10^{-3}\), we can see from Fig. 11 and Fig. 13 that a transmit array gain of \(A_{\rm Tx}\approx 13\) can be achieved with an efficiency of \(\eta_{\rm A}\approx 94\%\), provided that \(d=d_{\rm opt}\approx 0.21\lambda\). That surely is a good performance for a lossy four-element array with \(0.63\lambda\) aperture. Notice, too, that \(A_{\rm Tx}=13\) is less than 1 dB away from the theoretical maximum of 16 but more than 5 dB larger than the number of antennas.
+
+### _Bad Efficiency Reputation_
+
+Ever since the frequently cited work by Yaru [14], densely packed antenna arrays have gotten a bad reputation for being grossly inefficient, easily having efficiencies as low as \(10^{-14}\) or even worse. How does this combine with our result from Section VI-B where the efficiency of dense arrays is shown to be quite high (see Fig. 13)?
+
+In order to understand this, it is helpful to realize that, in [14], many antennas are placed extremely close together, like \(d=\lambda/64\approx 0.016\lambda\). We know by now from Fig. 12 that this is far too close for a nonsuparconducting antenna. Moreover, [14] does not use optimized antenna excitation (beamforming) which would take the antenna losses into account (like (115)).
+
+Of course, it is not too difficult an exercise to obtain similar results as in [14] when less than optimum beamforming is used and the antennas are spaced very closely together (for example, \(d=\lambda/64\)). To demonstrate this, we choose to use a beamforming which is optimized for a _lossless_ array. From (113) and (115), the optimum array current vector for the case \(R_{\rm d}=0\) equals
+
+\[\mathbf{i}_{\rm A}=\frac{-\mathbf{j}\zeta v_{\rm G}}{2\sqrt{RR_{\rm F}}}\mathbf{C}_{\rm T} ^{-1}\mathbf{a}_{\rm T}^{\rm a}.\]
+
+In order to get this current excitation with the lossy array and its power matching network, we set up the generators as
+
+\[\mathbf{v}_{\rm G}=\zeta\cdot v_{\rm G}\cdot\left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}} {R_{\rm F}}\mathbf{I}_{N}\right)^{1/2}\mathbf{C}_{\rm T}^{-1}\mathbf{a}_{\rm T}^{\rm a}.\]
+
+By following the same line of argument as in Section VI-B, we obtain for the array efficiency
+
+\[\eta_{\rm A}^{\prime}=1-\frac{R_{\rm d}}{R_{\rm F}}\frac{\mathbf{a}_{\rm T}^{\rm H }\mathbf{C}_{\rm T}^{-2}\mathbf{a}_{\rm T}}{\mathbf{a}_{\rm T}^{\rm H}\mathbf{C}_{\rm T}^{-1} \left(\mathbf{C}_{\rm T}+\frac{R_{\rm d}}{R_{\rm F}}\mathbf{I}_{N}\right)\mathbf{C}_{\rm T }^{-1}\mathbf{a}_{\rm T}}.\]
+
+Suppose \(N=5\), \(d=\lambda/64\), and \(R_{\rm d}/R_{\rm F}=10^{-3}\). For beamforming in the end-fire direction, we obtain an \(\eta_{\rm A}^{\prime}\approx 2\times 10^{-9}\). Radiating 1 W of power requires dissipating 1/2 GW of power in the antenna. Of course, such high dissipation is completely impractical. Hence, the array could radiate only very little power. This is the main argument of [14].
+
+However, note that \(d=\lambda/64\approx 0.016\lambda\) is much too dense. If the optimum separation \(d_{\rm opt}\approx 0.255\lambda\) is used instead and the optimum excitation is applied, the efficiency instantly climbs up to \(\eta_{\rm A}\approx 93\%\). To radiate 1 W of power, the array now dissipates only 78 mW, which is reasonable. The transmit array gain for \(R_{\rm d}/R_{\rm F}=10^{-3}\) equals \(A_{\rm Tx}\approx 18\), which is less than 1.5 dB away from the maximum of 25 and more than 5.5 dB larger than the number of antennas. This array has an aperture of just a little more than one wavelength. _Therefore, to extract the potentially high gain of compact antenna arrays, it is crucial to choose the antenna separation carefully, such that high array efficiency can be retained_.
+
+## VII Conclusion and Outlook
+
+"Did we get the physics right in the modeling of multichannel communication systems?" This question was the starting point of the investigations reported in this paper which have lead to quite a number of interesting insights and results. A multi-antenna radio communications system has to be modeled by linear multiports to enable consistency with the underlying physics. As shown, the computation of transmit power or receiver noise covariance requires knowledge of the governing physics. Circuit theory is shown to be the perfect link to bridge the gap between electromagnetic theory, information theory, and signal processing. The main contributions are as follows.
+
+1. A linear multiport model of antenna-array-based communication systems is derived using only simple far-field calculations of the electromagnetic field and its power density based on energy conversation in lossless media.
+
+Fig. 13: Array efficiency as a function of \(R_{\rm d}/R_{\rm F}\) for a different number of antennas. Beamforming is done in the end-fire direction.
+
+2. Array gain is defined as the enhancement of SNR compared with a single-antenna configuration. This results, in general, in different transmit and receive array gains despite the fact that antennas themselves are reciprocal.
+3. Transmit array gain does not depend on which strategy of transmit impedance matching is used, although it definitely makes sense to apply power matching to exploit the available power from the high-power transmit amplifiers. This is also advantageous from the viewpoint of sensitivity with respect to the components of the matching network and its source and load.
+4. Receive array gain depends on the receiver's impedance matching network and on the properties of the extrinsic (received via the antennas) and intrinsic noise (originating from the low-noise receive amplifiers and subsequent circuitry).
+5. The optimum strategy for the receive impedance matching is the decoupling of antenna elements with noise matching. If extrinsic and intrinsic noises have the same covariance matrix, then transmit and receive array gains are identical and maximum in the end-fire direction, where they grow with the square of the number of array elements as the distance between elements becomes small (less than half of the wavelength).
+6. If, instead of decoupling and noise matching, the receive matching network merely cancels out the imaginary part of the array's impedance matrix, the receive array gain can even increase exponentially with the number of the antenna elements, provided that the inter-element spacing is less than half of the wavelength.
+7. For MIMO systems (where antenna arrays are employed at both ends of the radio link), power matching should be used on the transmit side and noise matching should be used on the receive side. The channel matrix used in the information theoretic context can be computed from the multiport models derived in this paper. This channel matrix can have a full rank, henceforth supporting multistream transmission even if the antennas are densely spaced.
+8. Losses in the antenna elements lead to a graceful degradation of the efficiency if taken into account at the design stage, i.e., if the antenna spacing and the beamforming are optimized, accounting for this effect.
+
+The results and insights presented here open up a number of new research directions such as the following:
+
+1. optimized design of antenna elements and arrays for MIMO systems;
+2. optimal design of realizable impedance matching multiports taking into account the system bandwidth (broadband matching [44]);
+3. optimizing sensitivity of such systems to variations in parameter values;
+4. considering multiuser/multicell scenarios, and making the numerous important information theoretic results consistent with the physics of communications.
+
+This can be summarized as not only trying to achieve capacity for a _given_ MIMO communication channel but also to _design the channel_ for optimum capacity. Circuit theory is the mediator between physics and information theory on the way toward this ambitious goal.
+
+## Appendix A On the Validity of the Unilateral Approximation
+
+Using the following impedance matching:
+
+\[\begin{array}{l}\vspace{0.2cm}\vspace{0.2cm}\vspace{0.2cm}\vspace{0.2cm} \vspace{0.2cm}\vspace{0.
+
+Now, there is
+
+\[\left\|\mathrm{Re}\{\mathbf{Z}_{\mathrm{AT}}\}^{-1/2}\right\|_{\mathrm{F}}\!\!\!=\!\! \sqrt{\mathrm{tr}\left(\mathrm{Re}\{\mathbf{Z}_{\mathrm{AT}}\}^{-1}\right)}\!\!=\!\! \sqrt{\sum_{n=1}^{N}\frac{1}{\xi_{n}}}\!\!\leq\!\!\sqrt{\frac{N}{\xi}}\]
+
+where \(\xi_{n}\) denotes the eigenvalues of \(\mathrm{Re}\{\mathbf{Z}_{\mathrm{AT}}\}\) and \(\xi\) is the _smallest_ eigenvalue. Similarly, we have
+
+\[\left\|\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}^{-1/2}\right\|_{\mathrm{F}}\!\!=\!\! \sqrt{\mathrm{tr}\left(\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}^{-1}\right)}\!\!=\! \!\sqrt{\sum_{m=1}^{M}\frac{1}{\xi_{m}^{\prime}}}\!\!\leq\!\!\sqrt{\frac{M}{ \xi^{\prime}}}\]
+
+where \(\xi_{n}^{\prime}\) are the eigenvalues of \(\mathrm{Re}\{\mathbf{Z}_{\mathrm{AR}}\}\) and \(\xi^{\prime}\) is the _smallest_ eigenvalue. With (125), it therefore follows that
+
+\[\left\|\mathbf{Z}_{\mathrm{ART}}\right\|_{\mathrm{F}}\ll\sqrt{\frac{\xi\xi^{\prime }}{MN}}\Longrightarrow\Theta. \tag{126}\]
+
+## Appendix B Voltage Transformation
+
+In the upper part of the circuit in Fig. 9, temporarily disconnect the noisy amplifier from the matching network and terminate the latter with the complex conjugate of its output impedance, as displayed on the left-hand side of Fig. 14. Describing the lossless matching twoport by
+
+\[\begin{bmatrix}v_{1}\\ v_{2}\end{bmatrix}=\!\mathrm{j}\begin{bmatrix}a&b\\ b&c\end{bmatrix}\begin{bmatrix}i_{1}\\ i_{2}\end{bmatrix}\]
+
+where \(a,b,c\in\mathds{R}\cdot\Omega\) are arbitrary _real_ resistance values, with \(b\neq 0\), then the output impedance equals
+
+\[Z_{\mathrm{AR}}^{\prime}=\mathrm{j}c+\frac{b^{2}}{Z_{\mathrm{AR}}+\mathrm{j}a}. \tag{127}\]
+
+The input impedance (i.e., the load impedance seen by the generator) is similarly given by
+
+\[Z_{\mathrm{in}}=\mathrm{j}a+\frac{b^{2}}{Z_{\mathrm{AR}}^{\prime\ast}+\mathrm{ j}c}. \tag{128}\]
+
+Substituting (127) in (128) reveals that \(Z_{\mathrm{in}}=Z_{\mathrm{AR}}^{\ast}\), i.e., we have a complex conjugated match. Hence, the active power delivered by the generator is given by \(P_{\mathrm{G}}=(1/4)\mathrm{E}\llbracket\nu_{\mathrm{S}}\rrbracket^{2}/ \mathrm{Re}\{Z_{\mathrm{AR}}\}\). The equivalent circuit from the right-hand side of Fig. 14 shows that the active power which is delivered into the load equals \(P_{\mathrm{L}}=(1/4)\mathrm{E}\llbracket\nu_{\mathrm{S}}\rrbracket^{2}/ \mathrm{Re}\{Z_{\mathrm{AR}}^{\prime}\}\). As the impedance matching network is lossless, we have \(P_{\mathrm{G}}=P_{\mathrm{L}}\), and therefore
+
+\[\mathrm{E}\left[\!\left|\nu_{\mathrm{S}}\rrbracket^{2}\right]=\mathrm{E} \left[\!\left|\nu_{\mathrm{S}}\rrbracket^{2}\right]\cdot\frac{\mathrm{Re}\, \{Z_{\mathrm{AR}}^{\prime}\}}{\mathrm{Re}\{Z_{\mathrm{AR}}\}},\]
+
+## Appendix C Derivation of Equation (90)
+
+From (27), the first line of (20), and (51), we have
+
+\[\mathbf{\Upsilon}=\frac{2R_{\mathrm{N}}^{2}}{R_{\mathrm{r}}^{2}} \left(1\!-\frac{\mathrm{Re}\{\rho^{\prime}Z_{\mathrm{opt}}\}}{R_{\mathrm{N}}} \right)\mathbf{I}_{M}\\ +\frac{\beta\mathrm{Re}\{Z_{\mathrm{opt}}\}}{\beta R_{\mathrm{r}}} \mathbf{C}_{\mathrm{R}}^{1/2}\phi\mathbf{C}_{\mathrm{R}}^{-1/2} \tag{129}\]
+
+where we have also used the \(\left|Z_{\mathrm{opt}}\right|=R_{\mathrm{N}}\) from (81). Moreover, we find from (81) that
+
+\[\mathrm{Re}\{\rho^{\prime}Z_{\mathrm{opt}}\}=R_{\mathrm{N}}\left(\mathrm{Re}\{ \rho\}\sqrt{1-\left(\mathrm{Im}\{\rho\}\right)^{2}}+\left(\mathrm{Im}\{\rho\} \right)^{2}\right)\]
+
+such that (129) can be written as
+
+\[\mathbf{\Upsilon}=\sqrt{1-\left(\mathrm{Im}\{\rho\}\right)^{2}}\] \[\times\left(\frac{2R_{\mathrm{N}}^{2}}{R_{\mathrm{r}}^{2}}\left( \sqrt{1-\left(\mathrm{Im}\{\rho\}\right)^{2}}-\mathrm{Re}\{\rho\}\right) \mathbf{I}_{M}+\mathbf{\Xi}\right) \tag{130}\]
+
+where
+
+\[\mathbf{\Xi}=\frac{\tilde{\beta}R_{\mathrm{N}}}{\beta R_{\mathrm{r}}}\mathbf{C}_{ \mathrm{R}}^{-1/2}\phi\mathbf{C}_{\mathrm{R}}^{-1/2}.\]
+
+From (82), we find
+
+\[\sqrt{1-\left(\mathrm{Im}\{\rho\}\right)^{2}}-\mathrm{Re}\{\rho\}=\left( \mathrm{NF}_{\mathrm{min}}-1\right)\frac{2\mathrm{k}T_{\mathrm{A}}\Delta f}{ \beta R_{\mathrm{N}}}\]
+
+such that substituting this in (130) and using (7) yields (90).
+
+## Appendix D Background Noise Covariance Matrix
+
+Imagine that the background radiation originates from a number of single-antenna transmitters located somewhere in space far away from the receiver antenna array. From (56), the vector of the open-circuit voltage envelopes of the receive antennas is proportional to the receive array steering vector \(\mathbf{a}_{\mathrm{R}}(\theta_{\mathrm{R},k})\) which corresponds to the \(k\)th source of background radiation. Hence
+
+\[\mathbf{\hat{v}}_{\mathrm{N}}=\mathrm{const}\sum_{k}\gamma_{k}\mathbf{a}_{\mathrm{R}} (\theta_{\mathrm{R},k})\]
+
+where the complex coefficients \(\gamma_{k}\) contain the amplitude and phase of the signal received from the \(k\)th source. The covariance matrix is then given by
+
+\[\mathrm{E}\left[\!\left|\mathbf{\hat{v}}_{\mathrm{N}}\hat{v}_{\mathrm{N}}^{\mathrm{ H}}\right|\!\right]=\mathrm{E}\left[\mathrm{const}\sum_{k}\sum_{k^{\prime}}\gamma_{k} \gamma_{k^{\prime}}^{\ast}\mathbf{a}_{k}\mathbf{a}_{k^{\prime}}^{\mathrm{H}}\right]\]
+
+where we used the shorthand \(\mathbf{a}_{k}\) to denote \(\mathbf{a}_{\mathrm{R}}(\theta_{R,k})\). Now, it is reasonable that the different sources of background noise are uncorrelated such that \(\mathrm{E}\{\gamma_{k}\gamma_{k^{\prime}}^{\ast}\}=0\) for \(k\neq k^{\prime}\). Hence
+
+\[\mathrm{E}\left[\!\left|\mathbf{\hat{v}}_{\mathrm{N}}\hat{v}_{\mathrm{N}}^{\mathrm{ H}}\right|\!\right]=\mathrm{const}\sum_{k}\mathrm{E}\left[\!\left|\gamma_{k}\right|\!\right|^{2} \!\mathbf{a}_{k}\mathbf{a}_{k^{\prime}}^{\mathrm{H}}\!\right].\]
+
+Fig. 14: (Left) Generator connected to lossless twoport terminated with the complex conjugate match. (Right) Equivalent circuit.
+
+Now, let the number of sources approach infinity
+
+\[\mathrm{E}\left[\boldsymbol{\hat{v}}_{\mathrm{N}}\boldsymbol{\hat{v}}_{\mathrm{N}}^ {\mathrm{H}}\right]=\mathrm{const}\int\limits_{0}^{2\pi}\int\limits_{0}^{\pi} \mathrm{E}\left[\boldsymbol{\gamma}|^{2}\right]\boldsymbol{a}(\theta)\boldsymbol {a}^{\mathrm{H}}(\theta)\mathrm{d}\theta\mathrm{d}\phi \tag{131}\]
+
+where \(\mathrm{E}[\boldsymbol{\gamma}|^{2}]\) is, in general, a function of \(\theta\) and \(\phi\). Also
+
+\[\mathrm{d}P_{\mathrm{N}}=\mathrm{const}\cdot\mathrm{E}\left[\boldsymbol{\gamma }|^{2}\right]\mathrm{d}\theta\mathrm{d}\phi\]
+
+is the available power of background noise that arrives from within the directional window that ranges from \(\theta\) to \(\theta+d\theta\) and from \(\phi\) to \(\phi+d\phi\). With the density \(P_{\mathrm{N}}^{\mathrm{\prime}}\) of the available power of the background radiation, we can write this also as \(\mathrm{d}P_{\mathrm{N}}=P_{\mathrm{N}}^{\mathrm{\prime}}[\mathrm{d}A\), where \(\mathrm{d}A=r^{2}\sin(\theta)\mathrm{d}\theta\mathrm{d}\phi\) denotes the infinitesimal area that corresponds to the directional window. Hence
+
+\[\mathrm{E}\left[\boldsymbol{\gamma}|^{2}\right]=\mathrm{const}\cdot P_{ \mathrm{N}}^{\mathrm{\prime}}\cdot r^{2}\sin\theta.\]
+
+When we substitute this into (131), we obtain
+
+\[\mathrm{E}\left[\boldsymbol{\hat{v}}_{\mathrm{N}}\boldsymbol{\hat{v}}_{ \mathrm{N}}^{\mathrm{H}}\right]=\mathrm{const}\int\limits_{0}^{2\pi}\int \limits_{0}^{\pi}P_{\mathrm{N}}^{\prime}(\theta,\phi)\cdot\boldsymbol{a}( \theta)\boldsymbol{a}^{\mathrm{H}}(\theta)\sin(\theta)\mathrm{d}\theta\mathrm{d}\phi \tag{132}\]
+
+where we have fixed \(r\) to a constant value which ensures that the complete antenna array is inside the corresponding sphere around it and all sources of background noise remain outside the sphere. From (5) and (8), the matrix \(\boldsymbol{\phi}\) is equal to (132), normalized to unity entries in its main diagonal
+
+\[\boldsymbol{\phi}=\frac{\int_{0}^{2\pi}\int_{0}^{\pi}P_{\mathrm{N}}^{\prime}( \theta,\phi)\cdot\boldsymbol{a}(\theta)\boldsymbol{a}^{\mathrm{H}}(\theta) \sin(\theta)\mathrm{d}\theta\mathrm{d}\phi}{\int_{0}^{2\pi}\int_{0}^{\pi}P_{ \mathrm{N}}^{\prime}(\theta,\phi)\mathrm{d}\theta\mathrm{d}\phi|^{2}\sin( \theta)\mathrm{d}\theta\mathrm{d}\phi} \tag{133}\]
+
+where \(|a(\theta* [35] K. F. Warnick and M. A. Jensen, "Optimal noise matching for mutually coupled arrays," _IEEE Trans. Antennas Propag._, vol. 55, no. 6, pp. 1726-1731, Jun. 2007.
+* [36] C. E. Shannon, "A mathematical theory of communications," _Bell Syst. Tech. J._, vol. 27, pp. 379-423, Jul. 1948, 623-656.
+* [37] G. J. Foschini and M. J. Gans, "On limits of wireless communications in a fading environment using multiple antennas," _Wireless Pers. Commun._, vol. 6, no. 3, pp. 311-335, Mar. 1998.
+* [38] S. Vishwanath, N. Jindal, and A. Goldsmith, "On the capacity of multiple input multiple output broadcast channels," _IEEE Trans. Inf. Theory_, vol. 49, no. 10, pp. 2658-2668, Oct. 2003.
+* [39] H. W. Y. Steinberg and S. Shamai, "The capacity region of the Gaussian MIMO broadcast channel," in _Proc. IEEE Int. Symp. Inf. Theory_, 2004, p. 174.
+* [40] W. Feller, _An Introduction to Probability Theory and Its Applications_, 3rd ed. New York: Wiley, 1968.
+* [41] L. Gesbert, H. Bolcski, D. Gore, and A. J. Paulraj, "MIMO wireless channels: Capacity and performance prediction," in _Proc. IEEE GLOBECOM_, San Francisco, CA, Nov. 2000, pp. 1083-1088.
+* [42] 3GPP, "A Standardized Set of MIMO Radio Propagation Channels," 3GPP TSGR vol. R1-01-1179, 2001.
+* [43] M. T. Ivrlar and J. A. Nossek, "Physical modeling of communication systems in information theory," in _Proc. IEEE ISIT_, Seoul, South Korea, Jun. 2009, pp. 2179-2183.
+* [44] J. W. Helto, "A mathematical view of broadband matching," in _Proc. IEEE Int. Conf. Circuits Syst. Theory_, New York, 1978.
+
+\begin{tabular}{c c}  & Michel T. Ivrlar received the first Dipl.Ing. degree in electrical engineering from Munich University of Applied Sciences, Munich, Germany, in 1994 and the second Dipl.Ing. degree and the Dr.Ing. degree in electrical engineering and information technology from the Technische Universitat Munchen (tum), Munich, in 1998 and 2005, respectively. He currently holds the position of a Senior Researcher with the Institute for Circuit Theory and Signal Processing, tum, where he is teaching courses on circuit theory and communication. His main research interests are the physics of communications, signal processing for cellular networks, and coding for ultra-high-speed communications. \\ \end{tabular} 
+\begin{tabular}{c c}  & Josef A. Nossek (S'72-M'74-SM'81-F'93) received the Dipl.Ing. and Dr. techn. degrees in electrical engineering from Vienna University of Technology, Vienna, Austria, in 1974 and 1980, respectively. He joined SIEMENS AG, Munich, Germany, in 1978, where he was engaged in the design of both passive and active filters for communication systems. In 1978, he became the Supervisor and, in 1980, the Head of a group of laboratories engaged in designing monolithic filters (analog and digital). Since 1982, he has been the Head of a group of laboratories designing digital radio systems with the Transmission Systems Department, SIEMENS AG. In 1984, he was a Visiting Professor at the University of Capetown, Capetown, Africa. From 1987 to 1989, he was the Head of the Radio Systems Design Department, where he was instrumental in introducing high-speed VLSI signal processing into digital microwave radio. Since April 1998, he has been a Professor of circuit theory and design with the Technische Universitat Munchen (TUM), Munich, Germany, where he teaches undergraduate and graduate courses in the field of circuit and system theory and leads research on signal processing algorithms in communications, particularly multi-antenna communication systems. Dr. Nossek was the President Elect, President, and Past President of the IEEE Circuits and Systems Society in 2001, 2002, and 2003, respectively. He was the Vice President of Verband der Elektrotechnik, Elektronik und Informationstechnik e.V. (VDE) 2005 and 2006 and was the President of VDE in 2007 and 2008. He was the recipient of ITG Best Paper Award in 1988, the Mannesmann Mobilfunk (currently Vodafone) Innovations Award in 1998, and the Award for Excellence in Teaching from the Bavarian Ministry for Science, Research and Art in 1998. From the IEEE Circuits and Systems Society, he received the Golden Jubilee Medal for "Outstanding Contributions to the Society" in 1999 and the Education Award in 2008. He was the recipient of the "Bundesveridenstreur am Bande" in 2008. In 2009, he became an elected member of acatech. \\ \end{tabular}

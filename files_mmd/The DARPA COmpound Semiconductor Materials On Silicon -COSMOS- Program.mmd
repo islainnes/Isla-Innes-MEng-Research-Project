@@ -1,0 +1,65 @@
+
+Mark J. Rosker*, Viktoria Greanya+, Tsu-Hsi Chang++
+
+*Defense Advanced Research Projects Agency, 3701 North Fairfax Drive, Arlington, VA 22203-1714
+
++Booz Allen Hamilton Inc., 3811 North Fairfax Drive, Arlington, VA 22203-1707
+
+## I Introduction
+
+The development of compound semiconductor (CS) electronics has been motivated by their unique materials properties relative to silicon. If both narrow bandgap (e.g., InP, ABCS) and wide bandgap (e.g., GaN, SiC, GaP) materials are considered, these properties include lower operating voltages, higher breakdown voltages, superior thermal conductivity, direct bandgap optical transitions, etc. Nonetheless, CS's have failed to displace Si in all but the most specialized of electronic applications. This fact is attributable to the aggressive device scaling and the extremely high-scale integration that has characterized Si electronics development. Even for RF applications, where compound semiconductors have most commonly found application, the advantages of compound semiconductors have been eroded by advances in silicon and SiGe transistors. Recent research, including that supported by the Defense Advanced Research Projects Agency (DARPA) in its Technology for Efficient, Agile Mixed-Signal Microsystems (TEAM) program, have driven the RF performance of silicon-based electronics well beyond what was previously thought realizable. Given these trends, it has been increasingly clear that the future of III-V electronics depends not on displacing Si, but rather on heterogeneous integration of compound semiconductors with silicon.
+
+Currently, heterogeneous integration of compound semiconductors with silicon is typically achieved through the use of multi-chip modules and similar assembly approaches. While adequate for relatively low performance applications (e.g., power amplifiers for cellular telephone handsets), the integration complexity that can be achieved in this manner is extremely limited.
+
+The DARPA COmpound Semiconductor Materials On Silicon (COSMOS) program is developing a heterogeneous integration technology which will overcome these limitations, enabling heterogeneous integration at micrometer distance scales. If this vision can be achieved routinely and at low cost, it will allow circuits in which every device is optimized for its specific function. This capability would have a revolutionary impact on the performance of both military and commercial circuits and would dramatically impact the compound semiconductor community.
+
+## II Program Objectives
+
+The objective of the COSMOS program is to develop a viable process for the "transistor-scale" heterogeneous integration of compound semiconductor with standard Si CMOS, thereby enabling superior performance in specific mixed-signal circuit demonstrators that could not be realized any other way. The COSMOS program is developing methods to integrate transistors from at least one CS technology together with transistors on a wafer fabricated using a standard Si CMOS foundry process. This must be achieved without any extraordinary modifications of the Si CMOS process.
+
+Specific end-of-program goals include heterogeneously integrated circuits with the following characteristics:
+
+* CS and Si-based transistors placed in very close proximity (\(\leq 5\upmu\)m minimum interconnect length)
+* Tight pitch (\(\leq 5\upmu\)m minimum separation) of the heterogeneous interconnect vias (i.e., those connecting CS and Si-based transistors)
+
+[MISSING_PAGE_FAIL:2]
+
+performance will be a heterogeneously-integrated 16-bit analog-to-digital converter (ADC).
+
+## IV Program Achievement
+
+Currently in the second half of Phase I of the program, the performers have each made significant advances towards meeting the program goals.
+
+In the Northrop-Grumman micro-assembly approach, a fully processed InP HBT wafer is thinned and dissipated into 800 \(\times\) 1150 \(\upmu\)m chiplets. These chiplets are then transferred and bonded onto a processed CMOS wafer, which was independently fabricated by a silicon foundry vendor with desired circuits and backend interconnect layers. Micropillars between the CS chiplet and the CMOS wafer act as heterogeneous interconnects. Using this method, Northrop Grumman has recently demonstrated heterogeneously integrated InP HBTs and fully functional differential amplifier demonstration circuits with a total of 33 COSMOS electrical interconnects (Fig 1a). Preliminary electrical characterization of InP and CMOS devices after heterogeneous integration shows no significant degradation to their performance by the heterogeneous integration process.
+
+While circuit evaluation is still ongoing at this time, initial results for the differential amplifier performance are extremely promising. The DAs measured thus far have demonstrated an output voltage swing \(>\)3V with output power near 80 mW. They have also achieved an output slew rate of \(\sim\)1x10\({}^{4}\) V/\(\upmu\)s, meeting or approaching the Phase I program goals.
+
+The Raytheon team is developing a monolithic epitaxial technique to directly grow CS materials onto silicon substrates. In this approach, the CMOS circuits are first fabricated on a silicon-on-lattice-engineered-substrates or SOLES wafer which contains a CS template layer beneath the Si. Windows are then etched to access the template layer, and InP is epitaxially grown within them. Finally, the InP HBT and HEMT devices will be fabricated in the window and heterogeneously integrated with the neighboring CMOS. This process has thus far shown no obvious degradation to the CMOS performance.
+
+Figure (a)a shows the first demonstration of good quality InP epitaxially grown in windows on a SOLES wafer. Cross polarized imaging data taken of InP epitaxial structures grown on patterned Ge show that the films are extremely high quality with the strain restricted to the boundary region around the plateau and minimal strain in the plateau region. In addition, the team has demonstrated the first InP- metamorphic heterojunction bipolar transistor (mHBT) fabricated on a germanium on insulator (GeOI) silicon wafer. The extrapolated device f\({}_{\text{T}}\) and f\({}_{\text{max}}\) based on RF gain of f\({}_{\text{T}}\)/f\({}_{\text{max}}\) =224/219 GHz respectively, are shown in Figure (b)b. The success of these two developments represents a major step forward toward a true monolithic heterogeneous integration process.
+
+Using an epitaxial layer bonding process, HRL Laboratories has recently demonstrated the heterogeneous integration of an InP HBT with high performance silicon transistors (Fig (a)a). In this process, InP epitaxial layers for the HBT are first grown on the InP substrate and then transferred and bonded to a vendor processed Si CMOS wafer. The InP HBTs and heterogeneous interconnects are then fabricated directly on the epi-on-cmos wafer.
+
+Preliminary electrical characterization of CMOS transistors after heterogeneous integration shows no impact to their performance by the heterogeneous integration process. In addition, the InP HBT fabricated on the silicon was tested and demonstrated a peak unity voltage cutoff frequency (f\({}_{\text{T}}\)) of 320 GHz. Although this does not yet match the very best performing InP HBTs grown on native substrates, it is nonetheless remarkably high at this stage in the program.
+
+Using their Matbond process, HRL has also fabricated its first differential amplifier circuits. The key results measured (Figure 3b) were gain of 48 dB and unity-gain bandwidth of 65GHz. The circuit figure of merit (DC gain \(\times\) unity-gain-bandwidth) was therefore found to be 1.6 \(\times 10^{4}\) GHz, a value that meets the Phase I goal of the program and is almost 100X higher than any recorded "homogeneous" (i.e., silicon only or InP only) differential amplifiers.
+
+## V Potential Impact
+
+One critical example of COSMOS will be in the demonstration of mixed-signal circuits, such as analog-to-digital converters (ADCs), with outstanding circuit characteristics. Based on exploiting the unique properties of multiple but disparate semiconductor materials, the technologies developed under COSMOS will enable the design and manufacture of high performance, cost-effective, embeddable integrated components such as the analog-to-digital converters, with large dynamic ranges (16 bits), large signal bandwidths (500 MHz), and low in power dissipation (4 W). COSMOS technologies will enable systems that have greater range, larger bandwidths and better sensitivities, with lower false alarms and power dissipation.
+
+Other applications of COSMOS may include high power amplifiers (e.g., GaN w/ CMOS) and integrated photonics (e.g., InP, ABCS, or GaP w/ CMOS).
+
+## V Conclusion
+
+The DARPA COSMOS program is developing a heterogeneous integration technology at micrometer distance scales. The program focuses on three demonstration circuits: a differential amplifier, a DAC, and, finally, an ADC. The three performers on this program are approaching the technical challenges monolithically, by assembly, and by an intermediate process. Midway through Phase I, the performers have made significant advances in process development, demonstrating both crucial material processing capabilities and the first heterogeneously integrated differential amplifiers.
+
+The success of these demonstrations validate these heterogeneous integration processes. Further process enhancements are expected to potentially enable multiple CS transistor types on the same CMOS wafer (e.g., InP HBTs, InP HEMTs, and GaN FETs) to further improve the performance and increase the functionality of these highly integrated circuits.
+
+If this COSMOS vision can be achieved routinely and at low cost, it will allow circuits in which every device is optimized to provide its best function. This capability would have a revolutionary impact on the performance of both military and commercial circuits and would dramatically impact the compound semiconductor community, enabling systems that have greater output power, larger bandwidths, and better sensitivities, while having lower false alarms and total power dissipation.
+
+## VI Acknowledgements
+
+The authors would like to thank the Northrop Grumman, Raytheon and HRL teams for their efforts, and the government agents for their support.
+
+Figure 3: (a) InP HBT differential pair circuit on top of a pre-fabricated silicon wafer. (b) Preliminary measurement of the COSMOS differential amplifier with DC Gain \(\times\) Unity-Gain-Bandwidth Figure of-Merit \(>\) 1.6 \(\times 10^{4}\) GHz

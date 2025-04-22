@@ -1,0 +1,134 @@
+
+
+This work is supported by the Office of Naval Research under ONR N0014-04-1-0404.
+
+E-mail: 1{shengy, vajjarap}@iastate.edu, 1*epbzhang@scut.edu.cn
+
+## I Introduction
+
+In August 2003, over 40 million American and Canadian residents were plunged into darkness [1]. This recent disaster urges researchers from academic and industrial communities to find effective methods to prevent similar blackouts from happening in the future. It is well known that the security of power systems is threatened when it is loaded near to or beyond its maximum capacity [2]. Therefore, the research work on maximum loadability of power systems may significantly help engineers design control strategies against blackouts.
+
+Traditionally, most studies of large-scale power systems under stressed loading conditions are based on software simulations. Unfortunately software models can not accurately describe the behavior of actual power system hardware in many ways. On the other hand, it is impossible to equip every research affiliations enough hardware components to build an actual scaled system since enormous time, money, space and manpower is needed to achieve this goal. This dilemma has limited the possibility that researchers are able to develop state-of-the-art technologies against blackouts.
+
+To improve this situation, five universities in US have agreed that power systems and power electronics laboratories from them will be interconnected via networks [3]. Therefore, all available hardware and software tools related to power systems and power electronics are combined together to create a large-scale power system laboratory. This will allow researchers at various locations to study processes that lead to system breakdowns, including system behaviors under stressed loading conditions. The Internet connection is preferred in this project because of its widespread usage, well-developed structure and affordability. The conceptual connection diagram is shown in Figure 1.
+
+We will discuss the initial efforts at Iowa State University (ISU) related to development of the networked loadability testing system using a controllable three-phase power supply. This paper is organized as follows. In section II we derive formulas to calculate the critical active power and voltage of the load in a two-bus system. Section III and IV present the design and setup of this system, including hardware and software configurations and development. The results and analysis are provided in section V. The final section concludes this paper.
+
+## II
+
+Figure 1: Interconnection of power system/power electronic laboratories at five universities
+
+In this section the main equations related to the maximum loadability of a two-bus system shown in Figure 2 will be introduced. The resistance of the transmission line is neglected. We assume the voltage at the generation bus is fixed and take it as the reference.
+
+Using basic knowledge and analysis, we have
+
+\[\overline{V}=\overline{E}-\overline{I}\cdot jX \tag{1}\] \[\overline{S}=\overline{V}\overline{I}^{*}\] (2) \[\overline{S}=P+jQ \tag{3}\]
+
+where \(\overline{S}\), \(P\), \(Q\) are apparent power, active power and reactive power of the load, respectively.
+
+Note that \(\overline{E}=E\angle 0\), \(\overline{V}=P\angle\phi\) and (3). Solving \(\overline{I}\) by (1) and substituting it into (2) lead to
+
+\[P=-VE\sin\phi/X \tag{4}\] \[Q=(VE\cos\phi-V^{2})/X \tag{5}\]
+
+Let \(\nu=V/E\), \(p=PX/E^{2}\), \(q=QX/E^{2}\). Note that \(\sin^{2}\phi+\cos^{2}\phi=1\) and \(q=p\tan\theta\), where \(\theta\) is the power factor of the load. By the simplification of (4) and (5), we have
+
+\[v^{4}+(2p\tan\theta-1)v^{2}+p^{2}\sec^{2}\theta=0 \tag{6}\]
+
+To obtain the critical active power and voltage of the load, we differentiate (6) with respect to \(\nu\) and equate it to zero (\(\partial p/\partial\nu=0\)). After the simplification of the equations, we have
+
+\[P_{critical}=\cos\theta/(2+2\sin\theta) \tag{7}\] \[\nu_{critical}=1/\sqrt{(2+2\sin\theta)} \tag{8}\]
+
+Consider the special case that the load is purely resistive, i.e. \(\theta=0\). We get \(P_{critical}=0.5\) and \(\nu_{critical}=0.707\), which imply that
+
+\[P_{critical}=E^{2}/2X \tag{9}\]
+
+\[V_{critical}=E/\sqrt{2} \tag{10}\]
+
+From (9) and (10), we may find that if the resistance of the load is equal to the inductance of the transmission line, i.e. \(R=X\), the load will get the maximum active power, which is \(E^{2}/2R\).
+
+Figure 3 illustrates a group of P-V curves with different load power factors. The solid and dash line of each curve denote the stable and unstable operating region, respectively. The critical points are marked by stars.
+
+## III Networked Testing and Measurement System
+
+We built a scale-down hardware system to simulate the two-bus system as shown in Figure 2. The descriptions of the setup and components are detailed in the following contents.
+
+Figure 4: Networked loadability testing system setup: a sample two-bus system
+
+Figure 3: P-V curves with load power factor as the parameter
+
+Figure 2: A two-bus system
+
+A Kikusui PCR6000W2 commercial three-phase remotely controllable power supply is used as the generator shown in Figure 2 since the output voltage is assumed to be fixed. The combination of a high frequency PWM inverter and a high power factor converter inside it offers a high efficiency and a low input current, a compact and lightweight body, and high quality output.
+
+The conceptual diagram of experiment setup is shown in Figure 4. An actual loadability testing system in the local laboratory depicted as the block diagram in Figure 4 is shown in Figure 5. Here the two bus power system consists of the three-phase controllable power supply, two three-phase Lab-Volt transmission line modules and six resistor modules as the three phase load. The power supply is equipped with a General Purpose Interface Bus (GPIB) interface module. The amplitude and frequency of output voltage is fully controlled by the lab computer over GPIB with the help of instrument drives. Three current sensors are installed between the transmission line modules and resistive loads. These current sensors can sense AC current while the linear output voltage tracks the sensed current waveform. Through the signal conditioning module and data acquisition module, load voltage and current signals are sent back to the Virtual Instrument (VI) running on a lab computer for calculation and analysis. A switch control module with sixteen digital switches is used to change the connection topology of various resistors to get different load. A network camera with pan, tilt and zoom control enables advanced remote monitoring over IP networks by delivering high quality video and audio streams.
+
+The software system was programmed using Labview developed by National Instruments to perform device control and data acquisition, provide Human Machine Interface (HMI) to local and remote operators and communicate signals over Internet. With built-in web-based tools, Labview can publish the front panel of visual instruments on the web and provide exactly the same user interface to remote users.
+
+## IV Software Development
+
+The main software modules are shown in Figure 6 and explained in the following subsections.
+
+### _Instrument Control_
+
+The manufacturer of the controllable power supply provides communication protocols based on the GPIB interface. Major functionalities of communication between the power supply and host computer are encapsulated into SubVIs. It is convenient to write control commands and read values of desired variables such as voltage amplitude, frequency, power factor, harmonic and equipment status.
+
+A group of digital switches are operated under the control module. These switches are actually Single-Pole Double-Throw (SPDT) relays. Before connecting the common terminal and one pole, the program should check if they can be connected. After the connecting action, the program must pause until the created path has settled.
+
+### _Data Acquisition and Analysis_
+
+There are six data input channels where waveforms of three-phase voltage and current at the load side are sampled and transferred. The program will read these data after some changes of the load, or some operations from users, depending on the type of experiment control methods, i.e. automated or user-defined, respectively. The phase difference between voltage and current waveforms is required to calculate the active or reactive power. A SubVI was developed for this purpose.
+
+### _Experiment Report Generation_
+
+The parameters and data, such as load resistance, voltage, current and power, are stored in the software module during the process of experiments and output to some special file formats like text or excel files after
+
+Fig. 5: Actual experiment setup in local lab
+
+Fig. 6: Software modulesexperiments. This provides data records for researchers and students for the future references.
+
+### _Local and Remote Front Panel_
+
+The local front panel has a set of buttons, knobs and input fields for control inputs. Also several waveform charts, graphs and output indicators are provided for the display of equipment status and results.
+
+The remote front panel looks exactly the same as the local one because it is generated by the web-based tools in Labview. The Labview runtime engine and a web browser are required for remote users. The runtime engine can be downloaded from the National Instruments website for free. Thus researchers and students can perform the experiment as if they were in the laboratory.
+
+### _Experiment Procedures_
+
+The remote operating procedures for a set of specified load resistance are provided below. The front panel is shown in Figure 7.
+
+_Step 1:_ Open your web browser, for example, Internet Explorer. Type the address in the address bar and press "Enter".
+
+_Step 2:_ After the front panel is fully loaded, right click on any area of the panel except controllers, indicators and charts. A yellow rectangular box which shows "control granted" will display at the center of the front panel, which means you have gained the access to control the experiment.
+
+_Step 3:_ Select Operate\(>>\)Reinitialize All to Default on the menu bar.
+
+_Step 4:_ Select Operate\(>>\)Run or click the right arrow icon on the toolbar. The virtual instrument is now enabled.
+
+_Step 5:_ Select the amplitude of phase voltage and frequency of the power supply by tuning knobs or directly typing data on the input field. Select the reactance of the transmission line box. The default values of these parameters are recommended because they are selected for this set of specified load resistance. Here we set the voltage and frequency to be 50VAC and 60Hz. Click the "Save" button.
+
+_Step 6:_ Click the "Power Supply Output" button to enable the power supply output. You will notice the green light is on after you enable the output. Now you can begin to read and record the experiment results. In this experiment, we provide eleven different load resistances. Hence you will get eleven values of load voltage and power. "Operating Points: 1 of 11" means that resistance #1 is now implemented as the load.
+
+_Step 7:_ Click the "Get Voltage and Current Waveforms" button. The three-phase load voltage and current are shown on two graphs. Also, the values are displayed right to the graphs.
+
+_Step 8:_ Click the big "Save\(\ldots\)" button. You will notice that the text of "Operating Points: 2 of 11" is displayed. This means resistance #2 is now implemented as the load.
+
+_Step 9:_ Repeat Step 7 and Step 8 until all values of 11 operating points are saved. Finally, three P-V curves for each phase will be plotted on the P-V curve graph automatically. The virtual instrument will immediately exit the running status and end this session.
+
+_Step 10:_ If you would like to repeat the experiment or change some parameters, go back and proceed from Step 3.
+
+## V Experiment Results
+
+Since several hardware configurations are available for the testing system, we only provide the measurements for two sets of specified load resistances in Table I and II. One set of p-v curves are shown in the right-bottom corner of Figure 7.
+
+The reactance of transmission lines are selected to be different, that is, \(X=120\Omega\) and \(X=180\Omega\). According to the conclusion in section II, the load will get the maximum active power if \(R=X\). In Table I, when the load resistance is \(171.43\Omega\), which is the closest value to \(180\ \Omega\) based on available resistances, the load will get the maximum three-phase power (\(18.41\)W). In Table II, when the load resistance is \(120\Omega\), the load will get the maximum three-phase power (\(26.81\)W).
+
+## VI Conclusion
+
+It is believed that interconnecting power hardware systems and software simulation and control tools over network will provide a significantly enhanced platform for the study of large-scale power and power electronic systems. In this paper, we develop a networked power supply control and measurement system to test the loadability of a two-bus system. The maximum loadability of the two-bus system is derived. The design and setup of the system are presented and explained in details with respect to the hardware configuration and software development. The system provides two types of experiment operating procedures: automated and user-defined. The results of local test and demonstration between ISU and Drexel show the system can act as a learning and research platform for students and researchers who can remotely perform the loadability testing experiment.
+
+This work is the first step of the MURI project at ISU. The next work may concentrate on the analysis on close-loop control systems when network delays and data losses are taken into account.
+
+## Acknowledgment
+
+The authors would like to thank Jason Boyd for the layout design of the current sensor board.
+

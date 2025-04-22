@@ -1,0 +1,86 @@
+On the analysis of random doping induced fluctuations in ultra small semiconductor devices by linearization
+
+P. Andrei
+
+ECE Department, Florida State University
+
+Tallahassee, FL 32310, USA
+
+
+This work is supported by the Army High Performance Computing
+
+
+under Cooperative Agreement number DAAD19-01-2-0014.
+
+## I Introduction
+
+A new technique for the analysis of random doping induced fluctuations on the intrinsic values of parameters of semiconductor devices was proposed in [1-4]. This technique proved to be computationally very efficient and reliable for the analysis of parameters variations in MOSFET devices. The technique is based on linearization of the transport equations with respect to the fluctuating quantities (doping, electrostatic potential, electron and hole concentrations, etc) and on the evaluation of the variances of quantities of interest by using superposition. Although the linearization technique has been applied extensively to the analysis and evaluation of random doping induced fluctuations [5-8], the errors induced by the linearization have not been analyzed. In this article we carry out a detailed analysis of the linearization errors by verifying the assumption of linearity between the device parameters and fluctuations of the doping concentration at different locations.
+
+The main assumption of the linearization technique is that fluctuations are small and, in the first-order approximation, the variations of any parameter \(A\) of the semiconductor device depends linearly on the magnitude of fluctuations of the doping concentration at different locations:
+
+\[\tilde{A}=\int_{\Omega}S_{4}(\boldsymbol{r})\tilde{D}(\boldsymbol{r})d \boldsymbol{r}\, \tag{1}\]
+
+where \(\Omega\) represents the semiconductor region, \(\tilde{D}(\boldsymbol{r})\) denotes the fluctuations of the doping concentration at location \(\boldsymbol{r}\), and \(S_{4}(\boldsymbol{r})\) is some "weight" function, called the sensitivity function of parameter \(A\)[1,3,6]. In (1) \(\tilde{D}(\boldsymbol{r})\) should be regarded as a random field equal to \(D(\boldsymbol{r})-\left\langle D(\boldsymbol{r})\right\rangle\), where \(\left\langle D(\boldsymbol{r})\right\rangle\) is the average value of the doping concentration at location \(\boldsymbol{r}\). The variance of parameter \(A\) is:
+
+\[\sigma_{A}^{2}=\int_{\Omega}\int_{\Omega}S_{4}(\boldsymbol{r})S_{4}( \boldsymbol{r}^{\prime})ACF\left[D(\boldsymbol{r}),D(\boldsymbol{r}^{\prime}) \right]d\boldsymbol{r}d\boldsymbol{r}^{\prime}\,, \tag{2}\]
+
+where \(ACF\left[D(\boldsymbol{r}),D(\boldsymbol{r}^{\prime})\right]\) is the autocorrelation function of the doping concentration. If the doping concentrations at different locations are independent Poisson random variables, the variance of \(A\) can be shown to be [2]:
+
+\[\sigma_{A}^{2}=\int_{\Omega}\left[S_{4}(\boldsymbol{r})\right]^{2}D( \boldsymbol{r})d\boldsymbol{r}\,. \tag{3}\]
+
+It is apparent from the previous equations that the accuracy in the calculation of \(\sigma_{A}^{2}\) by using (2) [or (3) in the case of Poisson distributions] depends on wheater fluctuations \(\tilde{A}\) can be written as a linear combination of \(\tilde{D}(\boldsymbol{r})\) [ see (1)]. In order to check if this assumption holds for normal semiconductor devices, we carry out simulation experiments in which we vary the doping concentration at different locations inside the device and measure the variation of intrinsic parameters of the device (e.g. threshold voltage, small-signal parameters, etc.). If the relation between the doping concentration and the parameters of the device is linear, the linearization technique can be safely used to compute the variances of device parameters. If this relationship is not linear in the range of variation of the doping concentration, the linearization technique might overestimate or underestimate \(\sigma_{A}^{2}\).
+
+Linearization Technique
+
+It is apparent from the previous section that the variance of some parameter of the semiconductor device can be computed if the sensitivity function of that parameter is known. Therefore, in this section we will describe the procedures for the computation of the sensitivity functions for some of the most important parameters of the semiconductor device: terminal currents, threshold voltages, and transconductance. In order to make the linearization technique suitable for numerical implementation on standard semiconductor device simulators, we present it in compact matrix form.
+
+Let us write the discretized transport equations in vector form [2]:
+
+\[\boldsymbol{F}\left(X,\boldsymbol{D},V_{{}_{G}}\right)=0\,, \tag{4}\]
+
+where \(\boldsymbol{F}\) is a nonlinear vector function of the unknown "state" vector \(\boldsymbol{X}\), doping concentration vector \(\boldsymbol{D}\), and gate voltage \(V_{{}_{G}}\). In the simulations presented in this work the transport model is the density-gradient model [8], and the components state vector consist of the mesh point values of electrostatic potential, electron and hole concentrations and quasi-Fermi potentials. Doping concentration vector consists of the mesh point values of the doping concentration in the device, and can be written as a sum of its average value \(\left\langle\boldsymbol{D}\right\rangle\) and fluctuations \(\tilde{\boldsymbol{D}}:\)\(\boldsymbol{D}=\left\langle\boldsymbol{D}\right\rangle+\tilde{\boldsymbol{D}}\). Doping fluctuations induce fluctuations of the state variable: \(X=\left\langle X\right\rangle+\tilde{X}\), which can be computed by using transport equations (4).
+
+### Fluctuations of Terminal Currents
+
+Let \(I_{{}_{\alpha}}\) denote the current through terminal \(\alpha\) of the semiconductor device. To compute the sensitivity function of \(I_{{}_{\alpha}}\) it is convenient to write terminal currents as explicit functions of the state vector and doping concentration: \(I_{{}_{\alpha}}=I^{{}_{\alpha}}\left(\boldsymbol{X},\boldsymbol{D}\right).\) The fluctuations of terminal currents \(\tilde{I}_{{}_{\alpha}}\) can be found by linearizing this equation with respect to the fluctuating quantities:
+
+\[\tilde{I}_{{}_{\alpha}}=\left(I_{{}_{X}}^{{}^{\alpha}}\right)^{{}^{\prime}} \tilde{\boldsymbol{X}}+\left(I_{{}_{D}}^{{}^{\alpha}}\right)^{{}^{\prime}} \tilde{\boldsymbol{D}}\,, \tag{5}\]
+
+where \(I_{{}_{X}}^{{}^{\alpha}}\) and \(I_{{}_{D}}^{{}^{\alpha}}\) are the derivatives of \(I^{{}^{\alpha}}\) with respect to the state variable and doping concentration, while superscript \(t\) denotes the transpose of the given vector. Since \(V_{{}_{G}}\) is constant, linearization of transport equations (4) gives:
+
+\[\hat{\boldsymbol{F}}_{{}_{X}}\tilde{\boldsymbol{X}}+\hat{\boldsymbol{F}}_{{}_{ D}}\tilde{\boldsymbol{D}}=0\,, \tag{6}\]
+
+where \(\hat{\boldsymbol{F}}_{{}_{X}}\) and \(\hat{\boldsymbol{F}}_{{}_{D}}\) are the derivatives of \(\boldsymbol{F}\) with respect to \(\boldsymbol{X}\) and \(\boldsymbol{D}\), respectively. All derivatives are computed at the given dc bias point and by assuming constant (non-fluctuating) values of the doping concentration. By solving (5) and (6) for the fluctuations of the terminal current we get:
+
+\[\tilde{I}_{{}_{\alpha}}=\left[-\boldsymbol{g}_{{}_{\alpha}}^{{}^{\prime}} \cdot\hat{\boldsymbol{F}}_{{}_{D}}+\left(I_{{}_{D}}^{{}^{\alpha}}\right)^{{}^{ \prime}}\right]\cdot\tilde{\boldsymbol{D}}\,, \tag{7}\]
+
+where \(\boldsymbol{g}_{{}_{\alpha}}^{{}^{\prime}}\) is the transpose of column vector \(\boldsymbol{g}_{{}_{\alpha}}\) that can be found by solving the following linear system of equations:
+
+\[\hat{\boldsymbol{F}}_{{}_{X}}^{{}^{\prime}}\boldsymbol{g}_{{}_{\alpha}}=I_{{}_ {X}}^{{}^{\alpha}}, \tag{8}\]
+
+where \(\hat{\boldsymbol{F}}_{{}_{X}}^{{}^{\prime}}\) denotes the transpose of matrix \(\hat{\boldsymbol{F}}_{{}_{X}}.\) By comparing (1) and (7), it can be inferred that the sensitivity function of the terminal current is given at each mesh point by:
+
+\[S_{{}_{\ell_{\alpha}}}^{{}^{\prime}}=\left[-\left(\boldsymbol{g}_{{}_{\alpha}} ^{{}^{\prime}}\cdot\hat{\boldsymbol{F}}_{{}_{D}}\right)_{{}_{\ell}}+\left(I_{{ }_{D}}^{{}^{\alpha}}\right)^{{}^{\prime}}\right]\Delta V_{{}_{\ell}}^{{}^{\prime}}, \tag{9}\]
+
+where \(\Delta V_{{}_{\ell}}^{{}^{\prime}}\) is the volume of the mesh cell \(i\). The variances of terminal currents can be evaluated by using (3), which, in discretized form, reads: where \(\left\langle D\right\rangle_{{}_{\ell}}\) is the average doping concentration at location \(i\).
+
+### Fluctuations of Threshold Voltage
+
+The technique for the calculation of the sensitivity function of the threshold voltage in MOS device can be developed similarly to the technique for the calculations of \(S_{{}_{\ell_{\alpha}}}^{{}^{\prime}}\). Fluctuations of the threshold voltage should be understood as fluctuations of the gate voltage \(\vec{V_{{}_{T}}}=\vec{V_{{}_{G}}}\) when the drain current is constant (fluctuations are zero): \(\tilde{I}_{{}_{\textit{flous}}}=0\). Thus, one can write the following system of equations:
+
+\[\begin{cases}\hat{\boldsymbol{F}}_{{}_{X}}\tilde{\boldsymbol{X}}+\hat{ \boldsymbol{F}}_{{}_{D}}\tilde{\boldsymbol{D}}+\hat{\boldsymbol{F}}_{{}_{G}} \vec{V_{{}_{T}}}=0\\ \left(I_{{}_{X}}^{{}^{\textit{Dden}}}\right)^{{}^{\prime}}\tilde{\boldsymbol{X} }+\left(I_{{}_{D}}^{{}^{\textit{Dden}}}\right)^{{}^{\prime}}\tilde{\boldsymbol{D }}=0\end{cases} \tag{10}\]
+
+where \(\hat{\boldsymbol{F}}_{{}_{{}_{\odot}}}\) are the derivatives of the transport equations with respect to \(V_{{}_{G}}.\) By solving this system we obtain the following equation for the fluctuations of the threshold voltage:
+
+\[\vec{V_{{}_{T}}}=\frac{-\boldsymbol{g}_{{}_{\textit{Dden}}}^{{}^{\prime}}\cdot \hat{\boldsymbol{F}}_{{}_{D}}+\left(I_{{}_{D}}^{{}^{\textit{Dden}}}\right)^{{}^{ \prime}}}{\boldsymbol{g}^{{}^{\prime}}\cdot\boldsymbol{F}_{{}_{{}_{\odot}}}}\, \tilde{\boldsymbol{D}}\,, \tag{11}\]
+
+where vector \(\boldsymbol{g}_{{}_{\textit{Dden}}}\) can be computed from (8) with \(\alpha=\textit{Drain}.\)
+
+The sensitivity function of \(V_{{}_{T}}\) is given at each mesh point by \(S_{{}_{\ell_{\alpha}}}^{{}^{\prime}}=S_{{}_{\textit{flous}}}^{{}^{\prime}}/ \left(\boldsymbol{g}^{{}^{\prime}}\cdot\boldsymbol{F}_{{}_{{}_{\odot}}}\right)\), where \(S_{{}_{\textit{flous}}}^{{}^{\prime}}\) are the mesh point 
+
+[MISSING_PAGE_EMPTY:92]
+
+The locations where the doping concentrations were varied are represented by numbers from (1) to (4) in Figs. 1(a)-(b). The results of the simulations are represented in Figs. 2, 3, and 4 for the double gate SOI device, MOSFET, and p-n junction diode, respectively. There is a remarkable linear dependence of the parameters of the SOI and MOSFET on the doping concentrations, which strongly supports the basic assumptions of our linearization technique. This linearity accounts for the good agreement that exists in the literature between the linearization technique and the statistical methods [1, 10] in the case of MOSFET devices. In the case of the p-n junction diode the current characteristics are not linear for a large range of variation of the doping concentration. However, if the fluctuations of the doping concentration are small, the dependence of the terminal current on the doping concentrations remains linear. To test the accuracy of the linearization technique in the case of p-n junctions we have generated \(200\) diodes with different doping concentrations but the same average values of the doping and computed the terminal currents for given forward potentials across the diode. The statistical (Monte Carlo) techniques give a standard deviation of the terminal currents of \(0.26\,\mu A\), while the linearization technique gives \(0.31\,\mu A\) ; the average value of the drain current is \(1\,\mu A\)  in both cases. The relatively good agreement between the two techniques suggests that the linearization of transport equations is still a fairly good approximation for p-n junction diodes. Finally, the sensitivity function of the threshold voltage of the MOSFET device is presented in Fig. 5. The drain current and the standard deviations of the drain current for the DG-SOI devices are represented in Fig. 6.
+
+In conclusion, the linearization technique provides a powerful and accurate tool for the analysis of random doping induced fluctuations in semiconductor devices. A remarkably linear dependence was observed between the parameters of the MOSFET and SOI devices and doping fluctuations, which supports the assumptions of the linearization technique.
+

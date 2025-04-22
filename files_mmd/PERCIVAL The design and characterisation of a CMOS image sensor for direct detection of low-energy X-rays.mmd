@@ -1,0 +1,47 @@
+
+B. Marsh 1, D. Das 1, I. Sedgwick 1, R. Turchetta 1, M. Baye 2, J. Correa 2, P. Gottlicher 2, S. Lange 2, A. Marras 2, I. Shevyakov 2, S. Smoljanin 2, M. Viti 2, C. B. Wunderer 2, Q. Xi 2, M. Zimmer 2, G. Cautero 3, D. Giuresi 3, R. Mench 3, L. Stebel 3, H. Yousef 3, J. Marchal 4, U. Pedersen 4, N. Rees 4, N. Tartoni 4, H. Graafsma 5
+
+Manuscript received 20 November 2014.1Rutherford Appleton Laboratory, Harwell Science and Innovation Campus, Didcot, OX11 0QX, UK (All authors with the CMOS Sensor Design Group, B. Marsh telephone: +44 1235 446 952, e-mail: ben.marsh@stfc.ac.uk) Deutsches Elektronen-Synchrotron, Notkestrasse 85, D-22607 Hamburg, GermanyElecttra - Sincrutrone Trieste, Science Park 34149 Basovizza, Trieste, ItalyDiamond Light Source, Diamond House, Harwell Science and Innovation Campus, Didcot, OX11 0DE, UKDeutsches Elektronen-Synchrotron and Midsweden University
+
+## I Introduction
+
+PERCIVAL (Pixelated, Energy Resolving CMOS Imager, Versatile And Large) is a collaboration led by Deutsches Elektronen-Synchrotron (DESY; Hamburg, Germany) and including the wafer-scale, CMOS imager under development at Rutherford Appleton Laboratory (RAL; Oxford, UK), Elettra - Sincrutrone Trieste (Trieste, Italy), and Diamond Light Source (DLS; Oxford, UK).
+
+PERCIVAL aims at developing an instrument for high-speed and low noise direct detection of soft X-rays. This is to address the growing need for such sensors in the FEL and synchrotron research areas, as peak brilliance at these facilities is rapidly increasing, illustrated in Fig. 1.
+
+The instrument is based around the PERCIVAL sensor which is designed at RAL. The sensor is a fully-custom 27 m pitch, high dynamic range pixel, fabricated in a standard 0.18 m CIS process using high resistivity, thick epi wafers. Specifications for the final sensor are a sufficiently low noise to allow for single photon detection while maintaining 20 bits dynamic range (10\({}^{7}\)e full well), and a continuous frame rate of 120 Hz. The sensor will be Back-Side Illuminated (BSI), with a uniform interaction quantum efficiency of greater than 90% over the whole pixel array, and within a target energy range between 0.25 and 1 keV. The sensor will also have good performance outside this energy range, but with no exact specification for the sensor. The design is produced using
+
+Fig. 1: Energy Range and Peak Brilliance of FEL facilities around the world [1].
+
+stitching, allowing several sensor formats to be created from the same mask set. Presently, the plan is for an initial device with about 2 Mpixel resolution, and a later "wafer-scale" device with about 13 Mpixel resolution.
+
+## II Pixel Design
+
+The pixel is designed to achieve high dynamic range with sufficiently low noise for single photon detection. Given that W=3.6 eV/pair [2], it can be calculated that in a 250 eV X-ray interaction, just under 70 e' are produced. In order to achieve single-photon detection, a signal-to-noise ratio of around 5:1 is required. This means that the noise level has to be below 15e'. In PERCIVAL, this is achieved through a partially-pinned photodiode [3], which gives a small capacitance even for large diodes, along with off-chip Correlated Double Sampling (CDS).
+
+In order to fulfil the high dynamic range and full well requirement, the pixel contains a custom design based around a lateral overflow structure. The authors proposed this design independently from the previously proposed similar design disclosed in [4]. In the PERCIVAL pixel, additional capacitors (see Fig. 2) are added to a conventional 3T pixel, allowing for an extended full well capacity while preserving low noise performance. These capacitors are connected to the diode through three switches that can each be held in three different positions: on (closed), off (open), or overflow.
+
+In overflow mode, the switches are set near threshold, so that only once the charge level on the preceding diode or capacitor reaches near full capacity can it "spill over" into the next capacitor. This allows the charge collection to continue well beyond the saturation for a standard diode of this size. By increasing the capacitance of each storage node, the full well can be made to increase by three orders of magnitude, while still maintaining the low noise needed for single-photon detection.
+
+When the integration time is finished, the three switches are then turned off, so that no further charge can be transferred between the nodes. Then, each node is read out in turn, starting with the diode. S0 is then fully connected, allowing for the charge to be evenly distributed across the capacitance C0 and the diode, and then read out. S1 and S2 are then connected in turn, and each gain is then read into the sampling stage.
+
+The pixel is read out through a column sampling stage to a 12-bit ADC. Seven rows are read simultaneously to achieve the desired speed and eight ADCs and sampling stages are provided per column to supply some redundancy. All four gains are read from the pixel and the sampling stage determines if they are saturated or not. Only the lowest non-saturated value is then converted by the ADC, thus reducing the overall conversion time. Each ADC operates with a conversion time of 7 \(\upmu\)s. The reset value is also converted, allowing for off-chip or digital CDS in order to further reduce the noise in the lowest gain mode. On the final sensor, the digital value will then be passed through high speed serialisers, operating at 800 Mb/s, and read out over 400 MHz LVDS lines. Standard operation for the sensor is to be run in rolling read out, allowing for the full frame to be read out at 120 Hz with CDS. When operating at full speed the "wafer-scale", 13 Mpixel PERCIVAL will then achieve a data rate of over 38 Gb/s.
+
+With the intended sensitivity of more than 90% in the 0.25 - 1 keV range corresponding to an absorption length in silicon of 0.05 - 2 \(\upmu\)m [5], it is crucial to use BSI-based technology as well as thick epitaxial layer. With a Front-Side Illuminated (FSI) CMOS device, the thick passivation and embedded metal routing would greatly reduce the sensitivity. By reversing the device, and using the back side as the incident surface for X-rays, the sensitivity can be increased to the required levels. In PERCIVAL, the device is thinned to give a 12 \(\upmu\)m, fully-depleted region. At the end of the BSI process, the surface needs to be annealed. Laser annealing is the most common way, but JPL [6] provide passivation by delta-doping the surface with Molecular-Beam Epitaxy (MBE). This gives a very uniform and shallow annealed surface for optimum low energy X-ray detection. Native oxide provides passivation of the surface and no anti-reflective coating was created in order to achieve the highest absorption efficiency at the low end of the selected energy range.
+
+Two sensor test structures have been fabricated, each composed of six different pixel types, giving 12 in total. These are known as TS1 and TS2. TS1 was designed to investigate annular partially-pinned photodiode and related spacing, while TS2 featured standard N-well photodiodes. These were all of the form of 210 rows by 160 columns, with standard CMOS output. They were both back-thinned. A third test structure was fabricated, known as TS3. TS3's purpose was to test the LVDS and serialiser stages, whereby 32 columns are multiplexed to a single LVDS output stage. A fourth test structure, known as TS1v2 is currently undergoing fabrication, and is designed to investigate further reductions in noise.
+
+## III Test Methodology
+
+Optical light tests on TS1 and TS2 were performed using a bespoke test bench that comprises of an FPGA-based camera system and LED array light source with four distinct
+
+Fig. 2: PERCIVAL Pixel schematic. The in-pixel capacitors are marked as C0, C1, and C2. Switches S0, S1, and S2 are able to be held in three states. Anti-Booming (AB) allows for charge to leave the system if all the capacitors are full without spilling into adjacent pixels.
+
+[MISSING_PAGE_FAIL:3]
+
+## V Conclusions
+
+FEL and synchrotron facilities are continually increasing in brilliance, and are in need of next-generation image systems to be developed to take full advantage. PERCIVAL, a CMOS imager designed by the CMOS Sensor Design Group at Rutherford Appleton Laboratory for the consortium which also includes DESY, Elettra and DLS, is aiming at providing a high performance solution for low energy X-ray detection.
+
+PERCIVAL is currently in the test structure phase, and shows encouraging results for the full-scale sensor. The next phase, the design of the 2 Mpixel sensor is underway, and fabricated devices are expected to be available in Q2 2015. The 13 Mpixel "wafer-scale" sensor is expected Q4 2015, with BSI versions of both to follow.
+

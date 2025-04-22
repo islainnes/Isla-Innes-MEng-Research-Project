@@ -1,0 +1,54 @@
+
+
+
+Zheng-Cai Cao, Fei Qiao,, and Qi-Di Wu,
+
+
+
+
+e-mail: gi@czc-mail.tongji.edu.cn
+
+## I Introduction
+
+The manufacture of semiconductor devices is a highly complex, expensive, and time consuming process. Wafer fabrication is the most costly phase of semiconductor manufacturing. It involves a complex sequence of processing steps with the number of operations typically in hundreds, which result in long cycle time of the production[1,2]. The main forces driving the importance of semiconductor fabrication are massive capital investment, superior technology and fierce global competition. In order to survive from such strongly competitive environment, it is essential for the integrated circuit fabrication process to exercise effective control on its production operations so that production resources can be employed in flexible and efficient manner. Wafer fabrication managers must try hard to reduce the cycle time, improve quality, and to lower production cost. In addition, they have to respond quickly to orders and to make the orders meet the dates[3,4].
+
+Many researchers have worked in this field for a long period. Kim[5]introduced a method for automatically structuring a Petri net model for semiconductor manufacturing and discussed how such measures as capacity, on-line turn around time, and work in process can be measured. Bause[6] proposed a formalism which combines Petri nets and queueing networks. He emphasized the ease of describing scheduling strategies with queueing networks. In[7], a genetic algorithm embedded search strategy over a colored time Petri net for wafer fabrication is proposed. Through the CTPN model, all possible behaviors of the wafer fabrication manufacturing system can be completely tracked down by the reachability graph of the net. The chromosome representation of the search nodes in GA is constructed directly from the CTPN model, recording the information about the appropriate scheduling policy for each workstation in the fabrication. Cavalieri et al.[8]described a colored Petri nets approach to scheduling a flexible semiconductor manufacturing system. They employed a heuristic algorithm to search the reachability tree of the Petri nets to find a pre-specified low-cost scheduling solution. All techniques presented here are based on the modeling formalism of stochastic Petri nets. They combine a simple graphical description and mathematical analysis methods in one framework. Manufacturing systems are one of the classical application areas of Petri net. They can be used for the modeling, qualitative validation, performance evaluation, and control of production process[9,10].
+
+## II System Description
+
+In general, the semiconductor wafer fabrication consists of several hundred machines grouped into dozens of distinct machine groups. Collection of wafers, known as jobs, move from machine group to machine group undergoing hundreds of operations before completion. Each job follows a process sequence that corresponds to the product family to which the job belongs. The flow of jobs through the fabrication is highly reentrant, meaning that jobs make multiple visits to total groups as successive circuit layers are added. Additional complexity arises from the fact that jobs, or portions of jobs, may be scraped or sent for network during the course of being processed. Thus, the number of wafers in a job may change as the job moves through the fabrication. Also, machine breakdowns, preventative maintenance, operator unavailability, setup requirements and other factors combine to make the manufacturing environment highly stochastic. As a result, their design, implementation, and operation is a 2834
+
+[MISSING_PAGE_EMPTY:273]
+
+[MISSING_PAGE_FAIL:3]
+
+#### Iv-B2 Machine group module
+
+Fig.5 and Fig.6 illustrate machine group1 and group2 module. Machine group 3 consists of only one equipment. It need not illustrate in detail. The processing steps after a token enters this module are described as follows. First, the lot enters the place buffer_1 or buffer_2 and wants select an idle equipment. Second, We solve this problem by applying various selection rule.
+
+## V Discussion and Future Research
+
+In a typical wafer fabrication, there are many different products and processing, some with small quantities, competing for resource. Each product flow can include hundreds of processing steps. So, the use of heuristic search algorithms and Petri nets for large systems needs further investigation. The question is how quickly the algorithm can generate a good solution for a large-scale system. The combination of other rule-based techniques with the Petri nets approaches may prove very effective in handling other rush job or the machine status change cases. Future research needs to address such issues as efficient representation of large nets, selection and evaluation of heuristic functions, storage of most promising states to reduce search time, and effective avoidance of deadlocks in the search.
+
+#### V-1 Equipment module
+
+The equipment module constructed by QGSTPN is illustrated in Fig. 7. We divide the equipment module into three subtnes, which will be explain in details as follows.
+
+Operating SubnetThe purpose of this subnet is to model processing, machine setup and to check whether the lot needs to be reworked.
+
+The Queueing_1_j is a queueing transition, and takes some to fire. This time delay is calculated by the queuing model, and it represents the waiting time of the lots.
+
+Reparing SubnetThe machine failure and periodical maintenance are modeled explicitly here.
+
+Time Critical SubnetThe idea of the time_critical subnet is that if a critical lot is released this wafer fabrication, after waiting for some specific time period, the lot can get a higher priority and can be performed first.
+
+## VI Conclusion
+
+In this paper, we consider the wafer fabrication modeling problem. We proposed s systematic QGSTPN model for a wafer fabrication. Important features such as natural lots processing, critical lots processing, machine breakdown, machine setup and reworking lots phenomenon are all considered. Also, we introduce the queueing theory into the PN to predict some performance measures efficiently and to simplify the model and accelerate the execution. Characteristics 1) the technique provides a very natural and powerful description method for complex wafer fabrication system models 2) the technique provides much quicker responses so that engineers can complete their missions more efficiently.
+
+Fig. 5: Machine group1 module
+
+Fig. 6: Machine group2 module
+
+Fig. 7: QGSTPN-based equipment module
+

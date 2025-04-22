@@ -1,0 +1,322 @@
+
+J.D. van Wyk
+
+## 1 From the Past to the Present
+
+The development of power electronic converter technology in the 20th century has been well documented - notably in the recent past. [1-4] while encyclopaedic reviews of the present state of the art are also readily accessible [4-10]. In particular, the extensive bibliography in [4] should be noted in this regard. In view of the availability of these reviews, therefore, it is not necessary to present yet another review. It is worth much more to attempt an evaluation of where this technology has brought the present state of electronic power processing and conditioning in the last decade.
+
+When evaluating this evolution of technology, the following salient features emerge:
+
+* with negligible outside constraints
+- that existed up to the recent past.
+* From the original mercury-arc devices through the first solid state devices (selenium) and through thyristors to the present silicon based technology for all modern devices [4], more than three orders of magnitude reduction in device size for the same power level may be observed.
+* even at the highest power levels
+- have decreased from the millisecond to the microsecond region. Depending on power level, in many cases this decrease was more than three orders of magnitude. This remarkable feat in understanding, controlling and utilising device physics have extended the possible operational switching frequencies in power electronics from the original 50Hz region to the megahertz region
+- again coupled to power level
+- opening up many novel technological possibilities.
+* from microwats to the region of hundreds of megawatts.
+* However, when evaluating the reduction in physical size of a medium power converter over the last fifty years, it is evident that although an order of magnitude reduction can be shown in some cases, it does not match the device size reduction. As power decreases, reduction in size is even less, while currently the same is seen at the higher power levels. From this it can only be concluded that in the medium power range, device size (with theassociated cooling) is now less important as a determining factor for converter dimensions and weight. At both higher and lower power levels other factors are influencing the sizing of converters even more.
+
+In drawing all the previous together, one can therefore state that although truly remarkable progress in solid state power semiconductor technology may be observed since silicon devices came of age, and although this progress was driving power electronics development, the same order of magnitude reduction in physical size, increase in number of functions and in complexity and reduction in cost that occurred in electronic information processing, did not come forward in electronic power processing. This expectation might have arisen from either a too narrow perception of electronic power converter technology, or it might have been that there are some associated parameters in the technology that have not yet been stimulated. In the following parts of this paper an attempt will be made to explore these questions further.
+
+Power electronic converter technology is closely influenced in its development and application by two associated fields, i.e. Control and Reliability and Maintenance. In figure 1 these two fields have been shown as mapping onto the field of Power Electronic Converter Technology, since many direct features in the latter are determined by the former in perhaps other ways than is the case in information processing technology. Although it is not possible to discuss these interactions - especially regarding future trends - within the confines of this paper, the importance of these two fields should not be underestimated in shaping the future of power electronic conversion and conditioning.
+
+For discussing present and future trends in power electronic converters, six very important constituent technologies will be considered, as shown in figure 2, i.e.
+
+* Power semiconductor device and component technology
+* Power electronic converter technology
+* Converter packaging and cooling technology
+* Power electronic converter manufacturing technology
+* Power electronic converter environmental impact technology
+* Converter electromagnetics
+
+The discussions of the present state of the art will chiefly concern the first three, since these three have been instrumental in establishing what can presently be achieved with power electronic converters. The latter three constituent technologies will only be important in establishing the present trends and guessing at future development.
+
+## 2 On the present state of the art
+
+As remarked previously, the present state of the art in electronic power conditioning and conversion technology is characterised strongly by very advanced power semiconductor device technology, well developed _device_ packaging and cooling technology and extensively developed converter technology, a qualitative impression being given by the areas used in figure 3. This unbalance in the present state is borne out by the situation in practical applications, where cost, limitations in operation and lifetime and size are
+
+Figure 1: Control, reliability and maintenance are very important associated technologies, mapping onto each of the constituent technologies of figure 2.
+
+Figure 2: Constituent technologies for electronic power conditioning and conversion technology.
+
+determined by cooling, packaging and electromagnetic components more than anything else. A very mundane example is that even in the most advanced IGBT pwm-inverter it is still the electrolytic capacitor that determines the equipment's number of operating hours, and not the power semiconductors - while mechanical interconnections are responsible for the MTBF more than anything else. That power semiconductor devices are thermally limited structures have been been realized very early [11], yet the present quest seems to be much more toward complicated functions in devices [12-14] than towards a thermally balanced and optimally cooled device. From the point of view of the development cycle of power devices, this is an understandable line of thought, since power device inception starts at a power level where the concepts are not thermally limited, and are then extrapolated to increase device rating. The present state as examined subsequently illustrates more of these interface mismatches that will be important in the future.
+
+### Power electronic devices, components, packaging and cooling for converters
+
+In view of the apparent mismatch in the relative state of the art as shown qualitatively in figure 3, a brief examination of these fields are now in order. Attention has again to be paid to the large difference in traditional disciplines of the developers drawing the circuit diagrams for converters on the one hand, and the designers of the cooling system to remove the losses on the other hand. Where the power level is so low that the entire spectrum of functions is vested in one person, this approach usually has its own feedback and optimisation routines vested in the single designer. As the power level and size of the system increases, so do the measures and management requirements to attain the desired result - stressing the design feed back loops accordingly. Eventually, the system design iteration has no influence on the devices and components being used for the design since these originate from a totally different manufacturing system. This points at another serious mismatch in the present development cycle for technology of this kind. From device development to the cooling through the device and converter packaging, the lead time for technology development differs widely. For example, the crucial electromagnetics components are usually simply off-the-shelf, with no lead time at all : converter packaging is simply adapted according to the packaging requirements of these devices - with very little feedback to the other parts of the technology.
+
+#### 2.1.1 Power semiconductor devices
+
+As has already been implied, the present state of the art places a large array of power semiconductor devices at the disposal of the designer. The power-frequency product (figure 4(a)) of these devices have been often postulated as some empirical constant [17], and continuing device development seems to bear this out [18].
+
+Although devices such as static induction transistors (SIT) and static induction thyr
+
+Figure 4: Power ranges for different device types (a) Device switching power as a function of frequency. (b) Voltage-current fields. (U\({}_{\mbox{m}}\) : maximum specified device voltage, I\({}_{\mbox{m}}\) : maximum specified device current. The same method of specification applies for all device types).
+
+Figure 3: Relative state of the art in the development of the present important constituent technologies of power conditioning and conversion technology.
+
+apparently strong contenders [19, 20], the present range seems to be narrowing down to MOSFETs, IGBT's and GTO's [14, 15, 18], with promise still in MCT's [15, 18]. The important improvement that field gating of power semiconductor devices brings in applications has been adequately demonstrated by the advent of the IGBT.
+
+The reduction in complication and cost of driving the device, robustness and other favourable characteristics have led to the final demise of bipolar power transistors. It is therefore understandable that the present expectations are still targeting field gated thyristors to replace the GTO in high power applications [14, 15, 18], although it is also evident that for such thermally limited components the present proposals in device structure could face serious problems in extrapolation to high power, leading to a quest for alternative approaches [16].
+
+In the field of power semiconductor devices, diodes have been a perennial - and much neglected - problem. A comparison based on hard switched application in a pwm converter for approximately 6kW [21] indicates clearly that improvement in diodes is much more effective than application of a new device (such as an MCT) to achieve loss reduction for the converter (see table 1).
+
+#### 2.1.2 Packaging, cooling and electromagnetic components
+
+In figure 3 it was attempted to accentuate the different levels of development in some of the constituent technologies. In table 2 a practical assessment of the percentage of converter packaging volume ascribed respectively to devices, to cooling, to electromagnetic components and to other associated hardware in pwm converters has been represented from some practical case studies on state of the art converters. This represents another side of the total evaluation, as it is evident that packaging of devices has been optimised to such an extent that system packaging volume is determined by _converter packaging_. The converter packaging is influenced in a very important way by the type of manufacturing technology, by the maintainability required, by the installation environment and by interconnections and subsystems. Electromagnetic component volume is determined by frequency of operation, and should therefore be approached with some caution. However, the limitations electromagnetic components are representing to many power electronic converter designs can also be discussed in terms of lifetime, electromagnetic compatibility and reliability - issues that are not discussed in the context of this paper.
+
+#### 2.1.3 Driving, snubbing and protection
+
+Part of the driving force in converter development up to the present state of the art has been in the areas of reduced driving and snubbing requirements, and in less protection being required. Whereas protection relates to the device performance under abnormal operational conditions such as short circuits or abnormal voltage transients, the driving requirements are directly related to continuous device operation and therefore are reflected in converter volume, complexity and weight. It is exactly in this area that the IGBT offered unsurpassed advantages over bipolar power transistors. This has given rise to the expectations for field control of thyristor devices to replace GTO's. When considering hard switching applications, improvement in turn-on and turn-off of devices reflects directly in loss savings [21] and consequently in converter heat exchanger size.
+
+However, as converter ratings increase, the thermal limitations of power devices start to dominate, at present leading to the use of snubbing as the only alternative to effect reliable switching [18] and avoid dangerous thermal instability in large devices, such as 3kV, 2,5kA GTO's. At present it appears that for GTO's this has to
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|} \hline \begin{tabular}{c} Switch- \\ ing frequency \\ [kHz] \\ \end{tabular} & \multicolumn{3}{c|}{Total Losses [W]} \\ \cline{2-5}  & \begin{tabular}{c} IGBT + \\ PIN \\ diode \\ \end{tabular} & \begin{tabular}{c} MCT + \\ PIN \\ diode \\ \end{tabular} & \begin{tabular}{c} IGBT + \\ improved \\ diode \\ \end{tabular} & 
+\begin{tabular}{c} MCT + \\ improved \\ diode \\ \end{tabular} \\ \hline
+5 & 80 & 65 & 50 & 30 \\ \hline
+15 & 160 & 145 & 85 & 75 \\ \hline
+30 & 280 & 265 & 140 & 125 \\ \hline \end{tabular}
+\end{table} TABLE 1: Typical losses as influenced by device type and diode type.
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|} \hline Power & Device & Heat & Electric & Rest \\ pwm & rating of pwm & aging & changer & mag- \\ converter & & & & \\ (kVA) & & & & & \\ \hline
+1 & 5\% & 25\% & 15\% & 55\% \\ \hline
+10 & 1.0\% & 20\% & 10\% & 69\% \\ \hline
+100 & \(<1\%\) & 5\% & 6\% & 88\% \\ \hline
+1000 & \(<1\%\) & 5\% & 20\% & 74\% \\ \hline \end{tabular}
+\end{table} TABLE 2: Percentage volume of different subsystems in power electronic converter packaging.
+
+be accepted on grounds of both practical experience as well as device physics [22]. It is consequently highly questionable whether this will change at these power levels.
+
+### Present power electronic converter technology
+
+Since the available reviews [5-8, 10] indicate an enormous array of power electronic converters for various applications, this present exploration of the state of the art will not follow that line, but rather examine the generic switching technologies applicable to the multitude of converter topologies and structures, and then summarize the most important present converter topologies and structures. For this investigation, the concepts of _topology_ and _structure_ as previously defined are used [4].
+
+#### 2.2.1 The character of switching transitions
+
+The character of the switching transitions in converters is determined by an interactive relationship between the gating or driving of the power semiconductor devices and the capacitive and magnetic energy storage in the converter structure. It has become customary, however, to discuss these two issues separately. This practice will also be followed here.
+
+1. When only the electromagnetic circuit parasities of the converter layout are influencing the switching transition, it has become accepted practice to term this "_hard switching_".
+2. With additional inductance and capacitance being added to slow down the turn-on and turn-off processes respectively, _smubbing_ is said to be added. As the size of these electromagnetic energy stores is increased in an attempt to reduce the stresses during transitions, the energy they store during each switching transition can no longer economically be dissipated during the next cycle (resetting action ), so that the technology of regenerative snubbers was developed.
+3. When the energy stored in the electromagnetic elements is influencing the switching during the entire period, clear resonance is observed, leading to the technology of resonant converters.
+
+These stages (i) to (iii) of influencing the voltage and current waveforms during a switching transition actually represent a continuous change in type of response, but will be discussed separately in the following paragraphs.
+
+#### 2.2.2 Snubbers in converters
+
+As discussed above, there is always some influence of "stray" inductance \(L_{g}\) when turning a device on and "stray" capacitance \(C_{g}\) in a circuit when turning a device off into an inductive load (fig. 5a).
+
+In the conscious use of electromagnetic storage of energy to slow down turn-on transitions (magnetic energy) or turn-off transients (capacitive energy), the inductance \(L_{s}\) and the capacitance \(C_{s}\) is enlarged artificially by at least an order of magnitude. The time taken is now determined by the size of \(C\) and the load current (fig. 5b). The energy stored during turn-on and turn-off transitions respectively is dissipated in \(R_{s}\) or recovered [23, 24]. It must also be noted that the turn-on and turn-off snubbers are not independent of each other, although they are mostly analysed as such [24]. It should be noted that the trade-offs are:
+
+1. When only the electromagnetic circuit parasities of the converter layout are influencing the switching transition, it has become accepted practice to term this "_hard switching_".
+2. With additional inductance and capacitance being added to slow down the turn-on and turn-off processes respectively, _smubbing_ is said to be added. As the size of these electromagnetic energy stores is increased in an attempt to reduce the stresses during transitions, the energy the increase of overvoltage and overcurrent stresses on the switch with increase in \(L_{s}\) and \(C_{s}\), the increase in energy to be dissipated in \(R_{s}\). As discussed, this then subsequently leads to the
+
+Figure 5: Equivalent circuit for considering electromagnetic snubbing elements in a switching converter. (a) Residual ”stray” inductance and capacitance in circuit only. (b) Inductive turn-on and capacitive turn-off snubbers added.
+
+Figure 6: Switch voltage and current as influenced by electromagnetic circuit elements. (a) Only residual parasitic inductance and capacitance in circuit, (b) Added inductive and capacitive snubbing.
+
+technology of regenerative snubbers by replacing the resistor with a voltage source.
+
+This increase in stresses is a theme that carries through to resonant transition converters and can only be reduced by increase in circuit complexity or control and switching pattern for handling this extra reactive energy.
+
+Initially, as a precursor to resonant transition technology, technology was further developed to recover the energy stored in the inductive and capacitive snubbers and return it to the converter supply system at high power levels. [4] However, the added complexity to the converter has unfortunately been a serious deterrent for industry to accept this up to the present, so that actual industrial converter practice at present is either no snubbers (just clamps), or dissipative snubbers [23]. Up to the present it has been an accepted concept in large converters that when structural inductance (linear) is not sufficient for turn-on snubbing of devices, only nonlinear (saturable) inductance is added [26]. From an efficiency and loss point of view this is the only tolerable solution.
+
+By analogy to this, the use of saturable (nonlinear) capacitance as turn-off snubber [27] has been developed well both theoretically and experimentally. It is evident that this could fill the gap for softening the switching, while improving the efficiency and eliminating the need for complex regenerative snubbers. Although such a saturable capacitive component has not yet been developed by industry, it has been shown to be feasible on a laboratory scale [4]. Such a development in future could have a very important impact on converter technology.
+
+Regarding the state of the art of analyses developed for snubbers, it has to be noted that original approaches were based upon the assumption of a linear fall off of voltage or current at turn-on or turn-off of the switch respectively. Taking into account especially the current tails of modern power semiconductor switches (GTOs, IGBTs), changes many of the fundamental assumptions, and should receive serious attention in snubber design [25].
+
+#### Resonant converter technology
+
+As indicated in 2.2.1, snubbers may be considered as auxiliary circuits included to reduce switching stresses, while in resonant circuits the main circuit serves to reduce switching stresses. A number of classifications and reviews of the various resonant circuit families have been reported, for example [28, 29]. However this type of converter has limited application to widely varing load conditions. Continuous resonance - as the name implies - involves the resonance being present during an entire cycle and switches are turned on and off at appropriate instances during the cycle, necessitating that the load be part of the resonant circuit.
+
+Figure 8: Resonant link (RL) inverter.
+
+The availability of turn-off switches (MOSFETS, IGBT's) have led to the preference for using zero voltage switching (ZVS) in resonant converters. In these cases the switching frequency is higher than the resonant frequency. When the switching frequency is being varied to control the output current, the switching frequency rises to approximately double the resonant frequency, leading to a severe requirement for the transformer and magnetic components. The partial series resonant converter (PSRC) is an attempt at resolving this limitation to the application of full resonant converters [30].
+
+The zero voltage switching partial series resonant converter is a new version of the Series Resonant Converter and introduces a modification to permit ZVS below the resonant frequency of the LC tank, making it possible to use small, high frequency reactive components in combination with relatively slow switches. The current waveform applied to the switches not only features ZVS turn on, but turn off is always conducted at a reduced current which not only ensures low turn off losses but also allows the peak current capability of minority carrier devices to be utilised to its full extent - as opposed to the more restricted current turn-off capability of these devices. Experimental work has indicated that IGBT's may be reliably operated at twice their rated current in this circuit topology and with thyristor based devices such MCT's the operation may even be more favourable. Figure 7(a) illustrates the generic PSRC circuit, with figure 7(a) giving a typical waveform in one of the modes of operation. [30]
+
+#### Converters utilizing resonant transitions
+
+For applications where switching frequency variations over a wide range are required, such as in motion control applications, resonant transition converters - which limit resonance to a part of the switching period - have been developed. The class of resonant transition converters which limit switching stresses on the semiconductor devices are suitable for high power applications and examples are the resonant dc link converter [31] and the family of resonant pole inverters [32].
+
+During the past decade much effort has been expended investigating and inventing a large number of topologies in these categories. Industrial acceptance of resonant
+
+Figure 11: Auxiliary resonant committed pole (ARCP) inverter.
+
+Figure 10: Actively clamped resonant link (ACRL) inverter.
+
+Figure 9: Resonant pole (RP) inverter.
+
+technology has been slow, because sufficient improvement in cost and performance in the case of many topologies remained outstanding. Now that most resonant principles and topologies have been established, the challenge for the next decade will be to reduce the number of components and simplify the construction of resonant converters.
+
+Operation of the resonant link (RL) and resonant pole (RP) inverters introduce more than double stresses on the semiconductor switches. In case of the (RL) circuit the voltage stresses are in the order of 2 - 2,5 p.u. Under steady state conditions the average voltage across the inductor needs to be zero and the link voltage (V\({}_{\text{link}}\)) has to reach zero to ensure soft switching. As indicated in figure 8, the steady state condition requires (area 1) = (area 2) which implies a voltage stress larger than 2 p.u. Similarly in the case of the (RP) inverter, (Fig 9) steady state requires that the average of voltage V\({}_{\text{eq}}\) at the output should not change and charge balance can only be achieved if (area 1) = (area 2) for the inductor current (L\({}_{\text{L}}\)), figure 9, which implies larger than 2 p.u. current stresses on the switches.
+
+The stresses can only be reduced by modifying the resonant circuit. The two possibilities are (i) use of active switches to alter the properties of the resonant tank and (ii) the use of non-linear passive resonant components.
+
+Limitations for all quasi-resonant converter topologies that employ reduction of the input resonant bus voltage to zero at a fixed clock frequency - necessitating delta and sigma-delta modulation to emulate pulse width modulation (pwm) - are found in the modulation behaviour. At higher power this has been found to dictate an unrealistically high switching frequency of the resonant link to obtain comparable performance to pwm [34]. State of the art of this technology has now progressed to the point where a circuit with two additional switches in a series resonant link over and above the six switches in the three phase converter bridge, offers true pwm-control [35] and the inverter switches are only stressed with the value of the link supply voltage. One of the problems with all resonant link converters is the losses in the resonant link, and this last solution does not escape that objection, as well as a design of the resonant link to commutate properly under all operational conditions of the load. Both these last considerations may offer some explanation for the reluctance to apply these types of converters in many practical (drive) applications.
+
+Figure 12: The nonlinear resonant pole (NLRP) inverter.
+
+Figure 13: De to dc converter topologies (a) buck chopper (b) boost-chopper (c) buck-boost chopper (d) series resonant hf link converter as de-dc converter (e) phase shifted hf link converter as de-dc converter.
+
+The resonant pole inverter family achieves zero voltage switching by commutating the conducting diode in the phase arm with a current from the resonant circuit. This implies that the resonant circuit needs only be active at the end of the half cycle when the bottom diode conducts, which can be achieved by placing switch S\({}_{\text{a}}\) in series with the inductor and connecting the resonant circuit to the phase arm only at the end of the diode conducting cycle, giving the auxiliary resonant commutated pole inverter [36], as indicated in figure 11. Switch S\({}_{\text{a}}\) is turned on before the end of the diode cycle and the diode is turned off by permitting the inductor current I\({}_{\text{L}}\) to become larger than the load current.
+
+Similar benefits can be obtained by using non-linear inductors or capacitors instead of switched reactive components [37]. Such an approach has the advantage of decreasing the complexity of the circuit by eliminating switches. On the other hand, it brings another aspect into the design process, namely achieving certain characteristics in non-linear saturating reactive components as well as making the system essentially self-oscillating - with all the attendant advantages and disadvantages.
+
+This non-linear resonant pole inverter (NLRP) (figure 12) introduces modifications to the standard resonant pole inverter comprising a non-linear, saturating inductor with a main winding (N\({}_{1}\)) and a current feedback winding (N\({}_{2}\)). For stable operation charge balance must be maintained on the input filter capacitor. This is done by offsetting the inductor current I\({}_{\text{L}}\) slightly by feedback of the output current. In this way it is possible to achieve zero average inductor current under all load conditions as shown in figure 12 [37].
+
+### Converter structures
+
+In the following discussion, the specific switching technology employed in the converters is not discussed, although some examples are given. In general it has to be kept in mind that any of the switching technologies for obtaining snubbed switching or soft switching as discussed previously can also be a possible candidate for introduction into these topologies and structures.
+
+#### 2.3.1 De to dc converters
+
+The buck, boost and buck-boost dc to dc converters as shown in figs 13 (a,b,c) have been used since the first chopper circuits were known [4] Low loss turn-on and turn-off have been a continuous problem.
+
+The original
+
+Figure 14: Ac-dc converters for improved input current waveform (a) Diode-rectifier with a boost-converter (b) Four quandrant converter for single phase operation (c) Three phase diode rectifier with active line current shaping.
+
+Figure 15: Composite ac-dc-ac converters (a) Current fed inverter fed by a controlled three phase rectifier (b) Current fed pwm-inverter fed by a current mode pwm-rectifier (c) Voltage fed pwm-inverter fed by a three phase diode rectifier (d) Voltage fed pwm-inverter fed by a three phase pwm-rectifier.
+
+thyristor forced commutation circuits limited the switching repetition frequency to values below 500Hz. The presently available IGBT's and GTO's have improved the switching but it is limited by the losses during the turn-off and turn-on transition of S. As has been discussed, however, zero voltage switching (ZVS) and zero current switching (ZCS) realisations of the switch S are possible in resonant, quasi-resonant and resonant transition, technology leading to a large family of these converters - At present these are still implemented at lower power level due to the increased device current and voltage stress. The dc to do converters of this type used at high power levels still employ hard switching techniques, with sunbbers added to reduce switching stress to acceptable levels.
+
+In applications requiring high power and high power density dc-dc converters (zero-space applications), soft switching is a prerequisite. The load-commutated series resonant converter with high frequency link [38] and the phase shifted hf-link converter [39] are among the few that have been successfully developed for this specialised application. This high frequency link structure also enables transformer isolation between input and output. The series resonant system of fig 13 (d) allows the use of thyristors only - but this limits the frequency to some 10 kHz - 20 kHz. For regenerative operation the diodes in the secondary converter have to be replaced by thyristors.
+
+The phase shifted hf.f-link converter structure of fig. 13 (e) uses the resonant pole concept to achieve soft turn-on and uses capacitive snubbing for low turn-off loss. The power density of this system can be enhanced by using a three phase topology for both primary and secondary converters. [39]. For industrial drive applications requiring dc to dc converters, these types of converters are not perfered to the conventional structures of fig. 13 (a,b), unless transformer isolation and low mass is a requirement.
+
+#### Ac to dc converters
+
+In all ac variable frequency drives - with the exception of drives fed by direct converters - the ac to dc converter forms the important link between the drive and the ac bus. Traditionally uncontrolled and controlled rectifier bridges are used for this application and their characteristics have been discussed extensively in the text book literature.
+
+The present accent on power quality and improved power factor have shifted the accent to more supply friendly ac to dc converters, some of which are shown in fig. 14(a-c). The application of the single phase diode rectifier with boost - converter is limited to some kilowatts due to being fed from the single-phase bus. An excellent review of all single phase structures have appeared recently [40]. In the three phase diode rectifier circuit with output chopper [41] of fig. 14 (c) the input current pulses (chopper switch S operated at constant switching frequency) are discontinuous, leading to the consequence that S has to be operated at high frequency to allow for the filtering of harmonics by a small input filter (not shown). This high required frequency puts a limitation on the maximum power level to which this technology can be extended, since the devices to be applied in S may be FETS or possibly IGBTs.
+
+For application at power levels exceeding 1MW the four quadrant pwm-converter of fig. 14 (b) was developed [4]. As this singular converter is fed from a single phase (traction) supply, particular care is necessary in the layout of the dc link to absorb the second harmonic and supply a stable voltage to the follow-on pwm inverter. By using phase shifted converters of this type in multiple operation, the ripple content is decreased - even at a switching frequency of a few hundred hertz - to low levels, even in multimegawatt applications. The three phase pwm - rectifier (Fig 15 (d)) is a follow - on from this, although the maximum applicable power level has yet to be established.
+
+Figure 16: More extended converter families (a) Cycloconverter/Matrix converter (b) ac-dc-ac converter with an active dc link circuit (c) ac-ac-ac converter with a resonant ac link and two ac-ac converters.
+
+#### 2.3.3 Ac-ac converters for variable frequency
+
+An overview of the many composite converters for variable frequency pwm operation - with chiefly induction machines as loads, is done in view of the variations in topology and structure brought about by the quest for supply friendly drives and soft switching converter systems at higher power levels.
+
+##### 2.3.3.1 Ac-dc-ac converters for current fed inverter drives
+
+Fig. 15 (a) indicates the generic structure of the current fed ac-dc-ac converters [42, 43]. In subsequent designs it was shown that pwm-operation of the current fed inverter can lead to elimination of harmonic current components causing torque oscillations in the machine, even using thyristors with auto-sequential forced commutation. The availability of BJTs, IGBTs and GTOs first led to replacement of the force commutated thyristors with the addition of a small capacitor filter on the induction machine input terminals as shown on the inverter of fig. 15 (b), greatly improving the waveforms of voltage and current applied to the machine [44], as well as casing turning off of the devices in the inverter, since quasi-sinusoidal pwm could now be applied to the inverter output current. A natural follow-on was to add a similar topology to the input, leading to the double pwm current fed structure of fig. 15 (b), representing the state of the art development in this technology. [4]
+
+##### 2.3.3.2 Ac-dc-ac converters for voltage fed inverter drives
+
+Voltage fed inverters in forced commutation thyristor technology developed to a stage where it could be applied up to the highest power levels in main line electric locomotives. However, since these converter structures remained complicated, it was the availability of FETs, BJTs and IGBTs that saw to the successful penetration of the entire power range by the three phase diode rectifier fed, pwm inverter drive for induction machines, shown in fig. 15 (c) [4]. This development has gradually been superceding current fed technology over the past years, especially since the availability of GTO's extended the applicability of turn-off devices in voltage fed inverters up to the highest power levels.
+
+The supply interaction has remained a problem over the entire power range. This could be solved for single phase traction systems by the four quadrant converter as discussed previously in relation to fig. 14(b), while in the lower power range of ac-dc-ac converters fed from a three phase bus, the solution of fig 14(c) provides the appropriate input converter. The double pwm voltage fed structure shown in fig. 15 (d) represents the ultimate power electronic solution in terms of pwm voltage fed converter technology regarding a supply friendly and machine friendly converter system. Although this type of system can be implemented using any of the presently available turn-off devices (FETs, BJTs, IGBTs), general application still has to develop. [4]
+
+##### 2.3.3.3 More extended converter families
+
+As a first member of this class of converters, cycloconverters come to mind. Although these converters have been known since controlled switching devices became available [4], power semiconductors increased the application possibilities. Figure 16(a) represents the converter structure comprising the combination of nine ac switches. With the ac switch consisting of two antiparallel switches with delayable control (such as thyristors), the well known naturally commutated cycloconverter - as widely applied - is obtained. However, since the advent of simpler turn-off technology in converters, there has been a quest for a "general converter" to couple two multi-phase sets of ac voltages by having the nine ac switches capable of turning on and off at any instant. Application possibilities have recently been proven and the power level might be extended in the future [45].
+
+When considering voltage fed inverters, the link has generally been considered to be firstly a direct voltage or a direct current link, and secondly to consist of passive elements only [4]. During the earlier stages of the development of thyristor forced commutation technology, several schemes to actively reduce the dc link voltage or current to zero by employing a switching element in the link were proposed and tried [46, 47]. Turning off all the elements in the inverter bridge was consequently achieved. Hybrid BJT-thyristor inverters were developed, exhibiting the characteristic that all switching transitions could only be undertaken when the link was activated (and for instance the link voltage reversed or reduced to zero.) [48].
+
+The new generation of soft switched topologies, such as the resonant dc link inverters and the resonant ac link converter [49] develops the idea of actively using the voltage variations in the link to style the turn-off of the devices in the converters further. Even further measures and active devices can be introduced to impart the necessary characteristics to the converter behaviour [50].
+
+##### 2.3.3.4 Converter structures with a minimum number of switches
+
+The relatively large number of switching components needed for either a single phase or a three phase ac to ac converter has been a motivation for devising ac to dc and dc to a converter topologies with a minimum number of components since the earliest times of power electronics. Especially when the volume (and cost) of power switches was an appreciable part of the system cost (originally mercury arc rectifiers, force commutated thyristors, bipolar power devices) this approach madesense. At the present state of the art, when the power semiconductor device and drive cost is becoming very small in relation to the whole, this type of approach has to be evaluated more for its disadvantages than for its advantages. However, since these types of converter structures are continuously being investigated, [51, 52] it is worthwhile to evaluate this state of the art briefly.
+
+Composite converter structures utilizing a minimum number of components [53] can be devised for direct voltage link, direct current link or high frequency link structures. The ideas proposed in the era of thyristors or bipolar transistors as switches [54, 55, 56] are still valid. Examples of generic structures for direct voltage link structures or high frequency link structures, without specifying the switching functions in more detail, are given in figure 17(a), and (b) respectively. The different direct voltage link circuit variants and the different high frequency link current variants have been investigated fully in the past [53, 57], indicating what the generic problems are with these composite converters. The comments below concern the generic dc/ac topology (fig 17a) and the high frequency to low frequency ac topology (fig 17b) as the output converter, but since the same generic topologies are applicable to the reverse process at the input, these are not shown. Also note that the type of switching function [4] is not specified - general switches are indicated. Soft switching techniques as discussed previously can also be incorporated as switching technology [52]. The further complication of the composite hf link structure for instance by introducing an ac/dc stage before the output converter [52], is not discussed - this merely aggravates the disadvantages.
+
+The cited investigations have shown that in these families of converter structures the reduction of the number of switches are paid for by:
+
+* An inevitable increase in the switch current ratings [53] and in some topologies also concurrently the voltage ratings [57]
+* Severe increase in switching frequency to observe modulation functions that yield the same THD as in six-pulse pwm conversion [53]
+* again increasing also switch ratings in the primary converters.
+
+An evaluation of these topologies therefore shows that not only is increased device ratings the price to be paid, but also a substitution of capacitive and inductive components for silicon, with the capacitive and inductive components larger and subjected to more stresses than in comparable six-pulse topologies. In terms of the present trends in electronic power converter technology this is not a good trade-off, so that application is reserved for very specialised situations.
+
+## 3. **On present trends in electronic power converters**
+
+From the preceding discussions, the trends in converter technology development strongly follow soft switching techniques. (ZCS, ZVS, resonant transitions) while special topologies for ac to ac conversion in the medium to higher power range have not gained in popularity over the six-pulse, three-phase pwm converters. Yet, while almost entire conference records are being filled at present by reports on all these variations in switching technology, topologies and structures, very little application of all these ideas are being found outside the laboratory. When such an application is found, it is on the basis of an extended prototype for a special application. It has also been noted that in terms of converter volume - and hence cost - device volume is almost negligibly small, leading to an important incentive to reduce device related subsystems (driving, snubbing, protection) further. This objective seems to have been reached in the case of field-gated devices (MOSFETs, IGBT), leading to smaller incentives to apply other new families of devices - the exception being still a field-gated replacement at very high powers for the GTO - since it has expensive subsystems associated for driving, snubbing and protection.
+
+Returning to figure 2 perhaps gives some indication for the difference in converter R&D trends and application trends. Applications of electronic power conditioning and conversion technology are coming under increasing pressures from the other "constituent" technologies, and the importance of only power semiconductor device technology and converter technology _per se_ as driving forces is diminishing. The influence of the other four constituent technologies in figure 2 has little to do with the traditional approaches in power electronics R&D, but these are of crucial importance to the present applications driven tendencies in the field. Figure 18 complements figure 3 in representing the trends, that can
+
+Figure 17. Examples of, generic topologies for minimum number of switches (a) Voltage-fcd ac to ac converter (b) High frequency link ac to ac converter.
+
+be characterised by the considerations in the following paragraphs:
+
+### Converter manufacturing technology
+
+In all but a few applications (i.e. at high and very high power levels) the present cost of converters is coming under increasing pressure. Electronic information processing system cost is continually decreasing, increasing the pressure on the electronic energy processing part of the system. By and large the printed circuit board-based manufacturing technology (excluding the low power level applications of power IC's) of smaller to medium power converters and the wiring harness based manufacturing technology of medium to higher power systems have changed little over the past forty years. Manufacturing processes of power devices, magnetics, electrics and total converter packaging are still as incompatible with each other in order to form a single integrated manufacturing process as in 1950. An order of magnitude or more reduction in cost of electronic power processing technology will not be achieved by new power switching devices (see table 2) or new topologies, but by a radical rethinking and development of manufacturing technology - with due cognisance of the other three remaining underdeveloped constituent technologies of fig. 18.
+
+### Environmental impact technology
+
+Environmental considerations are accelerating the trend of development of environmental impact technology for electronic power conversion. These considerations concern the material impact and the emission of the converters, as indicated in fig.19.
+
+Some of these considerations are along the lines of traditional concerns in converter technology, such as less heat pollution (i.e. higher efficiencies) and less acoustic pollution. Regarding electric pollution, chief concerns have been with improvement of power factor, compensation of harmonics (by usually shifting the problem to higher frequencies) [58]. This approach will be inadequate in future.
+
+The main trend has now become concern over the _entire_ electromagnetic spectrum. The same applies to acoustic emission. It is not sufficient to shift the emissions to higher frequencies, or smear the energy out over a broad spectrum, since it will ultimately be required to _eliminate_ the emissions.
+
+The trend is further that public concerns regarding material pollution is starting. The toxic dielectric problems with capacitors of some time ago was a starting point. At present the trend is clearly to ask questions regarding recycling of entire systems, such as power supplies, UPS and robots, with special emphasis on long term impact of heavy metals and possible toxic materials. Although it will carry too far to explore these trends fully in this paper, it is already clear that environmental impact technology for electronic power conversion and conditioning will concern the entire _electromagnetic_, _acoustic_ and _physical material_ spectra.
+
+### Converter electromagnetics
+
+Converter electromagnetics has been the most severely neglected amongst the constituent technologies defined for the purpose of this evaluation of trends. Although power electronic converters are in essence electromagnetic energy processors, they are tradionally designed from a circuit viewpoint, using lumped element approximations.
+
+From an electromagnetic viewpoint a converter designed in this way results in a collection of electromagnetic field phenomena that may or may not conform to expectations. If electromagnetic charac-teristics do not happen to conform to expectations, the present trend is that additional magnetic, capaciti
+
+Figure 19: Different aspects of the environmental impact of electronic power converters.
+
+Figure 18: Trends in the constituent technologies of electronic power conditioning and conversion technology.
+
+lumped components are usually added. (EMI filters, EMC-shields, circuit damping etc.). In the past development of power electronics, there has been some modest efforts at electromagnetic integration, using (what is usually termed as) parasitics to obtain desired electromagnetic characteristics [59-61]. In recent years some concentrated attempts were made at partly achieving electromagnetic integration [62-65]. Further careful study of the problem - also in relation to the technologies of packaging and cooling, manufacturing and environmental impact (EMI/EMC) - indicated that an unconventional approach is necessary. The thoughts leading up to the decision to adopt a strictly planar approach in developing technology for (electro-magnetically) integrated electronic power converters have been recorded elsewhere, along with an extensive bibliography of the necessary background work [66].
+
+The salient points are:
+
+* the concentration of heat generation sources necessitates a well cooled structure with maximum surface area (planar).
+* planar manufacturing technology is the only suitable approach.
+* stampings, plasma spraying are accepted planar technologies for producing thick (1mm) metal layers of low resistivity.
+* Stacking successive layers and using the vertical sides for interconnections is also a technology amenable to mass production.
+* Present planar plastic packaging of power semiconductor devices or surface mounting of these are well compatible with the proposed planar manufacturing.
+* Compression bonding (lower powers) and pressure contacting (high power devices) are technologies that are proven to be compatible with power applications and planar construction, the latter accommodating the thermal stresses of high power operation well.
+* Planar slab construction of dielectric and magnetic materials contains electromagnetic energy and enhances design for EMC/EMI
+
+In order to prove the viability of this technology, some demonstration projects were initiated. Figure 20 represents the salient particulars of a 4kVA integrated resonant dc link with a passive clamp for an RDCL-inverter, [67], also employing planar transmission line principles for connecting the integrated LC-circuit with low characteristic impedance to the six-pulse inverter [68]. An integrated 2kW 300V dc to dc converter has also been developed [69] and shown to operate as well as the discrete system.
+
+Some of the thoughts on converter electromagnetics, electromagnetic integration and manufacturing technology have been presented previously [4], and with some of the successes and the attention it is receiving, may possibly be an important trend.
+
+## 4 Speculations on Future Developments
+
+When entering the realm of speculation (or extrapolation of present trends, as it may be termed euphemistically) one should realise that expectations do not necessarily shape the future. On the other hand, many a true word in technology has been spoken with the only motivation being a "gut-feel" based on experience and informed speculation. It might be worth while to keep both these sides of the coin in consideration in reading the following remarks.
+
+### New power semiconductor devices and materials
+
+The importance ascribed to new semiconductor devices
+
+Figure 20: Implementation of an integrated, passively clamped resonant dc link inverter. (a) circuit schematic (b) integrated planar LC-component.
+
+and also to new materials for existing devices when discussing the future of power electronics, rests on the assumption that electronic power conversion technology will continue to be device driven in future. This is an extrapolation of the past, and there are many reasons to question this assumption, of which some are:
+
+* further device and material improvement has to be motivated from the viewpoint of converter electromagnetics, environmental interaction, future converter manufacturing technology;
+* how does this relate to improved hard switching device characteristics? Electromagnetic environmental impact will in any case make soft switching
+- or at least snubbing
+- necessary in future.
+* as is necessary in some cases.
+
+### Non-traditional limitations
+
+The field of electronic power conditioning and conversion technology has traditionally been limited by device and converter technology. The present trends are indicating clearly that we are entering a new era where the other constituent technologies will be limiting the development and application.
+
+* and this in turn will dictate the device requirements
+- not the other way around, as has been customary in the past.
+* In the second instance material constraints in environmental standards will be dictating packaging, cooling, construction and also some important manufacturing constraints.
+* handling the energy processing in the medium 'to high power range may be,expected.
+
+### Converter electromagnetic technology
+
+Converter electromagnetics will be the uniting concept between electromagnetic environmental requirements, novel and economical manufacturability concepts, thermal and packaging integration and an eventual cost reduction spiral for electronic power processing products. With advanced electromagnetic integrator comes packaging of all the power processing equipment in close proximity, and hence integrated thermal design of converters.
+
+## 5 Conclusion
+
+The past remarkable development in systems for electronic power processing was chiefly device driven, leading to an imbalance in stage of development between some of the constituent technologies necessary for these types of systems. Near ideal switching devices and a very large collection of converter topologies are available at present, with semiconductor device cost and switching device volume and weight insignificant in all but the lowest power converters. This state of affairs points towards the importance of manufacturing technology for future development.
+
+Furthermore, several considerations have led to power electronic environmental impact technology becoming important for future development. For the time being the main concerns are electromagnetic, with materials impact expected to become important in the near future. These considerations point to the future importance of converter electromagnetics and materials in manufacturing. Recent work on technology for integrated power electronic converters indicate that both the electromagnetic impact and manufacturing developments might be well served by adopting this approach.
+

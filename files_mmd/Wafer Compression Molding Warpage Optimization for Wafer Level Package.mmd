@@ -1,0 +1,105 @@
+
+for Wafer Level Package
+
+
+
+Packaging(NCAP China)
+
+
+
+
+
+Packaging(NCAP China)
+
+
+
+
+
+Packaging(NCAP China)
+
+
+
+
+
+Packaging(NCAP China)
+
+
+
+## I Introduction
+
+In recent years, due to the development of advanced node being not going well, Moore's law becomes slowing down. With flexibility and variety, more and more companies' development of IC industry focus on advanced packaging. In the meantime, new requirements of advanced packaging are readily come out accompanied by AI, 5G and IoT development, new packaging technologies are urgently needed. Because of low cost and small form factor, wafer level package is becoming more and more important in new technology research and productions. The wafer level package are including such as 3D integration with through silicon via (TSV), 2.5D packaging, wafer level chip scale packaging (WLCSP), fan-out wafer level packaging (FOWLP)[1]. One of the key technologies is wafer compression molding among the wafer level package. Because it can be implemented multi-chip integration, wafer construction and cost effectiveness, and it widely used in FOWLP, 2.5D integration and 3D packaging. However, there are still many problem to solve.
+
+Figure 1 shows the principle sketch of the cavity down compression molding. There are two kinds of materials in the wafer compression molding process, powder and liquid[2]. During the process, powder or liquid EMC was placed in down cavity, compression molding had been done at a constant temperature, clamping pressure and vacuum. After holding pressure for seconds and pos-mold cure, a homogeneous encapsulation was achieved without voiding or air entrapment.
+
+In this paper, RDL first of wafer level package (WLP) technology is studied, and Figure 2 shows the process flow for RDL first WLP technology. The main advantage of RDL first technology is die shift less, because during the chip on wafer process, die is bonding on carrier wafer and the pressure of molding can't make die shift on wafer. But the warpage of molding wafer is the key to solve the subsequent wafer process successfully.
+
+In the paper, we studied the optimization of wafer warpage based on wafer compression molding process. The finite element technique is used to simulate wafer warpage during the molding process, and the accuracy is evaluated by the experiment.
+
+Figure 1: Principle sketch of cavity down compression molding
+
+Figure 2: Process flow for RDL first WLP technology
+
+## II Methodologies
+
+### _Finite Element Analysis_
+
+In order to study the warpage behavior of package structure and material during wafer compression molding process, finite element method is used. To simplify the analysis, an equivalent model is used and shown in figure 3. The percentage of die in wafer is calculated by counting the number of die. This will give the area percentage of die in equivalent layer, and which is equivalent to the volume percentage of die. The following equations are used to calculate the volume percentage of material properties[3-4]:
+
+Where \(E\) is Young's modulus, \(\nu\) is Poisson's ratio, \(\alpha\) is the coefficient of thermal expansion, and V is the volume percentage. The subscripts \(s\) and \(e\) denote silicon and EMC, respectively. The molding temperature 125\({}^{\circ}\)C is set to the stress-free temperature for the whole model. And the wafer warpage after molding at 25\({}^{\circ}\)C is simulated.
+
+### _Experiment_
+
+In order to verify the simulation results, some samples of EMC wafer are made to measuring the warpage after compression molding and comparing the different packaging structure and EMC materials.
+
+## III Results and Discussion
+
+### _Packaging Structure Optimization_
+
+According to the packaging structure, it can be seen that three parameters of wafer package should be considered, the first one is the die area ratio on wafer, the second one is die thickness ratio on wafer molding thickness, and the last one is the thickness of overmold[5]. This section will introduce the influence of the three paremeters.
+
+Figure 4 shows the effect of the die area ratio on wafer warpage at different molding thicknesses. It can be seen that when package form factors are constant, expect die area ratio, the larger the ratio of die area, the smaller of warpage.
+
+Figure 5 shows the effect of the thickness ratio of die to molding thickness on wafer warpage at different molding thicknesses. We can see that the larger the ratio of chip thickness, the smaller the wafer warpage when the molding thickness is constant; the thinner the molding thickness when the ratio of chip thickness is constant, the smaller of the wafer warpage. Combined with the effect of the die area ratio on warpage, it can also reflect that the ratio of the chip and molding volume has a direct influence on the wafer warpage. Moreover, reducing the volume of the molding compound properly can reduce wafer warpage.
+
+Figure 6 show the results in the effect of die thickness and overmold thickness on wafer warpage. It can be seen that as the overmold thickness decreases, wafer warpage will be greatly reduced at a given die thickness. In order to reduce the wafer warpage, a smaller enough overmold thickness as
+
+Figure 4: Wafer warpage with different die area ratios
+
+Figure 5: Wafer warpage with different thickness ratio of die to molding
+
+Figure 3: Equivalent structure diagram
+
+Figure 6: Wafer warpage with different die thicknesswell as an appropriate die thickness might be favorable according to the process capability. But when overmol thickness is less than 0.2mm, and it can be proved that the increasement of die thickness cannot ensure the reduction of wafer warpage. For example, when overmol thickness is 0.05mm, increased die thickness from 0.1mm to 0.2mm which will introduce the increasing of wafer warpage.
+
+### _Material Selection_
+
+To considering the process capability and wafer warpage, comprehensively, the effect of EMC materials on wafer warpage is analyzed. Generally, the Young's modulus of EMC is about 20 GPa (\(<\)Tg) / 1 GPa (\(>\)Tg) and the CTE is about 10 ppm/K (\(<\)Tg) / 20 ppm/K (\(>\)Tg). We set these parameters as the default parameters, and then set the following groups of parameters for comparison in table I.
+
+And the wafer warpage of each group from simulation are shown in figure 7. We can see that the greater Young's modulus and the greater CTE of EMC, the greater warpage. And the CTE has a significantly greater effect on warpage.
+
+### _Verification_
+
+In this study, several wafer samples are made and used for warpage measurement. Figure 8 shows the pictures during chip on wafer process and wafer compression molding process. It can be known that there are no voiding and air entrapment on wafer surface. And Figure 9 shows the measurement result of warpage by optical testing equipment.
+
+Refer to figure 10, the results of simulation and experiment are compared. It is observed that the warpage of wafer will increase as the increasing of die thickness. The simulation results are consistent with the experimental results, and it should be noted that there are some differences in values which are caused by error.
+
+The properties of three types of EMC material are given in Table II, and it is clear that CTE: EMC2\(<\)EMC3\(<\)EMC1 and Young's Modulus: EMC1\(<\)EMC3\(<\)EMC2. Figure 11 shows the experimental results of warpage, wafer warpage increase by CTE increasing. The wafer warpage of EMC2 is the smallest which have the minimum CTE. The experimental results are consistent with the simulation results.
+
+Figure 8: Pictures of chip on wafer (left) and wafer molding (right)
+
+Figure 11: Wafer warpage comparison with different module and CTE
+
+Figure 10: Wafer warpage results comparison with experiment and simulation
+
+Figure 7: Wafer warpage comparison with different module and CTE
+
+Figure 9: Wafer warpage measurement after molding
+
+## IV III. Conclusion
+
+Based on the simulation results and the experimental data, it can be revealed that packaging structure and EMC properties have significant impacts on the wafer warpage after compression molding. The way to optimize warpage after wafer molding are increasing the volume of die on wafer, decreasing the thickness of overmold and selecting the proper materials of EMC. Combination of simulation and experiment can save the cost of the development and optimization.
+
+## Acknowledgment
+
+The authors acknowledge the support of the National Science and Technology Major Project (Project No. 2017ZX02315 and 2018ZX02501). This work is financially supported by National Center for Advanced Packaging (NCAP China) and Shanghai Xianfang Semiconductor. The authors also like to thank the help of their workmates.
+

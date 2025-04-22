@@ -1,0 +1,86 @@
+
+
+1 United Monolithic Semiconductors SAS
+
+10 avenue du Quebec, 91140 Viliben-sur-Yvette, France
+
+1 leny.baczkowski@ums-gaas.com
+2 guillaume.callet@ums-gaas.com
+
+2 United Monolithic Semiconductors GmbH
+
+
+2 hermann.stieglauer@ums-gaas.com
+
+## I Introduction
+
+Since more than 20 years, UMS provides III-V semiconductor technologies at industrial level. Our portfolio mainly dedicated to address Defense & Space markets also covers Telecom and automobile demands through various technologies. It is composed by GaAs pHEMT for low noise and power applications, GaN HEMT for high power applications with but also MESFET, diodes or passives technologies. The variation of gate length on these technologies allows realizing MMICs for different frequency bands covering 0.1 GHz up to 100GHz.
+
+Among them, UMS recently evaluated three MMIC technologies PH10, PPH15X-20, GH25-10 according to ESA space criterion and have been added to EPPL (European preferred part list).
+
+In the following paragraphs, these technologies are presented. In a second part the qualification methodology and results will complete this paper.
+
+## II Technologies descriptions
+
+As these technologies are dedicated to MMIC designs the process of active devices area of PPH15X-20, PH10 and GH25-10 are presented in this section as well as the passive specificities for each of them.
+
+### _GaAs based pHEMT: PPH15X-20_
+
+The PPH15X-20 technology is utilizing a classical pseudomorphic AlGaAs/InGaAs/GaAs double recess HEMT structure. The 0.15um T-gate is formed by a dielectric assisted process. A big part of the SiN used for device passivation of previous generation PPH15X-10 [1] has been replaced by a low dielectric material around the gate. This modification leads to a significantly reduced feedback capacitance Cf, reduces the influence of higher level SiN layers on the small-signal capacitances and supports the robustness of the device against humidity. Besides these positive effects, this kind of gate passivation eliminates the negative impact of the final chip protection on the intrinsic capacitances of the device which typically causes a degradation of the overall RF performance of the device. The backside process is a 70um process with individual through-wafer-source-vias.
+
+Beside its high linearity properties, PPH15X-20 technology achieves P1dB=750mW/mm at Vds=6V and a peak PAE of 48% at 26GHz [2].
+
+### _GaAs based pHEMT: PH10_
+
+GaAs semiconductor substrate is used with epitaxial grown hetero structure and InGaAs channel focusing on low ohmic contacts and thin Schottky barrier layer. The wet chemical etched gate recesses uses an AlAs etch stop layer for high saturation current uniformity on 4": substrates. The pHEMT transistor has a T-shaped aluminium gate with a length of 0.1 um passivated on top by silicon nitride. The gate length is defined in a silicon nitride hard mask applying ebeam exposure and an ICP dry chemical etch. Two Au metallization layers can be used for wiring, high frequency lines and inductors either with a thickness of 0.6 um and 3.3 um. The second metallization layer provides air bridges for isolation. Furthermore, individual source vias are available to lower the transistors source inductance.
+
+PH10 process is mainly dedicated to realize LNAs up to W-band with high associated gain. It achieves power density of 250mW/mm, power gain of 6.8dB and an associated PAE of 38% at 35GHz with Vds=2.5V and Ids=200mA/mm, and keep very low noise figure such as 2.3dB at 70GHz [3].
+
+### _GaN based HEMT: GH25-10_
+
+Wafers are processed on a 4-inches-diameter SiC substrate. The AlGaN/GaN epitaxy, the overall process and the passivation have been optimized to find the best compromise between the power density and the reliability. The elementary transistor uses a 0.25-\(\upmu\)m gate length with a source field plate termination helping to reduce the Gate-Drain capacitance. The sequence of passivation levels has been optimized to reduce the leakage current measured at 50V below the threshold of - 200 \(\upmu\)A/mm. The average measured value is well below this limit and guarantees a high stability of the Schottky junction, associated to strong robustness at high temperature. The cleaning step after opening of the first passivation layer, the thickness of the metallization and the topology by itself of the gate foot were carefully optimized as key part to get a highly reliable process. The wafer is thinned down to 100 \(\upmu\)m followed by a via hole process for source grounding and final back side metallization.
+
+The GH25-10 technology demonstrates 4.5W/mm power density at 10GHz at Vds=30V and Ids=150mA/mm. To our knowledge this technology is the 1st MMIC GaN on SiC technology to be space evaluated. It has to be noted that we demonstrated extreme functioning - out of AMR range - up to Vds=60V achieving 6W/mm with 40% PAE at 9GHz during short time (tens of minutes) before destruction [4].
+
+### _Passive devices and final passivation_
+
+Since these technologies are dedicated to MMIC designs they include passive elements with features common for each of them and also some specificity.
+
+All of these three processes offer two interconnect metal layers, where one can be optionally re-enforced for higher current density capability, as well as two thin film resistor layers with 30\(\upmu\)/\(\upmu\) and 1000\(\upmu\)/\(\upmu\), respectively. Furthermore, PH10 / PPH15X-20 and GH25-10 have capacitor densities of 330 / 260 and 255pF/mm2 respectively.
+
+PH10 and PPH15X-20 allow using over via capacitances.
+
+In addition, PPH15X-20 has an high capacitor density of 625pF/mm2. It is also the first UMS's technology space evaluated including the option of BCB protection layer. This feature allows the realization of high power MMICs up to 40GHz with final integration in plastic molded package (QFN).
+
+Similarly, final protection layer is under evaluation for GH25-10. In addition, specific programs are ongoing to enhance the robustness of capacitors to radiations.
+
+## III Methodology of space evaluation
+
+The space evaluation of these technologies is realized as complementary of the standard qualification performed for all UMS's industrialized technologies. It has to be noted that the internal UMS qualification for commercial use is close to space qualification standard. The specification is described in the ESCC9010. Three types of test vehicles are used during the space evaluation: TCV (Technology Characterization Vehicles), DEC (Dynamic Evaluation Circuit), RIC (Representative Integrated Circuit). The methodology of the evaluation is summarized in the table I.
+
+## IV Evaluation results
+
+Results are not presented here exhaustively for each process; nevertheless we will present partly the most interesting for each elements of the campaign.
+
+### _GH25-10 End of life - HTOL_
+
+This test aims to evaluate the stability of the DUT inoperating condition at high temperature. Fig. 1 shows the results obtained during the evaluation and GH25-10 for a drain voltage of 30V at Tj=335\({}^{\circ}\)C.
+
+It has to be noted that devices from the 6 wafers tested over past 4 years passed T50% over 6000h.
+
+### _GH25-10 End of life - HTRB_
+
+The target of the HTRB (High Temperature Reverse Biasing) test is to evaluate stability of the Schottky under high reverse biasing at 175\({}^{\circ}\)C of backside temperature. Fig. 2 shows the evolution of 10 devices.
+
+No drifts were observed after more than 2500 hours. This successful test allowed extending the qualified topologies up to 10x275um.
+
+### _Radiation Hardness - Single Event Effect (SEE)_
+
+The heavy ion radiation test is presented on the PH10 and PHH15X-20 technologies. DECs were submitted to a Xe ion beam under various biasing conditions. Xenon ion beam was selected considering it is the most stressful ion.
+
+The test is successful and demonstrates the robustness of the technologies under heavy ion radiation.
+
+## V Conclusion
+
+As a conclusion, the methodology presented contributed to the addition of the PH10, PHH15X-20 and GH25-10 technologies to EPPL allowing the realization of MMICs for space applications. UMS's catalogue already includes such products, moreover UMS's Foundry service allow external designers to realize their own MMICs using these technologies.
+

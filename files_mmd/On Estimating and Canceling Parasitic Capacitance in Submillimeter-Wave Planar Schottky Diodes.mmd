@@ -1,0 +1,74 @@
+
+
+Manuscript received April 28, 2009; revised August 28, 2009. Current version published December 04, 2009. This work was supported by the U.S. Army National Ground Intelligence Center on Contract W911W5-06-R-0001.
+
+H. Xu, and R. M. Weikle, II are with the School of Engineering and Applied Science, University of Virginia, Charlottesville, VA 22904-4714 USA (e-mail: hxq@virginia.edu).L. Liu is with the Department of Electrical Engineering, University of Notre Dame, Notre Dame, Notre Dame, IN 46556 USA.G. Schoenthal and J. Hesler are with Virginia Diodes, Inc., Charlottesville, VA 22904 USA.Q. Xiao is Tyco Electronic Corporation, Lowell, MA 01853 USA.Digital Object Identifier 10.1109/LMWC.2009.20335181531-1309/826.00 © 2009 IEEE
+
+## I Introduction
+
+The planar surface-channel Schottky diode, proposed in the late 1980's, has been developed and used for more than a decade for submillimeter applications [1, 2]. With the advancement of planar diode processing technology, device performance has continued improving mixers based on discrete planar diodes, achieving noise temperatures within a factor of 1.5 of the best whisker-contacted Schottky diode mixers [3]. Precise alignment of the diode chip to the surrounding circuit however limits the use of this approach. This has led to a wafer bonding process that allows integration of high quality GaAs devices onto quartz substrates [4]. In this way, precision alignment is obtained and repeatability is improved through lithographic definition. For integrated circuit design using this approach, an accurate estimation of finger inductance and finger to pad capacitance is crucial [5]. Several papers are presented to address these problems [6, 7, 8].
+
+Unfortunately obtaining the finger to pad capacitance through conventional modelling or measurement of single diode structures is difficult due to the large pad to pad capacitance that shunts the diode. In this letter, an analysis technique that utilizes a parallel diode structure is described. Due to symmetry, only the internal loop circuit comprising the two fingers needs be considered. This eliminates the effects of circuit elements outside the loop, allowing the internal parasititics of the diode to be determined.
+
+## II Model
+
+The standard surface-channel diode structure, shown in Fig. 1(a), includes two contact pads, finger, anode and GaAs substrate. The finger-to-pad capacitance (\(C_{\text{fp}}\)) is a critical circuit parameter for planar diodes because it directly shunts the anode junction capacitance.
+
+The equivalent circuit used to model a submillimeter-wave diode structure is shown in Fig. 1(b). The circuit model includes a finger inductor (\(L_{\text{fp}}\)), a pad-to-pad capacitor (\(C_{\text{pp}}\)), a finger-to-pad capacitor (\(C_{\text{fp}}\)) and two fringing capacitors (\(C_{\text{ftr}}\)). The entire structure can be simulated with numerical electromagnetic solvers such as Ansoft's _High Frequency Structure Simulator_ (HFSS). From this, equivalent circuit parameter values can be extracted by fitting or analytic modelling. However, it is difficult to obtain accurate values because this finger-to-pad capacitance (\(C_{\text{fp}}\)) is internal to the device and its response masked by the finger inductance and pad-to-pad capacitance, which is significantly larger. The pad-to-pad capacitance can in principle be tuned by an external matching circuit, while the finger-to-pad capacitance cannot due to its proximity to the anode.
+
+To obtain accurate values for the finger-to-pad capacitance, a parallel diode structure is examined. The advantage of this approach is that symmetry can be exploited to remove all external
+
+Fig. 1: (a) Schematic drawing of a single diode structure, including contact pad, finger and anode junction. (b) Equivalent circuit model of a single diode structure, including parasitic capacitors and a finger inductor.
+
+parasitics and impedances from consideration. A schematic drawing of a parallel diode structure, along with equivalent circuit, is shown in Fig. 2. Each anode port is in parallel with \(C_{\text{fp}}\) and in series with \(L_{\text{fg}}\). It should be added that the finger mutual inductance, \(M\), will influence the overall inductance, and this effect is taken into account in the simulation.
+
+Initially, the entire structure is simulated for a typical diode, the separation (D) is 10 \(\mu\)m, the finger length (L) is 8 \(\mu\)m, and the anode diameter of 1 \(\mu\)m. The circuit is symmetric through the center. By absorbing ports 1, 2 into the network, the two port \(s\)-parameter matrix is
+
+\[\begin{bmatrix}b_{3}\\ b_{4}\end{bmatrix}=\begin{bmatrix}S_{33}&S_{34}\\ S_{43}&S_{44}\end{bmatrix}\begin{bmatrix}a_{3}\\ a_{4}\end{bmatrix} \tag{1}\]
+
+where the port numbering remains the same for clarity.
+
+For an odd mode excitation, the incident waves are out of phase
+
+\[a_{3}=-a_{4} \tag{2}\]
+
+and the symmetry results in a virtual short along the central plane bisecting the structure. Thus, the equivalent loop circuit is simplified to a one port circuit, as shown in Fig. 3. In this model, the mutual inductance is included as, \(L_{\text{total}}=L_{\text{fg}}-M\). The odd mode reflection coefficient seen at port 3 is
+
+\[b_{3}=(S_{33}-S_{34})a_{3}=\Gamma\cdot a_{3} \tag{3}\]
+
+where \(S_{33}\) and \(S_{34}\) were obtained from the HFSS simulation.
+
+Based on the equivalent circuit, the reflection coefficient at port 3 is calculated from simple circuit analysis.
+
+The two unknown parameters, \(L_{\text{total}}\) and \(C_{\text{fp}}\) are found by solving for the \(s\)-parameters at two different frequencies. The calculated results give \(L_{\text{total}}=5\) pH and \(C_{\text{fp}}=0.44\) fF. This inductance includes the coupling effect between two fingers. To assess the validity of the lumped circuit model, that model is simulated in Agilent's _Advanced Design System_ (ADS) to predict \(s\)-parameters of the loop circuit, as shown in Fig. 4. The model consists of finger inductors, finger-to-pad capacitors, two ports and a load. Using the above calculated values, the simulated phase of the loop parameter, \(S_{33}-S_{34}\), is shown in Fig. 5. The HFSS simulated result is also shown in the same figure. The phase difference between them is less than 0.5\({}^{\circ}\) over a frequency rang from 1.4 THz to 1.9 THz. Both simulated magnitude values are 1.0.
+
+Another important consideration is the mutual inductance between two fingers. A coupled-line model is used to determine the transmission line parameters as described by Mongia [9]. The even and odd modes for a coupled-line circuit are simulated in HFSS, and the distributed parameters are found in terms of the characteristic impedances and propagation constants of the even and odd modes. For the present case, the self inductance of coupled line is found to be, 0.88 pH/\(\mu\)m, while the mutual inductance is calculated to be \(-0.23\) pH/\(\mu\)m. This gives an inductance for the structure of \(L_{\text{t}}=(0.88-0.23)\times 8=5.2\) pH, which is in agreement with the simulated value. The self and mutual capacitance for the coupled-line are calculated at the level of \(10^{-2}\) fF/\(\mu\)m, which can be neglected in the circuit simulation.
+
+Fig. 4: Equivalent circuit model for the ADS simulation.
+
+Fig. 5: HFSS and ADS simulated phases of the loop parameter, \(S_{33}-S_{34}\).
+
+Fig. 3: Simplified one port equivalent circuit model for the parallel diode.
+
+Fig. 2: (a) Schematic drawing of a parallel diode structure with two diode finger separated by a fixed distance, D. (b) Equivalent circuit model of a parallel diode structure with considering of mutual inductance between fingers.
+
+## III Measurement at 200 GHz
+
+To verify the theory, parasitic capacitances were measured for 200 GHz circuits. A scanning electron micrograph of a planar diode circuit without anode is shown in Fig. 6. The finger is 2.5 \(\mu\)m wide by 2 \(\mu\)m thick. There is no SiO\({}_{2}\) layer between finger and GaAs mesa in order to reduce the parasitic finger-to-pad capacitance, while the distance between finger to epi layer is 3 \(\mu\)m. The anode is 3 \(\mu\)m away from the edge of the mesa. The capacitance is measured with a HP 4275A multi-frequency LCR meter. The measurement frequency is set at 10 MHz. The average measured pad to pad capacitance without finger is 7.6 fF. The average measured pad-to-pad capacitance with finger (no anode) is 9.42 fF. The difference is 1.82 fF, which is the finger-to-pad capacitance.
+
+On the other hand, the finger-to-pad capacitance was calculated through parallel diode method as stated in the letter. The value is approximate 1.6 fF. The difference, 0.22 fF, maybe due to the mismatch between fabrication and simulation structure, and measurement accuracy.
+
+## IV Parasitic Capacitance Cancelling
+
+To cancel the finger-to-pad capacitance and improve the diode modulation ratio, one solution is to extend the diode finger beyond the anode. This finger stub will act as an inductor parallel to the finger-to-pad capacitor. At the design frequency, \(\omega_{0}\), the inductance, \(L_{\mathrm{stub}}\), is set to be resonant with the capacitance, \(C_{\mathrm{fp}}\) as shown in (4). This LC circuit will become open circuit. Thus, the parasitic finger-to-pad capacitance will have no effect on diode junction capacitance at the center frequency. However, this suggested tuning idea is not a wide band solution since the stub inductance is frequency dependent
+
+\[\omega_{0}=\frac{1}{\sqrt{L_{\mathrm{stub}}C_{\mathrm{fp}}}}. \tag{4}\]
+
+## V Conclusion
+
+The equivalent circuit parameters of a planar diode at terahertz frequency range have been investigated in this letter. Accurate estimation of the finger-to-pad capacitance is achieved using a parallel diode structure and is verified by the simulations and measurement over a broad frequency range. This method will be a valuable tool in the circuit design to yield more precise designs for integrated submillimter wave diode circuits. Furthermore, one solution is proposed to cancel the finger-to-pad capacitance, which will increase the diode junction capacitance modulation ratio at the design frequency.
+
+## Acknowledgment
+
+The authors wish to thank Dr. Z. Liu, Autoliv, Inc., for discussions and suggestions.
+
