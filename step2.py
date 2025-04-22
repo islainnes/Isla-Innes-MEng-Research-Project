@@ -1151,77 +1151,153 @@ def generate_research_questions(topic: str, num_questions: int = 3):
     """Generate research questions within a specific domain"""
     logger.info(f"Generating {num_questions} research questions about {topic}")
     
-    prompt = f"""
-    <rewritten_prompt>
-    You are an expert in {topic}. Generate {num_questions} diverse and specific research questions about {topic}.
-
-    Your questions should:
-    - Cover fundamental principles and theories
-    - Address current technological challenges
-    - Explore innovative applications
-    - Consider performance and optimization
-    - Examine emerging trends
-    - Focus on practical implementations
-    - Address reliability and testing
-    - Consider future developments
-
-    Format each question on a new line starting with a number and period, like this:
-    1. What are the key challenges and potential solutions in optimizing the performance of {topic} for future applications?
-
-    Make questions specific, technical, and suitable for literature review.
-    IMPORTANT: Each question must be unique and not duplicated.
-    </rewritten_prompt>
-    """
-
-    logger.info("Sending prompt to model with temperature 0.3")
-    logger.debug(f"Full prompt: {prompt}")
-
-    # Use a lower temperature and simpler settings to avoid memory issues
-    response_text = call_model(prompt, temperature=0.3, max_tokens=300)
-    logger.debug(f"Raw response: {response_text}")
-
-    # Extract questions (lines starting with numbers)
-    questions = []
-    seen_questions = set()  # Track seen questions to avoid duplicates
+    # For generating a large number of questions, we'll make multiple requests
+    # to ensure diversity and avoid memory issues
+    batch_size = 5  # Generate questions in batches of 5
+    all_questions = []
+    seen_questions = set()  # Track all seen questions to avoid duplicates
     
-    logger.info("Parsing model response for questions")
-    for line in response_text.split('\n'):
-        line = line.strip()
-        if line:
-            logger.debug(f"Processing line: {line}")
-            # Look for lines that start with a number followed by a period
-            if re.match(r'^\d+\.', line):
-                question = re.sub(r'^\d+\.\s*', '', line).strip()
-                # Only add if the question is not empty and not a duplicate
-                if question and question not in seen_questions and len(question) > 20:
-                    logger.info(f"Found valid question: {question}")
-                    questions.append(question)
-                    seen_questions.add(question)
-                else:
-                    logger.warning(f"Skipping invalid or duplicate question: {question}")
+    for batch in range(0, num_questions, batch_size):
+        batch_count = min(batch_size, num_questions - batch)
+        logger.info(f"Generating batch {batch//batch_size + 1} with {batch_count} questions")
+        
+        # Create a different prompt for each batch to encourage diversity
+        if batch == 0:
+            focus = "fundamental principles and current challenges"
+        elif batch == batch_size:
+            focus = "technological innovations and optimizations"
+        elif batch == batch_size * 2:
+            focus = "industry applications and emerging trends"
+        elif batch == batch_size * 3:
+            focus = "future developments and theoretical advancements"
+        else:
+            focus = "broad spectrum of technical considerations"
+        
+        prompt = f"""
+        <rewritten_prompt>
+        You are an expert in {topic}. Generate {batch_count} diverse and specific research questions about {topic} 
+        with special focus on {focus}.
+
+        Your questions should be:
+        - Specific and technical
+        - Relevant to current research in {topic}
+        - Different from one another (not variations on the same question)
+        - Suitable for an academic literature review
+        - Focused on one specific aspect of {topic} per question
+
+        Format each question on a new line starting with a number and period, like this:
+        1. What are the key challenges and potential solutions in optimizing the performance of {topic} for future applications?
+
+        Make questions specific, technical, and suitable for literature review.
+        IMPORTANT: Each question must be unique and not duplicated.
+        </rewritten_prompt>
+        """
+
+        logger.info(f"Sending prompt to model with temperature 0.3")
+        logger.debug(f"Full prompt: {prompt}")
+
+        # Use a lower temperature and simpler settings to avoid memory issues
+        response_text = call_model(prompt, temperature=0.3, max_tokens=300)
+        logger.debug(f"Raw response: {response_text}")
+
+        # Extract questions (lines starting with numbers)
+        batch_questions = []
+        
+        logger.info("Parsing model response for questions")
+        for line in response_text.split('\n'):
+            line = line.strip()
+            if line:
+                logger.debug(f"Processing line: {line}")
+                # Look for lines that start with a number followed by a period
+                if re.match(r'^\d+\.', line):
+                    question = re.sub(r'^\d+\.\s*', '', line).strip()
+                    # Only add if the question is not empty and not a duplicate
+                    if question and question not in seen_questions and len(question) > 20:
+                        logger.info(f"Found valid question: {question}")
+                        batch_questions.append(question)
+                        seen_questions.add(question)
+                    else:
+                        logger.warning(f"Skipping invalid or duplicate question: {question}")
+        
+        all_questions.extend(batch_questions)
+        
+        # If we got enough questions in this batch, proceed to next batch
+        if len(batch_questions) >= batch_count:
+            logger.info(f"Got sufficient questions in batch {batch//batch_size + 1}")
+        else:
+            # If we didn't get enough, try to generate more with a different prompt
+            remaining = batch_count - len(batch_questions)
+            logger.warning(f"Only got {len(batch_questions)} questions in batch. Generating {remaining} more.")
+            
+            # Use a more specific prompt for the remaining questions
+            specific_prompt = f"""
+            <rewritten_prompt>
+            You are an expert in {topic}. Generate {remaining} ADDITIONAL specific research questions about {topic} 
+            that focus on DIFFERENT ASPECTS not covered in these existing questions:
+            
+            {', '.join(all_questions)}
+            
+            Your NEW questions should be:
+            - Completely different topics than the existing questions
+            - Specific and technical
+            - Relevant to current research
+            - Each question must be unique
+            
+            Format each question on a new line starting with a number:
+            1. [Your new question about a different aspect of {topic}]
+            </rewritten_prompt>
+            """
+            
+            additional_response = call_model(specific_prompt, temperature=0.4, max_tokens=300)
+            
+            # Extract additional questions
+            for line in additional_response.split('\n'):
+                line = line.strip()
+                if line and re.match(r'^\d+\.', line):
+                    question = re.sub(r'^\d+\.\s*', '', line).strip()
+                    if question and question not in seen_questions and len(question) > 20:
+                        all_questions.append(question)
+                        seen_questions.add(question)
+                        logger.info(f"Added additional question: {question}")
+        
+        # Clear memory between batches
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        gc.collect()
+        
+        # Short delay between batches to let memory settle
+        time.sleep(2)
     
-    # If we don't have enough questions, generate simple fallback questions
-    if len(questions) < num_questions:
-        logger.warning(f"Failed to generate enough questions. Got {len(questions)}, needed {num_questions}")
+    # If we still don't have enough questions, add generic fallback questions
+    if len(all_questions) < num_questions:
+        logger.warning(f"Failed to generate enough questions. Got {len(all_questions)}, needed {num_questions}")
         fallback_questions = [
             f"What are the current challenges in {topic} research?",
             f"How is {topic} technology evolving to meet future demands?",
-            f"What are the practical applications of recent advances in {topic}?"
+            f"What are the practical applications of recent advances in {topic}?",
+            f"What theoretical frameworks best explain recent developments in {topic}?",
+            f"How do economic factors influence the development of {topic} technologies?",
+            f"What are the environmental implications of advances in {topic}?",
+            f"How do regulatory frameworks impact innovation in {topic}?",
+            f"What cross-disciplinary approaches can advance research in {topic}?",
+            f"How can machine learning and AI accelerate progress in {topic}?",
+            f"What are the key bottlenecks limiting progress in {topic} research?"
         ]
         
         # Add fallback questions that aren't duplicates
         for q in fallback_questions:
-            if len(questions) >= num_questions:
+            if len(all_questions) >= num_questions:
                 break
             if q not in seen_questions:
-                questions.append(q)
+                all_questions.append(q)
                 seen_questions.add(q)
+                logger.info(f"Added fallback question: {q}")
         
-        logger.info(f"Added fallback questions. Now have {len(questions)} questions.")
+        logger.info(f"Added fallback questions. Now have {len(all_questions)} questions.")
 
     # Return exactly the number of questions requested
-    logger.info(f"Returning {len(questions[:num_questions])} questions")
-    return questions[:num_questions]
+    logger.info(f"Returning {len(all_questions[:num_questions])} questions")
+    return all_questions[:num_questions]
 
 
 def summarize_section(content, max_length=150):
@@ -1393,35 +1469,47 @@ def main():
     # Define the topic
     topic = "semiconductors"
     
-    # Generate research questions
-    questions = generate_research_questions(topic, num_questions=3)
+    # Generate research questions (still generate 20)
+    questions = generate_research_questions(topic, num_questions=20)
     
     # Create output directory
     output_dir = "initial_chapters"
     os.makedirs(output_dir, exist_ok=True)
     
+    # Save all questions to a file first, in case the process is interrupted
     logger.info(f"=== Generated {len(questions)} Research Questions ===")
+    questions_file = os.path.join(output_dir, "all_questions.json")
+    with open(questions_file, 'w', encoding='utf-8') as f:
+        json.dump({"topic": topic, "questions": questions}, f, indent=2)
+    logger.info(f"Saved all questions to {questions_file}")
+    
     for i, question in enumerate(questions, 1):
         logger.info(f"Question {i}: {question}")
     
-    # Process each question to generate a chapter
+    # Process all 20 questions instead of just the first one
     for chapter_num, question in enumerate(questions, 1):
         logger.info(f"=== Generating Chapter {chapter_num}: {question} ===")
         
         try:
             # Check memory before processing
-            logger.info(f"=== GPU Memory Before Chapter {chapter_num} Generation ===")
+            logger.info(f"=== GPU Memory Before Chapter Generation ===")
             monitor_gpu_memory()
             
-            # Set parameters for this chapter - more conservative values for the larger model
-            num_papers = 3  # Use 3 papers for all chapters to save memory
-            temperature = 0.4 + (chapter_num * 0.05)  # 0.45, 0.5, 0.55 for chapters 1, 2, 3
+            # Set parameters for this chapter
+            num_papers = 3  # Use 3 papers to save memory
+            temperature = 0.4
             
             logger.info(f"Using {num_papers} papers for this chapter with temperature {temperature}")
             
+            # Full memory cleanup before chapter generation
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                torch.cuda.reset_peak_memory_stats()
+            gc.collect()
+            
             # Generate report
             report, sections, organized_papers = generate_report(
-                question, 
+                question,  # Use the current question instead of the topic
                 embedding_store=embedding_store, 
                 num_papers=num_papers,
                 temperature=temperature
@@ -1466,11 +1554,11 @@ def main():
                         if len(content) < 100:
                             logger.warning(f"Section {section_name} has very short content after cleaning, using fallback")
                             if section_name == "BACKGROUND KNOWLEDGE":
-                                report_data['sections'][section_name] = "Quantum tunneling is a quantum mechanical phenomenon where particles pass through energy barriers that would be impossible in classical physics. In semiconductor devices, this effect becomes increasingly relevant as device dimensions approach nanometer scales. Quantum tunneling affects carrier transport, leakage currents, and overall device performance in next-generation semiconductor technologies."
+                                report_data['sections'][section_name] = f"This section provides essential background knowledge related to {question}. Due to technical limitations, this content needs to be expanded with relevant information about fundamental concepts, historical development, and theoretical frameworks underlying this research area."
                             elif section_name == "CURRENT RESEARCH":
-                                report_data['sections'][section_name] = "Current research focuses on manipulating quantum tunneling effects to improve semiconductor device performance. Studies examine both mitigating unwanted tunneling that causes leakage currents and harnessing tunneling for novel device structures like tunnel field-effect transistors (TFETs). Quantum dots and nanostructures are being investigated to control carrier behavior through quantum confinement effects."
+                                report_data['sections'][section_name] = f"Current research on {question} encompasses various methodologies and findings. This section should be expanded to include recent studies, experimental approaches, and key findings from the relevant literature."
                             elif section_name == "RESEARCH RECOMMENDATIONS":
-                                report_data['sections'][section_name] = "Future research should focus on developing accurate quantum mechanical models that can better predict tunneling behavior in complex semiconductor structures. Investigation into novel materials with engineered bandgaps could help control unwanted tunneling effects. Additionally, research on quantum tunneling-based devices might lead to breakthroughs in ultra-low power electronics."
+                                report_data['sections'][section_name] = f"Based on gaps identified in existing research on {question}, future studies should focus on addressing methodological limitations, exploring new theoretical frameworks, and investigating practical applications in real-world contexts."
                 
                 with open(output_file, 'w', encoding='utf-8') as f:
                     json.dump(report_data, f, indent=2)
@@ -1498,21 +1586,17 @@ def main():
                 except Exception as inner_e:
                     logger.error(f"Even minimal JSON save failed: {str(inner_e)}")
             
-            # Clear memory after each chapter
+            # Thorough memory cleanup
             clear_memory()
             
             # Check memory after processing
             logger.info(f"=== GPU Memory After Chapter {chapter_num} Generation ===")
             monitor_gpu_memory()
-            
-            # Add a break between chapters for the model to fully unload
-            logger.info(f"Waiting 5 seconds before proceeding to next chapter...")
-            time.sleep(5)
-            
+                
         except Exception as e:
             logger.error(f"Error processing chapter {chapter_num}: {str(e)}", exc_info=True)
     
-    logger.info("=== All chapters generation complete ===")
+    logger.info("=== All chapter generation complete ===")
     # Final memory check
     logger.info("=== Final GPU Memory Status ===")
     monitor_gpu_memory()
