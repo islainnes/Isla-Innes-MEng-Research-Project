@@ -1,0 +1,111 @@
+
+
+_Tignis Inc_
+
+
+
+
+_Tignis Inc_
+
+
+
+
+_TEL Technology Center, America, LLC_
+
+
+
+
+_Tignis Inc_
+
+
+
+
+_IBM Research_
+
+
+
+
+_Tignis Inc_
+
+
+
+## I Introduction
+
+The continual quest for miniaturization and new materials for enhanced performance in semiconductor devices has propelled the development of cutting-edge lithography techniques. Among these, EUV lithography stands out for its potential to enable feature sizes under 10nm, crucial for advancing next-generation semiconductor manufacturing technologies. To realize the full potential of EUV lithography, researchers have been exploring novel materials and processes, with metal-oxide photoresists emerging as a promising candidate [1].
+
+The development of EUV took roughly 20 years to mature into high volume manufacturing. It's critical for the industry to improve the cycles of learnings on new process and exciting new materials/resists for sub 7nm technology node. This paper highlights a true collaboration between an OEM and R&D facility where openly exchanged data/IP using Tignis AI/ML platform as a consolidator of inter-relationships for the acceleration of cycles of learnings.
+
+Traditional photoresists, commonly used in optical lithography, face significant challenges when applied to EUV lithography with its short wavelength, in the range of 13.5 nanometers. Chemically amplified photoresist (CAR) is currently the standard for EUV, but reliance on acid diffusion limits resolution due to a secondary electron blur [1]. Metal-oxide resists (MORs) offer several advantages for EUV lithography, including high sensitivity to EUV photons, improved etch resistance, and potential for high-resolution patterning. Their adoption, however, remains in its nascent stages within the industry. As such, understanding and addressing the challenges associated with MORs is imperative for their widespread implementation in semiconductor manufacturing.
+
+One of the primary challenges in utilizing metal-oxide resists is controlling CD, which directly impacts device performance and yield. Achieving precise CD control is essential for ensuring the reproducibility and uniformity of semiconductor devices. To address this challenge, our experiment focuses on elucidating strategies to enhance CD control with MORs in EUV lithography.
+
+In this paper, we used AI and ML application to expedite the development of novel lithography processes involving MORs. Recognized as a significant advancement in lithographic materials, MOR holds promise due to its exceptional etch resistance and high-resolution capabilities. This makes it a compelling candidate for single exposure EUV extension and High-NA EUV. Additionally, the ability to deposit MOR films thinner than chemically amplified resist facilitates smaller depth of focus (DOF), further enhancing its appeal. However, challenges persist in controlling CD Mean and Std for these materials. Leveraging advanced analytics, our study delved into the research and development efforts of MOR, particularly its interaction with Lithography Track Parameters. Using AI in the background leveraging 120 sensor time series and data curation to large and multiple datasets (3rd party sensors & SEMI std data acquisition) to provide real time prediction and auto-correlation features, auto-generation of monitoring scripts for knowledge-base capture[2].
+
+We aimed not only to reveal the intricate dynamics governing line-space formation but also to explore how variations in Post-Exposure Bake (PEB) conditions, informed by equipment sensor-trace data from a Tokyo Electron (TEL) CLEAN TRACKTM LITHIUS ProTM Z coater/developer platform, impact the overall lithographic process. Through this exploration, we seek to unravel critical insights that can drive process improvements and pave the way for enhanced semiconductor manufacturing capabilities.
+
+Historically, engineers have relied on traditional methodologies and small-scale experimentation to qualify lithography processes, usually resulting in multiple serials DOEs. Additional, there other legacy analytics techniques such as Advanced Process Control (APC) which use static and statistical type of input/output relational correlations or defined recipe steps to do the analysis. However, as technology nodes advance and new materials are introduced, the complexity of process interactions escalates, rendering traditional approaches insufficient to fully comprehend and troubleshoot modern lithography processes. With limited wafer volumes and escalating process intricacies, there arises an urgent need for novel methodologies and capabilities to efficiently analyze vast amounts of data and extract actionable insights. In response to this demand, our collaborative study introduces an innovative approach leveraging AI/ML techniques to overcome these challenges and deepen our comprehension of lithographic processes.
+
+By harnessing the power of AI/ML, our goal was to accelerate the development of lithography processes and drive continuous improvement in advanced semiconductor manufacturing. The experiment was designed as a single Design of Experiment (DoE) where three sets of process parameters were systematically varied across a batch of wafers. Trace Data, crucial for understanding process intricacies, was collected from the coater/developer platform and analyzed using Tignis' AI-optimized data stack and ML capabilities. Our study aimed to discern the impact of experimental perturbations on metrology and to establish correlations between raw trace features and metrology.
+
+Identifying strongly correlated trace features not only facilitates real-time process and equipment monitoring, but also enables downstream analytics that include process deviation detection, root cause analysis, and virtual metrology. This comprehensive approach promises to foster a deeper understanding of lithography processes, streamlining troubleshooting efforts and enhancing optimization best known methods (BKMs). Through our investigation, we asypet to contribute significantly to the ongoing advancement of semiconductor manufacturing technologies, ultimately bolstering device performance, equipment reliability, and overall manufacturing competitiveness. This collaboration between world-class engineering research, equipment, and software solutions demonstrates the advantage of adopting these solutions to enable advancements of new technologies and feasibility to manufacture [4].
+
+## II Experimental Design and Analysis
+
+We initiated our experimental design by leveraging an established EUV lithography process, which utilizes the coater/developer platform, ASML NXE:3400, and Inpria MOR. We systematically perturbed three critical parameters - Exhaust, Air Purge, and PEB temperature - both above and below their designated recipe setpoints across 12 wafers. While the specifics of the Exhaust and Air Purge modifications are intentionally obscured, they can be understood as overall alterations to exhaust and air flow conditions. Our focus remained on evaluating the impact of these process adjustments on CD Mean and CD Std, serving as metrics to gauge performance changes.
+
+Equipment sensor-trace data was collected, compiled and analyzed using the Tignis PAICe Monitor software platform. Using this application, metrology data and experimental modifications, treated as categorical variables, were associated to features derived from approximately 120 sensor-traces all at once. Raw trace data was heavily compressed (>20 times) and automatically tagged with relevant metadata [2]. Leveraging the purpose-built data stack and AI/ML correlation engine embedded within Tignis Platform, shown in Fig. 1, we conducted both supervised and unsupervised analyses, allowing us to pinpoint trace features strongly correlated with both metrology outcomes and experimental settings.
+
+Several obfuscations to the data were implemented to protect intellectual property. CD Mean is presented as the deviation from the median. Names of sensor-trace data have also been obfuscated.
+
+## III Impact of Experimental Perturbations on CD metrology
+
+Our analysis first delved into assessing the influence of experimental perturbations on CD metrology, and overall aligned with predefined expectations. Notably, Air Purge and
+
+Fig. 1: PAICe Monitor Correlation Analysis. The AI/ML correlation engine identified two groups of 3 sensor-trace features correlated with CD Std. The left panel is used to set the parameters of the analysis, the middle panel displays results, and the right panel is used for clarifying visualizations. Feature names have been obfuscated.
+
+PEB were not anticipated to affect CD Std, whereas an increase in the Exhaust setting was predicted to correspond with an increase in CD Std.
+
+Examining the experimental results shown in Fig. 2, Air Purge and PEB indeed displayed no significant correlation with CD Std, affirming our expectations. However, Exhaust exhibited an unexpectedly strong positive correlation with CD Std, highlighting its substantial impact on this metric.
+
+Regarding CD Mean, our expectations were that changes in Air Purge, Exhaust, and PEB settings would yield corresponding alterations. Specifically, an increase in Air Purge and Exhaust settings was anticipated to elevate CD Mean, while a decrease in PEB was expected to result in a similar increase.
+
+In line with these expectations, our experimental findings in Fig. 3 revealed clear correlations between Air Purge, Exhaust, and PEB settings and CD Mean. Exhaust exhibited a pronounced positive correlation, whereas PEB showed a distinct negative correlation. Interestingly, Air Purge demonstrated a nonlinear relationship, with the Low and Medium groups showing no discernible difference, but a significant increase observed in the High group.
+
+In summary, our experimental results substantiate the anticipated effects of Air Purge, Exhaust, and PEB settings on CD Mean, with Exhaust exerting a particularly noteworthy influence. Additionally, the unexpected strength of the correlation between Exhaust and CD Std underscores its significance as a critical parameter warranting further investigation for process control optimization.
+
+## IV Sensor-trace features correlated to metrology
+
+Our subsequent analysis aimed to explore the correlation between sensor-trace data obtained from the coater/developer platform and CD metrology. The extensive variation observed in both CD Std and CD Mean resulting from experimental perturbations rendered the Design of Experiment (DoE) dataset particularly valuable for mapping relationships between sensor-trace features and metrology. Understanding these relationships is pivotal for enabling downstream analytics, such as real-time monitoring of process deviations, a key functionality offered by the Monitor software platform.
+
+Fig. 3: CD Mean vs Experimental Perturbations. Panel A presents box plots of CD Mean versus each perturbation grouped by setting. Panel B plots the Pearson correlation score of each perturbation to CD Mean.
+
+Fig. 2: CD Std vs Experimental Perturbations. Panel A presents box plots of CD Std versus each perturbation grouped by setting. Panel B plots the Pearson correlation score of each perturbation to CD Std.
+
+Fig. 4 and 5 provide insights into the top sensor-trace features associated with CD Std and CD Mean, respectively. In Fig. 4, the top features exhibit clear correlations with CD Std. Notably, Feature 1 reaches its maximum sensor value for wafers displaying high CD Std. While the correlations to CD Mean, as depicted in Fig. 5, are somewhat less pronounced compared to CD Std, they still demonstrate discernible associations.
+
+Taken together, our analysis underscores the significant potential of sensor-trace data as a reliable correlate to both CD Std and CD Mean. However, it's essential to note that the DoE represents a single small batch, and a larger dataset would be advisable before establishing rules to identify process deviations [5].
+
+## V Sensor-trace features correlated with experimental perturbations
+
+Our final analysis involved leveraging correlation engine powered by AI/ML to uncover linear and nonlinear relationships between sensor-trace features and experimental perturbations.
+
+Identifying such relationships not only aids in building process alert rulesets for known process failure cases but also offers deeper insights into the perturbations themselves and their impacts. However, due to intellectual property constraints, we are limited in our discussion of specific findings.
+
+Fig. 4: CD Std vs Sensor-trace Features. Panel A plots the top 5 sensor-trace features correlated to CD Std. Panel B presents a scatter plot of CD Std to the top 3 features.
+
+Fig. 5: CD Mean vs Sensor-trace Features. Panel A plots the top 5 sensor-trace features correlated to CD Mean. Panel B presents a scatter plot of CD Mean to the top 3 features.
+
+Fig. 6: Exhaust Perturbation vs Sensor-Trace Features. Top 3 features are plotted against exhaust setting. Panel A presents a box plot of sensor-trace feature values grouped by exhaust setting. Panels B and C present a scatter plot of CD Std and CD Mean, respectively, vs the top features.
+
+Nevertheless, Figures 6-8 showcase our ability to identify meaningful correlations among a vast dataset encompassing approximately 120 sensor-traces. For instance, the analysis of the Exhaust perturbation demonstrates the necessity of multiple trace features to accurately classify exhaust settings. While Feature 1 distinguishes the High setting effectively, it fails to differentiate the Low and Medium settings. In contrast, Exhaust Features 2 and 3 contribute to the separation of the Low and Medium settings. Similarly, the analysis of the PEB perturbation reveals that sensor-trace data, particularly Feature 1, plays a crucial role in classifying PEB settings, given its 100% correlation with PEB setting. This correlation stems from the fact that the perturbation itself involves a change in temperature, and Feature 1 is derived from Plate Temperature data.
+
+Conversely, distinguishing the Air Purge setting proves to be more challenging. Notably, the top 2 features exhibit a nonlinear relationship, indicating the complexity of this perturbation. Preliminary analysis suggests that the order of wafer processing may contribute to explaining this intricate relationship.
+
+## VI Conclusion
+
+In conclusion, our study underscores the pivotal role of purpose-built AI and ML systems in advancing lithography processes involving MOR for EUV lithography. Through systematic experimentation and analysis, we have demonstrated the significant impact of lithography parameters on critical metrology parameters such as CD Mean and CD Std. Moreover, our investigation into the correlation between sensor-trace features and experimental perturbations unveils valuable insights into lithography process dynamics and interactions. The insights learned from this project helped accelerate the development and optimization of metal-oxide resist. This is a huge resource efficiency benefit and moreover the methodology using Trace-feature ML can be leveraged for other process areas.
+
+The insights gleaned from our study not only contribute to the ongoing development of lithography processes, but also underscore the importance of leveraging purpose built AI/ML platforms. In this case, we utilized a platform that provided twenty times greater trace data compression and automated metadata curation techniques, a significant improvement over column-oriented data storage solutions used by Fabs today. The platform used in this project has addressed the AI data readiness challenges for semiconductor automation and controls roadmaps that require solutions for rapidly increasing data volumes and associated metadata complexity i.e. 'process context' in high volume semiconductor manufacturing. By economically harnessing more of the raw Trace data using the power of novel AI intellectual property, is addressing the factory and equipment automation roadmap for enhanced 'variability aware' process controls, troubleshooting, and smarter decision support systems e.g. maintenance content planning and AI chatbot assistants in semiconductor Fabs. Ultimately, our collaborative efforts are driving further continuous improvement for semiconductor manufacturers, bolstering device performance and reliability, with greater high volume manufacturing productivity [3].
+
+Some future work planned for more opportunities to improve cycles of learnings, optimized runs/experiments, add Scanner (ASML) data to further exploration of Equipment Makers with IBM and impacts to manufacturing maintenance insights when in HVM environments.
+

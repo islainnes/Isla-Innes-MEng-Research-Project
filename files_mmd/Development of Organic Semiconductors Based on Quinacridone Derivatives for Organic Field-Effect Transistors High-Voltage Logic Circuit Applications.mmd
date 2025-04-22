@@ -1,0 +1,49 @@
+Development of Organic Semiconductors Based on Quinacridone Derivatives for Organic Field-Effect Transistors: High-Voltage Logic Circuit Applications
+
+
+
+
+
+
+
+
+and Tae Kyu An
+
+This work was supported by the National Research Foundation of Korea through the Korean Government under Grant 2016#1C1B1009745.
+
+1
+
+## II Experimental
+
+As indicated above, the PQCQT polymer was synthesized by carrying out a Suzuki coupling reaction, as described previously [18]. The synthesized PQCQT polymer was determined to have a number-average molecular weight (M\({}_{\text{n}}\)) of 52.9 kg/mol, and a polydispersity index (PDI) of 1.48, by using gel permeation chromatography with tetrahydrofuran at 40 \({}^{\circ}\)C. The electrical properties of the PQCQT film was characterized in a top-contact OFET configuration using a 300-nm-thick SiO\({}_{2}\) dielectric on a highly doped n-Si substrate, which served as the gate electrode. The SiO\({}_{2}\) dielectric was treated with an octadecyltrichlorosilane (ODTS) monolayer and with toluene for 90 min at room temperature. Solutions of the organic semiconductors were prepared at a concentration of 0.2 wt% in chloroform and heated at 50 \({}^{\circ}\)C for 30 min before being filtered using a 0.2-\(\mu\)m-pore-sized polytetrafluoroethylene (PTFE) membrane syringe filter. The polymer film was deposited by spin-coating for 60 s at 2000 rpm. Gold source and drain electrodes were evaporated on top of the semiconductor layers (100 nm) using a shadow mask over the active layer. In all measurements, the channel lengths (L) were 50 \(\mu\)m and the channel widths (W) were 1000 \(\mu\)m.
+
+The average thickness of the polymer films was measured to be 20 nm using ellipsometry. The electrical characteristics of the FETs were measured at room temperature under a nitrogen atmosphere using a Keithley 4200 SCS. Field-effect mobilities were extracted in the saturation regime from the slope of a line fitted to a plot of the square root of the source-drain current (\(I_{DS}\)) versus the gate voltage (\(V_{G}\)); the fitting was based on the equation \(I_{DS}=(\text{WC}_{i}/2\text{L})\mu(V_{G}-V_{th})^{2}\), where \(C_{i}\) is the capacitance per unit area of the dielectric, \(\mu\) is the carrier mobility, and \(V_{th}\) is the threshold voltage. The crystal structure of PQCQT was analyzed based on 0-20-mode out-of-plane XRD patterns collected using a synchrotron X-ray beam source at the 5A beamline (11.57 keV) of the Pohang Accelerator Laboratory (PAL).
+
+## III Results and Discussion
+
+XRD studies of PQCQT thin films on ODTS-modified SiO\({}_{2}\)/Si substrates were carried out in order to investigate the solid-state morphology and molecular packing of PQCQT. Fig. 1(b) shows the XRD patterns of the PQCQT film. As shown in Fig. 1(b), the PQCQT film showed a weak diffraction peak along the out-of-plane direction with an interlayer distance of 21 A, which is ascribable to the distance between polymer backbones; this distance in turn was a result of the alkyl side chains. The pristine film showed (100), (200), and (010) diffraction peaks along the out-of-plane direction (d\({}_{(010)}\) = 3.6 A), indicating an isotropic (mixed face-on and edge-on) interchain orientation [20]. After carrying out a thermal treatment at 150 \({}^{\circ}\)C, the film showed a more intense out-of-plane (200) peak and a less intense (010) peak, indicating the presence of highly ordered lamellar sheets perpendicular to the substrate as well as the preferential formation of edge-on-oriented polymer stacks.
+
+Figure 1: (a) Molecular structure of the repeating unit of the PQCQT polymer and (b) XRD patterns of a fresh PQCQT film and that annealed at 150 \({}^{\circ}\)C.
+
+The XRD patterns for the PQCQT films showed weaker high-order diffraction peaks than did those of PQA2T and PQA3T that are previously reported by the Takimiya group [14]. These results implied that PQCQT formed less extensive long-range intermolecular interactions or a structure with a lower degree of molecular order than did PQA2T and PQA3T. This difference may have resulted from more alkyl side chains of PQCQT compared to those of PQA2T and PQA3T, though PQCQT has similar structure with PQA2T and PQA3T. Although introduced alkyl side chains can potentially improve the solubility and processability of the polymer, they tended to hamper the balance of intermolecular forces between the core aromatic units and between the alkyl chains when the crystalline film formed [21].
+
+The transfer characteristics of OFETs based on PQCQT are shown in Fig. 2. The devices showed the typical p-channel transfer characteristics, and the annealing treatments improved the field-effect mobility. The saturation field-effect mobility of the as-cast PQCQT film was calculated from the slope of the corresponding plot in Fig. 2a to be 5.2 \(\times\) 10\({}^{-3}\) cm\({}^{2}\)/(Vs) with an on/off ratio of 1.7 \(\times\) 10\({}^{6}\). In the annealed film, the field-effect mobility was found to be 2.0 \(\times\) 10\({}^{-2}\) cm\({}^{2}\)/(Vs) with an on/off ratio of 8.2 \(\times\) 10\({}^{5}\). Threshold voltages were -3.8 V and -4.2 V for the fresh for annealed films, respectively. Structural differences between the as-cast and annealed films indicated by the above XRD analyses may have caused their different OFET behaviors. The crystalline structure of PQCQT became well developed after the thermal treatment, which appeared to have induced efficient intermolecular interactions and charge transport in the polymer films.
+
+Although PQCQT showed adequate mobilities for p-type solution-processed semiconductors, their values were lower than the mobilities of PQA2T and PQA3T (around 0.2 cm\({}^{2}\)/(Vs)) reported previously. These lower values may have resulted from a lower fraction of the film being crystalline for the PQCQT film than those for the PQA2T and PQA3T films. While the quaterthiophene with alkyl side chains attached to the quinacridone cores provided better solubility and processability than did bithiophene or terthiophene, which do not have alkyl side chains, the alkyl side chains disturbed \(\pi\)-\(\pi\) stacking and consequently \(\pi\)-orbital overlap between the adjacent conjugated backbones [22].
+
+To observe the high-voltage logic circuit applications, we simulated p-type inverter with the synthesized PQCQT-based OFET. The model parameters of BSIM4 which widely used in the industry as a standard compact model were extracted with the procedure of Fig. 3. We did not use the automatic algorithm to extract BSIM4 model parameters but performed the extraction of the local parameter set for single W/L device. Due to the large value of parasitic resistance at the source and drain region (\(R_{SD}=R_{S}+R_{D}\)), we extracted \(R_{SD}\) from the channel resistance method as shown in Fig. 4[23]. The extracted \(R_{SD}\) is 0.8 M\(\Omega\) per each side, and they are fixed with \(RDSW\) parameter of \(RDSMOD\)=0 during BSIM4 model
+
+Figure 4: The results of the channel resistance method with various channel lengths. The extracted parasitic source and drain resistance is 0.8 M\(\Omega\) per each side.
+
+Figure 3: The flow chart of BSIM4 model parameter extraction for PQCQT-based OFET.
+
+Figure 2: Transfer curves from pristine and annealed PQCQT films.
+
+parameter extraction. As shown in Fig. 5, the extracted BSIM4 model parameter set (lines) reproduced the measured PQCQT-based OFET (symbols) quite well, and could simulate accurately the circuits in conjunction with SPICE. Note that BSIM4 model cannot capture all physics of OFETs such as carrier hopping, and low mobility induced by grain-boundary scattering and so on since BSIM4 model has been developed for silicon-based planar MOS transistor. However, we used BSIM4 model as a behavioral model to fit the measured I-V and C-V characteristics of single W/L OFET to run circuit simulator at only room temperature.
+
+By using the developed BSIM4 model parameter set, we evaluated the electrical characteristics of a p-type OFET inverter as shown in Fig. 6; which consisted of one resistive load, \(R_{L}\) (\(\sim\)140 Mohm), and one driver OFET (W/L = 1000/50 \(\upmu\)m) [24]. When \(V_{IN}\) was in a low-voltage state (0 V), the p-type OFET acted as a shortened switch and pulled the \(V_{OUT}\) to the dc supply, \(V_{DD}\). On the other hand, when \(V_{IN}\) reached a high-voltage state (\(V_{DD}\)), the transistor adopted an open state and finally \(V_{out}\) was pulled down by the resistor \(R_{L}\) to ground. Fig. 6(a) shows voltage-transfer curves of the designed inverter for supply voltages ranging from 20 V to 80 V based on the simulation work. And a time-domain analysis was also performed from a transient simulation, which involved a square-wave input (max. 80 V) with a frequency of 45.5 kHz as shown in Fig. 6(b). Performance parameters such as the minimum output high voltage of the inverter (\(V_{OH}\)), the maximum output low voltage of the inverter(\(V_{OL}\)), the rising time(\(t_{R}\)), the falling time(\(t_{F}\)), and the propagation delay time(\(t_{P}\)) of inverter with supply voltage were also summarized in Fig. 6(c) [25]. From the static voltage transfer curve and time-domain circuit verification by performing circuit simulation, we confirmed the feasibility of using PQCQT-based OFETs for high-voltage logic circuit applications.
+
+## 4. Conclusion
+
+In this work, a conjugated PQCQT polymer based on both a quinacridone unit and a quaterthiophene unit was applied in OFETs and simulated in circuits. An annealed PQCQT film showed a more ordered structure and a higher carrier mobility, at 2.0 \(\times\) 10\({}^{-2}\) cm\({}^{2}\)/(Vs), than did the fresh PQCQT film. And, we observed a designed inverter using PQCQT-based OFETs to successfully realize a logic operation with a frequency of 45.5 kHz and an 80 V supply condition.
+

@@ -1,0 +1,146 @@
+Dual-Loop High Speed Voltage Balancing Control for High Frequency Four-level GaN Totem-Pole PFC Using Small Flying Capacitors
+
+
+
+
+
+{qxma, qyhuang, aqhuang}@utexas.edu
+
+## I Introduction
+
+With the dramatically growing of datacenter consumer market, the need for telecommunication power supply has witnessed a rapid increase. Typically, a power factor corrector (PFC) rectifier is used as front end for AC/DC conversion [1-4]. Therefore, high performance and high power-density PFC has drawn tremendous attention of both academy and industry fields. With developing of wide-bandgap (WBG) semiconductor devices, many people discovered that GaN devices perform a better behavior than traditional Si ones, such as less switching loss and eliminated reverse recovery issue. Due to the benefits of using GaN devices, totem-pole PFC topology has raised much interest [1],[5-6]. In these applications, magnetic components typically dominate the size of the converter system [7]. To further increase system power density, methods to reduce magnetic components size without sacrificing system performance is desired.
+
+FCML converters introduced in [8] are quite popular in medium and high voltage applications. This is due to the topology having various advantages, such as lower device voltage stress, smaller current ripples, size reduction and better system harmonic performance [9-12]. Based on these benefits, various FCML topologies including FCML PFC have drawn much interest in low voltage and low power applications recently. Being applied to kilowatt level low voltage applications, these FCML PFC all achieve a good efficiency and power density performance [5],[10],[13].
+
+To further improve power density, people are reducing flying capacitor size and value to reduce the converter size. However, using of small value flying capacitor may lead to larger flying capacitor voltage ripple and voltage imbalance [7],[13]. For FCML converters, the flying capacitor voltage should remain at reference value to ensure converter secure operation. Unbalance flying capacitor voltage would cause higher device voltage stress as well as extra device loss [13],[14]. Therefore, flying capacitor voltage balancing control should also be considered when designing control system.
+
+Various voltage balancing strategies are investigated and proposed for FCM converters. Many researchers are utilizing FCML converters' natural capacitor voltage balancing ability to balance the flying capacitor voltage [10],[15],[16], since the simplicity of the method and no extra circuit is added. However, this strategy has slow balancing speed as well as poor dynamic responses. Analysis also shows that performance of natural balancing strategy depends on system parameters, load impedance, harmonic contents and switching frequency [17],[18]. This also requires crucial system designing skills in some applications. Some auxiliary circuits are also added to FCML system to speed up natural balancing speed, but this would make circuit design more complicated and increase system cost [19]. Therefore, many researchers gained motivation for developing active voltage-balancing control for FCML converters.
+
+Some voltage balancing methods are derived using optimized switching state selection from redundant switching state (RSS) table. By properly selecting switching state combination and considering flying capacitor charging status, flying capacitor voltage could be balanced. In [20],[21], cost function or logic equation is properly created based on RSS table. Via finding out lowest cost equation value, switching state combination from RSS table is decided. Although good dynamic response performance is achieved in these papers, defining cost function in these control methods are complicated and would need significant processing time to derive desired switching combination. Voltage balancing solutions based on Phase-Disposition PWM (PD-PWM) modulation are also investigated by researchers. Analysis reveals that PD-PWM has faster voltage balancing speed and good voltage quality [18]. In [22], PD-PWM carrier rotation strategy is proposed to guarantee voltage balance. A control combining RSS and PD-PWM is also proposed in [13]. However, those methods are too complex for converters with high number of voltage levels [14,23]. Compared with PD-PWM, applying PS-PWM to FCML converter is much easier. Work in [11] utilizes PS-PWM modulation with valley current control for voltage-balancing and shows that the voltage would be balanced if valley of inductor current is equal. Unlike DC application inductor current, the valley current value of inductor current in AC application is not constant and always changing. So, method proposed in [11] is not applicable to AC systems. A carrier sequence changing control is proposed in [16], this strategy is complicated to implement and not verified on AC application. Some papers also established circuit operation models for voltage-balancing loop analysis to better understand the balancing procedure [14,24,25]. By using flying capacitor voltage error signal as feedback, a controller is designed and small perturbation is added to duty ratio of each device. However, these work all have a limitation that the gain of voltage-balancing loop should be small so that the added perturbation is negligible compared with original duty ratio. This restriction limits the loop bandwidth and make them less appropriate in high power density AC applications with small flying capacitors. Although some methods above are verified in AC applications, the value of their flying capacitors are hundreds of microfardas, which is too large in applications require high power density.
+
+To balance the voltage of AC converters with flying capacitors of only several microfardas, a dual loop high speed voltage-balancing control using PS-PWM modulation is proposed. Flying capacitor net charge is utilized to achieve voltage balancing. By sensing voltage of each flying capacitors, the controller would figure out how much net charge is needed for capacitors to maintain at expected value. Using the switching states table and associated flying capacitors charging status, switching states that only affects single flying capacitors voltage is discovered. After adjusting the duty ratio of devices in these switching states, net charge of each flying capacitor is modified and voltage could be balanced without affecting other capacitors. To better figure out capacitor charge needed, flying capacitors net charge in each switch cycle is figured out and considered in the control. The dual-loop control consists of a charge controlling loop and a low speed proportional loop. This could help proposed control has a good performance at both transient and stable state operation. Proposed method shows good voltage-balancing performance both in simulation and experiment on a 100kHz four-level FCML PFC with ceramic capacitors acting as flying capacitor designed in [5]. Fig. 1 shows the topology of the four-level FCML PFC.
+
+The paper is organized as follows: Section II describes the operating principle of FCML PFC; Section III explains the proposed voltage balancing control; Section IV shows the simulation and experiment results from a four-level FCML PFC; Section V summarizes the conclusions.
+
+## II FCM PFC Operating Principle
+
+As the topology shown in Fig. 1, the four-level FCML PFC has three pairs of complimentary switches (\(Q_{i}\),\(Q_{o}\)), (\(Q_{2}\),\(Q_{3}\)) and (\(Q_{3}\),\(Q_{4}\)). Since the input voltage source is AC, active switches of positive and negative cycles are different. In AC input positive cycle, the active switches are \(Q_{a}\)\(Q_{s}\) and \(Q_{6}\). In AC input negative cycle, the active switches are \(Q_{i}\), \(Q_{2}\) and \(Q_{3}\). Current flowing through these devices are used to charge and discharge flying capacitors. In steady state, the voltage of flying capacitor
+
+Fig. 2: Signal for FCML PFC Agwitches at D\(>\)2/3\(C_{I}\) and \(C_{2}\) is maintained at \(V_{o}\)/3 and \(2V_{o}\)/3, respectively. \(V_{o}\) is the output DC voltage. Switching control function based on device switching state could be defined in (1). The switching function of device \(Q_{r}\)-\(Q_{6}\) could be defined as \(S_{I}\)-\(S_{6}\). Switching function \(S_{I}\)-\(S_{6}\) has 2 values \(S_{z}\)={0,1}, value 0 means the device is turned off and value 1 means the device is turned on. \(V_{sw}\) represents voltage measured between GaN leg middle-point to low speed leg middle-point and \(I_{L}\) represents converter inductor current. Taking Kirchhoff's current low into consideration, current flowing through flying capacitor \(C_{I}\) and \(C_{2}\) could also be expressed in switch control function (2) and (3). Equation (1)-(3) are derived under positive input voltage cycle. Since active switches in negative input voltage cycle are different, \(S_{r}\)-\(S_{6}\) should be replaced by \(S_{I}\)-\(S_{5}\) when Vin becomes negative.
+
+\[|V_{sw}|=(1-S_{6})\cdot V_{o} + (S_{6}-S_{5})V_{c2}+(S_{5}-S_{4})V_{c1} \tag{1}\]
+
+\[I_{c1}=(S_{5}-S_{4})I_{L} \tag{2}\]
+
+\[I_{c2}=(S_{6}-S_{5})I_{L} \tag{3}\]
+
+Fig. 2-Fig. 4 shows the PS-PWM modulation and switching state applied to four-level FCM PFC active switch under different duty ratio. Gate signals and duty ratio shown in figures are for active switches. Three carriers are needed for four-level FCM PFC and each carrier has a 120 degrees phase shift with each other. In PFC application, duty ratio is constantly changing. The paper assumes here that converter duty ratio is constant in a single switching period.
+
+Taking working principle in figures above and Equations (1)-(3) into consideration, the switching state table of four-level FCM PFC is shown in Table. I. The FCM PFC switching state table also shows charging status of flying capacitor in each switching state and it could be used to balance flying capacitors voltage. In TABLE I, "+" means flying capacitor is being charged, "-" means flying capacitor is being discharged and NC means no current flowing through capacitor.
+
+## III Proposed Voltage Balancing Control
+
+In FCM DC/DC applications, inductor average current and current ripple is constant if input and output voltage is not changed. Flying capacitors would be charged or discharged by this constant current and would witness a constant current boundary \(I_{L}\) and -\(I_{L}\). This low frequency flying capacitor current boundary makes voltage balancing control in DC/DC application easier compared with AC/DC ones. The flying capacitor current boundary of a four-level FCM PFC is shown in Fig. 5. Since inductor current average value and current ripple is not constant in half AC line cycle, the current boundary seen
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|} \hline  & \multicolumn{2}{c|}{Active Switches} & \multicolumn{2}{c|}{Flying Capacitors} & \\ \hline State & Q\({}_{o}\)/Q\({}_{o}\) & Q\({}_{o}\)/Q\({}_{o}\) & Q\({}_{o}\)/Q\({}_{o}\) & C\({}_{1}\) & C\({}_{2}\) & \(|\)V\({}_{sw}|\) \\ \hline
+1 & 0 & 0 & 0 & NC & NC & V\({}_{o}\) \\ \hline
+2 & 0 & 0 & 1 & - & NC & 2V\({}_{o}\)/3 \\ \hline
+3 & 0 & 1 & 0 & + & - & 2V\({}_{o}\)/3 \\ \hline
+4 & 1 & 0 & 0 & NC & + & 2V\({}_{o}\)/3 \\ \hline
+5 & 1 & 0 & 1 & - & + & V\({}_{o}\)/3 \\ \hline
+6 & 1 & 1 & 0 & + & NC & V\({}_{o}\)/3 \\ \hline
+7 & 0 & 1 & 1 & NC & - & V\({}_{o}\)/3 \\ \hline
+8 & 1 & 1 & 1 & NC & NC & 0 \\ \hline \end{tabular}
+\end{table} TABLE I: Switching States of Four-level FCM PFC
+
+Fig. 4: Signal for FCM PFC Active Switches at D\(<\)1/3
+
+Fig. 5: FC Current Boundary in Four-level FCM PFC
+
+Fig. 3: Signal for FCM PFC Active Switches at 2/3-D\(>\)1/3by flying capacitor is not constant. Thus, a high-speed voltage balancing control is needed for FCM PFC applications. Flying capacitor charge being controlled in this paper. To change charge of certain flying capacitors, duty ratio adjustment is needed for certain device by looking through switching states table. Capacitor net charge per switch cycle is also calculated to help determine duty ratio adjustment needed.
+
+Flying capacitors net charge in a single switch cycle is studied. Inductor current of a single switch cycle is shown in Fig. 6. Initial current is labelled as I and current ripple magnitude is labelled as \(Al_{ir}\)-\(Al_{6}\).
+
+\[\Delta Q_{1} =\frac{D\cdot T(2I+\Delta i_{1})}{2}-\frac{D\cdot T(2I+2\cdot \Delta i_{1}-2\cdot\Delta i_{2}+\Delta i_{3})}{2}\] \[=\frac{(1-D)\cdot D\cdot T}{2\lambda}\cdot\left(V_{C2,ref}-V_{C2} \right)\cdot T \tag{4}\] \[\Delta Q_{2} =\frac{D\cdot T(2I+2\lambda i_{1}-2\lambda i_{2}+4\lambda i_{3}) }{2}-\frac{D\cdot T(2I+2\lambda i_{1}-2\lambda i_{2}+2\lambda i_{3}-2\cdot \Delta i_{4}+4\lambda i_{5})}{2}\] \[=\frac{D\cdot T}{2\lambda}\cdot\left(-V_{C1,ref}+V_{C1}\right) \cdot D\cdot T \tag{5}\]
+
+Taking \(D\)\(<\)\(l\)/3 condition as an example, the net charge of each flying capacitor in a single switch cycle is expressed in (4) and (5). \(\Delta Q_{l}\) and \(\Delta Q_{2}\) stands for net charge of \(C_{l}\) and \(C_{2}\),respectively. \(V_{cl}\) and \(V_{c2}\) are flying capacitor voltage, \(D\) is duty ratio and T is switching period. From Equation (4) and (5), we could conclude that the required flying capacitor net charge per switch cycle is determined by flying capacitor voltage error signal. This conclusion is also verified for this FCM PFC in other duty ratio ranges. Thus, the flying capacitors net charge act as an important signal in system voltage balancing.
+
+From Table I and Fig. 2-4, we discover that there exist several switching states that only deals with charging status of one flying capacitors. By changing the time length of those switch states, the single flying capacitor would be charged or discharged. This time length change should not affect switching state that deals with other flying capacitor's charging or discharging. An explained view of considering voltage balancing of \(C_{l}\) and \(C_{2}\) at \(D\)\(<\)\(l\)/3 situation is shown in Fig. 7. In PFC positive cycle, Q4 and Q6 are chosen to balance voltage of \(C_{l}\) and \(C_{2}\) based on analyzing Table I. In PFC negative cycle, \(Q_{l}\) and \(Q_{3}\) are chosen to do the same work.
+
+Based on analysis above and taking flying capacitor net charge into consideration, a control loop for flying capacitor voltage balancing is shown in Fig. 8.
+
+Duty ratio adjustment could be derived.
+
+\[|V_{sw}|=(1-D_{6})\cdot V_{o}+(D_{6}-D_{5})V_{C2}+(D_{5}-D_{4})V_{C1} \tag{6}\]
+
+Fig. 8: Voltage Balancing Control Loop
+
+Fig. 6: Inductor Current in One Switch Cycle
+
+Fig. 7: Explained View of Changing Certain Switch States Time Lengthratio of \(Q_{x}\)-\(Q_{6}\) should satisfy equation (6). Therefore, the new duty ratio for active switch is expressed in (9)-(11).
+
+\[D_{4}^{\prime}=D_{4}+\Delta d_{1,extr}-\frac{\Delta d_{2,extr}}{2} \tag{9}\]
+
+\[D_{5}^{\prime}=D_{5}-\frac{\Delta d_{1,extr}}{2}-\frac{\Delta d_{2,extr}}{2} \tag{10}\]
+
+\[D_{6}^{\prime}=D_{6}-\frac{\Delta d_{1,extr}}{2}+\Delta d_{2,extr} \tag{11}\]
+
+Flying capacitor voltage balancing loop is combined with a proportional controller loop shown in Fig. 9 to alleviate its task at low frequency. Using a proportional controller, new duty ratio adjustment \(d_{1}\) and \(d_{2}\) are derived. All duty ratio adjustment should be negligible compared with system main duty ratio \(D\) to not affect system conversion ratio and normal operation. So, \(P_{1}\) and \(P_{2}\) of control loop should not take values that is too large.
+
+Using methods in [14], it is easy to discover that flying capacitors \(C_{1}\) and \(C_{2}\) have different transfer function in voltage balancing loop. To make two flying capacitor voltage balancing loop with same frequency response performance, following relationship should be met.
+
+\[P_{1}=\frac{1}{2}P_{2} \tag{12}\]
+
+All the duty ratio adjustment added to each switch should always ensure that PFC inductor average voltage is unchanged to help eliminate distortion on FCML PFC current waveform. Duty ratio for FCML PFC active switch that satisfy (6) is expressed in (13)-(15). If FCML PFC is working in negative cycle, \(D_{4}\)-\(D_{6}\) would be replaced by \(D_{1}\)-\(D_{3}\).
+
+\[D_{4,new}=D_{4}+\Delta d_{1,extr}-\frac{\Delta d_{2,extr}}{2}+d_{1}+d_{2} \tag{13}\]
+
+\[D_{5,new}=D_{5}-\frac{\Delta d_{1,extr}}{2}-\frac{\Delta d_{2},extr}{2}-\frac{ 1}{2}d_{1}+d_{2} \tag{14}\]
+
+\[D_{6,new}=D_{6}-\frac{\Delta d_{1,extr}}{2}+\Delta d_{2,extr}-\frac{1}{2}d_{1 }-2d_{2} \tag{15}\]
+
+Using Equation (7) and small perturbation analysis on flying capacitor \(C_{1}\), the charge difference on flying capacitor \(C_{1}\) caused by this duty ratio adjustment in one switch cycle is expressed in following.
+
+\[\Delta Q_{C1}=(-\frac{3}{2}\Delta d_{1,extr}-\frac{3}{2}d_{1})\cdot T\cdot|I_ {L}| \tag{16}\]
+
+Similar analysis could be conducted on \(C_{2}\).
+
+\[\Delta Q_{C2}=(3\Delta d_{1,extr}-3d_{1})\cdot T\cdot|I_{L}| \tag{17}\]
+
+This flying capacitor charge difference should at least eliminate the effect of net charge calculated in Equation (4) and (5). Minimum charge difference is expressed as following.
+
+\[\Delta Q_{C1,min}=-\Delta Q_{1} \tag{18}\]
+
+\[\Delta Q_{C2,min}=-\Delta Q_{2} \tag{19}\]
+
+Using equations expressed above, the limitation for control parameter in Fig. 8 is set. This could be utilized in simulation to help determine values of \(K_{p1}\) and \(K_{p2}\) and check whether control parameters are appropriate. The proposed control for FCML PFC with small flying capacitors is shown in Fig. 10. A dual-loop control is used.
+
+## IV Simulation and Experimental Results
+
+PFC system performance with and without proposed control is conducted both in PSIM digital simulation and in experiments. Both the steady state operation and the transient behavior is verified in the system. Table II shows the parameter and working condition of the FCML PFC system. Fig. 11-Fig. 12 shows the system transient performance without proposed control when load changes from 30W to 250W at 0.01A/\(\upmu\)s. Both simulations and experimental results are shown. To put all waveforms in same screen, V\({}_{C2}\) in Fig. 12 is measure with 70V offset. Large voltage ripples are observed both in experiment and in simulation. Voltage ripple in V\({}_{C1}\) even reaches 30% of expected value. Fig. 13 shows flying capacitor voltage and the voltage reference comparison derived from experiment above.
+
+Fig. 10: Proposed Voltage Balancing Control for FCM PFC
+
+[MISSING_PAGE_EMPTY:291]
+
+derived that proposed control helps reduce voltage ripple and has better performance at steady state operation.
+
+## V Conclusions
+
+This paper proposes a dual loop voltage balancing control for FCM PFC with small flying capacitors based on PS-PWM modulation. In the proposed paper, flying capacitor voltage is sensed and capacitor net charge is being studied and utilized to control the voltage imbalance issue. Utilizing sensed flying capacitor voltage, the proposed control would figure out the amount of charge needed to make capacitor voltage reach expected value. Flying capacitors net charge change is implemented by adjusting the duty ratio of active switches. This behavior could help change time length of capacitors charging states and help change flying capacitor net charge as well as
+
+Fig. 16: FC Voltage and Voltage Reference Comparison from Test
+
+Fig. 21: PFC Steady State Performance without Proposed Control
+
+Fig. 17: Simulated PFC Transient Performance without Proposed Control
+
+Fig. 22: PFC Steady State Performance with Proposed Control
+
+Fig. 18: PFC Transient Performance without Proposed Controlvoltage. In order not to affect other flying capacitor while changing charge of one capacitor, switching state table and associated charging status is investigated and several states are selected for net charge changing. By carefully designing the control parameter, the proposed method could help reduce device high voltage stress issue cause by voltage ripple. The method is verified on a four-level FCML PFC both in PSIM simulation and in experiment,and it achieves good transient and steady state performance.
+
+## Acknowledgment
+
+The authors would like to thank EPC for GaN device samples and financial support of this work.
+

@@ -1,0 +1,91 @@
+
+Chien-Lin Huang, Nian-Shyang Chang, Chi-Shi Chen, Chun-Pin Lin, Chien-Ming Wu, and Chun-Ming Huang
+
+_Invited Paper_
+
+{C. L. Huang, N. S. Chang, C. S. Chen, C. P. Lin, C. M. Wu and C. M. Huang jare with the Design Service Division, National Chip Implementation Center (CIC), Hsinchu, Taiwan, e-mail: cmhuang@cic.nat.org.tw.
+
+## I Introduction of 3D-IC
+
+As Moores law reaches its limitation due to enormous investments, three-dimensional integrated circuit (3D-IC) evolves naturally. The most popular 3D integration technology today is 3D-IC with through-silicon vias (TSV). A typical 3D-IC with TSV is illustrated in Fig. 1. Multiple integrated circuits (ICs) are stacked vertically and bonded by bumps. The signals propagate from one IC to another through TSV and bumps. For large system on chip (SoC) design, TSV will effectively reduce the interconnect wire length/capacitance and therefore reduce the interconnect delay and dynamic power consumption.
+
+According to bonding topologies, 3D-IC with TSV can be categorized as face to face (F2F), face to back (F2B), back to back (B2B) and back to face (B2F). The four topologies are illustrated in Fig. 2. For F2B, B2B and B2F topology, TSV is necessary for IC to IC communications. For F2F topology, TSV is optional [1].
+
+Though 3D-IC is considered to be the most promising technology for modern and future electronic devices manufacturing, the ecosystem is not complete yet. A lot of challenges need to be addressed in order to make 3D-IC technically feasible as well as cost effective. Issues for 3D-IC manufacturing include wafer thinning, thinned wafer handling, and TSV formingetc.
+
+## II Hybrid Process 3D-IC
+
+A typical universities IC layout is shown in Fig. 3. It is obvious that considerable chip area is used for I/O cell placement. The ratio of I/O cell area to total chip area will be higher for advanced process IC design. It is because the I/O cell does not shrink as the process feature shrinks while the core cell does. An I/O cell is logically a buffer and responsible for providing sufficient current driving, electrostatic discharge (ESD) protection, noise immunity and latch-up effect prevention. In order to take the above responsibilities, the devices feature of I/O circuit cant shrink or even has to expand. It is the reason why I/O cell sizes are almost the same for various process nodes.
+
+Since moving to advanced process node does not guarantee area/cost reduction for I/O cells, how can we fabricate I/O circuits with relatively low-end process and then assembled with core circuits fabricated with relatively high-end process? 3D-IC technology is a proper answer to the above question because of its heterogeneous integration capability. Core circuit and I/O circuit can be fabricated separately and integrated
+
+Fig. 1: A Typical 3D-IC with TSV
+
+Fig. 2: 3D-IC Bonding Topologiesvertically to reduce the total manufacturing cost. Since the process for core and I/O is different, we name this special purpose 3D-IC as Hybrid Process 3D-IC.
+
+The proposed Hybrid Process 3D-IC is illustrated in Fig. 4. The bare die containing core circuit is placed on the top tier. And the bare die containing I/O circuit and low speed core circuit (e.g. memory blocks) are placed on the bottom tier. For yield improvement, face to face (F2F) topology combined with wire bond package is selected to avoid the TSV failure risk.
+
+## III Challenges for Hybrid Process 3D-IC design
+
+Since the design methodology proposed in this paper is based on cell-based design approach, only challenges for cell-based Hybrid Process 3D-IC design are stated in the following paragraphs.
+
+A conventional cell-based IC design methodology is as shown in Fig. 5. Problems that Hybrid Process 3D-IC designers will encounter include logic partitioning, multi technology node logic implementation, multi technology node physical implementation, design rule check in the z direction, design for test (DFT) with limited access pointset. Some of these problems are highlighted and described below.
+
+### _Logic Partitioning_
+
+Logic partitioning is a big issue and difficult for EDA tools. However, it is straightforward for Hybrid Process 3D-IC. What designers have to do is manually partitioning the logic circuit according to the logic cell type (normal core, low speed core or I/O).
+
+### _Multi technology node logic implementation_
+
+Current EDA tools do not support multi technology node logic synthesis and optimization. Designers have to do logic implementation of core circuit and I/O circuit separately and integrate them later.
+
+### _Multi technology node physical implementation_
+
+Current EDA tools do not support multi technology node physical implementation. Designers have to do physical implementation of core circuit and I/O circuit separately and integrate them later. Because of Hybrid Process 3D-ICs face to face topology, the layout of the top tier (core) circuit is flipped and mirrored at stacking. Designers should have 3D consideration defining the floorplan of top tier circuit. Another important issue comes from the different voltage levels of signals in top and bottom tier circuit. Designers have to add level shifters manually for signal propagations between top and bottom tiers.
+
+Fig. 4: Hybrid Process 3D-IC
+
+Fig. 5: Conventional Cell-based IC Design Methodology
+
+Fig. 3: A typical universities IC layout
+
+Fig. 6: Proposed Hybrid Process 3D-IC Design Methodology
+
+## IV Proposed design methodology for Hybrid Process 3D-IC
+
+Based on conventional cell-based IC design methodology, we propose a novel design methodology which makes current (2D-IC) EDA tools 3D aware (Fig. 6). The methodology can be applied to Hybrid Process 3D-IC design. The detail of each design step is described below.
+
+_A. A. Modulized RTL (Register Transfer Level) HDL (Hardware Description language) design and verification_
+
+The RTL HDL design and verification is almost the same as that for conventional cell-based IC design except several rules for modules. It is necessary to define one module for top tier (core) circuit, another module for bottom tier (low speed logic and I/O) circuit. For bump cells and level shifters, they are added manually. Bump cells are added in the top tier module. Level shifters are added in a newly created module.
+
+### _Multi technology node logic implementation and verification_
+
+The whole Hybrid Process 3D-IC RTL HDL is synthesized and optimized by EDA tools. (Fig. 8) In order to make the synthesis tool be able to recognize cell libraries for top and bottom tiers, multi supply voltage design methodology used for low power IC design as well as special tool settings are leveraged [2, 3] and [4].
+
+### _Top tier physical implementation_
+
+The way to do whole Hybrid Process 3D-IC physical implementation is not available due to current EDA tools limitation [5, 6] and [7]. Since core logic defines the functionality of the whole chip, it is reasonable to do top tier (core) physical implementation first. The top tier physical implementation is illustrated in Fig. 9. Four operations are added to the conventional physical implementation flow. The first operation is bump pads (used as stands for bumps) placement. Bumps for 3D-IC bonding are similar to flip chip bumps so bump pads can be placed by flip chip bump pad placer. The second operation is 3D power grid synthesis. Designers need to plan how power grids of top and bottom tier are connected with bumps. Once the connected points are determined, designers can construct the power grids with current EDA tools. The third operation is clock tree modeling. The clock tree model will be used for Bottom tier physical implementation. The forth operation is timing model extraction. It is used for bottom tier logic optimization.
+
+### _Bottom tier logic optimization_
+
+Before going to bottom tier physical implementation, it is better to do bottom tier logic optimization. (Fig. 10) The goal of bottom tier logic optimization is to optimize the cross dies timing path.
+
+### _Bottom tier physical implementation & 3D Integration_
+
+The Bottom tier physical implementation is illustrated in Fig. 11. Three operations are added to the conventional physical implementation flow. The first operation is to identify the positions of bump pads. These bump pads have one to one correspondence to bump pads in the top tier. An in-house script is used to convert top tier abstract to an abstract containing the bump pads information. The second operation is level shifters insertion. The insertion and placement of level shifters are also done by the in-house script. The third operation is clock tree synthesis according to the extracted model of top tier circuit. After bottom tier physical implementation is done, 3D integration completes automatically.
+
+Fig. 8: Whole Hybrid Process 3D-IC Logic Implementation
+
+Fig. 7: Logic Hierarchy of Hybrid Process 3D-IC RTL HDL
+
+Fig. 9: Top Tier Physical Implementation
+
+## V Real circuit design example
+
+A discrete cosine transform (DCT) computational circuit is designed to verify the proposed design methodology. The arithmetic operation and state control logic are partitioned to top tier. The embedded memory, PLL and I/O cells are partitioned to bottom tier. Refer to Table I for the detail of the specification.
+
+## VI Conclusion and future work
+
+In this paper, the concept of Hybrid Process 3D-IC is described as a means to reduce the manufacturing cost by effectively circuit partitioning. In order to realize Hybrid Process 3D-IC concept, a novel design methodology is proposed for chip implementation. The real circuit design example proves that the methodology works. However, the methodology needs to be further improved. 3D physical verification and DFT challenges will be addressed in the near future to make the methodology complete.
+

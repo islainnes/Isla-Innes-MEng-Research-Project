@@ -1,0 +1,91 @@
+
+_Diodes for Photovoltaic Panels_
+
+_Tsugutomo Kudoh_
+
+_Kanagawa Institute of Technology_
+
+Shimo-Ogino 1030, Atsugi
+
+
+
+_Fumihiko Sugawara and Hirotaka Tsushima_
+
+_Tohoku Gakuin University_
+
+1-13-1, Chuo, Tagajo
+
+
+
+## I Introduction
+
+In recent years, drive voltage for LSI devices have been decreasing, leading to increased demand for low-loss, low-cost diode used as power circuits to drive these devices. Moreover, with the increasing popularity of various kinds of mobile terminals and the recent growth in photovoltaic power generation, there has been an upturn in demand for the inexpensive, low-loss diodes that are used in these applications. Zeroing in on photovoltaic panels, power generation is adversely affected when the panel is in shade, and bypass diodes are necessary in order to avoid this. In many cases, Schottky barrier diodes [1], which are inexpensive, are used as the bypass diodes, but these diodes cause thermal runaway if the ambient temperature rises beyond a certain point, and are thus problematic in terms of photovoltaic panel operation.
+
+The authors proposed a SBCD (Self-Biased Channel Diode) [2, 3, 4, 5, 6, 7] in which self-bias is used to achieve a two-terminal configuration. The device uses a DMOSFET (Double Diffisted Metal Oxide Semiconductor Field Effect Transistor) [8] structure. Reducing the threshold voltage of the MOS gate enables low on-state voltage, and using MOSFET operation results in less power loss in response to temperature increase, enabling thermally stable operation.
+
+In the study described here, we conducted device simulations of electrical behavior when the proposed devices were connected in parallel to photovoltaic panels. After analyzing the results, we found that the properties are potentially better than those of SBDs.
+
+## II Device structure and operating principle
+
+Figure 1(a), 1(b), 1(c) and 1(d) show cross-sectional diagrams of the proposed Non-Body-Short-SBCD (NBS-SBCD), Body-Short-SBCD (BS-SBCD), Super-Junction-SBCD (S-SBCD) devices and the corresponding equivalent circuits, respectively. These diodes use a MOS structure, have a double-diffused structure on the anode side and are shorted between the gate electrode and anode electrode. The difference between the structures of the NSB-SBCD and BS-SBCD lies in whether or not there is a short-circuit between the p base layer (P\({}_{\text{B}}\)) and the anode electrode. The super-junction is configured in alternating layer with p-pillar layers directly under the P\({}_{\text{B}}\) layers of the ordinary SBDC and an n-pillar layer directly under the MOS gate. In order to obtain a low on-state voltage, this device is designed in such a way that a weak n-channel is
+
+Fig. 1: Cross-sectional diagrams of the proposed devices and the corresponding equivalent circuit.
+
+present even at 0 (V), by tuning the impurity concentration (P\({}_{\text{B}}\) layer and n\({}^{\text{A}}\) layer) and gate oxide film thickness. In the SJ-SBDC structure, the width ratio of the p-pillar (L\({}_{\text{A}}\)) and n-pillar (L\({}_{\text{a}}\)) was 1:1, and each pillar layer was designed at the same concentration.
+
+In the forward direction, positive voltage is applied to the anode electrode A in relation to the cathode electrode K. In this state, electrons are flowing from the cathode through then channel to the anode. With the structures of the BS-SBDC and SJ-SBDC, the bias will be forward bias at the J\({}_{\text{J}}\) junction at this point. Because the substrate bias voltage is applied to this junction, the flow of current to the channel is accelerated. With the NBS-SBDC, because there is no electron acceleration effect at the J\({}_{\text{J}}\) junction in the forward bias state, there is a greater increase in on-state voltage than with the devices shown in Figs. 1(b) and 1(c).
+
+When the applied voltage is the reverse of that indicated above, with the structure shown in Fig. 1 (a), the reverse-biased junction will J\({}_{\text{J}}\), and most of the applied voltage will be applied to this junction, with very little voltage being applied voltage to the forward bias junction J\({}_{\text{J}}\). Consequently, it becomes harder to form a channel, and thus harder for current to flow. With the structures shown in Figs. 1(b) and 1(c), conversely, most of the voltage is applied to the J\({}_{\text{J}}\) junction, so voltage is applied to the MOS gate, resulting in a nonconductive state.
+
+With the structure shown in Fig. 1(c), the electric field is uniformly distributed along the depth direction of the pillar layers during reverse bias, and a punch-through occurs in both pillar layers, completely depleting them. As a results, the concentration of the electric field in one corner of the J\({}_{\text{J}}\) junction is alleviated, enabling a high breakdown voltage.
+
+## III Results and simulation
+
+### _Fundamental Characteristics of SBCDs and SBD_
+
+Figure 2 shows the forward characteristics for NBS-SBCD, BS-SBCD, SJ-SBCD and Cr-SBD (Chrome SBD) in relation to the on-state voltage at 1 A (40 A/cm\({}^{2}\)), respectively. Here, the Cr-SBD is the result of measured values. In this case, the operating temperature is 75\({}^{\circ}\)C. Simulations of the three type SBCDs were performed using a device simulator from the same. However, the on-state voltage value is slightly higher in the super-junction structure. For BS-SBCD and SJ-SBCD structures, the p-base region is at a positive potential, whereupon we observe increase channel current due to the substrate bias effect. This demonstrations the enhanced channel current arising from the substrate bias effect cases a reduction in the on-state voltage.
+
+Figure 3 shows results for the reverse characteristics at an operating temperature of 75\({}^{\circ}\)C. From the result of the characteristics, the proposed of BS-SBCD and SJ-SBCD devices have almost the same leakage current up to -5 V. The reason for the increased leakage current in the NBS-SBDC device is that this structure exhibits a parasitic bipolar transistor. Under reverse bias, holes of minority carrier produced in the depletion layer flow into the P\({}_{\text{B}}\) layer, while they accumulate, ensuring that this region rises to a potential and yielding increased leakage current due to the substrate bias effect.
+
+Figure 4 shows the reverse recovery characteristics of the proposed SBCDs and Cr-SBD at 75\({}^{\circ}\)C. The reverse recovery charge for the SJ-SBDC is higher than that for the NBS-SBCD and BS-SBCD, although only slightly. The reason for this is that the area of the pn junction (J\({}_{\text{J}}\) junction of SJ-SBCD structure) in the pillar section of the super-junction structure is larger than that for the NBS-SBCD and BS-SBDC, so under forward bias, the number of positive holes injected from the p-pillar layer to the n-pillar layer increases. Thus, the reverse recovery charges for the proposed SBCDs are slightly different, but the reverse recovery time until a stable is reached are basically the same.
+
+Consequently, carriers are more easily increased leakage current due to the substrate bias effect.
+
+Figure 3: Comparison of reverse current versus reverse voltage characteristics at 75\({}^{\circ}\)C.
+
+Figure 2: Comparison of forward current versus forward voltage characteristics at 75\({}^{\circ}\)C.
+
+discharged during reverse bias with the SBCD structure. For comparison, analyzed values for Cr-SBD are also shown.
+
+### _Temperature Characteristics of SBCDs and SBD_
+
+Figure 5 shows the temperature dependence of the breakdown voltage characteristics for each device. Whereas the breakdown voltage of the Cr-SBD device greatly deteriorates with increasing temperature, the SBCD structure is very stable with respect to temperature variations. The improvement is greater for the BS-SBCD and SJ-SBCD device than for the NBS-SBCD device, because parasitic bipolar transistor structure are suppressed by the BS-SBCD and SJ-SBCD configuration.
+
+Figure 6 shows the results of the temperature dependence of the electrical power loss under steady-state conditions. In this case, we have computed power loss from measured data assuming a forward bias/reverse bias duty ratio of 1 to 1; we assume that a current of 1 A flows in the forward direction, while a voltage -5 V is applied in the reverse direction.
+
+### _Trade-off characteristics of SBCDs and SBD_
+
+Figure 7(a) and 7(b) show a comparison of the trade-off between the on-state voltage and breakdown voltage for the Cr-SBD and the three proposed devices at 1 (A), respectively. Figure 7(a) shows the trade-off characteristics for the three SBCDs at constant on-state voltage. We can see that the on-state voltage and breakdown voltage of the proposed devices is lower than that of the Cr-SBD. Additionally, the breakdown voltage of the SJ-SBCD, which has a super-junction structure, is improved approximately five-fold compared to that of the NBS-SBCD, approximately two-fold compared to the BS-SBCD, and approximately 1.5-fold compared to the Cr-SBD.
+
+Figure 7(b) shows the trade-off characteristics for the three SBCDs at constant breakdown voltage. In this case, the breakdown voltage of the BS-SBCD is kept constant, and the results are obtained when changing the substrate concentration of the NBS-SBCD and SJ-SBCD. For the on-state voltage of NBS-SBCD, the device used a smaller substrate concentration value than other SBCD devices. Therefore, it is found that the on-state voltage is increased. Since the substrate concentration of SJ-SBCD is high, a punch-through effect is not occurring for each depletion layer in the p-pillar and n-pillar layers. Therefore, the breakdown occurs at a low voltage.
+
+### _Bypass-diode operating of SBCDs and SBD_
+
+We also conducted simulations of transient response relating to photovoltaic cells. All of these results were analyzed using a 2D device simulator. As shown in Figure 8, we connected two photovoltaic cells in series, and then connected bypass diodes Diode 1 and Diode 2 to each of the cells in parallel. We conducted simulations using four types of bypass diodes, the NBS-SBCD, BS-SBCD, SJ-SBCD, and Cr- SBD. For the irradiation patterns, Solar 1 was irradiated with uniform light, while Solar 2 was irradiated with pulsed light that was
+
+Fig. 5: The temperature dependence of the breakdown voltage for each devices.
+
+Fig. 6: The temperature dependence of the electrical power loss under steady state conditions.
+
+Fig. 7: The trade-off relationship between the on-state voltage and breakdown voltage at constant on-state voltage.
+
+Fig. 6: The temperature dependence of the electrical power loss under steady state conditions.
+
+turned on and off. Intervals in which light was turned off simulated the cell being in shadow.
+
+Figure 9 (a), (b) and (c) show temporal changes in the current flowing I\({}_{\text{I2C}}\) to bypass Diode 2 at 75\({}^{\circ}\)C, at the point when light being directed at Solar 2 was switched from being irradiated to being obstructed, respectively. With the proposed devices, the current flowing when the cell switched from light irradiation to light obstruction and reached a constant state was maintained at 1 A. In contrast, the current flow for the Cr-SBD device could not reach the current. Focusing on the rise in current flow, the time required for the current to rise is shortest for the three SBCD devices, while the Cr-SBD device require some time to enter the steady state. As a results, we can see that the on-state voltage of the three SBCDs devices is lower than that of the Cr-SBD. The bypass diode used for a photovoltaic panel needs a low on-state voltage.
+
+## IV Conclusion
+
+In this report, the authors analyzed the electrical properties of three diode structures proposed as bypass diodes for photovoltaic cells. Initially, we confirmed the fundamental electrical characteristics. We can see that, for the BS-SBCD and SJ-SBCD, the on-state voltage is largely the same. However, the on-state voltage value was slightly higher in the super-junction structure. For the breakdown voltage of SJ-SBCD, which has a super-junction structure, is improved approximately five-fold compared to that of the NBS-SBCD, approximately two-fold compared to the BS-SBCD, and approximately 1.5-fold compared to the Cr-SBD. Each of the proposed SBCDs produces properties that are better than those of the Cr-SBD and are thought to be ideal as bypass diodes for photovoltaic panels. In particular, the SJ-SBCD seems to be suitable for the Mega Solar.
+

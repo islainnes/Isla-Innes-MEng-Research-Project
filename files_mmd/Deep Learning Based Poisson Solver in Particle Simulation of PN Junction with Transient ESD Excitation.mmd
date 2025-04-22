@@ -1,0 +1,92 @@
+
+
+\({}^{1}\)Missouri S&T EMC Laboratory, Rolla, MO, USA, lzd76@mst.edu, jfan@mst.edu
+
+\({}^{2}\) Boeing Company, St. Louis, MO, USA
+
+## I Introduction
+
+Electro-static discharge (ESD) events can cause severe damages to electronic devices [1]-[4]. To study the influence of ESD on semiconductor devices, particle simulations at the microscopic level can be performed to consider different factors such as diffusion, drifting, and scattering [5]-[8]. In this simulation process, in every step, it is inevitable to solve Poisson's equation, namely calculating potential distribution according to charge distribution and boundary condition, so that the E-field can be obtained from the renewed potential distribution to compute the particle renewal at the next step [8]. There are many available methods to solve Poisson's equation such as the finite difference method (FDM) and finite element method (FEM). However, these approaches usually require considerable computational resources.
+
+The great success of deep learning in many different areas has indicated another possible solution to solving Poisson's equation since it has an unimaginable power of fitting complex functions [9]-[15]. Deep learning has been successfully applied to solve Poisson's equation in fluid dynamics [16], which is an inspiration for computational electromagnetics due to the analogy between fluid and electromagnetics [17]. Therefore, some researches have been conducted attempting to resolve the Poisson's equation in electromagnetics using deep learning [18][19].
+
+In the work of [18], deep learning is utilized to predict the potential distribution in a certain region from the charge and permittivity distribution in a larger region, trained by large amounts of data with different charge and permittivity distributions. However, their model does not cover the variation of the boundary condition, which is an important factor in many situations. Also, their prediction is only for every single static step. Afterward, in the work of [19], the variation of the boundary condition is considered and emphasized in the particle simulation of a PN junction, which is shown to perform satisfactorily in terms of producing negligible long-term accumulative error by predicting the accurate steady-state current for different static voltage excitation. Nevertheless, their work just demonstrates the feasibility of applying deep learning on solving Poisson's equation for long-term particle simulation but lacks practical significance due to the fixed boundary voltage in every simulation process.
+
+Considering the ultimate purpose of studying the influence of ESD events on semiconductor devices, which means that transient voltages will be applied instead of static ones, this paper aims to explore the possibility of developing a deep learning-based Poisson solver for different ESD excitation, to improve the generalization performance of the deep learning model. In other words, a deep neural network (DNN) will be trained to solve Poisson's equation and accurately predict the long-term current response of a PN junction to a new ESD voltage excitation, which will make the model more meaningful in real applications.
+
+## II ESD Particle Simulator
+
+### _Particle Simulation_
+
+As mentioned earlier, the mechanisms considered in the particle simulator include drift, diffusion, and scattering [8]. Fig. 2 describes the basic flow chart of the particle simulator. In the beginning, the distribution, energy, and wave vector of the electrons and holes are initialized through random assignment. Drift, diffusion, and scattering are considered to
+
+Fig. 1: Problem Description.
+
+change the particle distribution, so the charge distribution is updated at the end of each time step. Afterward, the Poisson's equation needs to be solved to obtain the potential distribution at the current step, and then the E field to be used for the drift calculation at the next step can be calculated easily. By following this iteration procedure and dividing the whole process into many small time steps, the simulator is able to compute the long-term response to an external voltage excitation.
+
+### _FEM Poisson Solver_
+
+In this paper, the particle simulator considers a 2D case for the PN junction shown in Fig. 1 by assuming a uniform potential and charge distribution in the third dimension. The 2D Poisson's equation can be expressed using (1):
+
+\[\left(\frac{\partial^{2}}{\partial x^{2}}+\frac{\partial^{2}}{\partial y^{2}} \right)V(x,y)=-\frac{\rho(x,y)}{\epsilon} \tag{1}\]
+
+Solving this Poisson's equation is an inverse calculation process, namely to calculate \(V(x,y)\) according to \(\rho(x,\ y)\) and the boundary condition of \(V(x,y)\). FEM is an optional method to solve this problem, which discretizes the entire domain into triangular meshes and obtain the values on the nodes through some inverse matrix calculation [20]. However, when the number of nodes becomes large, this inverse calculation can consume considerable computational time and resources. The objective of this paper is to replace this FEM solver with a deep learning model. The trained neural network takes charge distribution and boundary condition as input and calculates potential distribution simply through matrix multiplication and summation instead of inverse calculation, which is more efficient and straightforward.
+
+## III ESD Excitation
+
+The eventual goal of the particle simulator is to compute the response of devices to ESD events. Apparently, the deep learning model developed in [19] cannot address transient excitations since it is trained with the data under static boundary conditions. In this paper, a deep learning model that can handle transient ESD excitation is pursued. Therefore, to achieve this purpose, multiple ESD waveforms can be used to train a neural network that can deal with any new ESD waveform that has never been trained before.
+
+An idealized ESD waveform can be represented by the equation introduced in [21], shown in Fig. 3, which has a main peak and a secondary peak. Several parameters have a certain variation range. By changing those parameters, different ESD waveforms can be obtained [21]. Fig. 4 shows five different ESD curves that will be used to generate the training data for the deep learning model. In real applications, the peak voltage is usually up to several kV. But in this paper, the peak voltage does not exceed 2V. The reason is that the mechanisms at higher voltages are more complicated and thus need more investigation. In the machine learning perspective, the waveforms shown in Fig. 4 are enough to demonstrate the core idea of this paper. In future work, ESD curves with higher voltages will be incorporated into the deep learning model.
+
+## IV Deep Learning Model
+
+### _DNN Structure_
+
+The dimension of the charge and the potential matrix is 41\(\times\)9, the same as [19]. The input matrix of the DNN, with the dimension of 2\(\times\)41\(\times\) 9, contains both the charge distribution and boundary condition. In the boundary matrix, except for the two boundary rows, the other elements are all zeros. The output matrix has a dimension of 41\(\times\) 9, which represents the predicted potential distribution.
+
+The detailed structure of the DNN used in this paper is shown in Fig. 5, with a batch size of 512. Different from the DNN structure in [19], which uses convolutional layers with a core size of 3\(\times\)3, 5\(\times\)5, 7\(\times\)7, and 9\(\times\)9 respectively to capture features of different scales, multiple layers with a core size of 3\(\times\) 3 are adopted in this paper to improve computational efficiency without degrading the visual depth of the convolutional layers, according to the study in [22]. The other layers, including the convolutional layers, Leakey Relu, batch normalization, and dropout layer, are utilized to optimize the performance of the network. More details about the DNN can be found in [19].
+
+Fig. 4: Multiple ESD curves used to generate the training data.
+
+Fig. 3: An idealized ESD waveform.
+
+Fig. 2: Basic flow chart of particle simulation.
+
+### _Loss Function_
+
+Similar to [19], to emphasize the significance of the boundary condition, an additional term related to the boundary potential values is added into the loss function, expressed in (2):
+
+\[Loss=\sqrt[\frac{\sum_{i=1}^{M}\left(P(i)-P^{\prime}(i)\right)^{2}}{M}+2\times \sqrt[\frac{\sum_{i=1}^{M}\left(P(i)-P^{\prime}(i)\right)^{2}}{M} \tag{2}\]
+
+where \(M\) is the batch size; \(P\) and \(P^{\prime}\) are the ground-truth and predicted potential matrix respectively; \(B\) and \(B^{\prime}\) are the ground-truth and predicted boundary matrix respectively. The potential matrix is a full matrix containing every potential value, while the boundary matrix only contains the boundary potential values. Even though the potential matrix already includes the boundary values, the boundary term is still strengthened in the loss function to ensure a better prediction.
+
+### _Model Training_
+
+The FEM solver uses triangular mesh, which can not be directly utilized by deep learning. To generate the training data in matrices, the data from FEM solver is linearly interpolated to rectangular meshes with the dimension of 41x 9, as illustrated in Fig. 6. Therefore, large amounts of training data can be obtained by injecting the different ESD waveforms shown in Fig. 4 and interpolating the triangular meshes into rectangular meshes, as described in Fig. 6.
+
+Around 800,000 groups of datasets are generated by using the ESD waveforms in Fig. 4 as the voltage excitation and FEM as the Poisson solver, in which 80% datasets are used for training and the remaining 20% datasets are used for testing. The Adam optimizer is used, and the learning rate is 0.0001. The training and testing loss are shown in Fig. 7, which shows a good convergence as the training continues.
+
+## V Model Validation
+
+To validate the performance of the trained DNN, the predicted potential for every single step can be compared with the ground-truth potential calculated by FEM. Fig. 8 shows the comparison between the predicted and ground-truth potential for three randomly sampled cases from the test dataset. The trained DNN not only predicts the overall distribution very well but also tracks the boundary values accurately. The loss value calculated using (2) is as low as 0.056V for the test cases.
+
+To test whether the DNN performs well in long-term simulations with small accumulative error, a new ESD voltage waveform that has not been trained, shown in Fig. 9, is used as the excitation, and the trained DNN is applied to solve the Poisson's equation. The current response is plotted in Fig. 10. Even though the testing ESD waveform differs a lot with the
+
+Fig. 5: Structure of the deep neural network.
+
+Fig. 8: Comparison of potential distribution between ground truth (from FEM solver) and prediction of DNN for some randomly sampled test cases. (a)(c)(e) Ground-truth potential distribution. (b)(d)(f) Predicted potential distribution by the trained DNN.
+
+Fig. 6: Use linear interpolation to obtain training data in rectangular meshes from the FEM data in triangular meshes.
+
+Fig. 7: Loss during the training (contains training loss and test loss).
+
+training ESD waveforms, but the predicted current response matches perfectly well with the current response obtained from the FEM solver. This result proves that the trained DNN not only has an excellent generalization performance but also produces a negligible accumulative error.
+
+## VI Conclusion
+
+In this paper, the deep learning technique is successfully applied to solve Poisson's equation for the particle simulation of a PN junction under transient electro-static discharge (ESD) excitation. Several typical idealized ESD waveforms are used as the excitation boundary to generate large amounts of training data with a FEM Poisson solver and train a deep neural network (DNN). The trained DNN can predict the potential distribution for every single step very well. Besides, given a completely new ESD waveform that has never been trained before, the DNN can still predict the correct current response with good accuracy. This paper demonstrates the feasibility of using one trained DNN to solve Poisson's equation under the excitation of an arbitrary ESD waveform. In future work, ESD waveforms with higher voltages will be considered in the particle simulator, and the generalization performance of the DNN model can be further improved.
+
+## Acknowledgment
+
+This paper is based upon work supported partially by the National Science Foundation under Grant No. IIP-1916535.
+

@@ -1,0 +1,50 @@
+[MISSING_PAGE_FAIL:1]
+
+## II Device Model
+
+### _Device Structures_
+
+To compare with the planar structure, a 3.3 kV enhanced hybrid-channel trench MOSFET (EHCT-MOSFET) is selected to verify this design. The key parameters of the planar MOSFET (PL-MOSFET, Fig. 1(a)) and enhanced hybrid-channel trench MOSFET (EHCT-MOSFET, Fig. 1 (b)) are summarised in Table I.
+
+The devices are implemented on a 4H-SiC substrate with a doping concentration of 1.0\(\times\)10\({}^{19}\) cm\({}^{3}\) and a thickness of 3 \(\upmu\)m. The drift region has a total thickness of 27 \(\upmu\)m and is designed to support a blocking voltage \(>\) 3.3 kV. The drift region has a uniform doping concentration of 2.1\(\times\)10\({}^{15}\) cm\({}^{3}\). The EHCT MOSFET's cell pitch is set at 3.4 \(\upmu\)m. The width and depth of the trench are 1.15 \(\upmu\)m and 0.9 \(\upmu\)m respectively. The channel doping is set as 2\(\times\)10\({}^{17}\) cm\({}^{3}\). The channel mobility is set to be 30 cm\({}^{2}\)(V.s), in line with expected realisable device values [6]. The gate oxide thickness at both trench sidewalls and trench bottom is 50 nm. A thicker trench oxide provides more protection to the trench bottom and could effectively alleviate the high electric field pressure, but to guarantee the conduction of the lateral channel, the optimised value is chosen at 50 nm. An additional deep n+ implant is introduced, and a lateral channel is formed under the trench through a modified p-shell doping profile. The vertical channel is formed by the p-well implantation with the channel length set at 400 nm [7]. The fabrication method and process flow are also demonstrated in this work [7]. For the case of the planar MOSFET, the width of the JFET region is set to be 4 \(\upmu\)m to maintain good ON-state performances.
+
+It should be also mentioned that it is assumed that the bottom trench oxide interface with the SiC semiconductor layer maintains the same quality in terms of smoothness and therefore carrier scattering properties compared to the side walls. However, due to the lateral channel configuration under the gate trench, the channel orientation is affecting channel mobility [10]. This is taken into consideration through the simulations' physical models.
+
+### _Physics Models_
+
+The physics models used in this work have been previously calibrated against commercially available SiC MOSFETs [4]; accurate simulations and experimental results matching has been achieved Anisotropic, doping dependence, temperature dependence, high field saturation and carrier-carrier scattering models are selected for bulk mobility calibration. Furthermore, for the accurate modelling of the drift region of SiC devices, recombination models, incomplete ionization and impact ionization models are also included [5]. The Lombardi mobility model describes the degradation observed in MOSFET devices considering acoustic-phonon scattering, surface roughness scattering and a term including the Coulomb scattering at interface traps can also be added [8]. The effect of Coulomb scattering (mainly due to oxide fixed charge and surface states charge) dominates the surface electron mobility especially at low temperatures and in weakly inverted surfaces in SiC devices.
+
+## III Device Performance and Comparison
+
+In this part, the basic device performance of PL-MOSFET and EHCT-MOSFET are compared and discussed.
+
+Fig. 3: Transfer characteristics of PL-MOSFET and EHCT-MOSFET at 25 \({}^{\circ}\)C.
+
+Fig. 2: The simulated I-V characteristics of the PL-MOSFET and EHCT-MOSFET at (a) 25 \({}^{\circ}\)C and (b) 125 \({}^{\circ}\)C.
+
+### _Forward Conduction_
+
+Fig. 3 shows the devices' transfer characteristics. As mentioned above, the Coulomb scattering serves as a crucial part of SiC devices' interface; in this case, the oxide fixed charge and interface charge are carefully chosen to maintain a proper threshold voltage. A threshold voltage of 4.3 V was used for each device iteration, and as a result, the p body doping of each device is set as 2\(\times\)10\({}^{17}\) cm\({}^{-3}\). The conduction path of electrons is shown in Fig. 4. The channel formed underneath the trench bottom serves as an additional current conduction path and therefore the total current density is enhanced. The simulated I-V characteristics of the two devices are shown in Fig. 2 (V\({}_{\mathrm{p}}\)= 20 V) at room temperature (25 \({}^{\circ}\)C) and 125 \({}^{\circ}\)C, respectively. The EHCT-MOSFET has a significant increase in current density compared to PL-MOSFET.
+
+The specific on-resistance of the PL-MOSFET is 26.93 m\(\Omega\).cm\({}^{2}\) at 25 \({}^{\circ}\)C and 50.00 m\(\Omega\).cm\({}^{2}\) at 125 \({}^{\circ}\)C. The specific on-resistance of the EHCT-MOSFET is therefore 20.13 m\(\Omega\).cm\({}^{2}\) at 25 \({}^{\circ}\)C and 41.67 m\(\Omega\).cm\({}^{2}\) at 125 \({}^{\circ}\)C. Hence at room temperature, the percentage improvement of the EHCT-MOSFET is 25 % compared to the PL-MOSFET.
+
+### _Blocking Capability_
+
+Fig. 5 shows the devices' breakdown curves. The breakdown voltage for PL-MOSFET and EHCT MOSFET at room temperature are 4212V and 3884V, respectively. As demonstrated in the previous paper [9], the existence of the lateral channel and additional deep N+ implantation won't affect the device's critical electric field when reversed bias is applied to the device. For both devices, they are all able to maintain a good blocking capability of over 3.3 kV, it could
+
+Fig. 4: Electron path of HCT-MOSFET.
+
+Fig. 5: Breakdown curves of PL-MOSFET and EHCT-MOSFET at room temperature.
+
+Fig. 6: Electric field distribution of the EHCT-MOSFET. Cutline at AA’.
+
+Fig. 7: Tradeoff curves of PL-MOSFET and EHCT-MOSFET.
+
+be seen from Fig. 6 that the maximum electric field of EHCT-MOSFET is only 2.55 MV/cm. Furthermore, the introduction of the trench structure into the device structure slightly degrades the voltage rating. This is to be expected as the p-layer under the gate trench limits the drift region effective length and reduces the breakdown voltage accordingly. The breakdown rating is also compromised due to the p-shield electric field curvature deeper in the device. The depth of the deep p-well shielding region is approximately 1.6 \(\upmu\)m while in the traditional planar design, the depth of the p-well region is only 0.7 \(\upmu\)m, which leads to about 1 \(\upmu\)m reduction in the effective thickness of the blocking junction.
+
+The tradeoff curves that show the on-state vs breakdown characteristics of the two structures are summarised in Fig. 7. The black points on this figure show the PL-MOSFET's characteristics at room temperature and high temperature (125\({}^{\circ}\)C). At higher temperatures, the device exhibits a slightly higher blocking capability but the increase in resistance is significant with an ever larger increase of the order of 28%). Also, at the same voltage, the specific resistance of the EHCT-MOSFET is much lower than the PL-MOSFET. As a result, the EHCT-MOSFET still stands out at middle voltage ratings, though suffered from control difficulty in the fabrication process, the benefits of this design are still worth it.
+
+## IV Conclusion
+
+In this paper, a 3.3 kV SiC hybrid-channel trench MOSFET is investigated and compared with a planar MOSFET at the same voltage rating. The EHCT-MOSFET shows great potential in improving the device's forward conduction capability by over 25 % compared to conventional planar design without affecting its avalanche ruggedness. Therefore, it could be concluded that with the help of the hybrid channel, the advantage of the trench structure still sustains at this voltage level.
+

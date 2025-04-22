@@ -1,0 +1,194 @@
+A Performance Driven Lot Merging Method with Closed Loop Optimization for Semiconductor Wafer Fabrication1
+Footnote 1: Manuscript Received June 24, 2015; Accepted Dec. 25, 2015. This work is supported by the National Natural Science Foundation of China (No.51375038), the Doctoral Fund of Ministry of Education of China (No.20130010110009), and the Beijing Municipal Natural Science Foundation (No.4162046).
+
+CAO Zhengcai\({}^{1,2}\)
+
+
+LIU Min\({}^{3}\)
+
+(1. _College of Information Science and Technology, Beijing University of Chemical Technology, Beijing 100029, China_)
+
+(2. _Symbolic Computation and Knowledge Engineering of Ministry of Education, Jilin University, Changchun 130012, China_)
+
+(3. _Department of Automation, Tsinghua University, Beijing 100084, China_)
+
+## 1 Introduction
+
+With the rapid development of modern information technology and fierce competition in the market, semiconductor manufacturing becomes more and more important for domestic high technology development. Companies spare no effort to improve their manufacturing performance and keep high production efficiency in order to survive in this competitive environment. Semiconductor wafer fabrication system (SWFS) is one of the most complicated manufacturing systems[1]. For decades, researchers and practitioners in this field have engaged themselves in the scheduling and optimization of semiconductor wafer fabrication. Some pay attention to the prediction of key performance indicators, such as scheduling objectives related to throughput, cycle time, and equipment utilization. Others focus on the batch scheduling or bottleneck definition and prediction problem[2].
+
+However, there is not much study on lot merging for wafer fabrication while multi-variety orders and small batch production runs are quite common in semiconductor manufacturing environment in these days. Some previous literatures focus on the problem of scheduling jobs of multiple orders. For example, Zimmemann examined the problem of determining an appropriate number of Front opening unified pod (FOUPs) for a given order and introduced the multiple orders per job type formation and release strategies for semiconductor wafer fabrication facilities[3]. Erramilli investigated the problem of grouping different customer orders into jobs and how to form them into batches and schedule on a single batch processing machine[4], for the incompatible job family case, another mixed integer programming formulation was proposed to solve this problem[5]. Jia researched a number of polynomial-time heuristic approaches to deal with multiple orders per job scheduling problem under identical parallel machine, and minimized total weighted order completion time[6]. All these studies have considered the problem of how to group the orders together, while the improvement by forming partial lots into full lot is not involved.
+
+The lot merging problem shares the similarity of forming a batch with multiple lots. Mason dealt with the single machine scheduling problem with multiple ordersper job and proposed two novel BIP models\({}^{[7]}\). Bang presented dispatching rule based on lot merging-splitting algorithms where the wafer fabrication facility produces multiple product types of different orders\({}^{[8]}\).
+
+The above studies have obtained many meaningful research results, while they still have some deficiencies: 1) better merging decision optimization by considering downstream information, 2) deal with uncertain events (such as rush orders, demand change, lots reworking, _etc._) in the fab with closed loop controlling method.
+
+To deal with the above remaining deficiencies, we propose a lot merging method driven by performance based on closed loop structure in order to minimize total cycle time and tardiness for semiconductor wafer fabrication. In this method, a compound lot merging rule is used for sorting and merging the partial lots waiting in the buffer based on the information of processing line. Then through an iterative improvement algorithm, we optimize the merging strategy by resetting the critical lots ready time. In addition, after current job processing procedure, we calculate the lot weighting factor and average lot waiting factor. Thus, the dynamic feedback adjusting algorithm is used to estimate weighting factor for lot merging decisions of next procedure.
+
+The reminder of this paper is organized as follows: Section II describes the methodology of lot merging with closed loop structure. Then, Section III presents the simulation model showing the results of the application of our methodology. Finally, the conclusions are drawn in Section IV.
+
+## II Methodology
+
+In this section, we propose our performance driven lot merging method with closed loop structure. The structure diagram of the methodology is shown in Fig.1. By extracting lot characteristic from production line, the compound lot merging rules are used for determining which lot to merge, then we give iterative improvement procedure for optimizing previous merging strategy. To solve the problem caused by uncertain events, a dynamic lot weighting factor that revises scheme is proposed based on closed loop controlling strategy.
+
+## 1 Lot merging rules for partial lots
+
+An excellent lot merging model requires sufficient robust and efficiency, and also should be convenient to implement. Bin packing problem is a very suitable model for such problem as table formatting, packing of tracks on a disk, and lot merging.
+
+Suppose we have to pack objects of different volumes into a finite number of bins or containers in a way that minimizes the number of bins used. The description of this problem can be summarized as:
+
+Given a set \(I=\{1,\cdots,n\}\) of items, where item \(i\in I\) has size \(s_{i}\in(0,1)\) and a set \(B=\{1,\cdots,n\}\) of bins with capacity one. We need to find an assignment \(a\): \(I\to B\) such that the number if non-empty bins is minimal.
+
+Here the bin packing problem is a model for lot merging problem, we regard partial lots as different volumes objects and merged full lots as bins. Our target is that as many lots as possible are merged into the same full lot. This is a NP hard problem and several heuristics algorithms are proposed for solving it.
+
+1) Next fit algorithm for lot merging
+
+The next fit algorithm is the most naive algorithm. It works as follows: Initially all bins are empty and we start with bin \(j=1\) and item \(i=1\). If bin \(j\) has residual ca
+
+Figure 1: The structure diagram of methodology
+
+pacity for item \(i\), assign item \(i\) to bin \(j\), _i.e._, \(a(i)=j\) and consider item \(i+1\), otherwise consider bin \(j+1\) and item \(i\). Repeat until item \(n\) has assigned. It is very simple to implement.
+
+In next fit algorithm for lot merging, partial lots are assigned to last merging group if possible. Otherwise, if the sum of wafers of merged lots is greater than 25, it would be set to next group for merging.
+
+2) First fit algorithm for lot merging
+
+The next fit algorithm never considers bins again that have been left behind. Thus the wasted capacity therein leaves rooms for improvement. A natural way is first fit algorithm: initially all bins are empty and we start with current number of bins \(k=0\) and item \(i=1\). Consider all bins \(j=1,\cdots,k\) and place item \(i\) in the first bin that has sufficient residual capacity, _i.e._\(a(i)=j\). If there is no such bin increment \(k\) and repeat until item \(n\) is assigned. First fit algorithm provides a fast but often non optimal solution, and it is a straightforward greedy approximation algorithm.
+
+In first fit algorithm for lot merging, partial lots are attempted to merged into the first merging group that accommodate it (the total wafers is less than 25), or it would be set to next group for merging.
+
+3) First-fit decreasing (FFD) algorithm for lot merging
+
+We could have a further improvement by firstly sorting the items. That is, sort the item to new order that \(s_{1}\geq\cdots\geq s_{n}\) and then apply first fit algorithm to the sorted items. The intuition behind here is also feasible, considering large item first, because large items do not fit into the same bin anyway, and we already use unavoidable bins and try place items into the residual space.
+
+We could get some information of the candidate lots waiting in buffer in advance, thus we could improve our merging strategy by using FFD. By sorting the lots at first, we can circumvent the problem that large items are in the tail of the waiting sequence.
+
+In those algorithms, firstly items should be sorted in non-increasing orders, secondly items would be assigned into bins with first-fit algorithm, that is, be assigned to bins with enough remaining space one by one.
+
+So for lot merging, the partial lots waiting in buffer would be sorted by wafers first, then they would be merged into full lot with first fit algorithm.
+
+4) First fit increasing (FFI) algorithm for lot merging
+
+This algorithm is similar as the FFD rule, except that the partial lots are sorted as non-decreasing orders.
+
+5) First fit lot priority based algorithm for lot merging
+
+This algorithm takes lot priority into consideration rather than wafer numbers. Because some lots are more important or urgent than others which should be processed as soon as possible. So here, instead of sorting wafer numbers, we sort the lots priorities before doing the merging decision.
+
+Kim introduces the ES/RW2 rule in Ref.[9] that lots with smaller ES/RW2 values are more urgent and this value is feasible for lot scheduling. Firstly the candidates in the buffer ES/RW2 value are calculated. Secondly they would be sorted in a non-decreasing order. Thirdly, we merge these lots one by one into lowest indexed merged group with enough remaining capacity. Repeating this procedure until no more partial lot can be merged.
+
+6) Knapsack-problem (KS) based algorithm for lot merging
+
+This algorithm can be considered the idea regarding lot merging problem as a knapsack problem. The knapsack problem can be described as, given a set of items, each with a mass and a value, determine the number of each item to include in a collection, and the total weight is less than or equal to a given limit while the total value is as large as possible.
+
+We use KS algorithm by merging lots that have been waiting longest. And we select the lots by solving the following 0-1 knapsack problem with the objective of maximizing the sum of waiting time of the lots in the buffer. This knapsack problem includes partial lot waiting in the queue as follows:
+
+\[\max\sum_{k=1}^{n}W_{k}X_{k}\]
+
+\[\mbox{Subject to}\quad\sum\nolimits_{k}^{n}a_{k}x_{k}\leq b \tag{1}\]
+
+where, \(n\) is the number of lots waiting in buffer, \(W_{k}\) is the waiting time of lot \(k\), \(a_{k}\) is the size of lot \(k\), \(b\) is the capacity of a full lot, \(x_{k}\) is a boolean variable to determine whether lot \(k\) is selected for merging.
+
+We solve this problem by using a dynamic programming algorithm.
+
+**2. Iterative improvement**
+
+This situation which the working station next to the buffer is busy and would not be idle for a period of time is considered, then we may re-arrange the already merged lots in the buffer to gain better merging effects and optimize our selection by using an iterative improvement procedure.
+
+The iterative improvement procedure use a heuristic algorithm firstly suggested by Uzsoy, which is known as the best improvement procedure for lot batch scheduling problem[10]. As we noted before, lots merging strategy can be regarded as one way of forming a batch. So we consider to improve our lots merging strategy by applying this algorithm. By using information of the current lots merging results and downstream workstations, then reset some lots ready time, not actually but virtually only for making merging decisions.
+
+In each iteration of this procedure, we select a partial lot, marked as a critical lot, with the largest value of certain criterions given below. Then we reset the ready time of these critical lots, so they become the ready earliest among those that belong to the product family related to these lots.
+
+By resetting the ready time of the critical lots and letting them become candidates of the next iteration, we have defined a new lot merging problem. If the solution of this new problem is better than that of the current one, we replace the current with the new one. Else we would keep the current solution. Repeating this procedure until no improvement can be achieved.
+
+Below gives three measures of importance selecting a critical lot:
+
+\[\theta_{j}^{1}=\sum_{i\in X(j)}T_{i}/\left|X(j)\right| \tag{2}\]
+
+\[\theta_{j}^{2}=\sum_{i\in Y(j)}T_{i}/\left|Y(j)\right| \tag{3}\]
+
+\[\theta_{j}^{3}=\sum_{i\in Z(j)}T_{i}/\left|Z(j)\right| \tag{4}\]
+
+For lot \(j\), where \(\theta_{j}^{1}\), \(\theta_{j}^{2}\), \(\theta_{j}^{3}\) are the importance measures of lot \(j\), \(X(j)\) is the set of wafer lots that belong to the same product family as that of lot \(j\) and that are scheduled on the same machine at or after the completion time of lot \(j\), \(Y(j)\) is the set of lots that belong to the same product family and that are scheduled on all machines at or after the completion time of lot \(j\), and \(Z(j)\) is the set of wafer lots of all product families that are scheduled on the same machine at or after the completion time of lot \(j\).
+
+After multiple partial lots are merged into a lot, the due date of the merged lot is set to the earliest due date of the lots included in the merged lot. When a machine is valid for processing, partial lots waiting in the buffer are ready to be merged, and then a scheduling rule is used for deciding which full lot should be processed the earliest.
+
+The next step is that we need to decide which merged lot should be scheduled to the processing machine. Of all the scheduling algorithms, the list scheduling method is most commonly used for real manufacturing fab. In a typical list scheduling algorithm, when a machine becomes available, a lot with the highest priority among available lots waiting in buffer at that time is selected and scheduled on the machine. Because this paper is not focus on the scheduling algorithm, and we just use the method in the real fab to analysis problem.
+
+**3. Closed loop optimization**
+
+From the previous lots merging strategy and iterative improvement procedure, we could effectively rearrange lot processing route and merge the partial lots belong to same product family but in different orders with different due dates, thus reduce the total cycle time and average process time. In the lot priority sorting procedure, we select lots of higher priority orders for merging, and leave less urgent orders and the lot with more slack time behind.
+
+But due to many indefinite events in the SWF, such as equipment failure, rush orders, demand change and craft change, we need to revise the lots priority frequently to guarantee the manufacture robustness and maximization of profit. Dynamic lots priority changing posts a barrier to high efficiency of wafer manufacturing. It is very sensible to adjust the different orders of lots priority dynamically and take feed-back information into consideration.
+
+Suppose that there are \(n\) orders, whose lots priority is set at the beginning. The lot weighting factor \(P_{I}^{j}\) represents the order \(l\) at the \(j\) iteration. Then, during the lot processing procedure, the new value of order priority is calculated for next iteration.
+
+\[P_{l}(j+1)=P_{l}(j)+\alpha\times Rnd(\tilde{T}(j)-T_{l}(j)) \tag{5}\]
+
+After the merging procedure is finished, we calculated current lot waiting factor. Firstly, calculate the current lot completing ratio of different orders. Secondly, calculate the average lot completing ratio of different orders.
+
+\[\hat{T}=(1/n)\sum\nolimits_{l=1}^{n}T_{l}(j) \tag{6}\]
+
+Then, calculate the next round lot weighting factor \(P(j+1)\)
+
+\[P(j+1)=P_{l}(j)+\alpha\times(\hat{T}(j)-T_{l}(j)) \tag{7}\]
+
+where \(\alpha\) is an order weighting factor which is the coefficient to measure the importance of orders, when the orders are much more important or urgent than others, we could gain the value of \(\alpha\).
+
+We could summarize this performance driven lot merging method with closed loop structure as follows, firstly get current step lot information waiting in buffers, then \(a\) compound lot merging algorithm groups partial lots into full lots, and with iterative improvement we optimize the lot merging decision. The merged lots are scheduled into work station, while lots weighting factor is calculated for next lot merging step. The detailed flow chart of the methodology is shown in Fig.2.
+
+## 3 Results and Discussion
+
+In order to evaluate the performance of the suggested algorithm, we make a series of computational test on problem instance generated randomly based on data of a semiconductor manufacturing standard model, first proposed by HP semiconductor wafer fab. This model includes 24 workstations, and totally 27 working machines\({}^{[11]}\). The detail information of the working stations is summarized in Table 1.
+
+The 20%-30% of lots in the fab are partial lots that can be considered as candidates for lot merging. And the 70%-80% are the full lots with standard 25 wafers. The numbers of the partial lots are generated randomly ranged from 1 to 24.
+
+The results of simulation experiments are given in Table 2. It shows average values of the percentage reduction of lot cycle time and tardiness of the orders from the case results in which lot merging is not used.
+
+The total reduction of cycle time and tardiness are shown in Fig.3. Fig.4 shows improved lot merging algorithm could efficiently reduce the total cycle time and the tardy jobs are increasingly reduced. From Fig.2 and Fig.3, we can see that the total cycle time could reduce 12.9% comparing with the real semiconductor wafer fabrication based on improved lot merging algorithm. And the tardy jobs could be reduced by 23.5%. Because we merge the different due date orders and optimize the work flow, so the average cycle time and tardiness are reduced significantly. In addition, the iterative improvement method contributes to optimizing the merging strategy, so we select the best candidate for next process in every round.
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|} \hline \multirow{2}{*}{ID} & \multirow{2}{*}{Name} & \multirow{2}{*}{Type} & \multirow{2}{*}{Numbers} & \multirow{2}{*}{Average process time(hour)} \\ \cline{5-5}  & & & & \\ \hline
+1 & CLEAN & DEPOSITION & 1 & 1.55 \\ \hline
+
+[MISSING_PAGE_POST]
+
+LO & RESIST STRIP & 1 & 1.09 \\ \hline
+24 & IMP & ION IMPLANT & 1 & 3.86 \\ \hline \end{tabular}
+\end{table}
+Table 1: Detail information of the working stations
+
+Figure 3: Percentage reduction of CT
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|} \hline \multirow{2}{*}{Algorithm} & \multicolumn{2}{c|}{Performance measures} & \multicolumn{2}{c|}{Percentage improvements} \\ \cline{2-5}  & Cycle time & \multicolumn{1}{c|}{Tardy jobs} & Cycle time & \multicolumn{1}{c|}{Tardiness} \\ \hline Next fit & 26:11:29:05 & 2293 & 2.7\% & 3.5\% \\ \hline First fit & 26:09:32:38 & 2308 & 3.1\% & 2.9\% \\ \hline FFD & 25:07:41:06 & 2251 & 6.5\% & 5.3\% \\ \hline FFI & 25:05:49:34 & 2241 & 6.7\% & 5.7\% \\ \hline FF-LP & 23:10:25:55 & 2205 & 12.9\% & 7.2\% \\ \hline KP-based & 22:21:30:09 & 2132 & 14.7\% & 10.3\% \\ \hline Original & 26:22:28:25.249 & 2377 & - & - \\ \hline \end{tabular}
+\end{table}
+Table 2: CT and tardy jobs results of the simulation
+
+Figure 2: Flow chart of the methodology
+
+Fig.5 shows the average movements of the three different merging methods. Because the partial lots are merged in the buffer and are processed as a single lot on the machine, more jobs could be manufactured in the same time. And the average movements are improved.
+
+From Fig.6, we found that compared with normal lot merging algorithm, the improved lot merging scheme based on global revision factor is more robust and smooth. The statics variance of lot cycle time is reduced by 7.4%. When the order's priority is changed, the algorithm will automatically revise the lot priority with feedback information. Therefore, the closed loop is built to ensure the indefinite events will not have serious effect on the whole manufacturing process.
+
+For further testing the algorithm validity, we use another HP72 model as simulation framework. There are 24 working stations and 72 equipment in HP72 model. More than 100 types of lots are processed simultaneously in the fab and 10%-20% of lots are partial which wafers are less than 25.
+
+From Fig.7 and Fig.8, we could see lot merging algorithm could efficiently reduce the average cycle time and total tardiness, and with iterative procedure and closed loop optimization, the proposed algorithm can well improve performance of the semiconductor wafer fabrication system.
+
+## IV Conclusions
+
+In this paper, we consider a performance driven lot merging method based on closed loop structure for multi-product semiconductor manufacturing fabrication. The main contributions of this paper lie in two aspects:
+
+1) Several bin packing algorithms and knapsack problem based algorithms have been analyzed for building the model.
+
+2) A closed loop structure is built for improving the lot merging strategy with an iterative improvement procedure and dynamic adjusting lot weighting merging factor algorithm for the objective to minimize the total cycle time and tardiness.
+
+Future work may reduce the lot merging time consumption by using better bin packing and knapsack solving algorithms. Also, investigating new approaches, such as considering the information of downstream work station and the lot splitting method optimization will be beneficial.
+
+Fig. 4: Percentage reduction of tardiness
+
+Fig. 5: Average movements of different merging methods
+
+Fig. 6: The impact of closed loop optimization on average cycle time
+
+Fig. 7: Percentage reduction of CT
+

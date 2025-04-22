@@ -1,0 +1,144 @@
+A Comparative Study of Machine Learning Algorithms and Explainable AI for Fitness Club Attendance Classification
+
+Divyasri S
+
+_Department of Computer Science & Engineering_
+
+_Amrita School of Computing_
+
+_Amrita Tishwan Vidyapeetham_
+
+Bangalore, India
+
+bl.sc.p2dsc2309@bl.students.amrita.edu
+
+Deepa Gupta
+
+_Department of Computer Science & Engineering_
+
+_Amrita School of Computing_
+
+_Amrita Tishwan Vidyapeetham_
+
+Bangalore, India
+
+g.deepa@blr.amrita.edu
+
+###### Abstract
+
+The growing interest in health and fitness has resulted in an increase in the number of people joining fitness clubs. However, maintaining member engagement remains a challenge for fitness club operators. The goal of this study is to create a binary classification model that predicts whether a member is likely to attend a fitness club or not. In this paper, we propose a framework to explain how good the fitness club attendance classification performance will be under various Machine learning models by understanding its metrics. In this study by employing several classification models to determine Fitness Club attendance Classification using machine learning algorithms such as Random Forest, Gradient Boosting, Light GBM, etc. The Random Forest classifier performs with a higher accuracy of 0.87, and Explainable AI has been used to reveal the most significant feature.
+
+ Fitness club attendance, Machine learning, Random Forest, Gradient Boosting, Explainable AI +
+Footnote †: publication: pubid: date 979-8-3503-8168/24/$31.00 ©20 IEEE
+
+## I Introduction
+
+In recent years, the global surge in health and wellness consciousness has resulted in an unprecedented increase in Fitness Club memberships. While the influx of members paints a positive picture for the Fitness Industry, the challenge lies in retaining and maximizing the engagement of these members' overtime. Predicting whether a fitness club member will attend on a given day is critical for optimizing Club management, resource allocation and member experience. Engaging in fitness activities is integral to maintaining good health and preventing diseases. Regular visit to a fitness club contributes significantly to reducing unhealthy habits, promoting overall well-being. Exercise is known to be beneficial for cardiovascular health, reducing the risk of heart diseases & stroke. It can also aid in managing & preventing conditions like obesity, type 2 diabetes and certain types of cancers.
+
+Predicting Fitness Centre Dropout using machine learning classifiers by Pedro Soberico et.al, 2021 [1] is the study evaluated machine learning algorithms on a dataset of 5209 members from Portuguese fitness Centre to predict dropout, Gradient Boosting Classifier outperformed predicting dropout(Sensitivity=0.986) and the Random Forest Classifier was the best at predicting non-dropout(Specificity=0.780) so the most relevant variables predicting dropout were "non - attendance days", "Total length of Stay", and "Total amount billed".
+
+The Churn prediction for Gym members using Artificial Neural Networks Assisted with the psychological concept by of Habit formation in the fitness Industry by May Aldosary et al. in 2021 [2] advocates for gym retention strategies in the competitive fitness industry and proposes a high-performing multi-layer perceptron artificial neural networks with 92.1% accuracy, emphasizing the incorporation of habit formation concepts. A Portable Smart Fitness Suite for Real-Time Exercise Monitoring and posture correction by Abdul Hannan et al., 2022 [3], signifies the wearable technology in fitness and introduces a proposed fully portable smart fitness suite with the virtual guidance, achieving 89% accuracy using a KNN model for exercise like T-bar and bicop curls.
+
+A prediction model of retention in a Spanish fitness Centre using machine learning classifier by San Emeterio by et al., 2016 [4] is the study developed a dropout prediction model for Spanish Sport Centre using actual customer behavior data, achieving over 70% effectiveness with a logistic regression model. Key variable included age, attendance frequency, membership length and economic aspects, emphasizing the value of historical behavior records for accurate dropout predictions. Building an Explainable Diagnostic Classification Model for Brain Tumor using Discharge Summaries by Nair, P.C at.al,2022 [5] classifies suprasellar lesions using machine learning on clinical features from 422 discharge summaries from NIMHANS. Classifiers like XGBoost, LightGBM, and CatBoost are used with interpretability enhanced by the EL15 tool for clinician understanding. Automatic Symptom Extraction from Unstructured Web Data for Designing Healthcare Systems by Nair, P.C et.al [6] extracts symptoms for diseases from medical websites to design a clinical Decision Support System, validated using SNOMED-CT using NLP techniques for processing data from popular sites. These studies on classifying medical conditions and extracting disease symptoms from websites demonstrate the power of ML and NLP in data-rich environments. Similarly, our work leverages these techniques to classify fitness club attendance patterns, enhancing predictive accuracy and actionable insights for fitness management.
+
+In this work, the contribution follows a comprehensive approach where multiple classifiers were implemented and compared model's accuracy, precision, recall, and f1- score. The challenges posed by data imbalance were effectively addressed and to validate the model's performance, a meticulous 5-fold cross validation was carried out. Explainable AI (XAI) was utilized to identify the most influential features that contributes to the prediction.
+
+There are four sections to the paper. The study's related works are covered in Section II. Section III presents the experiment's materials and methodology. Section IV gives the result and analysis. The work is concluded in Section V.
+
+## II Related Works
+
+A model for predicting dropouts from physical activity interventions in leisure centers by Ivan Clavel San Emeterio et al., 2020 [7] is the study examined the behavior of 14,522 adult members in Spanish leisure centers for a year, identifying younger individuals with shorter memberships and lower facility usage as more likely to dropout. Exercise Motion Classification from Large Scale wearable sensor data using convolutional neural networks by Terry Taewoong et al., [8] employs a forearm-worn wearable sensor and a convolutional neural network (CNN) to classify large-scale exercise motion data formatted as images, achieving 92.1% accuracy in classifying 50 gym exercises. The study explores the effect of image formatting and different CNN architectures on performance.
+
+Fitness Movement types and Completeness Detection using a Transfer-Learning-Based Deep Neural Network by Kuan- Yuchen et.al.,2022[9] addresses the importance of fitness for health, promoting home fitness using minimal equipment It introduces a deep transfer learning-based approach, achieving high accuracy 98.56% and completeness classification. Saeed Ali Alsareii et.al [10] using the ML classifier performance highlighting importance of class Imbalance. Nuno M. Rodrigues et.al [11] addresses the lack of understanding of the global structure of hyperparameters spaces in neural networks.Ivan Clevel San Emeterio et al [12] logistic regression models based on historical behavior demonstrated around 70% effectiveness in predicting abandonment. Jas Samrl et.al [13] conducts experiments using off-the-shelf machine learning platforms to predict customer behavior and enhance gym retention.
+
+Rui Zhao et.al [14] in the study examined in applying Deep Learning to Machine Health monitoring, leveraging low-cost sensors and internet- connected data. Deep Belief Network, Deep Boltzmann Machines, and Recurrent Neural Networks are used for better object recognition, image segmentation and Machine Translation. Jussi Tohka et.al [15] emphasizing the challenges arising from the unrealistic assumption's issues in development, validation and acceptance exists for better evaluation of ML algorithms.
+
+A.Sabool et.al [16] reviews the latest trends in gait analysis, emphasizing the synergy between wearable sensors & Machine Learning Methods for efficient & cost-effective data collection and accurate gait feature extraction.
+
+M.S. Singh et.al [17] introduces novel approach to overcome the limitations of CNNs in sensor data analysis, particularly in pervasive & wearable computing. D. Ravi et.al
+
+[18] introduces a novel deep learning methodology for real time activity classification using wearable devices. Raj et.al [19] employs autoML to predict functional outcomes in patients post-mechanical thrombectomy, comparing its performance and explainability with traditional ML models. Babu et.al [20] introduces novel approach using machine learning and deep learning classifiers with resampling and data augmentation to detect spoofing speaker systems.
+
+The literature review demonstrates how machine learning is widely used to study the fitness club attendance classification.however, there is a significant gap in assessing diverse ensemble models, including Gradient Boosting, LightGBM, and Random Forest, in fitness club attendance classification.
+
+Moreover, incorporation of Explainable AI along with ensemble models is underexplored. There exists a notable lackof explainable AI and a wide range of classifiers--from basic to ensemble models--as well as hyperparameter tuning for modelling fitness class attendance classification.
+
+Investigating the incorporation of explainable AI and machine learning Fitness Club attendance classification Dataset may lead to evaluations that are more precise and faster, improving our capacity to handle issues while classification is done.
+
+## III Methodology
+
+The architecture for the suggested models, which include explainable AI for creating the classification model and data collecting, preprocessing model construction, and model assessment, is depicted in Fig 1.
+
+### _Data Collection_
+
+The public dataset available in Kaggle source [21] has been used to determine the Fitness Club Attendance classification with 7 features and one target variable. There are a total of 1501 instances. 80% used for Training and 20%used for Training.
+
+The Features in the dataset and their Data type are mentioned below in Table 1.
+
+Fig 1: Thearchitecture for Fitness Club Attendance Classification
+
+### _Data Preprocessing_
+
+The target variable is the fitness club attendance which has two classes 0 and 1. The dataset used has no missing values. As the Dataset consists of categorical feature It could be useful while applying in classifiers therefore used Label Encoding to convert categorical data into numerical data to show better performance and accuracy. Random Forest provides higher accuracy that classifier is considered the heat map of the features in Fig 2. displays no highly correlated features. Thus, all the features are significant and no features can be omitted.
+
+From Fig 3, the imbalanced data distribution clearly depicts the class imbalance. Since there is less learning in the minority class, the model is likely to perform badly since there are more not-attended than attended. Consequently, the dataset is balanced using the oversampling approach known as SMOTE (Synthetic Minority Oversampling approach). SMOTE is used to create synthetic examples for the minority class by interpolating between the available samples.
+
+### _Model Building_
+
+The aim of the present investigation is to categorize fitness club attendance as attended or not attended. Because there are just two possible results for this categorization task-- "attended" and "not-attended"--thus making it a binary classification problem. Classification algorithms can be used to extract a model that can predict the class labels. To initiate the classification process, the data needs to be split into training and testing sets. The splitting is executed using the k- cross validation. The dataset is partitioned into k folds. Various sets of k-1 folds are utilized for training and testing in each iteration, with 1-fold being used for testing. To improve the performance of the classification models in this study, the dataset is divided into five folds, which averages the model's performance over various data subsets.
+
+### _Implementation of Classifiers_
+
+Fitness club attendance classification plays a major rule to classify the attendance distribution. In the present study, a total of Twelve classifier algorithms have been implemented in the Fitness Club dataset for ML Classification - Random Forest, Gradient Boosting Decision Tree, KNN, XGBoost, AdaBoost, LightGBM, Perceptron model, CAT Boost, Support Vector Machine, Logistic Regression, and Naive Bayes. The dataset from the k-fold cross-validation is subjected to these Twelve classifiers, and the best fold performance is employed for prediction.
+
+Fig 3: The unbalanced distribution of fitness club attendancter target class
+
+Fig 2: Heatmap of the features for Fitness Club Attendance ClassificationThe study employs a number of machine learning models, which include the Random Forest Classifier, which, in order to lessen overfitting, combines predictions from Decision Tree, each decision tree in the Random Forest is trained using a random selection of attributes and data, which increases the model's resilience.
+
+LightGBM's leaf-wise tree structure makes it possible to model the data in a more intricate and accurate way, increasing accuracy. Furthermore. LightGBM is a well- liked option for big data applications due to its effectiveness in managing the sizable datasets. In order to generate predictions, the KNN method measures the separation between the input data point and its closest neighbors. This method allows it to handle both numerical and categorical data with ease, making it appropriate for datasets with intricate patterns. It's also important to remember that the KNN algorithm is flexible and can be applied to a wide range of problem domains because it doesn't make any assumptions about the underlying data distribution.
+
+XGBoost is an optimized gradient-boosting method that uses parallelization and regularization techniques to achieve scalability and accuracy. AdaBoost is an ensemble technique that builds a robust classifier by progressively enhancing weak classifiers. Gaussian Naive Bayes was chosen due to its ease of use and efficiency when applying the Bayes theorem and conditional independence. Additionally, logistic regression - which is commended for its interpretability, simplicity, and resilience to outliers - is used to handle the binary classification problem. Support Vector Machine (SVM) is used to optimize the hyperplanes in high- dimensional spaces, and the Perceptron model's integration offers information.
+
+### _Model Evaluation and Explainable AI_
+
+To assess each model's performance, the study takes into account a variety of assessment criteria, including the F1 score, Accuracy, Precision, Recall, and Area Under the Receiver Operating Characteristic Curve (ROC). Because the classification problem is binary in nature, the assessment process makes particular use of micro-averaged recall, accuracy, and F1 score.
+
+The Explainable AI (XAI) model provides transparent and understandable explanations for its predictions, highlighting the feature importance and decision-making process. The XAI used in the data set are LIME (Local Interpretable Model-agnostic Explanations) and SHAP (SHapely Additive exPlantions) for the purpose of explaining the predictions and decisions made by machine learning models.
+
+## III Result and Analysis
+
+As Class imbalance is there in this dataset before applying SMOTE. The accuracyand performance were lower, Table 2 shows the classifier before applying of SMOTE and Table 3 shows the classifier after applying SMOTE.
+
+Out of the Twelve models that were assessed, the Random Forest model had the greatest performance, with high accuracy of 0.87, and a remarkable AUC value of 0.88. Following closely after, Gradient Boosting has exceptional performance, demonstrating an accuracy of 0.86 and an AUC value of 0.85. KNN p r od u c e s competitive results with an accuracy of 0.85 and an AUC value of 0.84 when used to the balanced dataset.
+
+With an AUC value of 0.85, the CatBoost model exhibits good discriminatory power in line with its accuracy score of 0.85. The Decision Tree classifier shows balanced performance with an AUC value of 0.74 in addition to its accuracy score of 0.84. Table 2 shows the detailed evaluation metrics of each model with precision, recall, F1 score, and accuracy.
+
+The LightGBM model has an accuracy of 0.84 and AUC value of 0.88. The XGBoost classifier, on the other hand, has an accuracy of 0.84 with an AUC value of 0.87. The accuracy of the Adaboost model is 0.76, with a moderate AUC value of 0.84. Having an accuracy of 0.75 and a higher AUC value of 0.83 the Support Vector Model (SVM) trails behind. Then we have the logistic regression of accuracy 0.74 with AUC value of 0.83.
+
+\begin{table}
+\begin{tabular}{|l|l|l|l|l|} \hline
+**Classifier** & **Precision** & **Recall** & **F1 score** & **Accuracy** \\ \hline Random Forest & 0.72 & 0.66 & 0.67 & 0.73 \\ \hline LightGBM & 0.70 & 0.66 & 0.67 & 0.73 \\ \hline XGBoost & 0.67 & 0.64 & 0.64 & 0.70 \\ \hline KNN & 0.71 & 0.64 & 0.65 & 0.72 \\ \hline Decision Tree & 0.65 & 0.64 & 0.65 & 0.69 \\ \hline Gradient Boosting & 0.69 & 0.64 & 0.64 & 0.72 \\ \hline Adaboost & 0.72 & 0.67 & 0.68 & 0.74 \\ \hline Naive Bayes & 0.75 & 0.64 & 0.64 & 0.73 \\ \hline Logistic Regression & 0.75 & 0.65 & 0.65 & 0.74 \\ \hline SVM & 0.75 & 0.62 & 0.62 & 0.72 \\ \hline Perceptron & 0.52 & 0.52 & 0.52 & 0.55 \\ \hline CatBoost & 0.72 & 0.66 & 0.66 & 0.73 \\ \hline \end{tabular}
+\end{table}
+Table 2: Model Comparison of fitness club attendancecal classification Before SMOTE
+
+\begin{table}
+\begin{tabular}{|l|l|l|l|l|} \hline
+**Classifier** & **Precision** & **Recall** & **F1 score** & **Accuracy** \\ \hline Random Forest & 0.88 & 0.87 & 0.87 & 0.87 \\ \hline LightGBM & 0.84 & 0.84 & 0.84 & 0.84 \\ \hline XGBoost & 0.85 & 0.84 & 0.84 & 0.84 \\ \hline KNN & 0.85 & 0.84 & 0.84 & 0.85 \\ \hline Decision Tree & 0.84 & 0.83 & 0.83 & 0.84 \\ \hline Gradient Boosting & 0.87 & 0.86 & 0.86 & 0.86 \\ \hline AdaBoost & 0.76 & 0.76 & 0.76 & 0.76 \\ \hline Naive Bayes & 0.75 & 0.72 & 0.70 & 0.71 \\ \hline Logistic Regression & 0.74 & 0.74 & 0.74 & 0.74 \\ \hline SVM & 0.76 & 0.75 & 0.75 & 0.75 \\ \hline Perceptron & 0.74 & 0.72 & 0.71 & 0.72 \\ \hline CatBoost & 0.85 & 0.85 & 0.85 & 0.85 \\ \hline \end{tabular}
+\end{table}
+Table 3: Model Comparison of fitness club attendancecal classification After SMOTEFig.4 shows the ROC curve for the fitness class attendance classification without SMOTE, with an AUC value of 0.82,linear regression outperforms other classifiers, CatBoost comes in second with an AUC value of 0.81,while KNN is the least effective with an AUC value of 0.72.Fig.5 shows the ROC Curve for the fitness club attendance classification after applying the SMOTE, with an AUC value of 0.88,Random Forest and LGBM outperforms other classifiers, XGBoost comes in second with an AUC value of 0.87,while Decision Tree and Naive Baye's is least effective with an AUC value of 0.72 and 0.74.
+
+Fig.6 shows the model correctly predicted 299 instances of class 1 with an accuracy of 87% after applying SMOTE &AUC value of 0.88 and Fig.7 shows that the model correctly predicted 299 instances of class 1 instances of class 1 & correctly predicted 246 instances of class 0 with an accuracy of 86% & AUC value of 0.85Aafter seeing this analysis Random Forest classifier performs exceptionally well.
+
+Fig.8 shows of using the Random Forest classifier to visualize the LIME explanations for the data instances and display the final feature contribution in a tabular manner.
+
+The result is made up of three main parts, which are listed from left to right: (1) the prediction made by the model; (2) the contribution of the features; and (3) the actual value for each feature. This results in a class 0 prediction of 0.78 and a class 1 prediction of 0.22. The remaining features contribute to class 0.
+
+Fig. 4: ROC curve for the classifiers for fitness club attendanceBefore SMOTE.
+
+Fig. 5: ROC curve for the classifiers for fitness club attendance After SMOTE.
+
+Fig. 6: Confusion Matrix of best Random Forest Classifier afterSMOTE for fitness club Attendance Classification
+
+Fig. 7: Confission Matrix of best Random Forest Classifier afterSMOTE for fitness club Attendance Classification
+
+[MISSING_PAGE_FAIL:6]

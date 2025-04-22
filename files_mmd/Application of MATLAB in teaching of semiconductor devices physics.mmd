@@ -1,0 +1,67 @@
+
+
+College of Optical and Electronic Technology,
+
+
+Hangzhou, China, 310018
+
+e-mail: tangy@cjlu.edu.cn
+
+## I Introduction
+
+"Semiconductor devices physics" is the professional required course of micro-electronics and other similar specialties. With the rapid development of microelectronics science and technology which becomes more and more intelligent, it is beneficial and necessary to apply professional software to enhance computer-aided instruction for the teaching of "semiconductor devices physics". Furthermore, it is good for students to introduce professional software so as to improve the ability of quantitative analysis and professional competence.
+
+MATLAB produced by Math Works Inc. of America is powerful commercial mathematical software that can run on most computer platforms with very wide range of applications. In the semiconductor field, the applications of MATLAB are including the calculation and analysis of semiconductor physics characteristics of semiconductor devices, especially the convenient access of graphical output. Teaching practice shows that in the course of "Semiconductor devices physics", the application of MATLAB in school teaching not only can improve teaching effect but also enable students to become familiar with MATLAB software applications in the semiconductor field, and further master the using of MATLAB.
+
+## II Application of MATLAB in "Semiconductor Devices Physics"
+
+Semiconductor physics is the basis for semiconductor science and technology. To some extend semiconductor devices just like the cornerstone of the entire electronics industry and the information society. "Semiconductor devices physics" is the course subsequent to the course of "semiconductor physics" which started in the sixth semester as the specialized required course of micro-electronics and other similar specialties. The content of "Semiconductor devices physics" mainly includes two parts[1-2]. One is the basic properties of semiconductors, Statistical distribution of carriers in semiconductors, semiconductor conductivity, non-equilibrium carrier, PN junction of semiconductors, metal-semiconductor contact, MIS structure of semiconductors, etc. The other is the basic principles and _I-V_ characteristics of some very important semiconductor devices, including bipolar transistor (BJT), compound semiconductor field-effect transistor (GaAs MESFET), metal-oxide semiconductor field-effect transistor (MOSFET), microwave diodes, quantum effect devices (QED) and semiconductor optical devices, where the bipolar transistor and the metal-oxide semiconductor field-effect transistor are both the most important kinds of semiconductor devices. Accordingly, the teaching emphasis is also the two kinds of semiconductor devices--BJT and MOSFET, except for the basic knowledge of semiconductors. Through the study of semiconductor devices physics, students should master the basic theories, concepts and methods of semiconductor devices, and have the abilities of theoretical analysis of semiconductor physics and resolving practical problems in semiconductor devices.
+
+### _In Semiconductor Physics_
+
+In the content of basic properties of semiconductors, Fermi distribution function \(f(E)\) is a very important theoretical concept throughout the semiconductor physics. The Fermi distribution function describes that the probability of the electrons with the energy (expressed as E) occupation the effective energy state at thermal equilibrium condition. Accurate understand the Fermi distribution function requires the knowledge of "quantum mechanics" and "thermodynamics and statistical physics". For a lot ofstudents who are not majored in physics, the courses of "quantum mechanics" and "thermodynamics and statistical physics" are difficult very much and can not be well mastered[3]. However, the students will learn Fermi distribution function well by means of applying MATLAB. For example, the relationship between temperature and the Fermi distribution function are shown in the Fig.1, where the temperatures are 50K, 100K, 200K, 300K and 400K separately corresponding with the five curves. Form the Fig.1, we can see the curve is sharp when the temperature tend to absolute zero. When the temperature higher than absolute zero, the curve is flatten with the increasing of temperature. We can also observe from the Fig.1:
+
+When \(f(E>E_{F})\to 0\), \(f(E<E_{F})\to 1\).
+
+When \(E-E_{F}\geq 3kT\), \(f(E)\to 0\).
+
+While \(E-E_{F}\leq 3kT\), \(f(E)\to 1\).
+
+That is to say, the quantum states of energy larger than \(E_{F}+3kT\) are almost empty, but the quantum states of energy lower than \(E_{F}+3kT\) are almost fulfilled. The curve at room temperature, i.e. \(T=300K\), \(kT=0.026eV\), \(3kT=0.078eV\)\(\ll\)1.12eV. Thus, compared with the bandgap of Silicon, the energy of \(3kT\) is very small when temperature greater than absolute zero. By means of MATLAB programming, students can become familiar with MATLAB program gradually and understand the properties of Fermi distribution function.
+
+For non-equilibrium semiconductor, drift is the one of the three kinds of carriers' transport, which is the motion of charged particles under the external electric field. There are two kinds of carriers, one is electron, the other is hole. The mobility of carriers is an essential parameter which expressed the transport properties of electron and hole with the cause of drift, and the standard units is \(cm^{2}/V\).sec. The variation of mobility is inversely proportional to the quantities of scattering in semiconductors. As Fig.2 shows, at room temperature, when the doping concentration less than \(10^{15}cm^{-3}\), the mobility is almost not varied; while the doping concentration greater than \(10^{15}cm^{-3}\), the mobility is decreasing with the increasing of doping concentration. And the electron mobility \(\mu_{s}\) is always larger than hole mobility \(\mu_{p}\), not only in the silicon, but in the other general semiconductor materials as the facts. In teaching practice, by means of introduce the empirical formulas of carriers' calculation, the students can apply MATLAB to calculating the empirical formulas and compared with the text book, then obtain the relationship of carriers and doping concentration at logarithmic coordinate system. Teaching practice shows that apply MATLAB to research the carriers' moving properties in non-equilibrium conditions obtained well teaching effects and learning initiative of students. In the teaching material of "semiconductor devices physics", a lot of data chart can be validated by using of MATLAB, especially for some function relationship and curve variation, which can enhance the understanding and grasp of the key knowledge points and exercise MATLAB Programming at the same time.
+
+### _In Semiconductor Devices Physics_
+
+Bipolar transistor (BJT) is the earliest invented semiconductor device, which is widely used on high-speed circuits, analog circuits and power amplifier. BJT can seem as two PN junctions coupled back to back, which can classify PNP type and NPN type. It is advantageous to theoretical analyze BJT extending PN junction into transistor. It is very useful of the energy band diagram to qualitative analyze _I-V_ characteristic of devices, which can reveal the physical mechanism without mathematical derivation. Accordingly, the energy band diagram is the emphases of
+
+Figure 1: Fermi distribution function varies with the different temperatures.
+
+Figure 2: The silicon carriers mobility varies with the doping concentration at room temperature.
+
+both study and all kinds of examinations. MATLAB can be used to draw the energy band diagram at the different conditions on the basis of quantitative relationship of electrostatic potential. To obtain the energy band diagram of semiconductor device structure by applying MATLAB can improve the students' study effects. For example the energy band diagram of PNP BJT of nondegenerate doped silicon on the thermal equilibrium condition is shown in Fig.3, obtained by MATLAB. The parameters needed are as follows:
+
+The doping concentration of eject region \(N_{E}=10^{38}cm^{-3}\), the the doping concentration of base region \(N_{g}=10^{8}cm^{-3}\), the doping concentration of collect region \(N_{c}=10^{38}cm^{-3}\), and the width of base region \(W_{g}=1\mu m\).
+
+Both the doping concentration and the width of base region can adjust in MATLAB program, and then obtain the energy band diagram on different conditions. It is should be noted that, N type doping must be expressed with the negative in MATLAB program.
+
+Metal-oxide semiconductor field-effect transistor (MOSFET) develops rapidly in nearly three decades. Especially the Complementary Metal-Oxide-Semiconductor (CMOS) has become the mainstream technology of today's integrated circuits. The structure of MOS is the key structure of all kinds of MOS devices. The \(C\)-\(V\) characteristic is the most important properties ofMOS structure. The capacitance C will vary with the gate voltage V. The \(C\)-\(V\) characteristic has important practical value and it can reveal the internal nature of the MOSFET device structure, which is often taken as the device preparation process detection means. Therefore, the \(C\)-\(V\) characteristic of MOS structure is one of the most important examination sites in "semiconductor devices physics". Take the example of P type MOS structure, the \(C\)-\(V\) characteristic can be obtained and drawn with MATLAB program as the Fig.4 shows, where \(V_{G}\) is the gate voltage and \(C_{e}\) is the oxide capacitance. In Fig.4, the green curve expresses the high frequency (HF) and the blue curve expresses the low frequency (LF). As to the influence of oxide depth \(x_{e}\) with MOS capacitance is also presented in Fig.4. Utilizing the \(C\)-\(V\) characteristic of MOS structure can make many discussions, by means of modifying the MATLAB program parameters, such as the high frequency, low frequency, oxide depth and the doping concentration, different curves can be obtained, which combined the qualitative analysis and quantitative solution effectively.
+
+For varieties of semiconductor devices, it can be analyzed and calculated by using MATLAB. Although many calculations can achieved by making use of other mathematical tools, but to the extent of the wide application of MATLAB, it is beneficial and helpful for our students to grasp the MATLAB skilled.
+
+## III Conclusions
+
+Since the fifties of the twentieth century, with the rapid development of semiconductor science and technology, the earlier semiconductor specialities gradually develop into micro-electronics specialty. As the "Semiconductor devices physics" is the specialized required course of microelectronics and other similar specialties, the contents and the teaching methods should also be progressed with the development of science and technology. Nowadays, the application of computer software analysis and solving the semiconductor issue has been very popular. Therefore it is essential and important of appropriate introduction of MATLAB software in "semiconductor devices physics" in order to improve the teaching effects and enhance the professional competence of students. In some specialties of some colleges or universities, the "Semiconductor devices physics" is set as elective course with the less credit hours and contents. It is suitable for application of MATLAB software especially.
+
+## IV
+
+Figure 4: The C-V characteristic of P type MOS structure.
+
+Figure 3: The energy band diagram of PNP transistor on the thermal equilibrium condition.
+
+Teaching practice shows that by means of the application of MATLAB as the computer-assisted teaching, the learning motivation of students are improved, the active learning of students is encouraged, the ability of self-exploration of students are trained. For those courses involved in semiconductor devices or semiconductor physics, the MATLAB also can be applied similarly to train the students MATLAB programming, to improve the teaching effects and to active the classroom ambience.
+
+## Acknowledgment
+
+This work was supported by the Fund of Higher Education Research of China Jiliang University (No. HE200904), the Science Fund of the China Jiliang University for PhD program (No. 01101-000169), and the Fund of Key Courses of China Jiliang University (No. 2008010). The authors would express their appreciation for those helpful supports.
+

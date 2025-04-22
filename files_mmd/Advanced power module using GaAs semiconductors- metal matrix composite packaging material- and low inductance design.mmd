@@ -1,0 +1,94 @@
+
+
+and Low Inductance Design
+
+
+## 1 Introduction
+
+Power semiconductors are replacing electromechanical switches and contacts in many applications due to their ability to deliver electricity from the utility line to a load efficiently. The majority of these applications have employed Silicon based power semiconductors as the main switch device. However, some applications such as 400A/600V Power Modules for the variable speed drive of an electric vehicle are very demanding on the power switches with significant stress placed on both the insulated gate bipolar transistor (IGBT) and the free wheeling diode (FWD). The use of devices that improve the reverse recovery characteristics of the free wheeling diode and layout techniques that reduce inductance significantly lowers stress on the main power switch.
+
+An enabling technology to reduce reverse recovery of the free wheeling diode is the GaAs Schottky. GaAs is a wide bandgap semiconductor that has high electron mobility and it is this property that makes it ideal for high frequency switching. Low inductance is also critical for high frequency switching and inductance consideration is required during module layout. Since Gallium Arsenide is a material with thermomechanical properties that are less robust than Silicon, a new approach to packaging must be considered. This new approach to packaging employs a Silicon Carbide/Aluminum metal matrix composite that is tailored to match the device properties of Gallium Arsenide or Silicon.
+
+## 2 Device Technology
+
+Silicon Based technology for some power semiconductor applications is rapidly approaching its performance limit. The current industry demand for devices with high switching speeds and low losses is driving the quest for new materials. Wide bandgap semiconductors show excellent potential for power devices, due to the excellent figures of merit1 for these materials.
+
+Footnote 1: [https://www.sds.org/](https://www.sds.org/)
+
+Gallium Arsenide, Silicon Carbide and Diamond are all potential candidates for future power semiconductor devices. However, the ability to produce near perfect large diameter semiconductor crystals of a particular material depends on that material's thermophysical properties _Table 1_. The two materials commercially available in significant volumes today are Silicon and Gallium Arsenide.
+
+Thermophysical and mechanical properties of selected semiconductor materials
+
+_Table 1_ shows the thermal conductivity k, the critical resolved shear stress (CRSS) extrapolated to near the melting point, the stacking fault energy (SFE) and the melting points for Silicon (Si) and Gallium Arsenide (GaAs). Although these fundamental properties are not well known as a function of temperature near the melting point, they provide guidelines in determining if large single crystals can indeed be grown and if they can be discolation defect free. A survey of current manufacturing capability shows that Silicon with its high thermal conductivity and high CRSS has been grown as dislocation free single crystals up to 200 mm in diameter. GaAs, because of lower thermal conductivity and CRSS, has been grown up to 100 mm with 150 mm demonstrated in development laboratories. However, defect issues do exist for large GaAs crystals. Silicon Carbide is currently at 25 mm diameter and very small volume with high defectivity.
+
+However, even in their infancy wide bandgap semiconductors show tremendous potential for power semi
+
+\begin{table}
+\begin{tabular}{|l|c|c|c|c|} \hline Material & Melting & Thermal & CRSS & SFE \\  & Point & Conductivity & (M Pa) & (ergs/cm\({}^{2}\)) \\  & (\({}^{\circ}\)C) & (W/cm-k) & & \\ \hline Si & 1426 & 0.21 & 1.85 & 70 \\ \hline GaAs & 1238 & 0.07 & 0.40 & 48 \\ \hline \end{tabular}
+\end{table}
+Table 1: Thermophysical and mechanical properties of selected semiconductor materialsconductor applications. One example of this is the superiority of a 600V GaAs Schottky over a Silicon P-N junction with an order of magnitude improvement in switching speed at voltages of 400V to 600V as shown in _figure 1_.
+
+Difficulties that the thermophysical properties of GaAs present with respect to crystal growth of GaAs material also present themselves in packaging of this material. The low thermal conductivity of Gallium Arsenide and the lower mechanical stress capability requires that Gallium Arsenide devices be packaged in thermally efficient packages that have low internal stresses.
+
+To address these issues a new package technology based on Silicon Carbide/Aluminum (SiC/Al) metal matrix composite has been developed.
+
+### Package Technology
+
+#### Packaging Gallium Arsenide
+
+While GaAs demonstrates excellent electrical performance, it is not as mechanically robust as silicon, and the packaging problems it poses in high power modules cannot be addressed reliably with conventional packaging technologies such as copper baseplates soldered to direct bonded copper or active metal brazed ceramic substrates. See _figure 2-a_. The mismatch of approximately 11 ppm/\({}^{\circ}\)C in coefficient of thermal expansion between the baseplate and the die, coupled with the inherent low strength of GaAs, is the fundamental concern. Many customers are imposing more stringent thermal cycling requirements on power modules.
+
+Another equally important concern is the low thermal conductivity of GaAs. With only one third the thermal conductivity of Si, it is essential to provide a very low thermal resistance path from die to cold plate, to ensure acceptable operation temperatures and reliability. Current packaging structures using Si, from a purely thermal efficiency standpoint, are reaching their thermal performance limits. With GaAs this limit is clearly exceeded. The combination of GaAs' lower thermal conductivity and higher current density (and consequently smaller die sizes) results in higher operating temperatures. Effectively, the power density is higher per unit area and is being passed through a less efficient material.
+
+#### Metal Matrix Composite Package
+
+Metal Matrix Composites (MMC's) are materials composed of metals and ceramics in varying ratios. In particular, Silicon Carbide/Aluminum is an isotropic MMC that provides a very promising packaging solution to the GaAs problems aforementioned. This material is made by infiltrating a molten aluminum alloy into porous, shaped, SiC preform to form the baseplate of a power package. The preform is made by combining SiC powder with a binder to form a slurry that can be molded or cast into fairly intricate shapes. The binder is subsequently burned off, leaving the porous preform. The SiC particulates in the powder are varied in size and shape to achieve desired densities, thus controlling the thermal and mechanical properties of the resultant composite material.
+
+Figure 1: Comparison of Si and GaAs reverse recovery
+
+Figure 2: Standard and MMC module thermal stack configuration
+
+#### Benefits of MMC Packaging Technology.
+
+From several standpoints, MMC packaging offers significant advantages for GaAs semiconductors. Its physical properties alone provide many of the benefits. The most fundamental of these is the low coefficient of thermal expansion, which can be as low as 6.7 ppm/\({}^{\text{o}}\)C, making it a very good match both for aluminum nitride (4.1 ppm/\({}^{\text{o}}\)C) and GaAs (5.8 ppm/\({}^{\text{o}}\)C). The implications of this improved thermal match are seen primarily in long term reliability. Indeed, many problems that current modules face can be traced back to thermal mismatch. Another direct advantage of a lower CTE is that baseplates do not have to be pre-bowed prior to module assembly. The pre-bow is done in copper baseplates to compensate for the warping that takes place during module manufacture, but it is a difficult process to control and adds cost to the module. MMC baseplates do not need to be pre-bowed.
+
+SiC/AI also has a low density, roughly 2.9g/cc, making it about one third the weight of copper. The thermal conductivity of SiC/AI is approximately 180 W/m\({}^{\text{o}}\), about one half that of copper. It's mechanical strength, however, is twice that of copper. A baseplate can therefore be reduced in thickness to compensate for the lower thermal conductivity.
+
+Still another important advantage of MMC packaging technology is its ability to be molded using standing molding technologies. This provides tremendous flexibility for baseplate design. Standard modules typically use 0.125" stamped copper baseplates. Stamping technology limits geometries to two dimensional plates with holes for mounting. There is no cost effective means of providing any alignment features to reduce assembly costs. MMC baseplates can be molded with intricate features for alignment purposes and increased stiffness.
+
+## Low Inductance Package Design
+
+The advances in high frequency high current semiconductors cannot be fully utilized without a significant improvement in package inductance. Advanced semiconductors are capable of switching hundred of amps in a fraction of a microsecond. The switching frequency and efficiency are then limited by the physical inductance of the package.
+
+An overshoot voltage is produced at transistor turn-off in a half-bridge circuit that is equal to the stray inductance times the rate of change of current. Thus, even a very small amount of stray inductance can produce large voltage overshoots. The overshoot voltage must be limited to below the devices' breakdown voltage under all conditions.
+
+During transistor turn-on and diode reverse recovery, the voltage produced by the stray inductance subtracts from the DC bus voltage. However, the inductance hinders switching performance by limiting the rate of current rise.
+
+Using GaAs rectifiers, the reverse recovery losses due to stored charge are very small. The switching losses are due primarily to the rate of change of current and voltage. Very high efficiencies may be obtained by increasing the rate of current rise. This requires a low inductance package design.
+
+The inductance of a half bridge module can be defined by two paths. These paths are illustrated in _figure 3_. The first path is through the lower transistor and the upper diode. This is the current path that effects the switching waveforms of the lower transistor. This inductance determines the overshoot voltage when the lower transistor turns off.
+
+The second path is through the upper transistor and the lower diode. This is the current path that effects the switching waveforms of the upper transistor.
+
+Figure 3: Half-Bridge Inductive Current loopsA 400 A half-bridge semiconductor package has been designed specifically to minimize both of these inductive loops. A cross section of this design is shown in _figure 4_. The lead configuration, the copper pattern on the insulator, and the orientation of the wire bonds all effect the total inductance. The inductance of the leads is minimized by using wide plates oriented in a parallel configuration spaced closely.
+
+The boundary element analysis software package Amperes, from Integrated Engineering Solutions was used to model the inductance of the designs. Simplified solid geometry's consisting of 6 sided volumes were created from within amperes. Next, the volumes are partitioned into sub volumes. Current direction and amplitude are assigned to each volume. Conductors are defined as a collection of volumes. Finally the total current is defined. Amperes can then calculate a matrix of the inductances (self and mutual) of all defined conductors.
+
+The half-bridge design was modeled on Amperes. Two separate models were used. The first model consisted of the current path through the upper diode and lower transistor. The second model consisted of the current path through the upper transistor and lower diode. The modeled inductance for both loops was less than 6 nH.
+
+The inductance of the assembled package was measured. The measured inductance was slightly higher than the model predicted. This can be attributed to the inaccuracies in the measurements and in the model. In order to calculate the inductance it is necessary to measure the current and voltage. Inserting a current transformer or shunt in the circuit adds a significant amount of inductance. The modeling assumes a constant uniform distribution of current in all the conductors. However, inductance modeling is a very useful tool as it permits relative comparisons of design options without building prototypes.
+
+## Results
+
+Through advancements in Gallium Arsenide semiconductors, Metal Matrix Composite packaging technology, and efficient low inductance circuit design, a power module has been developed with exceptional electrical, thermal, and reliability characteristics.
+
+Specifically, a GaAs Schottky diode has been developed which exhibits very low reverse recovery. _Figure 1_ shows the significant improvement of GaAs over Si during device turn off. This improvement, resulting from the fundamental properties of GaAs, enables higher turn-off speeds and reduces switching losses.
+
+To facilitate packaging of GaAs semiconductors in power modules, a silicon carbide/aluminum Metal Matrix Composite package has been developed which demonstrates excellent reliability. Initial temperature cycling data indicates a ten times improvement in number of cycles to failure, over conventional copper baseplate designs. The MMC package additionally provides for improved thermal performance and reduced manufacturing costs.
+
+A low inductance circuit design for half bridge power modules has been developed to further utilize the benefits of GaAs Schottky diodes. As shown in _figure 4_, this configuration allows for very small current loops between top collector and bottom emitter, thereby reducing parasitic inductances to less than 10 nH. The low inductance together with the low reverse recovery loss in GaAs diodes significantly reduces the overshoot voltage during turn-off. The benefit is high switching frequencies and improved switching efficiency.
+
+## Conclusions
+
+The work presented in this paper shows that metal matrix composite materials provide an order of magnitude improvement in temperature cycles, intermittent operating life and other reliability tests investigated over conventional direct bonded copper isolated packages. Furthermore, the use of low inductance layout and a near zero recovery characteristic GaAs Schottky allows operation of a variable speed drive at high frequency without causing significant stress of the power transistor.
+

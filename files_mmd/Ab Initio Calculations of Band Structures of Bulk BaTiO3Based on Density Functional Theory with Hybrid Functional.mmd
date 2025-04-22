@@ -1,0 +1,98 @@
+
+Mattew V. Levichev
+
+_Department of Micro- and Nanoselectronics_
+
+_Saint Petersburg Electrocechnical University "LETI"_
+
+
+
+Natalia V. Andreva
+
+_Department of Micro- and Nanoselectronics_
+
+_Saint Petersburg Electrocechnical University "LETI"_
+
+
+
+Anatoliy E. Petukhov
+
+_Saint Petersburg State University_
+
+
+
+## I Introduction
+
+Barium titanate BaTiO\({}_{3}\) is widely used in modern electronics. It is a ferroelectric material with dielectric properties and a direct bandgap. Its elementary unit cell contains three atoms (barium, titanium and oxygen) and exists in stable phases at different temperatures in the order of temperature decrease with phase transitions at 120\({}^{\circ}\)C, 5\({}^{\circ}\)C and -90\({}^{\circ}\) C: cubic, tetragonal, orthorhombic and trigonal. In some cases, resistive switching effects could be observed in BaTiO\({}_{3}\) thin films, making it possible to implement non-volatile switching mode similarly with a "classical" memristor based on metal-oxide thin films (OxRAM) [1]. Resistive switching effects in BaTiO\({}_{3}\) thin films is attributed to the combined contribution of physical processes involving an impact of point defects (oxygen vacancies) in charge transport mechanism and contribution from the ferroelectric domain structure and polarization state.
+
+Experimental evidence of the participation of oxygen vacancies in resistive switching effects is difficult due to the lack of direct methods that allow unambiguously determine the presence of oxygen vacancies (especially in concentrations characteristic of dielectric films) and their role in the mechanisms of resistance tuning in thin ferroelectric films. Thus, calculations "from first principles" (the so-called ab initio methods) are an important stage in the study of the role of point defects in the non-volatile resistance switching in thin ferroelectric films. Ab initio methods of modeling assume the solution of quantum mechanical equations and can be implemented in various ways: by the Korringa-Kohn-Rostoker Green function method [2][3], by the psredopotential method [4][5] or by the density functional theory method. The essence of the latter method consists in the transition from the wave function to the so-called density functional and the construction of the Kohn-Sham equations from the Schrodinger equation [6][7]. Since the analytical expression of the density functional is known only for free-electron gas, various approximations are used to solve the Kohn-Sham equations: the local density approximation (LDA) [8], the local spin density approximation (LSDA) method [9], generalized gradient approximation (general gradient approximation, GGA) [10], LDA involving orbital-dependent potentials (LDA+U) [11], Hartree-Fock approximation (Hartree-Fock method, HF) [12] and others.
+
+The density functional is also called exchange-correlation functional, since it can take into account the exchange interaction of particles, as well as correlation, that is, the error that occurs when simplifying it. Within a certain approximation, the density functional can be constructed by various methods. Over the past decades, while the theory was developing, a variety of authors have proposed a wide variety of functionals. Since the functionals contain fitting parameters, their peculiarity is that the application of each functional is designed to solve a specific problem: some are good at determining lattice parameters, but only for metals, others give satisfactory values of the band gap for dielectrics.
+
+The purpose of this work is to analyze the most common functionals obtained within the framework of various approximations and to carry out calculations for modeling the band structure of bulk barium titanate. The need for this kind of research is due to the fact that the wrong choice of functional leads to the band gap underestimation and may be of critical when moving to modeling the band structure of barium titanate with point defects, in particular for the interpretation on the oxygen vacancy role in the resistive switching effects.
+
+As a criterion for applicability of the density functional, the band gap estimation was chosen for modeling the band structure of three phases of barium titanate: cubic, tetragonal and orthorhombic. The following functionals were used:
+
+* Perdew-Burke-Erznerhof (PBE) [13] functional in the framework of the general gradient approximation;
+* PBE in the framework of the local density approximation involving orbital-dependent potentials;
+* Becke-Lee-Yang-Parr 3-parameter (B3LYP) [14] hybrid functional using the HF method.
+
+The calculation was performed in the WIEN2k version 21.1 software package [15], running on AMD Ryzen Threadripper 2990WX 32-Core Processor.
+
+## II Calculation Details
+
+The WIEN2k software package uses the linearized augmented plane wave (LAPW) [16][17][18] method to solve the Kohn-Sham equations. Its essence consists in separating in the unit cell the regions of non-overlapping atomic spheres and free region. The Coulomb potential of the positive nuclear core is replaced by the so-called MT-potential model (muffin-tin potential) proposed by J. Slater [19]. In this case, the nuclei and core electrons are represented as MT-spheres, inside which the basis set consists of radial solutions of the Schrodinger equation, and outside by plane waves.
+
+The following parameters were used in the calculation, determined by the characteristics of the material:
+
+* Atomic orbital energies were calculated with a cutoff energy of the nuclear and valence states of 6.0 Ry.
+* The number of points in the irreducible Brillouin zone is 1000 for GGA and LDA+U, 250 for HF. The corresponding grids in the Brillouin zone had dimensions of 10\(\times\)10\(\times\)10 for PBE, 6\(\times\)6\(\times\)6 for B3LYP.
+* Cutoff parameter for the LAPW basis was R\({}_{\text{nr}}\)-K\({}_{\text{max}}\) = 6.5, where R\({}_{\text{nr}}\) is the radius of the MT sphere of the smallest element, K\({}_{\text{max}}\) is the maximum amplitude of the K vector when the wave function is decomposed inside the MT sphere by solutions of the Schrodinger equation in spherical coordinates.
+
+CIF files of the cubic [20], tetragonal [21] and orthorhombic [22] phase structures were taken from the Crystallography Open Database [23].
+
+## III Results and Discussions
+
+### _Description of PBE Method_
+
+Perdew, Burke and Ernzerhov proposed the PBE in 1996 as part of GGA. This functional contains a small number of fitting coefficients, takes into account the shielding of electrons (using a shielded Coulomb potential of the form \(\frac{a}{u}*\text{exp}(-ku)\)) and provides fast convergence of the solution of the Kohn-Sham equations for the energy of the unit cell. The use of PBE in this work is justified by the low cost of computing resources: the time spent on calculating the unit cell was only 10 cycles of 198 seconds each.
+
+Table I presents the results of band gap calculations for three phases with PBE functional.
+
+As can be seen from the table, PBE gives a difference between the values of the band gap for the orthorhombic and cubic phases of 0.107 eV, incomparable with experimental data, according to which the band gap of the cubic and orthorhombic phases do not differ in value. Moreover, there is a significant deviation of the calculated values of the band gap from the experimental ones at the level of 38-41% for all selected phases of barium titanate. It indicates the inapplicability of this functional for modeling electronic structure of barium titanate.
+
+### _Description of LDA+U Method_
+
+Materials containing transition metal atoms, high-temperature superconductors, dielectrics with heavy fermions (containing f-elements) belong to strongly correlated electronic systems, to describe the properties of such materials it is necessary to take into account the electron-electron interaction. Titanium, a part of barium titanate, is also transition metal. To calculate strongly correlated systems, WIEN2k implements the LDA+U method, which considers the dependence of potentials on the atomic orbitals of transition elements.
+
+The method is based on taking into account the interaction with the quantum orbital (angular) moment of the electron by introducing the Hubbard parameters: the Coulomb parameter U and the exchange parameter J. For d-orbitals (Ti has a d-orbital containing 5 electrons) they are calculated by the formulas [24]:
+
+\[U=\frac{1}{(2l+1)^{2}}\sum_{m,m^{\prime}}\langle m,\,m^{\prime}|V_{ee}|m,\,m^{ \prime}\rangle, \tag{1}\]
+
+\[J=\frac{1}{2l(2l+1)}\sum_{m\neq m^{\prime},\,m^{\prime}}\langle m,\,m^{\prime }|V_{ee}|m^{\prime},m\rangle, \tag{2}\]
+
+where \(V_{ee}\) is the electron-electron interaction potential and m is the number of basic states (e.g., atomic states).
+
+The calculation for LDA+U was carried out following the Anisimov scheme, adjusted for the correction for electron self-interaction correlation, which has proven itself well for the calculation of dielectrics [25].
+
+As can be seen from Table II, the calculation results give incomparable with experimental values of the band gap for all the phases of barium titanate under consideration.
+
+### _Description of the HF Method and the B3LYP Hybrid Functional_
+
+Differs fundamentally from DFT the Hartree-Fock theory (HF) treats the exchange interaction of electrons by expressing the wave function through the Slater determinant (3):
+
+\[\psi(r_{1},r_{2},...,r_{N})\sim\begin{vmatrix}\psi_{1}(r_{1})&\psi_{2}(r_{1}) &...&\psi_{N}(r_{1})\\ \psi_{1}(r_{2})&\psi_{2}(r_{2})&...&\psi_{N}(r_{2})\\ \vdots&\vdots&\vdots&\vdots\\ \psi_{1}(r_{N})&\psi_{2}(r_{N})&...&\psi_{N}(r_{N})\\ \end{vmatrix}. \tag{3}\]
+
+\begin{table}
+\begin{tabular}{|l|c|c|c|} \hline The Band Gap of BaTiO, Calculated & \begin{tabular}{c} _Theoretical_ \\ _energy gap, eV_ \\ \end{tabular} & \begin{tabular}{c} _Experimental_ \\ _energy gap, eV_ \\ \end{tabular} & 
+\begin{tabular}{c} _Energy gap_ \\ _deration, \%_ \\ \end{tabular} \\ \hline Tetragonal & 2.163 & 3.400 & 36.382 \\ \hline Orthorhombic & 2.104 & 3.200 & 34.250 \\ \hline Cubic & 1.997 & 3.200 & 37.594 \\ \hline \end{tabular}
+\end{table} TABLE I:
+
+[MISSING_PAGE_FAIL:3]
+
+## IV Conclusions
+
+The paper presents the results of ab initio calculations of the band structure for cubic, tetragonal and orthorhombic phases of barium titanate based on the density functional theory using the Perdew-Burke-Ernzerhov (PBE) functional within the GGA and LDA+U approximations, and the hybrid three-parameter functional B3LYP within the HF approximation.
+
+It was shown that the use of the PBE functional, both in the framework of the GGA approximation and taking into account the orbital-dependent potential, does not allow obtaining the band gap values comparable to experimental ones for three phases of barium titanate under consideration. The only method of modeling the band structure in which the value of the band gap is consistent with experimental data is the Hartree-Fock method using the B3LYP functional. The obtained relative deviation of the calculated values from the experimental ones for all three phases of barium titanate does not exceed 13% and is due to the use of fitting coefficients in density functionals and is acceptable for ab initio calculations.
+

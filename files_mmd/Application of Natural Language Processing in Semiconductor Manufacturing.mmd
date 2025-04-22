@@ -1,0 +1,99 @@
+
+
+_AI Application Study Group_
+
+_Sony Semiconductor Manufacturing_
+
+_Corporation_
+
+
+
+
+_AI Application Study Group_
+
+_Sony Semiconductor Manufacturing_
+
+_Corporation_
+
+
+
+
+_AI Application Study Group_
+
+_Sony Semiconductor Manufacturing_
+
+_Corporation_
+
+
+
+
+_AI Application Study Group_
+
+_Sony Semiconductor Manufacturing_
+
+_Corporation_
+
+
+## I Introduction
+
+Many experts have reported a lot of cases in which big data accumulated daily in semiconductor manufacturing factories has been meaningfully applied to various prediction, control, and anomaly detection[11, 12, 13, 14, 15, 16]. On the other hand, there is also a lot of textual information on quality troubles and equipment maintenances at the manufacturing site. These data may contain hidden trends that cannot be obtained from conventional numerical or image data, and we cannot ignore the use of natural language processing to improve yield and productivity.
+
+In this paper, we report two examples of analysis of quality troubles and equipment maintenances information using an in-house natural language processing engine developed by SONY.
+
+## II Methods
+
+Natural language processing is one of the AI technologies for analyzing text, and generally refers to term frequency-based statistical analysis based on series data expressed through morphological analysis and applied analysis with neural language model represented by BERT and GPT. The engine developed by SONY contains many statistical and machine learning elements shown in Fig.1, and its GUI is shown in Fig.2.
+
+### _Analysis of quality troubles_
+
+To research the trends in occurrence of quality troubles, we first constructed the corpus for analysis by performing preprocessing such as normalization and cleansing on text containing the outline of the quality troubles and incidental information. Next, since many uncommon technical terms are used in the semiconductor domain, we conducted a morphological analysis enhanced to the semiconductor domain using the semiconductor dictionary consisting of several tens of thousands of words that we have constructed independently. Finally, after post-processing such as synonym conversion and noise removal, and after quantification of documents called Bag-of-Words and Bag-of-Ngrams, key phrases weighting called TF-IDF is used to extract features.
+
+Bag-of-words, a numerical representation commonly used in natural language processing, is a matrix representation of textdata consisting of documents and words in a corpus, with it has a frequency of occurrence in the value. A generalization of this is Bag-of-Ngrams, where Bag of words is a special case of Bag-of-Ngrams (N=1, token = word). Since it is difficult to analyze Bag-of-words alone with context, we also used Bag-of-Ngrams as shown in Fig.3.
+
+TF-IDF is represented by term frequency in the role of local weights and inverse document frequency in the role of global weights by the following equation:
+
+\[TFIDF\big{(}t_{i},d_{j}\big{)}=\frac{freq(t_{i}d_{j})}{\Sigma_{t_{k}\in d_{j} \,freq(t_{k}d_{j})}}\log_{e}\Big{(}\frac{|D|}{|dt_{i}\in d|+\alpha}\Big{)}+\alpha \tag{1}\]
+
+where \(freq(t_{i},d_{j})\) denotes the frequency of occurrence of term \(t_{i}\) in document \(d_{j}\), \(|D|\) denotes the total number of documents in the corpus, \(\alpha\) denotes the smoothing factor. Fig.4 is the result of visualizing the TF-IDF, and this result quantifies that each factory has trends in occurrence of quality troubles. For example, when we check by process, process A is the keyword for trouble documents in three factories, and some kind of abnormality related to surface or appearance is the keyword in two factories.
+
+To further research how these key phrases are related among factories, correspondence analysis was performed on the TF-IDF matrix to visualize items that are strongly related or not characterized, as shown in Fig.5. The results show that while keywords related to many processes, such as A, G, and D, tend to be common to all factories, related keywords such as process N, and E, which are typical for each factory, were also identified.
+
+### _Analysis of equipment maintenances_
+
+In the same way as in Methods A above, we constructed and quantified the corpus for analysis to research trends in failure status, anomalous correspondence details, etc. between two models that perform the same WET process. To extract key phrases for which statistically significant differences exist, we performed key phrases scoring by the \(\chi\)-squared test focusing on their occurrence rate and extracted those that showed large significant differences between the two models, the results of which are shown in Fig.6. The \(\chi\)-squared score is defined as follows:
+
+\[\chi^{2}_{states}=\sum_{l=1}^{N}\frac{(0_{l}-E_{l}|-0.5)^{2}}{E_{l}} \tag{2}\]
+
+where \(O_{l}\) denotes the observed frequency of key phrases, \(N\) denotes the number of distinct events, \(E_{l}\) denotes an expected frequency of key phrases.
+
+The most noteworthy result in this analysis is not the \(\chi\)-squared score, but rather to see what key phrases appear at the top of the \(\chi\)-squared score, and also to compare the number of occurrences of those key phrases using an effect size such as odds. This result confirmed that there were significant differences in key phrases related to contamination testing and chemical flow rates, etc. in the equipment maintenances. For example, the odds ratio for "contamination test" is \(8.86\), indicating that 8.86 times more contamination tests are performed in model D than in model E.
+
+On the other hand, if there is some kind of trouble that has been gradually increasing, or if there has been a sharp increase recently in some case, we need to grasp the trend and take
+
+Fig.4: Top 10 key phrases weighted by TF-IDF regarding to quality troubles on the factory.
+
+Fig.5: Relationship of key phrases of quality troubles among the four factories.
+
+Fig.3: Bag of Ngramscountermeasures. To research if there were periods of spikes in specific failures or anomalous correspondence, we performed the burst analysis using an infinite Markov model in these key phrase streams. The burst analysis is one of the unsupervised algorithms used in time series analysis, which classifies the trend of key phrase occurrence into stationary or hierarchical non-stationary states. Fig.7 shows an example of the results of extracting key phrases that increased sharply at a particular time.
+
+## III Result and Discussion
+
+Fig.4 and Fig.5 show that the tendency for quality troubles to occur differed greatly among factories, and we have linked this knowledge to feedback to the manufacturing factory. In addition, Fig.6 shows that there were large differences on dust abnormality between the two models in the equipment maintenance information of the WET process. In fact, model E, the successor to model D, is a model with enhanced dust control, and this feature could be seen in the text. Fig.7 also shows that the response history for abnormal chemical A flow rate and replenishment pump controllers increased rapidly at a particular time, which is consistent with the findings of the WET engineers and suggests the possibility that the response history can lead to enhanced countermeasures and prediction of failures.
+
+## IV Conclusion
+
+We analyzed the text of quality trouble information and equipment maintenance information using natural language processing. We extracted very beneficial findings from various perspectives and demonstrated the utility of natural language processing in semiconductor manufacturing. The feedback of these findings to on-site engineers can contribute to quality improvement and productivity improvement.
+
+## Acknowledgment
+
+The authors would like to thank S. Yasuda and many others at Sony Semiconductor Manufacturing Corporation for their support in writing this paper.
+
+## Author Biography
+
+**Daisuke Kobayashi** (currently 26 years old) joined Sony Semiconductor Manufacturing Corporation in 2020. He works as a data scientist on AI development task such as natural language processing and image recognition.
+
+**Syunsaku Yasuda** has been engaged in statistical development using semiconductor manufacturing data, and has developed Virtual Metrology technology using equipment data since 2006. Currently, he is promoting the development of AI application technology and the training of AI human resources in the semiconductor manufacturing field.
+
+**Takashi Iuchi** joined Sony Semiconductor Manufacturing Corporation in 2018. He is engaged in system implementation of Virtual Metrology technology and natural language processing technology.
+
+**Shiho Ito** joined Sony Semiconductor Manufacturing Corporation in 2021. She is engaged in text analysis from survey to manufacturing and development of natural language processing.

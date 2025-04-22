@@ -1,0 +1,89 @@
+
+C. Leonardi, A. Raciti
+
+Department of Electric Electronic and Systems Engineering, University of Catania
+
+
+Tel +39 95 339535 Fax +39 95 330793
+
+F. Frisina, R. Letor, S. Musumeci
+
+SGS-Thomson microelectronics
+
+
+Tel +39 95 7407381 Fax +39 95 7407099
+
+## I Introduction
+
+The consistence and validity of any power electronic design can be verified by the simulation approach performed by circuit simulators. A large diffused circuit simulator program is PSpice, which has in own libraries several device macromodels. Modeling of power MOSFETs by PSpice, useful for power circuit simulations, has been object of several works in recent years [1, 2, 3]. Accurate simulation runs can be carried out by precise models, and, generally speaking, the more refined is the model the greater is the run time. Since the intrinsic model of PSpice is not enough precise for power device simulations, the well established approach is to use a sub-circuit model for power MOSFETs. In such a way, in this paper a new model has been proposed and the results obtained represent a good tradeoff between accuracy and run times.
+
+First, the proposed model is presented and static and dynamic parameters extraction is discussed. Experimental tests in static and dynamic conditions are performed in order to validate the simulated electrical behaviors (I/V curves, turn-off and turn-on traces with resistive-inductive load). Finally, applications where the devices are connected in parallel or in series are investigated at different temperatures, and comparisons between simulation runs and behaviors of actual devices are reported and discussed.
+
+## II MOSFET modeling
+
+In Fig. 1 is reported the proposed equivalent circuit of a power MOSFET with the main components. This circuit, named "subcircuit model", include also the effects of temperature variation on the model parameters. An internal PSpice MOSFET model, the level 2 intrinsic N-MOSFET, is the main switching element. An additional voltage generator EDRIFT(T), and a temperature dependent resistance, RDS(on)(T), are introduced to model the extra resistance of the epitaxial layer and substrate not accounted for in the intrinsic MOSFET. The voltage generator ETEMP(T) is introduced to correctly model the temperature variation of the threshold voltage VTH. A detailed analysis of such components is given in the subsequent sections.
+
+The capacitances of the intrinsic MOSFET model are fixed at zero (default value) and they are replaced by: a constant gate-source capacitance CGS with an
+
+Fig. 1: Equivalent circuit of the proposed new model.
+
+added capacitance CGS2 used to simulate the value of actual CGS when the gate voltage is negative. In fact, when the gate voltage crosses zero and becomes negative, the gate source capacitance increases and reaches the value of the oxide capacitance; a variable gate-drain capacitance CGD, and a variable capacitance CGDODY are introduced to model the reverse and output capacitances with in parallel an ideal diode DBODY. The AC model is described in detail in section B.
+
+### _A. DC modeling_
+
+The intrinsic MOSFET parameters extraction is carried out in the saturation region of the output characteristics, _i.e._ when the drain current is independent of any series drain resistance. A typical transfer characteristic is shown in Fig. 2, where clearly appears the almost linear variation of drain current with gate source voltage due to the effects of velocity saturation. As only two parameters can be derived from such a straight line, the values for KP and VTH are found by fitting the level 2 equation [4] to the transfer characteristic at two points, and assuming physically realistic values for the quantities U0, VMAX and THETA; the parameter LAMBDA is derived from the static curves (ID vs. VDS) with known methods [5].
+
+PSpice consists a VTH temperature decreasing of 1 mV/C, but for power MOSFETs such a value is not realistic [5]; to correct such an erratic variation a voltage generator ETEMP(T) is connected in Fig.1, in series with the gate, and the voltage of such a generator is given by:
+
+\[\textit{ETEMP(T)=(a-1)*(T-Tnom)} \tag{1}\]
+
+where _Tnom_=25\({}^{\circ}\)C and the coefficient \(a\) is a parameter obtained by measuring the threshold voltage VTH at each temperature in the range 25-150 \({}^{\circ}\)C. Since the threshold variation is a straight-line, the problem reduces in calculating, by a suitable fitting procedure, the slope of such a linear variation.
+
+The drain resistance for high voltage devices was found to depend on VDS being approximately linearly rising with the temperature; therefore it has been implemented in the model as a fixed resistor RDS(no)(T) with a linear temperature coefficient, in series connection with a voltage-controlled voltage-source EDRIFT(T), to simulate the parasitic JFET.
+
+### _A. DC modeling_
+
+In this section will be discussed the AC model in details and the method [1] used to extract the dynamic parameters, in the range of temperature 25+150 \({}^{\circ}\)C, and how the thermic variations of parameters are modeled.
+
+The AC parameters extraction involves a data processing of the measured gate-charge oscillogram. The gate-charge curves are obtained by supplying a constant low current to the gate of the device (nominally 1 mA). The slopes on the traces of the terminal voltages are proportional to the device capacitances. By calculating the gradients on the VDs and Vgs curves such capacitances can be derived [1]. The capacitances CGD2 and CDBODY of Fig.1 are modeled with the reverse diode capacitance Crev [4], given by:
+
+\[\textit{Crev}=\frac{CJ}{\left({I+\frac{Vidodo}{VJ}}\right)^{M}} \tag{2}\]
+
+According to the experimental evidence, all these capacitances do not vary with the temperature, so it is incorrect to model the capacitances CGD2 and CDBODY with the PSpice built-in diode model [4], since its reverse capacitance varies with the temperature with the law:
+
+\[\textit{C(T)=C(Tnom)}\left[{+\textit{A}\textit{U}\left[{0.0004(T-Tnom)+\left( {1-\frac{PB(T)}{PB(Tnom)}}\right)}\right]}\right] \tag{3}\]
+
+where PB(T) is defined by:
+
+Fig. 2: A typical transfer characteristic in the saturation region.
+
+\[PB(T)=PB\frac{T}{T_{\text{Tnom}}}-3t\cdot\ln(\frac{T}{T_{\text{Tnom}}})-Eg(T_{ \text{Tnom}})-\frac{T}{T_{\text{Tnom}}}+Eg(T) \tag{4}\]
+
+Such a modeling dramatically affects the simulated switching waveforms when the temperature changes. Moreover, the quantity \(PB(T)\), _i. e._ the bulk p-n bottom potential, can assume at certain temperatures a negative value and PSpice, in such cases, gives an "internal domain error". For the device STW7NA100 considered the transient simulations are premature stopped for temperature greater than 50\({}^{\circ}\)C [2]. Therefore, in the model proposed the diode reverse-capacitances are simulated with a voltage-controlled capacitors C(V). Figs. 3, and 4 represent the circuit used to simulate the capacitance control mode.
+
+## III Static and Dynamic Simulations
+
+As a first test a comparison between the observed and the simulated curves (at different working temperatures in the range 25\(\div\)150\({}^{\circ}\)C), both in static and dynamic conditions, have been performed for a single device. In Fig. 5 are reported the I/V static curves measured and simulated for the power MOSFET STW7NA100 by SGS-Thomson, at Tj=25\({}^{\circ}\)C and Tj=125\({}^{\circ}\)C. The model has been also validated in hard commutation with inductive/resistive load. Figs. 6 and 7 show a comparison of the experimental tests and the simulation results, during a turn-off transient performed respectively at Tj=25\({}^{\circ}\)C and Tj=125\({}^{\circ}\)C.
+
+## IV Parallel and Series Connections
+
+### _Series connection_
+
+Problems related with series connection [6] of power devices can arise due to the small difference of parameters (switching times, leakage currents etc.) of the connected devices and may cause a voltage unbalance during both the off state and switching transients. Generally, in actual circuits the static unbalance is faced by means of additional high power resistors connected in parallel with the devices, while the dynamic unbalance is overcome with the insertion of suitable capacitors in parallel with the devices, as shown in Fig. 8. The proposed power MOSFET model has been also validated in such a condition keeping into account the test circuit lay-out (so simulating also the actual working conditions). In Figs. 10 and 11 are reported the simulated traces and the experimental results during a turn-off transient on inductive load (with sharing capacitors equal to 7.5 nF and resistors equal to 150 k2) with two separate gate resistances, (RG=100 \(\Omega\)), at Tj=25\({}^{\circ}\)C and Tj=125\({}^{\circ}\)C.
+
+Fig. 4: Symbol equivalent to the subcircuit of Fig. 3.
+
+Fig. 5: Comparison between observed and simulated IV characteristics of the power MOSFET STW7NA100.
+
+Fig. 3: Subcircuit to model the voltage dependent capacitances.
+
+Figure 8: Test circuit of two series connected MOSFETs. Fig. 9: Test circuit ot two parallel connected MOSFETs.
+
+### _Parallel connection_
+
+The proposed model has been also used to simulate the transient behaviors of two paralleled power MOSFETs. The drive circuit, the device parameter spread, and different parasitic inductances due to the lay-out have influence on the behavior and have been taken into account for the simulations. According to the circuit represented in Fig. 9, the tests have been performed [7] with a common gate voltage and two gate resistances of 100 \(\Omega\). In Figs. 12 and 13 are reported the simulation traces and the experimental results concerning turn-off transients at Tj=25\({}^{\circ}\)C and Tj=125\({}^{\circ}\)C respectively.
+
+## IV Conclusions
+
+A new power MOSFET PSpice model has been presented in order to allow accurate circuit simulation with temperature variation. A trade-off between complexity of the model and speed of simulation has been reached. A comprehensive evaluation of the proposed model has been performed in different circuit applications. As a first test single component simulations have been performed, and subsequently series and parallel connections of power MOSFETs have been simulated in most of the used practical configurations. The simulated traces and experimental results are in close correlation sodemonstrating the accuracy of the proposed model at different temperatures.
+

@@ -1,0 +1,63 @@
+
+A. Huzayyin\({}^{1}\), S. Boggs\({}^{1,2}\), R. Ramprasad\({}^{2}\)
+
+\({}^{1}\)ECE Department, University of Toronto, Canada
+
+\({}^{2}\)Institute of Materials Science, University of Connecticut, USA
+
+## Introduction
+
+Bulk high voltage dielectrics operate at geometric design fields up to 20 kV/mm at power frequency, while laminar dielectrics, such as biaxially oriented polypropylene, operate at dc fields above 400 kV/mm in some capacitor designs. In the case of bulk dielectrics, maximum fields are much greater than the design field as a result of "imperfections" in the insulation system which gives rise to stress enhancements at the interface between conductors or semiconducting layers and the dielectric. As a result of the large and ever increasing design electric fields at which bulk dielectrics are being employed, understanding of high field phenomena is increasingly important. However, present understanding of the physical basis of high field conduction in common dielectrics, such as polyethylene (PE), is poor [1,2]. The "theories" of high field conduction [1,3] are based on trap densities and depths for which no physical basis has been found in spite of extensive effort [1,2,4]. "Traps" are, in fact, an abstraction of impurity states in the band gap which are caused by a range of morphological and chemical phenomena in the material.
+
+The more rigorous approach to understanding the physical basis of conduction is to model an amorphous material on a microscopic (atomic) level using computational quantum mechanics, such as density functional theory (DFT), include the effect of various impurities, determine which of those impurities under what conditions cause specific impurity states in the band gap, and thereby determine what causes the impurity states in the band gap of semicrystalline PE which reduce its useful band gap from about 8 eV for the crystalline form to about 1 eV for the commercial, semicrystalline form. The potential causes of impurity states in the band gap include the random nature of separation between polymer chains in the amorphous region, oxidation of the polymer (e.g., introduction of carbonyl groups) during manufacture, additives such as antioxidants which are always present in technical polymers, etc. The present contribution addresses a very early part of this research program, the effect of carbonyl groups on the energy band diagram and density of states (DOS) in crystalline PE.
+
+Oxygen reacts with PE chains to form carbonyl groups. Since the large commercial reactors in which PE is polymerized are never completely free from leaks, a carbonyl concentration of up to 0.1% is normal in commercial PE. The presence of carbonyl groups affects high field conduction and consequently breakdown strength [5]. This is usually attributed to formation of deep traps; however, a clear atomic level understanding of the role of carbonyl groups is lacking [1,2]. This paper focuses on the effect of carbonyl groups on the band gap of crystalline PE based on DFT computations using the SIESTA code [6]. This is a first step towards an atomic level understanding of the role of chemical impurities, such as carbonyl groups, in high field conduction in semicrystalline PE [1,2]. The methodology adopted in this paper can be applied to study the effect of other chemical impurities on PE.
+
+## Methodology
+
+DFT is the most successful formalism within computational quantum mechanics on a scale of hundreds of atoms, as it represents the best trade off between computation time and accuracy [7,8]. A system of electrons and nuclei forming a molecule or solid can be studied through DFT to determine the ground state energy structure, and other electronic properties and features of the system, such as electron affinity, band diagram, DOS, and band gap. DFT, as formulated by Kohn and Sham [9], provides an approximate solution of the Schrodinger equation for electrons in a many-atom system, while the nuclei are treated classically. DFT can determine the atomic structure of systems to within about 1% of experimental values [10]; however, DFT tends to underestimate the band gap by about 30% although the level of impurity states near the conduction or valence band are rendered accurately relative to the adjacent band. The band diagram for PE as determined using DFT agrees qualitatively with experimental data [11,12].
+
+In the literature, the only DFT study of the effect of carbonyl groups on PE [2,13] analyzed a single PE chain of C\({}_{10}\)H\({}_{20}\)O, and, on the basis of electron affinity, estimated a trap depth of about 0.45 eV caused by the carbonyl group. In this paper the effect of carbonyl groups is approached through computation of the band diagram, band gap and DOS for the crystalline orthorhombic structure of PE (Fig. 1).
+
+Computations were performed for a unit cell repeated periodically in space which consisted of two chains, each with 10 carbon atoms. Starting from initial guesses based on Fig. 1, DFT was used to determine the equilibrium structure,which was compared to experimental data to verify the computations, after which, the band diagram and the DOS were calculated. The band diagram is a plot of allowed electron energies versus wave number (\(k\)) values ranging between the 1\({}^{\mathrm{st}}\) Brillouin Zone (BZ) special points and along the special directions therein. The forbidden energy range around the Fermi energy level (\(\mathcal{E}_{\mathrm{F}}\)) is the band gap between valence and conduction bands. In the present work, the DOS is the number of states available for electrons to occupy per unit energy and unit lattice cell, as a function of energy. Three cases were studied. The unit cell in _Case 1_ had no carbonyl groups, that of _Case 2_ had one carbonyl group, and _Case 3_ had three carbonyl groups.
+
+## Results
+
+_Case 1:_ DFT computations were performed for PE structure with no carbonyl groups. The final structure, shown in Fig. 2, is within 2% of experimental values [11,12]. The band diagram of Case 1 is shown in Fig. 3, in which the X-axis is wave number (\(k\)) spanning all 1\({}^{\mathrm{st}}\) BZ special points (T, Z, U, X, S, Y,\(\Gamma\)) and along the special directions therein. The Y-axis is the energy around Er which is taken as the reference energy (0 energy) by convention. The band diagram in Fig. 3 agrees with DFT band diagram in [11].
+
+The DOS of Case 1 is shown in Fig. 4. The number of states per unit energy in the unit cell is plotted versus energy in eV relative to the Fermi level. The band gap is 6.0 eV which underestimates the experimental band gap for PE of 8.8 eV. The band gap of 6.0 eV agrees with DFT estimates of PE band gap in literature [11]
+
+_Case 2:_ An oxygen atom was added to PE structure of Fig. 2, after which DFT computations produced the structure shown in Fig. 5. The O=C bond is a planar double bond, as confirmed by the bond lengths, angles, and the oxygen atom orbitals projected density of states, all of which indicate a carbonyl group. The band diagram with the carbonyl group shown in Fig. 6 is almost identical to that of Fig. 3 with the addition of the two impurity bands which are above the valence band by 0.8 eV to 1.38 eV and below the conduction band by 1.25 eV to 1.5 eV. Despite the tendency of DFT to under estimate the band gap, impurity band offsets near band edges are generally accurate [14]. The DOS for Case 2 (Fig. 7) is similar to that of Fig. 4 with the addition of impurity
+
+Fig. 1: Orthorhombic unit cell of PE for which the lattice constants are a = 7.4, b = 4.93, and c = 2.54 Å.
+
+Fig. 3: Band Structure of Case 1, vertical lines along the x axis in a 1\({}^{\mathrm{st}}\)BZ special points.
+
+Fig. 2: Unit cell of two CuHAs chains which were repeated periodically in space.
+
+states in the band gap due to the carbonyl group, in agreement with the effect shown in the band diagram in Fig. 6.
+
+Figures 6 and 7 indicate that the carbonyl group results in about 2.35 eV reduction in the effective band gap. The impurity states could be regarded as charge traps.
+
+_Case 3a):_ There oxygen atoms were added to PE chains of Fig. 2 at staggered positions as seen in Figure 7(a). The structure after DFT-based optimization is shown in Fig. 7(a). The band diagram of Case 3a is similar to that of Case 1 (Fig. 6) with the addition of two impurity bands (Fig. 9) at almost the same energy level as for the single carbonyl group in Case 2.
+
+_Case 3b):_ Three oxygen atoms were added at the nearest neighbor positions (Fig. 7(b)). The band diagram of Case 3b shows three impurity bands which are more widely dispersed than those of Case 3a (Fig. 9), which results in a band gap reduction of about 3 eV relative to the case with no carbonyl. Fig. 9 shows the band diagram of Case 3a and 3b along the \(\Gamma\) - \(\mathrm{Z}\) direction.
+
+## Conclusions
+
+Several estimates of trap depths caused by chemical impurities can be found in the literature. In general, traps are reported in the range of 0.3 to 2.0 eV [2, 15]. Traps due to chemical impurities are believed to be deeper than those due to physical disorder. Reference [16] mentions that tap depths of carbonyl groups might be around 1.5 eV.
+
+In [17], a model
+
+Fig. 5: Unit cell with carbonyl group with was repeated periodically in space.
+
+Fig. 8: Unit cells with 3 carbonyl groups, a) staggered positions, b) nearest positions.
+
+Fig. 6: Band diagram for Case 2. \(X\) axis vertical lines mark \(1^{\mathrm{e}}\mathrm{B}\mathrm{Z}\) special points.
+
+Fig. 7: DOS for Case 2. Fig. 9: Band Structure for Carbonyl groups in Fig 8 along \(\Gamma\)– \(\mathrm{Z}\) direction.
+
+that fits well to experimental data uses a trap depth of 0.8 eV for PE doped with carbonyl groups. If the impurity bands or states in the band gap, (calculated in Section III) are regarded as trap sites, the depths of those sites falls within the same range reported in literature. The only DFT estimate of carbonyl trap depth in the literature was based on electron affinity which resulted in a depth of 0.45 eV, and the analysis was carried out for a single finite chain [3,13].
+
+Specific identification of traps due to carbonyl groups and other impurities remains a challenge [1,2]. In the current contribution, impurity states due to carbonyl groups have been identified clearly in the band gap through DOS and band diagram calculations and resulted in a reduction of the effective band gap by about 2.25 eV.
+

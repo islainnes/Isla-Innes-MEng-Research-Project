@@ -1,0 +1,98 @@
+
+
+_The National Center for Advanced Packaging (NCAP China)_
+
+Wuxi, P.R.China
+
+
+
+_Jiangsu CAS Microelectronics_
+
+_Integration Technology Co.,Ltd._
+
+Xuzhou, P.R.China
+
+
+
+_Institute of Microelectronics of the Chinese Academy of Sciences_
+
+Beijing, P.R.China
+
+
+## I Introduction
+
+Wafer Level Chip Scale Package (WLCSP) is widely used in portable electronic products like mobile phones, tablets, digital cameras and etc [1-3]. Since the WLCSP package does not require a package substrate, it has a very high cost performance advantage. In package selection, if the chip size, RDL feasibility and I/O count meet the requirement, the end customer will have a great opportunity to choose WLCSP because it may be the lowest cost package solution. In fact, the main issue of WLCSP is the die exposed to the air (no protection around the die), and there is concern that this package is very susceptible to external risks. Cracks in the edge of the die during the dicing process can easily spread during the following packaging process and reliability testing [4-6]. To prevent these problems from occurring, the latest technology proposes a fan-in type WLCSP solution for the sidewall protection.
+
+The sidewall protection WLCSP process development we presented at the ICEPT 2018 conference is aimed at improving the reliability of WLCSP products [7]. The process shares the same production line with fan out package, and the process technology is mature. It provides an additional five-sided mechanical protection and completely encloses the backside and sides of the chip. The molding compound layer significantly enhances the chip's strength. However, the eWLCSP process has some shortcomings. The major issue is the die shift is likely to occur in the die attach and wafer reconstruction process.
+
+In this paper, a 5-sided EMC sealing protection WLCSP (SSP-WLCSP) is disclosed. The active and the sidewall of the chip are encapsulated by epoxy molding compound (EMC). The manufacturing process of SSP-WLCSP is also disclosed herein. The encapsulated five sides of the chip (excluding the backside of the chip) with EMC, which is beneficial to improve the strength of the chip and solder joints, that solder joints are easily damaged by thermal strain due to mismatch of coefficient of thermal expansion (CTE) between WLCSP and PC board. Reliability tests are measured according to JEDEC standards. The overall thickness of 5SP-WLCSP is less than 0.5mm and the thickness of EMC protection layer on the sidewall is more than 10mm. Test vehicle has passed package level reliability tests including MSL3, uHAST 130'C/85%RH/168hrs, HTS 150'C/500hrs, TCG 500 cycles, and board level drop test up to 100 times according to the JESD22-B104 standard. 5SP-WLCSP solution could effectively solve die chipping and sidewall crack issues and expand the application scenario of WLCSP package.
+
+## II WLCSP TV DESIGN & PROCESS FLOW
+
+Figure 1 is the cross section view of 0.35mm pitch 5-sided EMC sealing protection WLCSP (SSP-WLCSP) test vehicle. It has a peripheral dog bone Cu pad to simulate the front end structure in the chip.
+
+The incoming wafer is cleaned by single wafer cleaner and then Ti and Cu are sputtered on the wafer as seed layer for electroplating. Next, the photoresist is coated on the surface of the wafer. After PR exposure and development process, a metal pattern is plated on Ti/Cu seed layer. After Cu plating is completed, the photoresist is removed by chemical solution. Ti/Cu seed layer is etched by wet process. After the Cu RDL structure is completed, PI as a passivation material is spin-coated on the surface of the wafer. After PI exposure and development process, the opening pattern is formed on the structure of Cu RDL, and other regions on the wafer are covered with PI passivation layer. Next, a second seed layer sputtering is performed, and the photoresist coating, exposure and development processes are repeated to form a UBM pattern on the opening position of the Cu RDL, which needed electroplating. UBM structure is formed by electroplating process. After wafer level packaging process is completed, a third photoresist coating, exposure, and development process is arranged to expose the chip seribe line that requires half cut. The wafer seribe line is then processed using a Bosch dry etching process. After the wafer is half-cut, a single-wafer wafer cleaning is performed to clean the scribe line to ensure that the molding compound is filled into the trench without voids and without delamination. Solder balls are placed and welded on UBM by using wafer ball drop and reflow process. This procedure is the same as the traditional wafer level package. After subsequent wafer thinning and dicing, 5-sided EMC sealing protection WLCSP is realized. The manufacturing process flow of SSP-WLCSP is shown in Figure 2.
+
+## III Experimental Results
+
+The process of SSP-WLCSP can be roughly divided into two stages, as described above. The previous stage, like the traditional WLCSP process, includes standard wafer level packaging processes such as lithography, thin film deposition and wet process.
+
+The next phase is focused on the process development, including wafer half cutting, wafer molding, wafer surface cleaning after molding, silicon thinning of molding wafer and wafer dicing. After feasibility study of SSP-WLCSP is done, we arranged reliability tests, including package level reliability tests and board-level reliability tests. It is aim to evaluate the potential failure modes and reliability life of 5SP-WLCSP package structure.
+
+Fig. 3: SSP-WLCSP Test Vehicle Wafer
+
+Fig. 2: Abbreviated Process Flow
+
+### _Wafer Half Cutting_
+
+The wafer dicing procedures is respectively subjected to mechanical sawing or plasma dry etching. The width of the wafer serribe line is 80um, the set grooving width is 60um, and the depths are 200um, 250um and 300um respectively. Based on the experimental result, it can be found that the mechanical sawing process is prone to produce large chipping defects.
+
+Compared with mechanical sawing, the dry etching process has no chipping abnormality, but the dry etching method also has a serious problem, that is, silicon grass located at the trench bottom as the etching byproduct of Bosch process. Because the absolute depth of the trench structure has exceeded 200um, there is not enough ability for ions to completely remove the polymer deposited at the bottom. This is resulting in silicon grass at the trench bottom, which may lead to the separation of die cannot be achieved in the subsequent wafer back side grinding process. The silicon grass can be improved by adjusting the process pressure in the chamber and the power of the lower electrode, but such adjustment will change the angle of the trench. After several rounds of debugging, the process recipe which can meet the requirement of both trench angle and non-silicon grass at the trench bottom is finally found out.
+
+### _Wafer Molding_
+
+Molding is an another important process in 5SP-WLCSP development work. The protection effect of chip sidewall and solder balls on the front side of the die is an important indicator to score the material performance. In this experiment, the filling depth of trench and the exposure height of solder balls were studied. A new type of liquid molding compound material B is introduced. Compared with the conventional liquid molding compound A, the new one has smaller filler size and better fluidity, which can meet small pitch filling requirement. The development job of the molding process is completed by the selection of molding material and the optimization of process parameters.
+
+The filling experiment was carried out on the trench depths of 200um, 250um and 300um under the condition that the trench width is 60um. Liquid molding compound B can fill all the above depth. Considering the wafer handling and the final thickness of 5SP-WLCSP product, 250um depth trench can meet the development requirement better. The diameter of the solder ball used in this experiment is 200um, and the height of solder ball after reflow is about 160um. The appropriate covering height of molding compound on the solder ball is also an important indicator of this development. By introducing release film of 100um thickness, the exposed solder ball height can be controlled to 50-70um. If the exposure height is to be raised to 100um above, a thicker molding release film needs to be evaluated. In addition, higher exposure height of solder ball means that less molding compound is used. Based on the experimental result, the exposure height of 50-70um is an ideal thickness.
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|} \hline  & 1 & 2 & 3 & 4 & 5 \\ \hline CD Size (um) & 73.5 & 73.2 & 72.5 & 74.1 & 73.6 \\ \hline Depth (um) & 255.6 & 252.5 & 253.8 & 254.2 & 255.5 \\ \hline Chipping Size (um) & 10.5 & 8.6 & 13.2 & 12.8 & 11.6 \\ \hline \end{tabular}
+\end{table}
+Table 1: CD Size and Chipping Data of Mechanical Saw
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|} \hline  & 1 & 2 & 3 & 4 & 5 \\ \hline CD Size (um) & 62.5 & 61.2 & 63.2 & 61.5 & 63.2 \\ \hline Depth (um) & 253.5 & 254.5 & 251.3 & 255.5 & 253.4 \\ \hline Chipping Size (um) & 0 & 0 & 0 & 0 & 0 \\ \hline \end{tabular}
+\end{table}
+Table 2: CD Size and Chipping Data of Dry Ech
+
+Figure 4: Photo of Half Cutting by Mechanical Saw
+
+Figure 5: Photo of Half Cutting by Plasma Ech
+
+Figure 6: Photo of Half Cutting by Plasma Eich
+
+Figure 7: Picture of 0.35mm SSP-WLCSP
+
+### _Post Molding Clean_
+
+After the wafer molding is completed, there will be particles of epoxy molding compound material on the surface of solder balls. Since ordinary wafer cleaning method can not remove particles on the surface of solder balls, we study the plasma cleaning method with pure O2 and CF4/O2 mixed gases under different process time. The experimental result shows that the wafer surface will become rough after treatment with pure O2 or CF4/O2 mixed gas. At the same time, the thickness of EMC layer on the front side of the chip is reduced, which increases the height of solder ball protrusion, but the particles on the solder ball surface can not be removed completely. We also validate the cleaning method of plasma treatment plus single wafer wet cleaning. It is found that adding single wafer wet cleaning treatment after plasma cleaning could completely remove the remaining particles on the surface of solder balls.
+
+### _Wafer Thinning and Singulation_
+
+The structure of TV (Test Vehicle) wafer in this study is bumping + EMC + silicon. The front surface of the wafer is covered with EMC material. The purpose of thinning is to polish the silicon at the back side of the wafer to the specified thickness, reach the EMC filling position and expose the EMC in the serbic line completely. The method of wafer thinning process is similar to DBG process. However, the warpage of the sample wafer is large, the standard wafer BG machine can not automatically transfer the wafer from FOUP to process stage, so the wafer loading needs to be manual handled, which increases the operation difficulty. The experimental results show that there is no wafer crack after wafer thinning, and there is no over polishing mark on the back side of the wafer. The EMC in the serbic line is exposed completely. The width of EMC material is about 60um, which is consistent with Bosch etching result. The overall thickness and surface roughness of the wafer both meet process SPEC, while the TTV value of thinned wafer is a little bit large, which may be related to wafer warpage.
+
+The width of serbic line of TV wafer is 80 um and that of dry etch trench is 60 um. In order to ensure EMC protection of the sidewall with a certain thickness EMC, the width of dicing path must be strictly controlled. In order to ensure good dicing quality, we need to use low concentration and low mesh diamond blade to cut epoxy molding compound material that is different from silicon. Through DOE study, the thickness of the blade we chose is about 30um, but the maximum blade width cannot exceed 35um. Since the front of the wafer is completely covered by EMC, the alignment mark of the scribe line cannot be found. The back side serbic line is completely exposed after wafer thinning process, wafer dicing is performed by cutting from the back side of the wafer. Due to the solder ball on the front side of the wafer, the ordinary dicing tape cannot be used. We choose a specially designed grinding tape for bumping wafer dicing. The results show that the chipping of the die after wafer singulation meets SPEC, the EMC thickness of the sidewall is greater than 10um. The EMC and the sidewall are well combined and there is no EMC peeling off phenomenon. The exposed height of the front side solder ball meets the product requirement. Figure 12 shows the cross section results of 5SP-WLCSP die edge and solder ball in detail.
+
+## IV Package Reliability Results
+
+### _Package Level Reliability Test_
+
+Four types of reliability tests are carried out. Parts for TCB and uHAST tests are subjected to MSL3 (Moisture Sensitivity Level 3) preconditioning test firstly and then followed by uHAST(130degC/85degRH/9dhrs) and TCB
+
+Fig.11: Picture of 5SP-WLCSP Wafer after Backside Grinding
+
+Fig.10: Appearance of Wafer Surface
+
+Fig. 9: Picture of Solder Ball Protrusion out of EMC
+
+[MISSING_PAGE_FAIL:5]

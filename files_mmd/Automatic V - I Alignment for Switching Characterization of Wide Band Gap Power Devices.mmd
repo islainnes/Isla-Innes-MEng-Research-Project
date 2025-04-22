@@ -1,0 +1,106 @@
+
+
+\({}^{1}\)Microsystem & Terahertz Research Center, China Academy of Engineering Physics, Chengdu, China
+
+\({}^{2}\)Institute of Electronic Engineering, China Academy of Engineering Physics, Mianyang, China
+
+\({}^{3}\)College of Mechatronics and Control Engineering, Shenzhen University, Shenzhen, China
+
+## I Introduction
+
+Wide band gap (WBG) power devices, such as silicon carbide (SiC) and gallium nitride (GaN), are regarded as ideal candidates for high power density applications due to their superior switching characteristics [1, 2, 3, 4]. However, the high switching speed tends to aggravate the impact of parasitic parameters on the switching behavior [5], which brings in a new measurement challenge.
+
+The double pulse test (DPT) experiment is widely used for switching characterization of power devices. As Fig. 1(a) shows, it consists of two pulses, in which the first pulse is to establish the current in the diode-clamped inductor, and the second pulse is to obtain the switching waveforms. As Fig. 1(b) shows, the switching losses are calculated by the product of \(v_{DS}\) and \(i_{D}\). Due to the fast switching transitions of WBG devices, the time mismatch (\(\Delta t\)) between the voltage and current measured with the probes makes the results of switching power losses questionable [6].
+
+Conventionally, voltage and current (\(V-I\)) alignment is performed by a probe calibration fixture, e.g. Tektronix 067-1686-00 [7]. However, it is limited to the use of only a few kinds of probes. In addition, the reference relies on low voltage internal or external sources, whereas the active probes may have a different delay time at high voltage/current [8]. In [9], one probe was chosen as baseline, then the other probes were compensated by measuring the same probe compensation signal of the baseline probe. However, this approach only applies to compensate for the voltage probe and coaxial cable. The work in [10] deskewed the voltage and current probes by removing the inductor and replacing the diode with a resistive load, which leads to a negligible delay. However, repetitive tests are required for the propagation delay at different voltage/current.
+
+To address the issues of deskew strategies aforementioned, a post-processing method for the data of \(V-I\) waveforms was proposed in [11]. It is based on the voltage drop due to the stray inductance during the turn-on transition. The current channel is adjusted until the initial drop of \(v_{DS}\) is graphically aligned to the calculated voltage drop of \(Ldi/dt\) on the oscilloscope. However, repeating the alignment manually is time consuming. An automatic post-processing method is preferred, which can be implemented in the data processing software with the imported waveform data.
+
+This paper aims to address the \(V-I\) alignment issue in the switching characterization of WBG devices. Based on the switching characteristics, the \(V-I\) is aligned in a post-processing way. Compared with the conventional alignment strategies, it does not require any additional calibration fixture or modification of DPT circuit.
+
+The rest of this letter is organized as follow. Section II
+
+Fig. 1: (a) Circuit diagram and (b) experimental waveforms of double pulse test.
+
+presents the switching characteristics of WBG devices. A DPT experiment is set up in Section III for the verification of \(V-I\) alignment method. Section IV presents the details of \(V-I\) alignment process. The impact of \(V-I\) alignment on the switching waveforms as well as power losses are presented. Finally, Section V summarizes the conclusion of this work.
+
+## II Turn-on Behavior of WBG Devices
+
+In this section, the switching waveforms of WBG devices during the turn-on transition are discussed to identify the alignment point, as Fig. 2 shows. The parasitic parameters, including the junction capacitances and stray inductances, play a crucial role in the switching characteristics of fast-switching WBG devices. The equivalent circuit diagram of DPT with parasitic parameters is shown in Fig. 3. The inductor load and dc-link capacitor are simplified by a constant current source and a voltage source, respectively. Each switching phase is analyzed individually on below.
+
+_Phase I_ (\(t_{0}\sim t_{1}\)): The input capacitance (including \(C_{GS}\) and \(C_{GD}\)) starts to charge via the gate resistor \(R_{G}\), thus leading to an exponential increase of \(v_{GS}\), as given by
+
+\[v_{GS}(t)=V_{G}\left(1-e^{-t/\tau}\right) \tag{1}\]
+
+where \(\tau\) is the time constant \(R_{G}(C_{GS}+C_{GD})\). This time interval ends when \(v_{GS}\) reaches the threshold voltage \(V_{th}\). Since \(v_{GS}\) is lower than the threshold value \(V_{th}\), no drain current flows via MOSFET and \(v_{DS}\) remains at \(V_{dc}\).
+
+_Phase II_ (\(t_{1}\sim t_{2}\)): The input capacitance continues charging and \(v_{GS}\) rises exponentially beyond \(V_{th}\). Hence, \(i_{D}\) starts to rise from zero to a peak current of \(I_{L}+I_{rr}\) due to the reverse recovery current contributed by the freeshneeling diode. \(i_{D}\) is proportional to \(v_{GS}\), as follows:
+
+\[i_{D}(t)=g_{m}\left[v_{GS}(t)-V_{th}\right] \tag{2}\]
+
+where \(g_{m}\) is the MOSFET transconductance. \(v_{DS}\) falls slightly due to the voltage drop across the stray inductance:
+
+\[v_{DS}(t)=V_{dc}-L_{s}\frac{di_{D}(t)}{dt}. \tag{3}\]
+
+Hence, the slew rate of \(v_{DS}\) can be derived as
+
+\[\frac{dv}{dt}=-\frac{L_{s}g_{m}V_{G}}{\tau^{2}}e^{-t/\tau}. \tag{4}\]
+
+It should be noticed that \(dv/dt\) is negative at turn-on as \(v_{DS}\) keeps decreasing.
+
+_Phase III_ (\(t_{2}\sim t_{3}\)): \(C_{GS}\) stops charging while the charging current to \(C_{GD}\) continues. Hence, \(v_{GS}\) is temporarily clamped at the Miller plateau voltage \(V_{GSP}\), given by
+
+\[V_{GSP}=\frac{I_{L}}{g_{m}}+V_{th}. \tag{5}\]
+
+Similarly, the gate charging current is temporarily clamped at a constant value:
+
+\[I_{GP}=\frac{V_{G}-V_{GSP}}{R_{G}}. \tag{6}\]
+
+When the diode current starts to recover towards zero at the instant \(t_{2}\), it enters reverse blocking mode and the diode voltage builds up. Thus, it leads to a rapid decrease of \(v_{DS}\) with a slew rate given by [12]
+
+\[\frac{dv}{dt} =\frac{d\left[v_{DG}(t)+v_{GS}(t)\right]}{dt}=-\frac{dv_{GD}(t)}{ dt}\] \[=-\frac{I_{GP}}{C_{GD}}=-\frac{V_{G}-V_{th}-I_{L}/g_{m}}{R_{G}C_{GD }}. \tag{7}\]
+
+Due to the nonlinear property of \(C_{GD}\), \(dv/dt\) will increase gradually with the decrease of \(v_{DS}\).
+
+_Phase IV_ (\(t_{3}\sim t_{4}\)): After the MOSFET enters the full conduction mode, the input capacitance is further charged and \(v_{GS}\) rises exponentially until it reaches the positive power supply voltage of gate driver.
+
+Based on the discussions above, it can be found that \(i_{D}\) reaches a peak value at the instant \(t_{2}\). Meanwhile, \(v_{DS}\) shows two remarkably different slopes around \(t_{2}\). As a consequence, this instant can be identified as the baseline for alignment.
+
+## III Experimental Setup
+
+In this section, a DPT experiment is conducted to generate the switching waveforms, as Fig. 4 shows. The commercial SiC MOSFET C2M0080120D (1.2 kV, 30 A) and SiC Schottky diode C4D20120A (1.2 kV, 20 A) from Wolfspeed are used as the devices under test (DUT). The circuit configuration is the phase-leg with MOSFET-diode pair shown in Fig. 1(a). An isolated half-bridge gate driver for the SiC MOSFET is used from our previous work [13]. The low side (LS) gate driver is controlled by a double pulse signal, which is generated by a microcontroller, while the high side (HS) gate driver is always
+
+Fig. 3: Equivalent circuit diagram of double pulse test with parasitic parameters.
+
+Fig. 2: Waveforms of gate-source voltage, drain-source voltage and drain current during the turn-on transition.
+
+off. The inductor load uses the single-layer winding and air core, which has an inductance of 318 \(\mu\)H. The dc-bus adopts the laminated layout and multiple parallel film capacitors (800 V, 100 \(\mu\)F) to reduce the stray inductance.
+
+To reduce the stray inductance resulted from the current measurement, a custom-made current transformer (CT) is used to scale down \(i_{D}\)[14, 10]. Then, it is connected to the Tektronix current probe TCP312A (30 A, 100 MHz), which has a signal delay (to BNC output) of 17 ns from the datasheet [15]. The Tektronix high-voltage differential probe THDP0200 (1.5 kV, 200 MHz) is used to measure \(v_{DS}\), and the delay is undefined by the vendor.
+
+## IV Results and Discussion
+
+The experimental waveforms at 600-V dc-bus voltage and 20-A load current at turn-on is shown in Fig. 5. It can be found that the current probe shows a longer propagation delay. As \(dv/dt\) shows a sharp decrease at \(t_{2}\) (Fig. 2), the derivative of \(dv/dt\) reaches the minimum value at that instant. Hence, the minimum value of \(d^{2}v/dt^{2}\) should be aligned to the maximum value of \(i_{D}\).
+
+The \(V-I\) alignment methodology proposed in this work can be implemented in the data processing software Matlab with the flow chart shown in Fig. 6.
+
+The alignment process is presented as follow. Firstly, the switching waveforms from the DPT experiment are imported. The instants \(t_{2a}\) and \(t_{2b}\) when achieving the maximum value of \(i_{D}\) and minimum value of \(d^{2}v/dt^{2}\), respectively, are obtained. If \(t_{2a}\) = \(t_{2b}\), there is no mismatch between the current and voltage probes, and the code directly comes to an end. Otherwise, if \(t_{2a}>t_{2b}\), which means the current probe has a longer propagation delay, \(i_{D}\) should be left shifted with respect to \(v_{DS}\) by the time difference \(\Delta t\). Similarly, \(i_{D}\) should be right shifted if \(t_{2a}<t_{2b}\).
+
+The switching losses before and after alignment operations at 600-V dc-bus voltage and 20-A load current are shown in Fig. 7. It can be found that the turn-off loss will be overestimated while the turn-on loss underestimated without the alignment. The switching energy can be derived by integration of loss with respect to time. Fig. 8 and Fig. 9 show the switching energies versus load current and dc-bus voltage, respectively. It can be found that the error in switching energy increases with the increase of current and voltage.
+
+The time mismatch between voltage and current probes at different load currents and dc-bus voltages are extracted, as
+
+Fig. 4: Experimental setup of double pulse test.
+
+Fig. 5: Experimental waveforms of \(v_{DS}\), \(i_{D}\), \(dv/dt\) and \(d^{2}v/dt^{2}\) at turn-on.
+
+Fig. 6: Flowchart for \(V-I\) alignment.
+
+Fig. 7: Comparison of switching losses before and after alignment: (a) turn-off, and (b) turn-on transitions.
+
+shown in Fig. 10. It can be observed that the current probe shows a longer delay of around 5 ns with respect to the voltage probe. Considering that the current rise time (10% to 90%) at turn-on is only 12.8 ns (\(V_{dc}\) = 600 V and \(I_{L}\) = 20 A), this mismatch is quite detrimental.
+
+## V Conclusion
+
+The fast switching speed of WBG devices makes the mismatch between the voltage and current probes a key issue in the measurement of switching loss. In this work, an automatic, accurate, post-processing alignment strategy has been proposed for the \(V-I\) alignment and implemented in the Matlab software. It can be found that the off-the-shelf current probe used in this work shows a longer propagation delay than the voltage probe. The time mismatch between these two probes is remarkable compared with the switching times of WBG devices, which makes the \(V-I\) alignment crucial.
+

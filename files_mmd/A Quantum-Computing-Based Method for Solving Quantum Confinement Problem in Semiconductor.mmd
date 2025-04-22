@@ -1,0 +1,193 @@
+[MISSING_PAGE_FAIL:1]
+
+optimization and quantum chemistry problems [8, 9, 10]. It has also been applied to solve electrostatic and electromagnetic problems by numerical solution of Poisson's equation [11] and Maxwell's equation [12], respectively. Despite the important progress, quantum-computing-based solutions to electromagnetic problems have been limited to 1-D or 2-D with a specific form of ansatz. In addition to VQA, quantum phase estimation techniques have also been used to solve a quantum particle in a simple one-dimensional (1-D) potential [13].
+
+In this work, we develop a method to solve the quantum confinement problems in nanostructures at all dimensions based on the VQA. The method treats the electrostatic potential profiles and anisotropic band structures in semiconductor nanostructures. We demonstrate the method by applying it to calculate both the ground and excited states for 1-D, 2-D, and 3-D quantum confinement problems. Two types of ansatzes with different expressive powers are examined, and their performance in terms of accuracy and quantum circuit depth is compared. Previous works of variational quantum eigensolver in quantum chemistry [8, 9, 10] have been implemented in a molecular orbital basis set and had a focus on treating many-body effects. In contrast, this work applies VQA to semiconductor nanostructure and device simulations, in which the Schrodinger equation is solved with a numerical discretization method and has a focus to treat semiconductor material and device properties, such as confinement dimensionality and band structure effects.
+
+## II Approach
+
+To solve the quantum confinement problem, the Schrodinger equation is first discretized in a numerical grid by using the finite difference (FD) method. The Hamiltonian is mapped and decomposed to Pauli strings of qubits, whose expectation values can be measured in a quantum-computing-based algorithm. The solution is achieved by a variational algorithm approach. An ansatz is constructed through a quantum circuit, whose energy is optimized iteratively as a function of the ansatz parameters by coupling the quantum part to a classical optimization algorithm to minimize the cost function. The algorithm turns an eigenvalue problem into an optimization problem. Sections II-A-II-C describes the equations and Hamiltonian decomposition schemes for 1-D, 2-D, and 3-D confinement problems, respectively. Section II-D describes the design of ansatzes. The overall simulation flow is described in Section II-E.
+
+### 1-D Quantum Confinement
+
+To solve the quantum confinement problem, we first discretize the Schrodinger equation in a numerical grid by using the FD method. Then, we decompose the discretized Hamiltonian into Pauli and projector strings, whose expectation values can be measured on a quantum computer.
+
+The 1-D Schrodinger equation under effective mass approximation can be expressed as
+
+\[\left[-\frac{\hbar^{2}}{2m^{*}}\frac{d^{2}}{dx^{2}}+U(x)\right]\psi(x)=E\, \psi(x). \tag{1}\]
+
+As shown in Fig. 1, for a 1-D quantum well with a width of \(L\), by applying a particle-in-a-box approximation to the potential term \(U(x)\), the Schrodinger equation can be discretized as [2], \(\boldsymbol{H}_{\text{1-D}}\boldsymbol{\psi}=E\boldsymbol{\psi}\), where \(\boldsymbol{H}_{\text{1-D}}=\boldsymbol{T}_{\text{1-D}}+\boldsymbol{U}\).
+
+
+\[\boldsymbol{T}_{\text{1-D}}=t\boldsymbol{M}_{N}=t\left[\begin{array}{ccccc}2& -1&0&\cdots&0\\ -1&2&-1&\ddots&\vdots\\ 0&\ddots&\ddots&\ddots&0\\ \vdots&\ddots&-1&2&-1\\ 0&\cdots&0&-1&2\end{array}\right]_{N\times N} \tag{2}\]
+
+and \(\boldsymbol{U}=\text{diag}(u)\) where \(u\) is a vector of potential energy at grid points, \(\boldsymbol{M}_{N}\) is a sparse \(N\times N\) matrix with the diagonal elements equal to 2 and first off-diagonal elements equal to \(-1\), the "tight binding" parameter \(t=(\hbar^{2}/(2m^{*}\ a^{2}))\), \(a=L/(N+1)\) is the FD grid spacing, \(\boldsymbol{\psi}\) is the discretized wave vector at the numerical grids, and \(N\) is the number of numerical grids. The value of \(N\) is taken as an exponent, \(N=2^{n_{x}}\), where \(n_{x}\) is an integer corresponding to the number of qubits needed to represent the discretized wave vector.
+
+By using a decomposition method proposed by Sato et al. [11], as derived in the Appendix, the kinetic energy operator can be expressed as
+
+\[\boldsymbol{T}_{\text{1-D}}=t\Big{[}2I^{\otimes n_{x}}\ -I^{\otimes n_{x}-1}\otimes X-\ P_{N}^{+}\big{(}I^{\otimes n_{x}-1} \otimes X\big{)}\,P_{N}\\ +P_{N}^{+}\big{(}I_{0}^{\otimes n_{x}-1}\otimes X\big{)}\,P_{N}\Big{]} \tag{3}\]
+
+where \(P_{N}=\sum_{i=0}^{N-1}|(i+1)\bmod N\rangle\langle i|\) is a cyclic shift operator, \(I_{0}=|0\rangle\langle 0|\) is the projector to the \(|0\rangle\) state, and \(X\) is the Pauli X operator. The cyclic shift operator \(P_{N}\) can be equivalently operated on the quantum state by using a quantum circuit described in [11]. Table 1 lists the strings that need to be measured to obtain the energy of a state, which is its expected value of the Hamiltonian. It is noted that \(P_{N}^{+}(I^{\otimes n_{x}-1}\otimes X)\,P_{N}\) and \(P_{N}^{+}(I_{0}^{\otimes n_{x}-1}\otimes X)\,P_{N}\) require the same cyclic shift and \(X\) measurement of the last qubit, and their measurements can be combined.
+
+The potential energy operator \(\boldsymbol{U}\) is diagonal. It can be decomposed by Pauli string operators that consist of only \(I\) and \(Z\). For a Pauli string \(\boldsymbol{B}_{k}=B_{1}\otimes B_{2}\otimes\cdots B_{n-1}\otimes B_{n}\), where \(B_{i}\in\{I,\,Z\}\), its decomposition coefficient is \(b_{k}=\text{trace}(\boldsymbol{U}\,\boldsymbol{B}_{k})/N\). Each \(B_{i}\) has two choices of \(I\) or \(Z\), so there
+
+Fig. 1: Schematic of FD discretization of the wave function for a 1-D confinement problem.
+
+are together \(2^{\alpha_{s}}\) terms, \(\mathbf{U}=\sum_{k=1}^{2^{\alpha_{s}}}b_{k}\mathbf{B}_{k}\). It is noted that the diagonal vectors \(\mathbf{b_{k}}=\text{diag}(\mathbf{B_{k}})\) form a complete set \(\{\mathbf{b_{k}}\}\), where \(k=1,2,\ldots,2^{\alpha_{s}}\), to decompose any potential profile vector \(\mathbf{V}=\text{diag}(\mathbf{U})\). Furthermore, only one measurement, which measures \(Z\) of each qubit, \(Z^{\otimes\alpha_{s}}\), is needed to obtain the expectation value of every Pauli string in \(\{\mathbf{B_{k}}\}\) because the expectation value of \(I\) is always 1.
+
+### 2-D Quantum Confinement
+
+We next consider the 2-D quantum confinement. Solving a 2-D quantum confinement problem is necessary for treating quantum confinement in the cross section of a semiconductor nanowire or in a quantum dot formed in a 2-D semiconductor. By using the effective mass approximation, the Hamiltonian can be expressed as
+
+\[\mathbf{H}_{\text{2-D}}=-\frac{\hbar^{2}}{2}\left(\frac{1}{m_{x}}\frac{\partial^{ 2}}{\partial x^{2}}+\frac{1}{m_{y}}\frac{\partial^{2}}{\partial y^{2}}\right) +U_{\text{2-D}}(x,y) \tag{4}\]
+
+where \(m_{x}(m_{y})\) is the effective mass along \(x(y)\) direction and we consider a rectangular confinement problem with a particle-in-a-2-D-box boundary condition for the confinement potential \(U_{\text{2-D}}(x,y)\). By using the FD method, the Hamiltonian can be discretized to
+
+\[\mathbf{H}_{\text{2-D}} = \mathbf{T}_{\text{2-D}}+\mathbf{U}_{\text{2-D}} \tag{5}\] \[= t_{x}\mathbf{I}_{N_{y}}\otimes\mathbf{M}_{N_{x}}\ +t_{y}\mathbf{M}_{N_{y}} \otimes\mathbf{I}_{N_{x}}+\mathbf{U}_{\text{2-D}}\]
+
+where \(t_{x}=(\hbar^{2}/(2m_{x}a_{x}^{2}))\) and \(t_{y}=(\hbar^{2}/(2m_{y}a_{x}^{2}))\) are tight binding parameters along \(x\)- and \(y\)-directions, respectively, \(N_{x}=2^{\alpha_{s}}\) and \(N_{y}=2^{\alpha_{y}}\) are the number of numerical grid points along the \(x\) and \(y\) directions, respectively, \(M_{N_{x}}\) and \(M_{N_{y}}\) are defining the form in (2), and \(I_{N}\) is an identity matrix in the size of \(N\). The number of qubits required to solve this problem is \(n_{q}=n_{x}+n_{y}\) and the rectangular quantum well width along the \(x\) and \(y\) directions are \(W_{x}=(N_{x}+1)a_{x}\) and \(W_{y}=(N_{y}+1)a_{y}\), respectively.
+
+By applying the decomposition method by Sato et al., the Hamiltonian matrix can be decomposed to
+
+\[\mathbf{T}_{\text{2-D}}=\ I^{\otimes\alpha_{s}}\otimes\mathbf{T}_{\text{1-D},\mathbf{N}_{x }}+\mathbf{T}_{\text{1-D},\mathbf{N}_{y}}\otimes I^{\otimes\alpha_{s}} \tag{6}\]
+
+where \(\mathbf{T}_{\text{1-D},N_{x}}\) and \(\mathbf{T}_{\text{1-D},N_{y}}\) are in the form of decomposed Hamiltonians for the 1-D cases in (3) with sizes of \(N_{x}\times N_{x}\) and \(N_{y}\times N_{y}\), respectively,
+
+\[\mathbf{T}_{\text{1-D},N_{x}} = t_{x}\Big{[}2I^{\otimes\alpha_{s}}-\ I^{\otimes\alpha_{s}-1} \otimes X-\ P_{N_{x}}^{+}\big{(}I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{x}} \tag{7}\] \[+\ P_{N_{x}}^{+}\big{(}I^{\otimes\alpha_{s}-1} _{0}\otimes X\big{)}P_{N_{x}}\Big{]}\]
+
+
+\[\mathbf{T}_{\text{1-D},N_{y}} = t_{y}\Big{[}2I^{\otimes\alpha_{s}}-I^{\otimes\alpha_{s}-1} \otimes X-P_{N_{y}}^{+}\big{(}I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{y}} \tag{8}\] \[+P_{N_{y}}^{+}\big{(}I^{\otimes\alpha_{s}-1}_{0}\otimes X\big{)}P_{ N_{y}}\Big{]}.\]
+
+Here, \(P_{N_{x}}\) and \(P_{N_{y}}\) are the cyclic shift operator in the size of \(N_{x}\) and \(N_{y}\) respectively. By substituting (7) and (8) into (6), the decomposed Hamiltonian is
+
+\[\otimes\Big{[}I^{\otimes\alpha_{s}-1}\otimes X-P_{N_{x}}^{+}\big{(} I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{x}} \tag{9}\] \[+P_{N_{x}}^{+}\big{(}I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{ x}}\Big{]}\] \[-t_{y}\Big{[}I^{\otimes\alpha_{s}-1}\otimes X-P_{N_{y}}^{+} \big{(}I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{y}}\] \[+P_{N_{y}}^{+}\big{(}I^{\otimes\alpha_{s}-1}\otimes X\big{)}P_{N_{ y}}\Big{]}\otimes I^{\otimes\alpha_{s}}.\]
+
+The potential operator \(\mathbf{U}_{\text{2-D}}=\text{diag}(u_{\text{2-D}})\) is a diagonal matrix where \(u_{\text{2-D}}\) is the potential energy at the 2-D numerical grid. It can be decomposed using the same approach as described in Section II-A for the 1-D case, which is the sum of Pauli strings that only consists of \(I\) and \(Z\) Pauli operator. The strings to measure the expectation value of \(\mathbf{H}_{\text{2-D}}\) are shown in Table 1.
+
+### 3-D Quantum Confinement
+
+To understand semiconductor quantum dots, it is necessary to solve a 3-D quantum confinement problem. The Hamiltonian under the effective mass approximation can be expressed as
+
+\[\mathbf{H}_{\text{3-D}}=-\frac{\hbar^{2}}{2}\left(\frac{1}{m_{x}}\frac{\partial^{ 2}}{\partial x^{2}}+\ \frac{1}{m_{y}}\frac{\partial^{2}}{\partial y^{2}}+\frac{1}{m_{z}}\frac{ \partial^{2}}{\partial z^{2}}\right)+\ U_{\text{3-D}}\left(\bar{r}\right) \tag{10}\]
+
+where \(m_{z}\) is the effective mass in the \(z\)-direction. With a particle-in-a-box boundary condition for the confinement potential \(U_{\text{3-D}}(\bar{r})\), FD discretization results in a Hamiltonian of \(\mathbf{H}_{\text{3-D}}=\mathbf{T}_{\text{3-D}}+\ \mathbf{U}_{\text{3-D}}\), and
+
+\[\mathbf{T}_{\text{3-D}}=\ I^{\otimes\left(n_{x}+n_{y}\right)}\otimes\mathbf{T}_{ \text{1-D},N_{x}}+ I^{\otimes\alpha_{s}}\otimes\mathbf{T}_{\text{1-D},N_{y}}\otimes I^{\otimes \alpha_{s}}\] \[+\mathbf{T}_{\text{1-D},N_{x}}\otimes I^{\otimes\left(n_{x}+n_{y} \right)} \tag{11}\]where \(\mathbf{T}_{\text{1-D},\pi}\) takes the same form as (3)
+
+\[\mathbf{T}_{\text{1-D},\pi}=\ t_{z}\Big{[}2I^{\otimes n_{z}}-I^{\otimes n _{z}-1}\otimes X-P_{N_{z}}^{+}\big{(}I^{\otimes n_{z}-1}\otimes X\big{)}\,P_{N_{z}}\] \[+P_{N_{z}}^{+}\big{(}I_{0}^{n_{z}-1}\otimes X\big{)}\,P_{N_{z}} \Big{]} \tag{12}\]
+
+and the binding parameter \(t_{z}=(l^{2}/(2m_{z}a_{z}^{2}))\). The number of grid points along the \(z\)-direction is \(N_{z}=2^{n_{z}}\). By substituting (7), (8), and (12) into (11), we obtain
+
+\[\mathbf{T}_{\text{3-D}}= \ \big{(}2t_{x}+2t_{y}+2t_{z}\big{)}I^{\otimes n}-t_{x}I^{\otimes \left(n_{z}+n_{\pi}\right)}\] \[\otimes\Big{[}I^{\otimes n_{z}-1}\otimes X-P_{N_{z}}^{+}\big{(}I ^{\otimes n_{z}-1}\otimes X\big{)}\,P_{N_{z}}\] \[+P_{N_{z}}^{+}\big{(}I_{0}^{n_{z}-1}\otimes X\big{)}\,P_{N_{z}} \Big{]}-t_{y}I^{\otimes n_{z}}\] \[\otimes\Big{[}\Big{[}I^{\otimes n_{z}-1}\otimes X-P_{N_{z}}^{+} \big{(}I^{\otimes n_{z}-1}\otimes X\big{)}\,P_{N_{z}}\] \[+P_{N_{z}}^{+}\Big{(}I_{0}^{n_{z}-1}\otimes X\big{)}\,P_{N_{z}} \Big{]}\otimes I^{\otimes n_{z}+n_{z}}\Big{]}. \tag{13}\]
+
+The potential operator \(\mathbf{U}_{\text{3-D}}=\text{diag}(u_{\text{3-D}})\) is diagonal, and it can be decomposed to Pauli strings consisting of \(I\) and \(Z\) elements as described before.
+
+The decomposed Hamiltonian consists of the terms of Pauli strings and projection operators, as listed in Table 1. Pauli string measurements on an ansatz state render the expectation values of the decomposed Pauli strings, and the expectation value of the cost function of the Ansatz state is computed as the weighted sum of the expectation values of the Pauli strings. As the confinement dimensionality increases from 1-D to 3-D, the number of Pauli strings that need to be measured increases.
+
+### Construction of Ansatz
+
+The accuracy and performance of a VQA depend on the construction and choice of an ansatz. A parameterized ansatz is a high-dimensional approximator to the solution sought, whose expressive power depends on its quantum circuit structure [14, 15]. Two types of hardware-efficient ansatz circuits are designed. These ansatzes only require two-qubit entangling gates between nearest neighboring qubits, which can be efficiently implemented even in a quantum processor with linear chain connectivity between qubits. Fig. 2 and 2 shows one stage of ansatz 1 and ansatz 2, respectively. In each stage of ansatz 1, a single-qubit gate of \(Y\) rotational operation \(R_{Y}(\theta_{i,j})\) for the \(i\)th stage and \(j\)th qubit, where \(\theta_{i,j}\) is the rotational angle parameter, \(1\leq i\leq n_{s}\), and \(0\leq j\leq n_{qubit}-\ 1\), \(n_{z}\) is the total number of stages and \(n_{qubit}\) is the total number of qubits. After the single-qubit rotation, a series of \((n_{qubit}-1)\) CNOT gates are applied. Ansatz 1 is similar to the ansatz used in [12]. Its parameter vector \(\mathbf{\theta}=\theta_{ij}\) has a size of \(n_{s}\times n_{qubit}\).
+
+Alternatively, ansatz 2 is designed to have the same number of two-qubit CNOT gates per stage as ansatz 1, but two times more trainable single-qubit gates in each stage. The goal is to improve the expressive power of the ansatz with a small hardware cost per stage. The CNOT gates are applied in a two-step, even-odd pattern, as shown in Fig. 2. A \(Y\)-rotational gate is applied to each qubit before the CNOT operations. Its training parameter vector, \(\mathbf{\theta}=\{\theta_{ij},\theta^{{}^{\prime}}_{ij}\ \}\), has \(2n_{qubit}\) parameters per stage, while that of ansatz 1 is \(n_{qubit}\) per stage. In typical quantum hardware, single-qubit quantum gates are much faster and less noisy than two-qubit quantum gates, so ansatz 2 only adds a small hardware overhead per stage, as compared to ansatz 1.
+
+### Simulation Procedure
+
+The overall simulation flow is shown in Fig. 3.
+
+1. First, the quantum confinement problem is discretized by using a numerical discretization method, and the Hamiltonian is decomposed as discussed above.
+2. By applying an ansatz quantum circuit to an initial state of \(|00,\ldots,00>\), an ansatz state \(\tilde{\mathbf{\Psi}}(\mathbf{\theta})\) is prepared with an ansatz parameter vector of \(\mathbf{\theta}\).
+
+Fig. 2: Two types of ansatz circuits. (a) Quantum circuit of Ansatz 1. (b) Quantum circuit of Ansatz 2. The blocks in the dashed box repeat \(n_{s}\) stages with (a) \(y\) rational gate angle parameter \(\theta_{ij}\) for the \(i\)th stage and \(H\) qubit and (b) angle parameters \(\theta_{ij}\) and \(\theta^{{}^{\prime}}_{ij}\) for the thin stage and \(h\)th qubit. The angle parameters in the ansatz are optimized in the variational quantum simulations.
+
+3. The expectation value of Hamiltonian is measured for the prepared ansatz state, which characterizes the energy of the state.
+4. To obtain the ground state, the cost function can be simply defined as the energy in step (3), which is a function of the rotational angle parameters \[\tilde{E}(\mathbf{\theta})=\big{\langle}\tilde{\mathbf{\Psi}}(\mathbf{\theta})\,|\,H\,|\, \tilde{\mathbf{\Psi}}(\mathbf{\theta})\big{\rangle}.\] (14) The definition of the cost function for calculating the excited states will be discussed later.
+5. In a classical computer, the parameter vector for the ground state is optimized by minimizing the energy \[\mathbf{\theta_{\theta}}=\operatorname{argmin}_{\mathbf{\theta}}(E(\mathbf{\theta})).\] (15)
+
+The optimization problem is treated as an unconstrained nonlinear optimization problem, in which the cost function is minimized by using a gradient descent algorithm, such as the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm. The optimization is performed iteratively by inputting the parameter obtained in step (5) back to step (2) until a specified convergence condition of the cost function is reached.
+
+The rotational angle parameters \(\mathbf{\theta}\) of the ansatzes can be initialized stochastically for multiple runs, and the solution can be taken as the one that achieved the minimal value of the cost function. In this work, we create a pool of constant initialization parameters, \(\mathbf{\theta}=\theta_{0}\mathbf{1}\) where \(\theta_{0}\in\{1,1.5,2\}\) rad, and the solution is obtained as the one that achieves the smallest cost function. Although more advanced initialization strategies such as noisy restarts [16] can be used, this simple initialization approach is already sufficient for the cases studied here.
+
+Calculation of the excited state requires redefining the cost function. A variational quantum deflation (VQD) algorithm is used [17]. The cost function in step (4) is constructed as the expectation value of the energy plus a penalty term of the overlap
+
+\[F(\mathbf{\theta}_{k})=\big{\langle}\tilde{\mathbf{\Psi}}(\mathbf{\theta}_{k})\,|\,H\,|\, \tilde{\mathbf{\Psi}}(\mathbf{\theta}_{k})+\sum_{i=0}^{k-1}c_{i}\big{\langle}\tilde{ \mathbf{\Psi}}(\mathbf{\theta}_{k})/\tilde{\mathbf{\Psi}}(\mathbf{\theta}_{i})\big{\rangle} \tag{16}\]
+
+where \(\mathbf{\theta}_{k}\) is the ansatz parameters to be calculated for the \(k\)th excited state, and \(c_{i}\) is an empirical parameter that determines the relative weights of the energy and overlap in the cost function. The dashed boxes in Fig. 3 show the additional steps for the VQD algorithm. It measures the overlap between the ansatz state and all lower energy states. Minimizing \(F(\mathbf{\theta}_{k})\) with regard to the parameter vector \(\mathbf{\theta}_{k}\) can be viewed as minimizing the energy in the subspace which is orthogonal to \(\psi(\mathbf{\theta}_{i})\) with \(0\leq i\leq k-1\)[17]. Compared to the ground state, whose energy landscape \(\tilde{E}(\mathbf{\theta})\) is defined in (14), the cost function \(F(\mathbf{\theta}_{k})\) in (16) has a more complex landscape. Its first term minimizes the energy, and the second term penalizes the overlap and drives the ansatz toward the subspace orthogonal to the lower energy states. The choice of the empirical coefficients \(c_{i}\) influences the relative weights of these two terms and the cost function landscape.
+
+The proposed algorithm for solving the quantum confinement problems in semiconductors is implemented in IBM Qiskit by using its statevector simulator backend [18]. IBM Qiskit is an open-source framework for quantum computing that supports Python [18]. We implement the Ansatz circuits and obtain the expectation values of the Pauli strings and the overlap values from the Qiskit statevector simulator backend, from which the cost function is calculated. The iterative optimization by using the BFGS algorithm is implemented by using the Scipy optimization library.
+
+## 3 Results and Discussion
+
+In this section, we present the results obtained by the proposed method for 1-D, 2-D, and 3-D quantum confinement problems, quantify the error of solutions, and investigate the choice of ansatz on the accuracy of the results.
+
+We first examine the results of 1-D quantum confinement, as shown in Fig. 4. We consider, for example, a confinement potential \(u(x)=u_{0}\sin(\pi\,x/L)\), as shown in Fig. 4(a). The simulated probability distribution, which is the magnitude square of the discretized wave function, is compared between the proposed method and the exact solution by direct diagonalization of the Hamiltonian matrix. Fig. 4(b) shows that the proposed method calculates the ground wave state accurately, in the presence of different magnitudes of the electrostatic potential in the quantum well. We further calculated and compare the first excited wave state. As shown in Fig. 4(c), the VQD method can accurately calculate the first excited wave state. As the potential peak \(u_{0}\) at the quantum well center increases, the probability peak of the ground state at the center of the quantum well reduces. In comparison, its impact on the first excited state is smaller due to its already low probability density at the quantum well center. Fig. 4(d) shows that the method can achieve high accuracy for eigen-energy calculations at various potential amplitudes in the quantum well. We also tested an asymmetric confinement potential \(u(x)=u_{0}\cos(\pi\,x/L)\) with \(0\leq x\leq L\), and the results (not presented here) similarly show high accuracy.
+
+To quantify calculation accuracy, the error of a wave state can be quantified as
+
+\[\operatorname{error}_{\mathbf{\phi}}=1-\big{|}\big{\langle}\tilde{\mathbf{\Psi}}/ \tilde{\mathbf{\psi}}\big{\rangle}\big{|}^{2} \tag{17}\]
+
+Figure 3: Simulation flowchart for the quantum variational method to solve the quantum confinement problem in semiconductor. The dashed yellow boxes are for calculating excited states only by using the VQD method. The steps in the dashed red box are run in Qiskit and the rest steps are run on a classical computer.
+
+and the relative error of energy can be expressed as
+
+\[\varepsilon_{r}=\frac{\left|\tilde{E}-\tilde{E}\right|}{\tilde{E}}\times 100\% \tag{18}\]
+
+where \(\tilde{\boldsymbol{\psi}}\) is the normalized wave vector and \(\tilde{E}\) is the energy solved by the proposed quantum variational method, and \(\dot{\boldsymbol{\psi}}\) is the normalized wave vector and \(\hat{E}\) is the energy solved by directly diagonalizing the Hamiltonian. For the ground state in Fig. 4 at \(u_{0}=0\), the error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 6\times 10^{-5}\) and the relative error of energy is \(\varepsilon_{r}\approx 0.3\%\). For the first excited state in Fig. 4 at \(u_{0}=0\), the error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 8~{}\times 10^{-5}\) and the relative error of energy is \(\varepsilon_{r}\approx 0.3\%\). The stochastic optimization results in variations of accuracy within the same order of magnitude.
+
+Next, we apply the method to 2-D quantum confinement problems. Fig. 5 and (b) shows the probability distribution calculated by the proposed method for the ground state and the first excited state, respectively. Both states can be accurately calculated. Here, ansatz 1 with \(n_{s}=8\) stages is used, and its accuracy will be further quantified later as the choice of ansatzes is investigated. Fig. 5 and (b) shows a simple case of an isotropic band structure, \(m_{x}=m_{y}\) which results in \(t_{x}=t_{y}\), and a square quantum well, \(W_{x}=W_{y}\). For the ground state in Fig. 5, the error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 4~{}\times 10^{-5}\) and the relative error of energy is \(\varepsilon_{r}\approx 0.03\%\). For the first excited state in Fig. 5, \(\text{error}_{\boldsymbol{\psi}}\approx 3~{}\times 10^{-4}\) and \(\varepsilon_{r}\approx 0.2\%\). It is noted that the first excited state of the modeled problem has a twofold degeneracy, and the VQD algorithm can converge to any superposition state of these twofold degenerate states.
+
+The method can also be applied to a non-isotropic band structure with \(m_{x}\neq m_{y}\). We performed the simulation for a non-isotropic band structure with \(m_{x}=0.19m_{0}\) and \(m_{y}=0.98m_{0}\) for the same quantum confinement, as shown in Fig. 5 and (d). The ground state has a similar probability density. Due to different effective mass values along \(x\) and \(y\), the twofold degeneracy of the first excited state is removed. The first excited state has two density peaks along the heavier effective mass direction, which is \(y\)-direction. It is found that for this non-isotropic band structure, the quantum variation algorithm can still accurately calculate the eigenenergy and eigenstates for both the ground and excited states. The error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 1~{}\times 10^{-5}\) and the relative error of energy is \(\varepsilon_{r}\approx 0.03\%\) for the ground state in Fig. 5, and the errors for the first excited state in Fig. 5 are \(\text{error}_{\boldsymbol{\psi}}~{}\approx 2\times 10^{-7}\) and \(\varepsilon_{r}\approx 1\times~{}10^{-3}\%\).
+
+A 3-D confinement in a quantum dot structure is investigated next. Fig. 6 and (b) show the probability distribution of the ground and first excited states, respectively, by using the proposed method. For the ground state, the error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 3\times 10^{-5}\), and the relative error of energy is \(\varepsilon_{r}\approx 0.01\%\). For the first excited state, the error of the wave function is \(\text{error}_{\boldsymbol{\psi}}\approx 4~{}\times 10^{-6}\), and the relative error of energy is \(\varepsilon_{r}\approx 2\times~{}10^{-3}\%\). The results indicate high accuracy of both the energy levels and eigen-energy states for both the ground and excited states for solving a 3-D quantum confinement problem.
+
+Fig. 4: 1-D quantum confinement. (a) Normalized confinement potential \(u(x)/u_{0}=\sin(\pi x/L)\) versus position \(0\leq x\leq L\) normalized to the spacing \(a_{0}=0.2~{}nm\), where the quantum well with \(L=(N+1)a_{0}\). Here \(N=2^{\text{max}}\) and \(\Re\) numerical grid points in the 1-D quantum well, where \(\text{arg}_{\text{max}}=5\) is the number of qubits needed to represent the discretized wave vector \(\psi=[V_{0}]_{1\leq k_{0}}\). The simulated probability \(\rho_{l}=|\psi_{l}|^{2}\) versus the normalized position of (b) ground state and (c) first excited mode for different potential amplitudes \(\psi_{0}\) values. The electron effective mass is \(m_{\text{eff}}=0.19\). (d) Ground and first excited state energies versus \(u_{0}\). In (b)-(d), the lines are from the quantum-computing-based method, and the dots are the exact solutions by using an eigenvalue solver of the Hamiltonian matrix. The ansatz 1 as shown in Fig. 2 is used with \(n_{\text{g}}=5\) stages.
+
+Fig. 5: 2-D quantum confinement: Pseudocolor plot of probability \(\rho_{lj}=|\psi_{l}|^{2}\) at potential energy \(\mu=0\) for (a) lowest eigenmode and (b) second eigenmode with \(m_{x}=m_{y}\). Here, \(n_{x}=n_{y}=4\) and the grid spacings along both directions are equal, which results in \(N_{x}=N_{y}=16\) numerical grid points along \(x\)- and \(y\)-directions in a square quantum well, and \(\psi_{lj}\) is the discretized wave function with \(0\leq i\leq N_{x}-1\) and \(0\leq j\leq N_{y}-1\). (c) and (d) Counterparts of (a) and (b) but with different effective mass values along \(x\) and \(y\), \(m_{y}=0.19m_{0}\) and \(m_{y}=0.98m_{0}\), where the normalization value \(m_{0}\) can be regarded as free electron mass. Ansatz 1 is used with \(n_{\text{g}}=8\) stages.
+
+To examine how the design of ansatz impacts the accuracy of the method, the accuracy values of the simulated ground state energy are plotted as a function of the number of the ansatz stages in Fig. 7. We compare ansatz 1 and ansatz 2, as defined in Fig. 2(a) and (b), respectively. These two ansatzes have an equal number of two-qubit quantum gates per stage. As the number of stages increases, the accuracy monotonically improves for both ansatzes in 1-D confinement, as shown in Fig. 7(a). This is, however, not the case for ansatz 1 in 2-D and 3-D quantum confinement, as shown in Fig. 7(b) and (c), respectively. In all dimensions, Ansatz 2 shows improved accuracy over Ansatz 1, which can allow a shallower circuit depth. This is important for implementation on NISQ devices that have a short coherence time. A larger number of trainable single qubit gates per stage of Ansatz 2 improves its expressive power for describing the quantum states.
+
+To obtain the expectation value of the Hamiltonian in a quantum hardware device within a measurement sampling error of \(\epsilon\), each quantum circuit, which consists of the ansatz circuit and a Pauli string measuring circuit, needs to be run for \(N_{\text{shots}}\sim O(1/\epsilon^{2})\) times. The number of universal quantum gates in a quantum circuit is limited by the implementation of the shift operator, which scales as \(N_{\text{gates}}\sim O(n^{2})\sim O(\log(N)^{2})\)[11]. The number of Pauli strings decomposed from the Hamiltonian as shown in Table I, \(N_{\text{Pauli}}\), is independent \(n\). The total complexity, therefore, scales as \(\sim O(N_{\text{shots}}N_{\text{gate}}N_{\text{Pauli}})\), which is \(\sim O((1/\epsilon^{2})\log(N)^{2})\).
+
+The proposed method illustrates the promising potential of using VQA to solve quantum confinement problems in semiconductor nanostructures at all dimensions. The following issues need to be further investigated in future studies. First, the method is implemented and tested in an IBM Qiskit QASM simulator [19]. Physical NISQ devices today are noisy and limited in the number of qubits. Rapid advances in quantum computing hardware can alleviate this problem. Future work is also needed to understand and improve the performance of the algorithm on noisy NISQ devices. Second, the method is illustrated in a rectangular shape of confinement, its extension to other shapes of confinement needs to be further explored. Third, self-consistent electrostatic potential has not yet been incorporated. A variational quantum method to solve the Poisson equation has been reported recently [11]. Coupling the solution of the Schrodinger equation with the Poisson equation can treat self-consistent electrostatics. Fourth, the qubit number scales logarithmically with the number of numerical grids, \(n_{\text{qubit}}\sim O(\log\left(N_{\text{grid}}\right))\) in the proposed method. The number of quantum gates needed for preparing the ansatz states scale linearly with the qubit number \(n_{\text{qubit}}\). As the number of qubits increases in a physical quantum device, quantum fidelity decreases, which are likely to require a larger number of measurements and quantum error mitigation schemes. These limitations need to be further investigated.
+
+## 4 Conclusion
+
+In summary, a quantum-computing-based method to solve quantum confinement problems in semiconductor nanostructures at all dimensions is developed. The method is based on a VQA and treats electrostatic potential and anisotropic semiconductor band structure. It solves quantum confinement problems related to a quantum well, nanowire, and quantum dot structures with high accuracy. As the number of the numerical discretization grids \(N\) increases, the quantum resource in terms of the qubit count scales only logarithmically \(\sim\!O(\log\left(N\right))\). By properly constructing an ansatz quantum circuit with a larger number of single-qubit gates but the same number of hardware-demanding two-qubit gates per stage, a higher solution accuracy can be achieved with a shallower ansatz circuit.
+
+The operator \(\boldsymbol{\hat{T}}_{\text{1-D}}=-(\hbar^{2}/2m^{\star})(d^{2}/dx^{2})\) is discretized to (2) in the main text. To prove (3)
+
+\[\boldsymbol{T}_{\text{1-D}}=\ t\Big{[}2I^{\otimes n_{x}}-\ I^{ \otimes n_{x}-1}\otimes X- P_{N}^{+}(I^{\otimes n_{x}-1}\ \otimes X)P_{N}\] \[+ P_{N}^{+}\Big{(}I_{0}^{\otimes n_{x}-1}\otimes X\Big{)}P_{N} \Big{]}.\]
+
+Figure 6: 3-D quantum confinement: Slice plot of probability \(\rho_{ijk}=|\psi_{ijk}|^{2}\) at potential energy \(u=0\) for (a) lowest eigenmode and (b) second eigenmode. Here \(n_{x}=n_{y}=n_{x}=3\), which results in \(N_{x}=N_{y}=N_{x}=8\) numerical grid points along \(x\)-, \(y\)-, and \(z\)-directions, and \(\psi_{ijk}\) is the discretized wave function with \(0\leq i\leq N_{x}-1\), \(0\leq j\leq N_{y}-1\), and \(0\leq k\leq N_{x}-1\). Ansatz 1 is used with \(n_{x}=6\) stages.
+
+Figure 7: Comparison of accuracy between two types of ansatzes: error of simulated energy of the ground state versus the number of ansatz stages \(n_{x}\) for (a) 1-D confinement with \(n_{x}=5\). (b) 2-D confinement with \(n_{x}=n_{y}=4\), and (c) 3-D confinement with \(n_{x}=n_{y}=n_{x}=3\). The solid lines with circles are for Ansatz 1 in Fig. 2(a), and the diamond dash-dot lines are for Ansatz 2 in Fig. 2(b).
+
+We compute the right-hand side (RHS) of the equation and show it is equal to (2). Reference [11, eq. (18)] shows
+
+\[A_{\text{periodic}}\] \[=I^{\otimes n_{s}-1}\otimes(I-X)+P_{N}^{-1}\big{(}I^{\otimes n_{s}- 1}\otimes(I-X)\big{)}P_{N}\] \[=I^{\otimes n_{s}}-I^{\otimes n_{s}-1}\otimes X+I^{\otimes n_{s}} -P_{N}^{-1}\big{(}I^{\otimes n_{s}-1}\otimes X\big{)}P_{N}\] \[=2I^{\otimes n_{s}}-I^{\otimes n_{s}-1}\otimes X-P_{N}^{+}\big{(}I ^{\otimes n_{s}-1}\otimes X\big{)}P_{N}\]
+
+where the shift operator \(P_{N}\) is unitary so that \(P_{N}^{-1}=P_{N}^{+}\), and
+
+\[A_{\text{periodic}}=\left[\begin{array}{ccccc}2&-1&0&\cdots&-1\\ -1&2&-1&\ddots&\vdots\\ 0&\ddots&\ddots&\ddots&0\\ \vdots&\ddots&-1&2&-1\\ -1&\cdots&0&-1&2\end{array}\right]_{N\times N}.\]
+
+The last term in the RHS of (3) is
+
+\[P_{N}^{+}\left(I_{0}^{\otimes n_{s}-1}\otimes X\right)P_{N}=\left[\begin{array} []{ccccc}0&0&0&\cdots&1\\ 0&0&0&\ddots&\vdots\\ 0&\ddots&\ddots&\ddots&0\\ \vdots&\ddots&0&0&0\\ 1&\cdots&0&0&0\end{array}\right]_{N\times N}.\] (A2)
+
+By substituting (A1) and (A2) to the RHS of (3), we obtain
+
+\[\text{RHS} =I\Big{[}A_{\text{periodic}}+\ P_{N}^{+}\left(I_{0}^{\otimes n_{ s}-1}\otimes X\right)P_{N}\Big{]}\] \[=I\left[\begin{array}{ccccc}2&-1&0&\cdots&0\\ -1&2&-1&\ddots&\vdots\\ 0&\ddots&\ddots&\ddots&0\\ \vdots&\ddots&-1&2&-1\\ 0&\cdots&0&-1&2\end{array}\right]_{N\times N}\]
+
+which is equal to the left-hand side of (3) \(T_{\text{1-D}}\), as expressed in (2).
+
+In the case of 2-D, the operator \(\hat{\boldsymbol{T}}_{\text{2-D}}=(-(\hbar^{2}/2m^{*})(d^{2}/dx^{2}))+(-( \hbar^{2}/2m^{*})(d^{2}/dy^{2}))\). With finite-difference discretization, the first term is essentially the 1-D case along the \(x\)-direction, and it is discretized to \(I^{\otimes n_{s}}\otimes\boldsymbol{T}_{\text{1-D},N_{s}}\). The second term is the discretization along the \(y\) direction, which results in \(\boldsymbol{T}_{\text{1-D},N_{s}}\otimes I^{\otimes n_{s}}\), Therefore, the operator \(\hat{\boldsymbol{T}}_{\text{2-D}}\) is discretized to
+
+\[\boldsymbol{T}_{\text{2-D}}=\ I^{\otimes n_{s}}\otimes\boldsymbol{T}_{\text{1 -D},N_{s}}+\boldsymbol{T}_{\text{1-D},N_{s}}\otimes I^{\otimes n_{s}}\]
+
+which is (6) in the text. The same scheme can be extended to the case of 3-D
+
+\[\boldsymbol{T}_{\text{3-D}}=\ I^{\otimes\left(n_{s}+n_{s}\right)} \otimes\boldsymbol{T}_{\text{1-D},N_{s}}+\ I^{\otimes n_{s}}\otimes\boldsymbol{ T}_{\text{1-D},N_{s}}\otimes I^{\otimes n_{s}}\] \[+\ \boldsymbol{T}_{\text{1-D},N_{s}}\otimes I^{\otimes\left(n_{s}+n_{ s}\right)}.\]
+
+## Acknowledgment
+
+The authors would like to thank the use of IBM Quantum Services, for this work. The views expressed are those of the authors and do not reflect the official policy or position of IBM or the IBM Quantum Team.
+

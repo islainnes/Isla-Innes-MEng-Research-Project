@@ -1,0 +1,65 @@
+
+
+
+
+
+
+
+U. Hashim
+
+Institute of Nanoelectronic Engineering
+
+
+
+
+## I Introduction
+
+Competitiveness of wafer technology makes the manufacturing execution became more complex and competitive. This is because the increasing number in processing steps in newer product, various cycles times requirements at respective processing step, fast turn around demand by customer, and cost competitiveness ([1][2][13]. Process to fabricate a chip on a wafer required 300 to 1000 steps process re-entrance to similar equipment more than 30% of the total steps, cycle time can be up to 90 days depends to complexity and priority given for a product with minimum of 60 equipment. Notice the ratio between number of steps and equipment is almost 5 times, which is due to the wafer fabrication process is not like a single line assembly process in normal factory instead of re-entrance back to the same process [2][3]. Fig. 1, describe the re-entrance process that generally apply for semiconductor fabrication. Normally the product mixes for wafer fabrication is based on Aluminum and Copper layers.
+
+The fabrication of product used list of gasses like oxidation, nitride ammonia, resists, and several of chemicals for unnecessary layers removal to develop layers for the transistors and insulators and also metal interconnect. In the overall process, ion implantation, diffusion process except alloy and some of the process that prior contact masking in photolithography process, which step that is at about 55% of the total process which toward front of the overall wafer process for generic CMOS devices. Others process like passivation, CMP is been done after contact masking and toward to the end process. In the front processes, a product wafer will only visited to the respective tool in those area only which typical consists of 55% of the overall wafer fabrication process. However when the product enter the back and process, the challenge to dispatch lot are greater. This is due tool in Photolithography and Etch where the processes are made in the tool that shared front end and also
+
+Fig. 1: Example of re-entrance process in semiconductor Fabricationat the backend, where more lot need to compete to use the tool for processing. For wafer dispatching, consideration of the process method for the respective tool which include single wafer processing, batch, cascading queue time, and same group of incoming thickness are built into the model. The overall process for manufacturing process required simulation model to verify impact of changes due to its complexity. The development of simulation will not be an easy task. This paper will analyze and conclude the right approach for simulation model for semiconductor fabrication.
+
+## II Literature review
+
+Many simulation modeling approaches have been developed over the years by researchers from different fields. These approaches differ in terms of model detail intensity, representation, and underlying assumptions. These approaches can be loosely classified into eight types: discrete event simulation (DES), hybrid simulation (HS), Monte Carlo simulation (MCS), intelligent simulation (IS), Petri net (PN), simulation gaming (SG), virtual simulation (VS), and distributed simulation (DS). The review conducted based on published manuscripts on simulation in ten years indicates that most of the simulation manuscripts were published with DES types [4][6][9]. Fig. 2 shows the summary of the simulation model based on the summary of the literature. Further analysis conducted in this paper on recent publication revised the data from Jahagirian further. A quick review from eight type simulation practices shows that DES and hybrid shows significant usages compared others for practically used. Data for DS hardly available in this research and it may require more effort to review the usage. In this research, additional three simulations that scored next highest after Hybrid included for further verification in semiconductor fabrication potential used.
+
+DES is probably the most commonly utilized simulation method in operational research. DES models a system as a sequence of discrete events; the entities (e.g., products) are believed to shift to different states as time passes. Entities join the system and "visit" particular states (not necessarily only one state) before leaving the system. DES systems refer to links of queues and servers in the system. DES models are dynamic, that is, the movement of time plays a decisive role [4][5][6]. Many researchers employ DES to solve complex re-entrant manufacturing and operation problems include used of DES to simulate manufacturing scheduling in a coffee factory [7][8][9]. A large number of end products (more than 300 mixes), sporadic demand, and limited shelf life make manual production scheduling impractical. An integrated system that incorporated DES into the scheduling process was developed to address the problem. The researchers found that the simulation model helped evaluate/modify the schedule until a satisfactory schedule was determined. The model captured the overall effect of the schedule and helped improve the throughput of the system that perform an iterative process with an enterprise resource planning (ERP) system and a DES program to simulate scheduling systems [9][10]. The researchers configured the arrival time of the product at a new process, which was later incorporated into the ERP system and regarded as the fixed time of scheduling.
+
+HS involves the combination of various simulation techniques to solve a problem. HS models are commonly utilized in simulations to solve various manufacturing problems [4] found that 10 % of simulations are considered hybrid. The best known example of such an approach is the combination of DES and system dynamic (SD). Research on this particular combination has focused on the concept of "enterprise modeling and simulation" where the impact of production decisions is evaluated with DES models and is investigated based on enterprise-level performance measures.
+
+MCS is one of the earliest simulation techniques developed; however, it has played a trivial role in manufacturing and business domains. Its usage is mainly limited to "static" problems or numerical problems with a stochastic nature such as those in property valuation and risk management [5][6][11]. B. Scibilia (2011) adopted MCS to perform optimization of the CMP process in fab. Y.H. Kwak and L. Ingall (2007) presented a review of the applications of MCS and their relevance to risk management and analysis in project management. The researchers reported that MCS is applied in many sectors such as semiconductor, geophysical, marine, and aerospace[11][12]. Results from literature review shows used of DES most in the semiconductor fabrication.
+
+## III Methodology
+
+This paper will provide an assessments or evaluation of existing simulation techniques in semiconductor fabrication with final objective to forecast how many WIP (wafer) will completed all the process in next 30 days [12][13]. During this process configuration of below steps needed.
+
+1. Configure starts plan, lots, process flow that contains steps and recipes at all equipment.
+2. Integration with existing database or flat files for WIP, lots status, current cycle time, remaining cycle time till completion, hold release until, active until, equipment down until, probability of potential success, reworks, qualification prior executing production lot.
+
+Fig. 2: Summary of Simulation Types found in literature [4][5]3. To input process dedication for equipment, and equipment model need like single processing, batching, minimum and maximum batching, batch interval and wait no longer that x period.
+4. Simulate 90 days period with variable changes in between (during running).
+5. Provide results for product need to wait for process and during process for each step for with 95% accuracy.
+
+In this analysis, the simulation model needs to perform logical operation similar as shown in Fig. 3. The simulation requirement as describe in Fig. 4.
+
+## IV Data Analysis
+
+The process to develop simulation model utilized the simulation techniques learn from literature is performed. Lesson learned during the process is plotted in the table 1. Table 1, summarized that DES, is the most suitable simulation techniques for semiconductor fabrication case study.
+
+For t-test approach in this analysis, the research is attempt to get P value more than 0.05, which means that there is no significant difference between actual versus forecast. Accuracy in DES is further validated with absolute
+
+Fig. 4: Example requirement input to do simulation for semiconductor fabrication [12].
+
+Fig. 3: Example of manufacturing operation in semiconductor fabrication [12].
+
+percentage error (APE) [14][15]. Table 4 shows example of 5 runs of simulation forecast against the actual where WIP is based on difference month. Accuracy of the run is 96.7%.
+
+## V Conclusion
+
+In this paper, an analysis to validate which simulation techniques is most suitable for semiconductor fabrication manufacturing or operation was performed. The analysis is based requirement to develop simulation model from real semiconductor fabrication. A summary of survey table shared and accuracy performance is done with pair t-test value. The results are summarized in the survey table 2, shows that DES approach is the easiest method to perform simulation model for semiconductor fabrication. Most is due the existing logical approach that designed in the technique. Table 3, summarize that DES model has p value higher compared to other simulation techniques. Table 4 shows that the DES accuracy shows in the in forecast accuracy of 96.7% using absolute percentage error (APE). Its concluded that DES technique achieved higher accuracy for forecasting purposes. The company has decided to use DES technique in the simulation model. It will also be useful for manufacturing students to learn various of the simulation techniques and apply some of them in the classroom to help them shorten the learning curved when the work in the industry later. A new knowledge gains from simulation in gambling that potentially be used for smart sampling techniques for industry problem in future work.
+
+## Menter, Acknowledgment
+
+The Authors would like to thank Silterra Management, Manufacturing Systems Department that helps to provide data and support for the process that results in understanding of which method is practical to be used in the industry. The authors also would like to thank Collaborative Research in Engineering, Science & Technology Center (CREST) for providing computer servers, where simulation programmed and analysis are being done.
+

@@ -1,0 +1,40 @@
+
+
+_Key Laboratory of Automobile Materials of MOE, State Key Laboratory of Superhard Materials, and School of Materials Science, Jilin University, Changchun 130012, China._
+
+E-mail: lijun_zhang@jlu.edu.cn
+
+## I Introduction
+
+Semiconductor materials are widely used in many optoelectronic applications such as solar cell, photodetector, light-emitting diode, photocatalysis, etc. Discovery of new optoelectronic semiconductors via rational design is of crucial importance for making breakthrough enhancement of materials performance in applications. With dramatically increasing computing capability of supercomputers and continuously developed computational algorithms, people can resort to materials simulation to explore the properties of thousands of potentially useful materials in a fraction of time that the real experiments might take. This makes computational design of functional materials with desired properties in computers come true. Among various computational design approaches, first-principles high-throughput calculations method is a straightforward and powerful tool. Combining advanced thermodynamic and electronic-structure methods with database construction and intelligent data mining allow researchers to perform efficient searches and screening of materials with desired functionality [1]. We herein report the development of our in-house code for high-throughput calculations, and its application in rational design of optoelectronic semiconductors.
+
+## II Approaches
+
+Our computational materials design works were carried out by using the in-house developed Jilin University Materials-design Python Package (JUMP) [2]. It is an open-source Python infrastructure designed for large-scale high-throughput energetic and property calculations of materials, especially functional semiconductor systems. The general work flowchart is shown in Fig. 1. We go through first-principles high-throughput calculations, construction of normalized composition-structure-property materials database, and machine learning or data mining to achieve the materials with desired functionalities or useful design principles. The high-throughput calculations involve creation of calculation workflows, management of large amounts of calculations, extraction of calculated results, post-processing analysis, etc. We used the Django framework to construct highly normalized materials database.
+
+## III Results and discussions
+
+By using the first-principles high-throughput calculations method, we carried out the following three works on computational design of optoelectronic semiconductors.
+
+### _Design of Pb-free halide perovskite solar absorbers._
+
+Pb-based halide perovskites AMX\({}_{3}\) (prototype CHNNbPbIb) have recently attracted intense interest for optoelectronic applications, yet two key impediments need to be resolved: the intrinsic material instability and the toxicity
+
+Fig. 1: Flowchart of the in-house developed Jilin University Materials-design Python Package (JUMP\({}^{2}\)).
+
+Fig. 2: Idea of designing Pb-free double perovskites via the cations transmutation strategy.
+
+due to water soluble Pb\({}^{\text{2+}}\). We used photovoltaic-functionality-directed materials screening approach to rationally design Pb-free halide perovskites. We considered both single atomic substitutions in AMX3 normal perovskites (altering A, M and X individually [3] as well as double substitution of 2M into B+C pair in A:BCX\({}_{6}\) double-perovskites [4, 5]. Fig. 2 depicts the idea of designing Pb-free double perovskites via the cations transmutation strategy, which is motivated by the emergent chalcogenide solar absorbers with transmutations from CdS to Cu(In,Ga)Se+ and from Cu(In,Ga)Se+ to Cu:2(II)SnSe+ (M(II) = Zn, Ba, _etc._). Screening criteria involve thermodynamic and crystallographic stability, as well as solar band gaps, light carrier effective masses, reasonable exciton binding, etc. The materials screening procedure for the Bi/Sb based double halide perovskites is shown in Fig. 3. We identify eleven optimal materials with potentially good photovoltaic performance. Several compounds we predicted have been experimentally verified and applied into optoelectronic devices [6].
+
+### _Design of Sn(II)-based ternary phosphates as transparent conducting oxides_
+
+High performance \(n\)-type transparent conducting oxides (TCOs) are known, including Sn doped In\({}_{2}\)O\({}_{3}\) (ITO). The best \(p\)-type TCOs have inferior performance due to lower mobility and higher optical absorption. The difficulties in realizing high-performance \(p\)-type TCOs include the rather localized O-p derived valence bands of most oxides. We exploit the idea of taking advantage of the coupling/hybridization between O-p and metal \(n\)s\({}^{2}\) states to design Sn(II)-based \(p\)-type TCOs. We find that the Sn(II)-based ternary phosphates with the chemical formula of Sn-P:O\({}_{5m}\) (n=1-5) have large band gaps and at the same time still can have moderate effective masses for both holes and electrons [7]. This suggests their potential applications as \(p\)-type TCOs in case that suitable dopants can induce sufficient carrier density.
+
+### _Screening of Bi/Sb oxyhalides and chalcohalides as potential optoelectronic semiconductors_
+
+In the last decade the n\({}^{\text{2}}\) (e.g., Pb\({}^{\text{2+}}\), Sn\({}^{\text{2+}}\)) halides have emerged as one of the most exciting new classes of electronic materials, as exemplified by _e.g._ perovskite solar absorbers. These materials not only exhibit unprecedented performance in some case, but they also appear to break new ground their unexpected properties, such as extreme tolerance to defects. However, because of the relatively recent emergence of this class of materials, there remain many yet to be fully explored compounds. Here we assess a series of 36 bismuth/antimony oxyhalides and chalcohalides using first-principles high-throughput energetic and electronic structure calculations to obtain trends and identify potential useful materials (Fig. 4). Based these calculations, we identify a subset consisting of three types of compounds that may be promising as solar absorbers, transparent conductors, and radiation detectors [8].
+
+## Acknowledgment
+
+The authors acknowledge funding support from the Recruitment Program of Global Youth Experts in China, National Natural Science Foundation of China (under Grant No. 61722403 and 11674121), the Special Fund for Talent Exploitation in Jilin Province of China, and Program for JLU Science and Technology Innovative Research Team.
+

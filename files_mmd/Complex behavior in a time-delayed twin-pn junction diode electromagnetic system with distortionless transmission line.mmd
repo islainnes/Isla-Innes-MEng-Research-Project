@@ -1,0 +1,69 @@
+
+
+Department of Electronic Information Engineering
+
+
+
+
+Department of Production and Technology
+
+
+
+## I Introduction
+
+In various nonlinear physical models have been found and studied. There are numerous works devoted to the analysis of complex behavior in the infinite-dimensional dynamical systems [1-3]. It is yet poorly understood as how to proceed in the case of noisy and spatially extended systems.
+
+A spatially extended system consists of an infinite number of interacting state variables, arranged in a given spatial configuration extending infinitely far in all directions. The simplest example is a one-dimensional spatial array. In this paper, an infinite-dimensional electromagnetic system with distortionless transmission line is used as a practical model for analyzing the complex behavior.
+
+The time-delayed Chua's circuit is well known as a representative infinite-dimensional electromagnetic system, and has been studied extensively by many researchers [4-7]. Corti _et al_. found that there are a very rich variety of interesting phenomena including chaotic attractors and spatiotemporal chaos in an infinite-dimensional electromagnetic system [8]. In addition, as far as spatiotemporal chaos in 1-D wave propagation is concerned, there has been a sharp surge of interest in recent years [9-11].
+
+The paper is organized as follows. The system model and its equations that we used are described in section II. In section III, the Poincare mapping of the voltage at the left end is derived. The dynamic behavior of the voltage at the left end is studied in section IV. In section V, spatiotemporal complex behavior of the voltages along the transmission line are investigated. Finally, some conclusions are given in section VI.
+
+## II The system model and its equations
+
+The work described in this paper is essentially devoted to demonstrate the complex behavior can arise in a simple electromagnetic system, as that shown in Fig. 1, which is a linear distortionless transmission line connected to a twin-_pn_ junction diode at the left end and to an active linear resistor at the right end. The characteristic of twin-_pn_ junction diode is
+
+\[i_{k_{x}}=g(v_{k_{x}})=\begin{cases}I_{s}(e^{\left|\frac{v_{k_{x}}}{I_{s}} \right|}-1)&v_{k_{x}}\geq 0\\ -I_{s}(e^{\left|\frac{v_{k_{x}}}{I_{s}}\right|}-1)&v_{k_{x}}<0\end{cases} \tag{1}\]
+
+where \(I_{s}\) is the saturation current and \(V_{s}\) is the thermal voltage. The \(v\)-\(i\) characteristic of the twin-_pn_ junction diode is shown in Fig. 2.
+
+Figure 1: Schematic representation of an infinite electromagnetic system.
+
+[MISSING_PAGE_FAIL:2]
+
+For \(R<-1.08\Omega\), the map (9) has only one stable fixed point \(Q_{{}_{1}}\). Physically, this would mean that \(\nu(0,t)\) would attenuate to zero. As \(R\) passes through \(-1.08\Omega\), the map has three fixed points \((Q_{{}_{1}},Q_{{}_{2}},Q_{{}_{3}})\). By reason of \(\left|f^{\prime}(R)\right|_{{}_{\Omega}}\) \(>1\), the fixed point \(Q_{{}_{1}}\) is unstable for \(-1.08\Omega<R<R_{{}_{1}}\). However, the fixed points \(Q_{{}_{1}}\) and \(Q_{{}_{3}}\) are the stable fixed point of period one, and the iterative paths of the unstable fixed point \(Q_{{}_{1}}\) are attracted to the stable fixed point \(Q_{{}_{2}}\) or \(Q_{{}_{3}}\) for \(-1.08\Omega<R<R_{{}_{1}}\). As \(R\) passes through \(R_{{}_{1}}\), the fixed points \(Q_{{}_{2}}\) and \(Q_{{}_{3}}\) of period one becomes unstable and a fixed point of period two is created. As \(R\) passes through \(R_{{}_{2}}\), this period-two orbit flips to a period-four orbit, and so on. The period-doubling bifurcation diagram in the range \(-1.3\Omega\leq R\leq-0.71\Omega\) is shown in Fig. 4 starting with the different initial conditions. We know that the electromagnetic system is very sensitive about initial conditions.
+
+Define \(f(R,\nu(0,t))=F(\nu(0,t))\). For \(R=-0.797\Omega\), at the fixed points \(Q_{{}_{2}}\) and \(Q_{{}_{3}}\), the several conditions that satisfy period-doubling bifurcation theorem are computed, and we have
+
+1. \(\frac{\partial}{\partial\nu}f(R,\nu(0,t))=-1\)
+2. \(\frac{\partial^{2}}{\partial R\partial\nu}f^{2}(R,\nu(0,t))\neq 0\)
+3. \(S(R,\nu(0,t))=\frac{f^{\prime\prime}}{f^{\prime}}-\frac{3}{2}(\frac{f^{ \prime}}{f^{\prime}})^{2}<0\)
+
+Consequently, there is period-doubling bifurcation at \(Q_{{}_{2}}\) and \(Q_{{}_{3}}\) with the variation in \(R\).
+
+The Lyapunov exponents of the map (9) are computed, as that shown in Fig. 5. As are seen in Fig. 5, the Lyapunov exponents are positive for some values of \(R\), then the electromagnetic system is chaotic, and the Lyapunov exponents are negative for some values of \(R\), then electromagnetic system is periodic, and the Lyapunov exponents are zero for some values of \(R\), a bifurcation occurs. This is in coincident with the above results.
+
+Figure 5: The Lyapunov exponents of the map (9).
+
+Figure 3: The graph of the 1-D map (9) for \(R=-0.8\Omega\).
+
+In the numerical simulations, the sinusoidal generator can be considered as an external source that generates the transient initial voltage and current distributed on the transmission line. At \(t=0\), both the voltages and the currents at all joining-points of the segments are then recorded as the initial voltage and current distributions excited by the sinusoidal voltage source. Fig. 6 shows the initial voltage wave distributions on a distortionless transmission line.
+
+For \(R<R_{\mathrm{t}}=-0.797\Omega\), the behavior of the voltages along the transmission line is ordinary and the final behavior of \(\nu(i,n)\) is only one value. In the interval \(R_{\mathrm{t}}<R<R_{\mathrm{z}}=-0.7525\Omega\), the voltage wave at the left end becomes a period two orbit, and then the behavior of the voltages shows the period-doubling of the kink-antikinks. Fig. 7(a) shows that the propagation of voltage wave on the space direction is period-two behaviors with the round-trip time variation for \(R=-0.78\Omega\). The space-amplitude plot of \(\nu(i,n)\) is shown in Fig. 7(b), here the amplitudes of \(\nu(i,n)\) are overlaid for 100 round-trip time steps after the 1000 iterations of transients. From Fig. 7(b), we know that the temporal behavior of \(\nu(i,n)\) exhibits different period-two states and the spatial behavior of \(\nu(i,n)\) displays high-periodic states. It is different from the spatiotemporal pattern of the electromagnetic system with lossless transmission line in [11]. This is because that the voltage wave travels along a distortionless transmission line not only with time delay but also with attenuation loss. As a result, the voltages along the transmission line display the high-periodic states in space and different period-two states with the time variation. The sites and numbers of kink depend on the given initial condition, but the dynamic behaviors of \(\nu(i,n)\) principally depend on the values of \(R\).
+
+As the parameter \(R\) increases progressively, period-doubling brings about the spatial structure with more complexity. In Fig. 8(a), the propagation of voltage wave on the space direction is chaotic states for \(R=-0.736\Omega\). As a matter of fact, we have observed that the distributions of voltages along the distortionless transmission line with the time variation are not consistent with the propagation of voltages on the space direction, and it is different from the spatiotemporal behavior of the electromagnetic system with lossless transmission line in [11]. It is also observed from Fig. 8(b) that the voltages along the distortionless transmission line travel within small oscillating extents along both space and time directions.
+
+Figure 6: The initial voltage distributions on a distortionless transmission line.
+
+Figure 7: The numerical results of \(\nu(i,n)\) for \(R=-0.78\Omega\). (a) Spatial distribution profile; (b) Space-amplitude plot.
+
+When the parameter \(R\) is increased further, both the oscillating extents of the temporal two-piece chaos and the fluctuating extents of spatial chaos also increase, and the domains of the temporal two-piece chaos interweave with each other. The temporal two-piece chaos eventually becomes one-piece chaos. The corresponding diagrams of the voltages for \(R=-0.705\Omega\) are seen in Fig. 9. Fig. 9 shows that the propagation of voltage wave on the space direction is chaotic behavior with the round-trip time variation and the temporal behavior of the voltages along the transmission line exhibits chaotic state.
+
+From the above results, it follows that the presence of the losses in transmission line makes the oscillation of the voltages along the transmission line is nonisotropic with respect to space and time. At the same time, the presence of the losses in transmission line brings the spatiotemporal behavior with more complexity.
+
+## VI Conclusions
+
+In this paper, we have analyzed the complex behavior in a time-delayed twin-\(pn\) junction diode electromagnetic system with distortionless transmission line, and studied in details the effects of the linear resistor \(R\) on the dynamics of the system. We have found that there exist various spatiotemporal phenomena in an infinite-dimensional electromagnetic system with a distortionless transmission line.
+
+In the further investigations, we are working on the analysis of the effects of the line parameters on the complex behavior in the infinite-dimensional electromagnetic system.
+

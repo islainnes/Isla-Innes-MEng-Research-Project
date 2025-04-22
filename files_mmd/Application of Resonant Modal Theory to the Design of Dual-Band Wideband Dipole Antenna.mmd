@@ -1,0 +1,66 @@
+
+
+Manuscript received 22 April 2024; accepted 6 May 2024. Date of publication 10 May 2024; date of current version 6 August 2024. This work was supported by the National Natural Science Foundation of China under Grant 61971231. _(Corresponding author: Ragi Xiao.)_. Ruzi Xiao, Guo Yang, and Wen Wu are with the School of Electronic and Optical Engineering, Nanjing University of Science and Technology, Nanjing 210094, China (e-mail: Xiaoruqi.ce@njust.edu.cn; wgy@njust.edu.cn). Wen Geyi is with the Research Center of Applied Electromagnetics, Nanjing University of Information Science and Technology, Nanjing 210044, China. Digital Object Identifier 10.1109/LAWP.2024.3399405
+
+## I Introduction
+
+With the developments of the fifth-generation communication services, wideband or multiband antennas are required in various applications. Due to its simple structure and no large ground required, dipole antenna has been widely investigated [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]. There are many attempts to enhance the impedance bandwidth of the dipole antenna. The first method is to introduce parasitic resonator loadings directly. Parasitic loop [1], parasitic dipoles [2, 3], near-field parasitic resonator [4], and split-ring resonators [5] are usually added to enhance the antenna impedance bandwidth by generating new resonant modes. Another effective method is the mode compression adopted in [6, 7, 8, 9, 10, 11, 12], and [13]. Various wideband or multiband dipole antennas have been realized by introducing different numbers of stubs at different places to manipulate the mode distributions of the dipole structures in [6, 7, 8, 9, 10, 11, 12], and [13]. Besides, in [14], two capacitive loadings are positioned near the current nulls of the third resonant mode of original dipole and the first and third modes are compressed, generating a wide bandwidth under dual-mode resonance.
+
+Some wideband dipoles are designed with the help of the theory of characteristic mode (TCM), as discussed in [1, 8, 11], and [15]. But most of the above-mentioned works rely on brute-force optimization techniques, which is time-consuming as mentioned in [15]. Despite the fact that the TCM can provide an insight of the resonant modes for the scatterers, the nonresonant modes simultaneously produced by the TCM are redundant and insignificant within the interested frequency band and may cause confusion when these modes are applied to broaden the impedance bandwidth for various resonant antenna designs [16]. In contrast, the resonant modal theory (RMT) provided in [16] and [17] only addresses the resonant modes that are most relevant to multiband or wideband resonant antenna design. Once the resonant modes of the selected scatterer are obtained in the desired frequency band through the RMT, the rest is to introduce a source to excite the resonant modes in the band to form a wideband antenna [16, 17].
+
+In this letter, we first briefly review the formulations of RMT. Then, a novel dual-band wideband dipole antenna that loads two pairs of folded stripes is designed with the help of the RMT. The RMT analyzes the influences of the loaded folded stripes on the resonant frequencies of the proposed dipole and clearly reveals the process of combining the third (3rd) and fifth (5th) resonant modes of the proposed dipole into the same frequency band. Finally, the dual-band wideband dipole antenna is fabricated and measured. Compared with the impedance bandwidths of the dipole antennas in [8] and [9], where the same resonant modes are utilized, the impedance bandwidth of the proposed dipole antenna is wider than that studied in [8] and [9]. In addition, the proposed dual-band wideband dipole antenna is designed in terms of the RMT proposed in [16] and [17], which avoids the brute-force optimization process and saves computational time.
+
+## II Formulations of RMT
+
+Based on the Poynting theorem and compensation theorem of electromagnetic fields, the difference of the stored field energies (DSFE) around a scatterer with arbitrary combination of metals and dielectrics can be represented by the modal currents as follows [17]:
+
+\[\Delta W = \int_{V}\frac{1}{4}\left(\mu_{0}\left|\mathbf{H}\right|^{2}-\varepsilon _{0}\left|\mathbf{E}\right|^{2}\right)\mathrm{d}V \tag{1}\] \[-\int_{V_{0}}\frac{1}{4}\left(\varepsilon_{\mathrm{d}}-\varepsilon _{0}\right)\left|\mathbf{E}\right|^{2}\mathrm{d}V\] \[= \begin{bmatrix}\mathbf{J}_{\mathrm{S}}\\ \mathbf{J}_{\mathrm{V}}\end{bmatrix}^{\mathrm{H}}\begin{bmatrix}\mathcal{L}^{ \mathrm{MM}}&\mathcal{L}^{\mathrm{DM}}\\ \mathcal{L}^{\mathrm{MD}}&\mathcal{Z}^{\mathrm{DD}}\end{bmatrix}\begin{bmatrix} \mathbf{J}_{\mathrm{S}}\\ \mathbf{J}_{\mathrm{V}}\end{bmatrix}.\]The definitions of the notations used in the above can be found in [17]. To determine the external resonant modes of the scatterer with arbitrary combination of metals and dielectrics, one can impose a requirement that the DSFE vanishes, which leads to a homogeneous volume-surface-integral-equation (VSIE)
+
+\[\begin{bmatrix}\mathcal{L}^{\text{MM}}&\mathcal{L}^{\text{DM}}\\ \mathcal{L}^{\text{MD}}&\mathbb{Z}^{\text{DD}}\end{bmatrix}\begin{bmatrix} \boldsymbol{J}_{\text{S}}\\ \boldsymbol{J}_{\text{V}}\end{bmatrix}=\boldsymbol{0}. \tag{2}\]
+
+To solve the above homogeneous VSIE, (2) is discretized by the method of moment, resulting in a real homogenous matrix equation
+
+\[\begin{bmatrix}l_{mn}^{\text{MM}}&l_{mn}^{\text{DM}}\\ l_{mn}^{\text{DM}}&Z_{mm}^{\text{DD}}\end{bmatrix}\begin{bmatrix}J_{\text{S}} \\ J_{\text{V}}\end{bmatrix}=\boldsymbol{0}. \tag{3}\]
+
+The necessary and sufficient condition for the existence of the nontrivial solutions of (3) is
+
+\[\det\begin{bmatrix}l_{mn}^{\text{MM}}&l_{mn}^{\text{DM}}\\ l_{mn}^{\text{MD}}&Z_{mm}^{\text{DD}}\end{bmatrix}=0. \tag{4}\]
+
+The real resonant frequencies and modal current distributions of the scatterer with arbitrary combination of metals and dielectrics can be determined from (4) and (3), respectively. It has been proved in [16] and [17] that the RMT does not produce redundant and insignificant nonresonant modes. Note that the numerical solutions of (4) and (3) for the typical dipole and proposed dipole in the next section are found through an in-house MATLAB code and more implementation details can be found in [17].
+
+## III Antenna Design
+
+Fig. 1 presents the configuration of a typical dipole and the proposed dipole loaded with folded stripes. The dipole (metal part) is printed on the Arlon 880 substrate with dielectric constant of 2.2, loss tangent of 0.0009, and thickness of 1.524 mm. Table I lists the detailed dimensions of structures.
+
+### _Resonant Modes of Typical Dipole Calculated by RMT_
+
+Based on (4), the first five resonant modes for the typical dipole are calculated to be 1.349 GHz, 2.887 GHz, 4.223 GHz, 5.921 GHz, and 6.977 GHz, respectively. Fig. 2 presents the current distributions of these five resonant modes. It can be seen that the first, third, and fifth resonant current modes show significant current concentrations at the center of the typical dipole, whereas the second and fourth resonant modes exhibit nulls at the same location. Due to the big differences in resonant frequencies among the first, third, and fifth modes of the typical dipole, it is difficult to combine these three modes into the desired frequency band.
+
+### _Resonant Modes of Proposed Dipole Calculated by RMT_
+
+In this letter, two pairs of folded stripes are introduced at the current nulls of the third resonant mode of the typical dipole, as shown in Fig. 1(b). To understand the influences of the loaded folded stripes on the typical dipole, the resonant characteristics of the proposed dipole loaded with varying lengths of folded stripes are investigated by the RMT proposed in [17]. All the resonant frequencies are determined through (4) and presented in Table II. In the first column of Table II, \(L_{i}=0\) mm stands for the typical dipole configuration in Fig. 1(a). The third column of Table II presents the frequency difference (FD) between the third and fifth resonant modes of the corresponding structures.
+
+By comparing the first resonant frequencies of the dipole loaded with various lengths of folded stripes in the second column of Table II, it can be observed that the frequency variation for the first resonant mode is negligible. While the FD between the third and fifth resonant modes in the third column of Table II decreases when the length of the folded stripes increases. The reduction of the FD between the third and fifth resonant frequencies makes it possible to merge those two resonant modes into the desired frequency band, resulting in a wideband dipole antenna. Since the resonant current distributions for various lengths of folded stripes are similar, only the modal currents of the dipole with folded stripe length \(L_{i}=6\) mm are presented in Fig. 3. The resonant modal currents of the dipole with loaded folded stripes in Fig. 3 are similar to those of typical dipole in Fig. 2.
+
+Fig. 1: Configuration of the dipoles (without input terminal). (a) Typical dipole. (b) Proposed dipole with loaded folded stripes.
+
+Fig. 2: Calculated resonant currents of the typical dipole: (a) 1.349 GHz, (b) 2.887 GHz, (c) 4.223 GHz, (d) 5.921 GHz, and (e) 6.977 GHz.
+
+[MISSING_PAGE_EMPTY:361]
+
+operating band all agree with the simulated ones. The simulated impedance bandwidths of the proposed dipole antenna are 14.4% from 1.16 GHz to 1.34 GHz at the lower band and 29.0% from 3.80 GHz to 5.10 GHz at the higher band. The measured impedance bandwidths of proposed dipole antenna are 14.4% from 1.16 GHz to 1.34 GHz at the lower band and 25.5% from 3.97 GHz to 5.13 GHz at the higher band.
+
+Fig. 9 shows the gains of the proposed dual-band wideband dipole antenna. The measured (simulated) peak gain (PG) of the proposed antenna is 2 dBi (2 dBi) at the first operation band and 4 dBi (4 dBi) at the second operation band. The radiation patterns of the proposed dual-band wideband antenna are presented in Fig. 10. The proposed dipole antenna is omnidirectional in H-plane. For the first (1st) and 3rd resonant modes, the E-plane radiation patterns have two nulls (eight-shaped pattern) and six nulls, respectively. Despite the E-plane pattern has more nulls when the antenna operates in high-order modes, the performances of the E-plane pattern in high-order modes can be improved by repairing the reverse currents along the dipole [9] when the nulls become a major concern. The E-plane radiation pattern of the 5th resonant mode is similar to the 3rd resonant mode. The reason for this phenomenon is that the uniform current distribution of the 5th resonant mode of the typical dipole antenna in Fig. 5(c) becomes more concentrated due to the introduction of the loaded folded stripes in Fig. 6(c). It can be seen from Fig. 6(c) that the 5th resonant mode of the proposed dipole antenna has a significant current concentration on the folded stripes and the feeding point, which is similar to the current distribution of the 3rd resonant mode shown in Fig. 6(b).
+
+Table IV presents the comparisons between the proposed dual-band wideband dipole antenna and other dipole antennas in terms of the operating modes, bandwidth (BW), PG, and antenna size. In Table IV, \(\lambda_{0}\) represents the free-space wavelength at the center frequency of the lowest operation band. Compared with the dipole antenna design in [8] and [9], which are both based on the operation of the 3rd and 5th resonant modes of the dipole, the proposed antenna exhibits a wider impedance bandwidth in the second frequency band. Note that the impedance bandwidth of the proposed antenna can be further enhanced with the introduction of other parasitic resonators with the help of RMT, as discussed in [3].
+
+## V Conclusion
+
+A new dual-band wideband dipole antenna has been designed in terms of RMT in this letter. The RMT is used to determine the resonant frequencies of the proposed dipole structure, and the first, third, and fifth resonant modes are then selected and excited for dual-band wideband application. The lower band of the dipole antenna operates at the first resonant mode, and the higher band consists of the third and fifth resonant modes. Good agreements between the simulations and measurements have been obtained. Our analysis indicates that RMT can provide a clear procedure for resonant antenna design and is applicable to various resonant antennas with more complex structures [17].
+
+Fig. 8: Reflection coefficients of the proposed dipole antenna.
+
+Fig. 10: Radiation patterns: (a) 1.24 GHz, (b) 3.98 GHz, and (c) 4.62 GHz.
+
+Fig. 9: Gains of the proposed dipole antenna.
+

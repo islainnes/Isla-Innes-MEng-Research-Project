@@ -1,0 +1,159 @@
+
+
+Manuscript received September 23, 1996; revised January 20, 1997. This work was supported in part by the NSF Engineering Research Centers Program through the Advanced Electronic Materials Processing (Grant CDR 8721505) and the Semiconductor Research Corporation (SRC Contract 94M-563).G. Lu was with the NSF Engineering Research Center for Advanced Electronic Materials Processing, North Carolina State University, Raleigh, NC 27695-7920 USA. He is now with Novellus Systems, Inc., San Jose CA 95134 USA (e-mail: brain.lu@novellus.com).G. W. Rubloff was with the NSF Engineering Research Center for Advanced Electronic Materials Processing, North Carolina State University, Raleigh, NC 27695-7920 USA. He is now with the Institute for Systems Research and Department of Materials and Nuclear Engineering, University of Maryland, College Park, MD 20742-3285 USA (e-mail: ruboff@isr.umd.edu).J. Durham is with Motorola, Mesa, AZ 85202 USA (e-mail: durham@mesgmr.sps.mot.com).Publisher Item Identifier S 0894-6507(97)07552-0.0894-6507/97510.00 (c) 1997 IEEE
+
+## I Introduction
+
+Gas withdrawal from a tank containing the liquified gas (such as a liquid CHF\({}_{3}\) cylinder) is a common practice in the semiconductor manufacturing industry. The specified contaminant concentration from the gas manufacturer is generally the initial level in the liquid phase. Impurity levels in the delivered gas varies as the container is emptied, depending on the difference in the vapor pressures of the various components in the liquid [1]. Toward the end of gas usage, accumulation of impurity in the liquid phase may cause the contamination level in gas phase to be higher than the gas manufacturer's original specification, causing serious consequences, including even failures in manufacturing processes [2]. Therefore, the measurement and control of the contaminants is vital to many manufacturing processes [3].
+
+For instance, CHF\({}_{3}\) is widely used in plasma etching processes of SiO\({}_{2}\) and polysilicon, and is generally stored in liquid form in a pressurized cylinder (vapor pressure at RT is 635 psi). CHICI\({}_{2}\) is a major impurity in CHF\({}_{3}\), and its presence at high concentration can result in the loss of selectivity in the polysilicon/oxide etch process [2]. Due to the large difference in the vapor pressures (136 psi for CHCIF\({}_{2}\) at RT), CHCIF\({}_{2}\) is accumulated to a level much higher than that specified by the gas manufacturer as most of the liquid is drawn out of the cylinder as gas. A detailed understanding of the time-dependent behavior is therefore needed for such a gas delivery system. In addition, effectively regulating its control parameters based on its time-profile allows one to maximize the gas material utilization efficiency without sacrificing the process quality, and therefore to reduce consumable costs and waste emission into the environment.
+
+In this paper, we provide the results of a dynamic simulation for gas delivery from a cylinder containing a liquid source with a single dominant impurity species. The system of CHCIF\({}_{2}\) impurity in CHF\({}_{3}\) is taken as an example for numerical calculation and experimental validation. In Section II, the fundamental assumptions and mathematical formulations for the gas delivery system are first presented. The construction and execution of the simulator using a commercially available software package, VisSim\({}^{\text{TM}}\) (from Visual Solutions, Inc.) [4] are then described. Our simulation results for a CHF\({}_{3}\) solution with 100-ppm CHCIF\({}_{2}\) are presented in Sections III and IV. By comparison to experimental data, it is found that the simulator faithfully describes the time evolution of impurity concentration throughout the gas delivery process. Section V addresses the Implications of the results for contamination control, manufacturing and environmental design optimization, and sensor-based control strategies. The results for the case of a liquified CHF\({}_{3}\) source with ppm-level concentrations of CHCIF\({}_{2}\) impurities suggest procedures for controlling contamination levels in the process, for optimizing materialutilization efficiency, and for exploiting temperature-controlled sources for further gains. The more general applicability of the simulator is described in Section VI, with overall conclusions following in Section VII.
+
+## II Physical Model and Simulation Approach for Gas Delivery at Constant Temperature
+
+### _Assumptions_
+
+To simulate the time-dependent behavior of such a gas withdrawal system, the model must keep track of the precise concentration of each component at any moment of the operation. To simplify the model, the gas withdrawal system is divided into three parts: a liquid phase inside the cylinder, a gas phase inside the cylinder, and the gas withdrawn out of the cylinder. Consider a bi-component system of \(A\) as the primary gas material and \(B\) as the impurity, wherein the initial concentration of \(B\) in the source liquid is far smaller than that of \(A\), that is, molar fraction \(x_{B}\ll x_{A}\). This system and its parameters are schematically shown in Fig. 1. The definition for each parameter is described in the remaining of this section.
+
+Three basic assumptions are made: 1) the gas phase is an ideal gas; 2) the liquid phase is an ideal bi-component solution; and 3) the gas phase in the cylinder is always in equilibrium with the liquid phase. The gas withdrawn out of the cylinder has the same composition as the gas in the cylinder at the moment the gas is withdrawn. Removal of gas from the cylinder will change the total composition of the materials in the cylinder, and new equilibrium compositions for the gas and for the liquid are then established. Then, the above principles are represented by the following fundamental equations.
+
+### _Time-Dependent Mass Balance Equations Gas Withdrawal_
+
+\[N_{A}^{\text{cut}}=\int{F}x_{A}^{g}\,dt\qquad N_{B}^{\text{cut}}=\int{F}x_{B} ^{g}\,dt \tag{1}\]
+
+where \(N_{A}^{\text{cut}}\) and \(N_{B}^{\text{cut}}\) are the total number of moles of \(A\) and \(B\), respectively, that have been withdrawn out of the cylinder from time 0 to time \(t\); \(F\) is the total gas flow rate out of the cylinder in "moles/s"; and \(x_{A}^{g}\) and \(x_{B}^{g}\) are the molar fractions of \(A\) and \(B\), respectively, in the delivered gas which has the same composition as the gas inside the cylinder.
+
+_Definitions for the System Composition at Time \(t\):_
+
+liquid: \[x_{A}^{\text{\emph{I}}} =\frac{N_{A}^{\text{\emph{I}}}}{N_{A}^{\text{\emph{I}}}+N_{B}^{ \text{\emph{I}}}} x_{B}^{\text{\emph{I}}} =\frac{N_{B}^{\text{\emph{I}}}}{N_{A}^{\text{\emph{I}}}+N_{B}^{ \text{\emph{I}}}}\] (2) gas: \[x_{A}^{g} =\frac{N_{A}^{g}}{N_{A}^{g}+N_{B}^{g}} x_{B}^{g} =\frac{N_{B}^{g}}{N_{A}^{g}+N_{B}^{g}}\] then: \[x_{A}^{\text{\emph{I}}}+x_{B}^{\text{\emph{I}}} =1 \text{and} x_{A}^{g}+x_{B}^{g} =1\]
+
+where \(N_{A}^{\text{\emph{I}}}\) and \(N_{B}^{\text{\emph{I}}}\) are the number of moles of \(A\) and \(B\), respectively, in the liquid phase at time \(t\); \(N_{A}^{g}\) and \(N_{B}^{g}\) are the number of moles of \(A\) and \(B\), respectively, in the gas phase within the cylinder at time \(t\).
+
+_Materials Balance at Time \(t\):_
+
+\[N_{A}^{\text{\emph{0}}} =N_{A}^{\text{\emph{I}}}+N_{A}^{g}+N_{A}^{\text{cut}} \tag{4}\] \[N_{B}^{\text{\emph{0}}} =N_{B}^{\text{\emph{0}}}+N_{B}^{g}+N_{B}^{\text{\emph{0}}} \tag{5}\]
+
+where \(N_{A}^{\text{\emph{0}}}\) and \(N_{B}^{\text{\emph{0}}}\) are the total number of moles of \(A\) and \(B\), respectively, in the system at time 0 before any gas is removed from the cylinder; \(N_{A}^{\text{cut}}\) and \(N_{B}^{\text{cut}}\) are defined as in (1).
+
+_Ideal Gas Law:_
+
+\[P_{A}V^{g} =N_{A}^{g}\,RT N_{A}^{g} =\frac{P_{A}V^{g}}{RT} \tag{6}\] \[P_{B}V^{g} =N_{B}^{g}\,RT N_{B}^{g} =\frac{P_{B}V^{g}}{RT} \tag{7}\]
+
+where \(P_{A}\) and \(P_{B}\) are the partial pressures of \(A\) and \(B\), respectively, in the gas phase within the cylinder; \(V^{g}\) is the volume of the gas phase within the cylinder at time \(t\); and \(T\) is the temperature in K of the gas delivery system.
+
+_Ideal Solution Law:_
+
+\[P_{A} =P_{A}^{\text{\emph{0}}}x_{A}^{\text{\emph{I}}}=P_{A}^{\text{ \emph{0}}}\frac{N_{A}^{\text{\emph{I}}}}{N_{A}^{\text{\emph{I}}}+N_{B}^{\text {\emph{I}}}}\] (8) \[P_{B} =P_{B}^{\text{\emph{0}}}x_{B}^{\text{\emph{0}}}=P_{B}^{\text{ \emph{0}}}\frac{N_{B}^{\text{\emph{0}}}
+
+### _Figures of Merit_
+
+The value of importance here is the time-dependence of the impurity concentration \(x_{B}\). This can be obtained by solving for all the system parameters defined in (1) to (10). In industrial applications, it is more practical to express \(x_{B}\) as a function of the total amount of liquid remaining in the cylinder, which can be easily measured by the weight of the source cylinder. The simulation results for \(x_{B}\) in this paper will be presented as a function of the percentage of liquid remaining.
+
+### _Simulation Approach_
+
+For a numerical simulation of the time-dependence of impurity concentration, we compute the initial values of the system parameters at \(t=0\) during the first iteration. At \(t=0\), \(N_{A}^{\text{cat}}=N_{B}^{\text{cat}}=0\), then all other system parameters are evaluated based on the system definition equations (1) to (10). During the second iteration, the system parameters at \(t=dt\) are computed after gas withdrawal of \(N_{A}^{\text{cat}}=Fx_{A}^{\text{g}}\,dt\) and \(N_{B}^{\text{cat}}=Fx_{B}^{\text{d}}\,dt\), where \(x_{A}^{\text{g}}\) and \(x_{B}^{\text{g}}\) are the initial gas composition. The removal of \(N_{A}^{\text{cat}}\) and \(N_{B}^{\text{cat}}\) moles of \(A\) and \(B\), respectively, changes the composition of the gas phase inside the cylinder and perturbs the phase equilibrium. We incorporate this perturbation into the simulation, and a new equilibrium composition is then computed for the gas and the liquid phase. The new values of \(x_{A}^{\text{g}}\) and \(x_{B}^{\text{g}}\) are then used to calculate \(N_{A}^{\text{cat}}\) and \(N_{B}^{\text{cat}}\) in the third iteration. This process keeps going at each time step of the simulation to compute values for each system parameter at any given time \(t\), generating a time-profile of the dynamic system.
+
+The software used for numerical computations is a commercially available package, VisSim\({}^{\text{TM}}\) (from Visual Solutions, Inc.), which operates under the PC-Windows environment. VisSim\({}^{\text{TM}}\) uses a convenient graphical user interface which allows the user generate models by simply wiring together functional blocks supplied within the software, rather than having to write computer code. The block diagram constructed in this way interconnects a variety of mathematical functionalities which serve to represent the time-dependent behavior of a physical or chemical system. For example, (1) and (3) combine to give the following expression:
+
+\[N_{A}^{\text{cat}}=\int Fx_{A}^{\text{g}}\,dt\!=\int F\frac{N_{A}^{\text{g}}} {N_{A}^{\text{g}}+N_{B}^{\text{g}}}\,dt\!.\]
+
+This equation is represented in a VisSim\({}^{\text{TM}}\) block-diagram as shown in Fig. 2. Each block in such a diagram can represent a constant, a variable, an algebraic function, a mathematical transformation (integrators, differentials) or data exchange function within the Windows environment (such as dynamic data exchange, dynamic link library). Implicit solvers can also be used to solve for the value of an unknown parameter, so that tedious analytical solutions can be avoided.
+
+## III Simulation Results for 100-ppm CHCF\({}_{2}\) in CHF\({}_{3}\) at Constant Temperature
+
+### _Behavior for Constant Source Temperature_
+
+#### _21.1 \({}^{\circ}\)C (70\({}^{\circ}\)F)_
+
+Most gas delivery systems are nominally kept at room temperature during operation, and there is no temperature regulation on the system. Fig. 3 presents simulation results and experimental data for 21.1 \({}^{\circ}\)C (70\({}^{\circ}\)F), assuming the temperature of the liquid and gas remains constant during gas withdrawal. Here, a full tank of CHF\({}_{3}\) with an initial total impurity of 100-ppm CHCF\({}_{2}\) is considered. The solid
+
+Fig. 2: An example of a VisSim\({}^{\text{TM}}\) block-diagram and the corresponding mathematical expressions.
+
+line is the computed impurity concentration as the gas content is reduced by gas withdrawal from the system. The impurity level is initially about 21 ppm, and rises very slowly to about 42 ppm when 50% of the gas is left in the cylinder. The impurity concentration reaches about 100 ppm when 25.3% of the initial content is left in the cylinder and then increase quickly to 200 ppm at 18%. At 15% remaining, the impurity concentration reaches a maximum of 350 ppm, at which point the liquid phase is all vaporized. After this "liquid-dry point," the impurity concentration remains constant and the pressure in the tank starts to fall linearly with respect to the gas withdrawal.
+
+The open circles in Fig. 3 are experimental data taken from a tank containing 20 000 lb. of liquid CHF\({}_{3}\) with 100 ppm of CHClF\({}_{2}\), measured using mass spectrometry [5]. It is quite obvious that the simulation results are consistent with the experimental data. This consistency demonstrates that our simulation model faithfully represents the behavior of a bi-component gas-delivery system.
+
+### _Consequences_
+
+The above results have significant implication for devising operational procedures for source delivery in manufacturing process. For contamination control purposes, caution must be exercised whenever a liquid-source based gas delivery system is involved. Contaminants are likely to have lower vapor pressure than the desired species, so that contaminants in the source will be depleted more slowly than the primary species. This means that the impurity level in the remaining material rises as the source is consumed. Thus, the impurity concentration specified for the source liquid--no matter how--will underestimate the impurity level delivered in the gas before the source is exhausted. As demonstrated in Fig. 3, the 100-ppm impurity in the initial liquid produces only 25-ppm impurity in the gas phase at the start, but the gas phase impurity level rises to 350 ppm and remains at this level--well above the delivered liquid specification--until the source is fully exhausted.
+
+Most semiconductor processes are sensitive to impurities in the source gases, and process yields degrade if impurity levels in the delivered gas rise too high. Indeed, this sensitivity drives the industry toward reagents of increasing purity. These results demonstrate that the initial purity of the source material, if in liquid form, may not reflect the upper limit of impurity concentration for gas delivered to the process, particularly as most of the source is used up. Indeed, as the liquid source is depleted by use, the impurity level in the gas delivered to the process increases as a fundamental consequence of the physical properties of the species involved.
+
+Furthermore, if the process cannot produce acceptable process yield with gaseous impurity concentration above a known level, the simulation predicts when the gas cylinder must be replaced with a new one. For example, if a process requires the CHClF\({}_{2}\) level no more than 200 ppm (\(C_{T}^{\text{P}\text{-is,i}}\)), then from Fig. 3 the use of further gas from the cylinder must be stopped when there is still about 18% of the initial content remaining in the cylinder. Any gas usage after this point will cause contamination problems in the process, with adverse yield consequences. However, if \(C_{T}^{\text{critical}}\) is above 350 ppm (higher than the end concentration of the gas delivery, \(C_{T}^{\text{max}}\)), the cylinder may be used all the way to empty. Therefore, the simulation also serves as a guideline for maximizing materials utilization in manufacturing processes, with attendant benefits to consumables costs.
+
+## IV Temperature Effects
+
+### _Temperature Dependence of Vapor Pressures_
+
+If the temperature of the liquid source is changed, the vapor pressure of each component \(I_{A}^{\text{O}}\) and \(I_{B}^{\text{O}}\) will vary as well.
+
+Fig. 3: Simulation and experimental results for room-temperature (21.1 \({}^{\circ}\)C, or 70\({}^{\circ}\)F) operation.
+
+If the heat of vaporization \(E_{A}^{V}\) for \(A\) is different from \(E_{B}^{V}\) for \(B\), then the vapor pressure of \(A\) will vary differently with temperature from that for \(B\), causing the gas composition to change with source temperature.
+
+\[\ln P_{A}^{0}=C_{A}-\frac{E_{A}^{V}}{RT}\qquad\ln P_{B}^{0}=C_{B}-\frac{E_{B}^{V }}{RT} \tag{11}\]
+
+where \(E_{A}^{V}\) and \(E_{B}^{V}\) are the heat of vaporization for \(A\) and \(B\), respectively. \(P_{A}^{0}\) and \(P_{B}^{0}\) are the vapor pressures at temperature \(T\) for \(A\) and \(B\), respectively; \(C_{A}\) and \(C_{B}\) are constants. Substituting (11) into (8) and (9) will produce the temperature dependent concentration curve as a function of time.
+
+### _Temperature Effects on the Impurity Concentrations of Gas Delivery_
+
+If the operating temperature of the cylinder is changed, the vapor pressure of each component in the cylinder will change according to (11). If there is a large difference in the heat of vaporization between the two components, then the magnitude of change in vapor pressures will be different, and therefore, the impurity concentration in the gas withdrawal will vary as the operating temperature is changed. Fig. 4 presents the simulation results for the impurity time-profiles when the source gas system is operated at various temperatures.
+
+Three conclusions are immediately deduced from the results in Fig. 4: 1) The initial impurity concentrations are only slightly different at the various operating temperatures; for example, the CHCIF\({}_{2}\) concentration is \(\sim\)15.5 ppm when operating at \(\mathbf{-20}\)\({}^{\circ}\)C, and is \(\sim\)21.2 ppm if operating at 40 \({}^{\circ}\)C. 2) Significant increases in impurity concentration, and the liquid-dry point, occur earlier for higher temperature: for 40 \({}^{\circ}\)C operation, 31% of the initial content still remains in the cylinder when the gas impurity reaches 100 ppm, while for \(\mathbf{-20}\)\({}^{\circ}\)C operation, only 15% of the initial content is left in the cylinder when the gas impurity reaches 100 ppm. 3) While operation at higher temperature causes the system to reach the liquid-dry point earlier, the associated maximum impurity concentration \(C_{T}^{\text{max}}\) (maintained from liquid-dry until the source is exhausted) is lower than that realized for lower temperature operation: at 40 \({}^{\circ}\)C, the liquid-dry point is reached when 22.5% of the initial content is left in the cylinder, and the maximum impurity level is 262 ppm, while at \(\mathbf{-20}\)\({}^{\circ}\)C, the liquid-dry point occurs when only \(\sim\)5% of the initial content is left, but the maximum impurity level is much higher, 987 ppm. These temperature-dependent properties of the system provide opportunities for controlling the impurity concentration delivery cycle and thereby optimizing material utilization within the context of impurity-dependent process yield, as discussed further in the next section.
+
+### _Consequences of Temperature Dependence_
+
+Our simulation results indicate that at different source temperatures, the impurity concentration follows a quite distinct time-profile. For higher temperature operations, the impurity level in the delivered gas increases earlier in the consumption of cylinder material, while the maximum impurity concentration (\(C_{T}^{\text{max}}\)) obtained at the end of gas withdrawal is lower. These results suggest that the contamination level can be controlled by regulating the temperature of the gas cylinder.
+
+The results in Fig. 4 suggest two distinctly different approaches to optimizing materials utilization using temperature control, depending on the critical impurity concentration \(C_{T}^{\text{critical}}\) at which process yield is degraded. First, for processes with a relatively high \(C_{T}^{\text{critical}}\), the liquid source should be kept at a high temperature \(T\) so that \(C_{T}^{\text{max}}(T)\) is less than \(C_{T}^{\text{critical}}\) until the source is completely exhausted; then, all the source material can be withdrawn as gas for processing. For example (see Fig. 4), if \(C_{T}^{\text{critical}}\) is 300 ppm, only about 85% of the source is usable if the liquid source is kept at 20 \({}^{\circ}\)C, while all
+
+Fig. 4: Simulation results for operating temperatures at 40, 30, 20, 10, 0, \(-10\), \(-20\)\({}^{\circ}\)C.
+
+100% of the source can be delivered without contamination risk by operating the system at or above 40 \({}^{\circ}\)C.
+
+Second, and in marked contrast, low temperature is advantageous for processes with a relatively low impurity tolerance level \(C_{T}^{\tt{critical}}\). From Fig. 4, when \(C_{T}^{\tt{critical}}=\) 100 ppm, a maximum of 75% of the initial source content can be used at 20 \({}^{\circ}\)C, while more than 85% becomes usable if at \(-\)20 \({}^{\circ}\)C. This 10% increase in materials utilization can translate into significant cost savings during large volume manufacturing.
+
+Therefore, based on process requirements, source temperature control can potentially be exploited to benefit manufacturing through enhanced materials utilization and reduced consumables costs. The simulation described in this study provides the basis for designing such a strategy. The cost-effectiveness of such an approach involves not only other economic factors, but potentially other technical considerations. For example, large gas source systems may supply a variety of process modules, each operating processes with different impurity tolerance. And the impact of impurity concentration in the gas on process yield is likely more complex than could be represented by simply a step function at some \(C_{T}^{\tt{critical},\tt{real}}\). At sufficiently high rate of gas withdrawal, the actual temperature of the source liquid may be lower than that at which the cylinder is maintained due to energy loss associated with the heat of vaporization. This effect is equivalent to operating the gas delivery system at a lower temperature than intended, enhancing impurity accumulation in the liquid.
+
+## V Discussion
+
+### _Contamination Control Implications_
+
+These simulations demonstrate two important aspects of liquid source delivery behavior: 1) at constant temperature, impurity concentration in the delivered gas varies significantly during gas withdrawal, especially near the liquid-dry point and 2) the time variation of impurity level is a function of the temperature of the source liquid. The results provide the basis for predicting what fraction of the liquid source material may be used without endangering process yield due to unacceptably high impurity content as the source is depleted. Furthermore, understanding of the role of physical observables generates possibilities for real-time sensing to validate the status of impurities in the delivered gas, as discussed below.
+
+_Optimization for Manufacturing and Environment: Two Approaches to Materials Utilization Efficiency_
+
+In addition to contamination control, it is desirable to maximize the utilization of source materials in order to reduce consumables costs and to simplify operations. With impurity-sensitive processes, costs for high purity chemical escalate substantially. In addition, higher utilization of source materials carries environmental benefits associated with the need to produce smaller quantities of source material and with reduced waste disposal.
+
+These results also suggest the possibility for maximizing materials utilization by choosing an appropriate temperature for the liquid source. For the case of CHCIF\({}_{2}\) impurities in a CHF\({}_{3}\) source, Fig. 5 summarizes the temperature dependence of utilization efficiency for processes with different values of critical impurity concentration \(C_{T}^{\tt{critical}}\), i.e., the impurity level of delivered gas above which process yield degrades significantly.
+
+For processes with lower critical impurity concentrations (i.e., more demanding processes), as represented by the 100- and 200-ppm curves, lower temperatures delay the rapid increase in impurity levels until more of the source is used, resulting in a higher utilization efficiency. Thus, the more sensitive the process is to source impurities, the more beneficial it is to maintain the source at lower temperatures in order to maximize source utilization and reduce consumables costs.
+
+Fig. 5: Materials utilization efficiency as a function of the source temperature for processes with various critical impurity concentration.
+
+For less demanding processes which can tolerate higher impurity levels in the source gas, optimization is more complex, as illustrated by the 400 ppm curve in Fig. 5. Again, materials utilization increases with lower source temperature. However, at sufficiently high source temperature (above 10 \({}^{\circ}\)C in this case), 100% of the source material can be utilized in process. This occurs because the saturation value of impurity concentration \(C_{I}^{\text{max}}\) achieved at and after the liquid-dry point is less than the critical impurity concentration \(C_{I}^{\text{critical}}\) for the process.
+
+The recommendations of this analysis can be stated as follows. To maximize source material utilization in processes sensitive to source impurity concentrations, follow one of two approaches. 1) In general, _lower_ source temperatures should be used, but it is _essential_ to terminate usage of the source _at the appropriate point before the liquid-dry transition_ is reached. 2) If the critical impurity concentration \(C_{I}^{\text{critical}}\) is sufficiently large, _higher_ source temperature should be employed, and the source can be consumed to completion. These conclusions assume that \(C_{I}^{\text{crit}}\)=24 presents a sharp boundary between process success and failure, and they are specific to the case of CHCIF\({}_{2}\) impurities in a CHF\({}_{3}\) source. Nevertheless, they illustrate qualitative behavior and conclusions which will have considerably broader applicability for liquid source contamination control.
+
+### _Sensor-Based Control Strategies_
+
+Despite the predictability of this contamination control behavior, it would be highly advisable to exploit sensors on the liquid source delivery system in order to identify changes in crucial parameters (e.g., temperature or initial impurity concentration as delivered), whether or not source temperature is modified from ambient. Two strategies are available.
+
+The simulator predicts the evolution of impurity concentration in the delivered gas as the source goes from full to empty. Since the simulator tracks the time-dependence by incorporating parameter variations into the computation at every iteration step, it can take into account dynamic changes in such parameters as source temperature and flow (withdrawal) rate. Furthermore, it can be re-normalized at any point in time according to experimental measurements, e.g., amount of liquid remaining. Thus, one strategy for sensor-based control is to measure simple physical parameters as input to the simulator, and thus to predict the impurity content in the delivered gas as a function of time. Experimental determination of the amount of liquid source remaining can be obtained by recording the weight of the cylinder as it is used, or by measuring the liquid level in the cylinder (e.g., optically). Measurement of the temperature of the liquid source, particularly near its surface, and of dynamic flow rates out of the cylinder appear fairly straightforward. As shown by Fig. 3, a simple total pressure measurement will indicate when the liquid-dry point is reached; although this may be too late to prevent process yield losses, it would indicate which process runs should be considered suspect. Simple sensors like these would provide value for contamination control whether or not source temperature is maintained at a point away from ambient temperature, and would be especially important if temperature is unregulated (e.g., for a cylinder located outside and subject to significant temperature variations).
+
+A second strategy is to directly monitor the impurity concentration in the delivered gas, e.g., using mass spectrometry or optical techniques. Such systems are considerably more complex and expensive, but are the subject of increasing attention for process control and contamination control. Investment in this approach may be more attractive for larger installations where a central source of liquified gas is maintained to supply multiple process tools.
+
+## VI General Applicability of the Simulator
+
+We have developed and validated a dynamic simulator based on the fundamental physical principles governing gas delivery from liquid sources. The basic assumption for the model is that the gas phase and the liquid phase remains in equilibrium at any given time. There are no adjustable and empirical parameters in the model formulation of the system. All the input parameters for the simulator are either determined by the system's initial condition (initial impurity concentration, initial total mass, cylinder volume, system temperature) or well documented text-book constants (heat of vaporization, molar weight, vapor pressure versus temperature). The simulator has been shown to faithfully describe the dynamic behavior of gas delivery from a liquid source, as far as known data is concerned, and it suggests and quantifies an origin for problems observed with such sources in manufacturing.
+
+The physical bases of the model allows general application of this simulator to other bi- or multicomponent systems for impurity calculations in the delivered gas, or for mixed gases, delivered in liquid form. The assumptions that the liquid and gas phases can be described by ideal solution and gas laws generally hold true for most semiconductor processing gases, such as CHCIF\({}_{2}\) in CHF\({}_{3}\), CClF\({}_{3}\) in CF\({}_{4}\), O\({}_{2}\)(I) in N\({}_{2}\)(I), Si\({}_{3}\)H\({}_{6}\) in Si\({}_{2}\)H\({}_{6}\), or SiHCl\({}_{3}\) in SiCl\({}_{4}\), etc., where the gases have high vapor pressures and the intermolecular interactions are weak van der Waals forces.
+
+## VII Conclusion
+
+We have developed a dynamic simulator for computing the time dependence of the impurity concentration in a gas delivery system which utilizes a liquified gas source. The simulator correctly predicts the impurity level for a source containing 100 ppm of CHCIF\({}_{2}\) in liquid CHF\({}_{3}\), as employed pervasively in etching processes for Si manufacturing. The mathematical model represented in the simulation is based on fundamental physical principles, and therefore its application can be extended to more general bi- or multicomponent systems.
+
+The simulator may be exploited to address a variety of issues, particularly the optimization of process design for material utilization, reduced cost, and environmental benefit. In addition, the time-profile of the impurity concentration is seen to depend significantly on the operating temperature of the liquified gas source, offering new methodology to control the impurity level in the delivered gas by regulating the 
+
+[MISSING_PAGE_FAIL:8]

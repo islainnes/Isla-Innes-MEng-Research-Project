@@ -1,0 +1,163 @@
+Footnote †: Corresponding Author, Email: baticchi@jee.org
+
+E. Lorenzani\({}^{1}\), G Migliazza\({}^{1}\), F. Immovilli\({}^{1}\) and G. Bucticchi\({}^{2}\)
+
+Supported by the Ningbo Science & Technology Beauro (2017D10031, 2018A-08-C) (3315 Innovation Team). Digital Object Identifier. 12.03919/CEJE.2019.00009
+
+(1. DISMI-Department of Science and Methods for Engineering,
+
+University of Modena and Reggio Emilia, Reggio Emilia Italy;
+
+2. Key Laboratory of More Electric Aircraft Technology of Zhejiang Province,
+
+University of Nottingham Ningbo China, Ningbo 315100, China)
+
+## 1 Introduction
+
+Photovoltaic (PV) energy has been in the spotlight of academia and industry for more than 10 years. This development had been fueled by the widespread funding of the national and international agencies, in the attempt to reduce the pollutant emissions and reach the target set by the international agreements. Whereas grid-connected PV systems, which used to inject power to the grid, had been economically advantageous thanks to political choices, with the gradual decrease or cancellation of the economic incentives, the PV industry had to adapt to a different context. With an increasing price of the electricity in Europe [1], the interest has shifted to smaller power converters that could contribute to the power supply of a household unit, with the goal of minimizing the energy exchange with the mains. The possibility to perform grid-forming operation also constitute an interesting research topic. This trend pushed researchers to investigate the Smart Home [2] concept, where the residential unit is equipped with distributed energy resource (typically PV), storage and smart appliances.
+
+In this framework, low-power photovoltaic converters are extremely interesting; targets are high efficiency and high voltage transfer ratio. These requirements imply the use of transformer-less topologies, preferably single-stage, to reduce the number of energy conversions. The vast majority of power electronics interfaces for PV are voltage source inverters (VSI), thanks to the wide adoption in the electric drives industry and their good efficiency when the DC supply level is high enough. Current source inverter (CSI) topologies are based on a different concept, where the DC link is constituted by an inductor and the devices are used to modulate the DC current directly to the load. The need of the DC current control and of reverse-blocking semiconductor devices has limited the diffusion of these kinds of converter. For small-medium PV installation, however, the CSI concept has the advantages of intrinsic voltage boost capability. A fair comparison of VSI and different CSI were evaluated in Ref. [3]. Efficiency and ground leakage current still constitute a major issue [4, 5, 6].
+
+A particular three-phase VSI topology, called HS [6], in-troduces a decoupling between AC side and DC side adding additional devices and with the use a dedicated Space Vector Modulation. This solution allows in particular to cancel the common-mode Voltagevariation for a significant range of modulation index. For classic transformerless three-phase VSI, the active common-noise canceler can be used to reduce the common-mode voltage variations [7].
+
+This paper thoroughly analyzes the original CSI topology and the modified CSI7 or H7 topologies [8; 9; 10] from the point of view of mainly ground leakage current, but also power quality and semiconductor power losses. Some solutions of single-phase current source inverters are able to reduce the conduction losses during the zero-vector [11] and thanks to two additional switches, it is also possible to reduce the ground leakage current [12].
+
+Because the common-mode voltage of a CSI depends on the instantaneous current, a novel definition is here applied to perform a better comparison between the architectures. The analysis is carried out in case of two different space vector modulations (SVMs) and different number of PV panels. Numerical simulations results are compared in terms of ground leakage current and THD of the injected grid currents. The paper is organized as follows: Section 2 presents the different CSI topologies that will be compared and the associated SVMs; Section 3 reports the simulation results for the different solutions in Matlab/Simulink environment; Section 4 shows the experimental results and Section 5 draws the conclusions.
+
+## 2 Topology comparison
+
+Two topologies will be analyzed: the three-phase current source inverter (CSI), Fig. 1 and the CSI7 [8] topology, Fig. 2. The key idea is that an additional switch is used to provide the zero state, reducing the number of series-connected devices and hence the conduction losses. Because the assumption is made that a low-power PV inverter has to process only a limited amount of reactive power, no series diode is used for the additional switch, i.e., the drain-source voltage during the zero state is never reversed.
+
+The converters are controlled with a space vector modulation (SVM). Among the nine admissible states, six are active vectors and three are zero vectors (i.e., DC link short circuit). In the CSI7 SVM the zero vector generation is always implemented by the switch on of only the additional switch S\({}_{7}\).Whereas in a VSI topology dead-times need to be added to the commutation sequence to prevent the DC capacitor short-circuit, in a CSI an overlap time, \(t_{\text{ov}}\), must be added to prevent the DC inductor open-circuit, with consequent voltage spikes. This overlap time, if not compensated, causes a marked distortion in the output current, see Ref. [8].
+
+A further degree of freedom of the SVM is the sequence with which the states are generated. In this paper two possibilities are analyzed, the base sequence and the advanced alternated sequence, see Fig. 3. In this figure, \(t_{\text{a}}\) and \(t_{\text{b}}\) represent the dwell time intervals for the application of the two active vectors (current vectors \(A\) and \(B\)) and \(t_{\text{0}}\) the time interval for the application of the zero vector in a switching period \(T_{\text{S}}\). The alternated SVM sequence must be customized depending on the odd/even sextant type and a specific transition sequence must be implemented to avoid resonance excitation of the output filter [8]. Dwell times are calculated according to the SVM. Because the
+
+Figure 1: Schematic of traditional CSI topology
+
+Figure 2: Schematic of CSI7 topology
+
+alternated sequence implies a reduced current THD, in order to realize a fair comparison, the following analysis assumes a double switching frequency for the base sequence.
+
+Thanks to the overlapping time of implemented alternate SVM, the additional switch S\({}_{7}\) is switched on while the full-bridge is still generating an active vector. This operation draws the DC current to S\({}_{7}\), releasing the full-bridge switches, whose current goes to zero. When these switches are turned off at the end of the overlapping time, S\({}_{7}\) is already carrying the whole DC current, so they are switched off with zero current switching. In the case of base SVM this does not happen for the turn-off of one transistor (S\({}_{1}\)-S\({}_{6}\)) during the transition from current vector \(\mathbf{A}\) to current vector \(\mathbf{B}\).
+
+The ground leakage current in PV systems is mainly caused by the frame-to-earth parasitic capacitance of the PV panels and the common-mode voltage variation introduced by the power converter operation [13].
+
+For CSI topologies shown in Fig. 1, the common-mode voltage, \(v_{\rm cm}\), will be assessed, see Fig. 4. According to Refs. [14-15] on CSI, the \(v_{\rm cm}\) can be computed using the star connection of the three-phase grid voltage as voltage reference, resulting in
+
+\[v_{\rm cm}=\frac{V_{\rm 0}+V_{\rm 0}}{2} \tag{1}\]
+
+For a CSI topology, the common-mode voltage is not independent from the common-mode current (as it is the case in VSI). If formula (1) is adopted, \(i_{\rm cm}\) perturbs \(v_{\rm cm}\) because it is also flowing through the output filter inductor \(L_{\rm f}\). The non-uniqueness of the common-mode voltage definition causes problems in the analysis, making it difficult to compare different solutions. For this reason, a novel definition of common-mode voltage is hereby adopted, to make the analysis of the CSI ground leakage current similar to the VSI one. In the following \(v_{\rm cm2C}\) identifies the \(v_{\rm cm}\) signal with a null common-mode current \(i_{\rm cm}\), i.e. with a zero \(C_{\rm PV}\).
+
+The two topologies CSI and CSI7 differ in the common-mode voltage generation, because in the case of CSI7 the zero vector is obtained by switching off all the full-bridge devices while S\({}_{7}\) is on, whereas for the CSI one leg is used to implement the DC link short-circuit as shown in Fig. 5. The complete decoupling between the grid voltage and the DC input is what allows for the superior performance of the CSI7. Although the CSI topology is also reported with a single inductor in the DC link, because of the poor performance [16] of this solution, only the split-inductors version is considered in this work.
+
+The components present in the equivalent common-mode circuit in case of classic CSI, shown in Fig. 4, are the equivalent PV parasitic capacitance \(C_{\rm PV}\), 1/3 of the inductive part of the output filter, 1/4 of the total DC input inductance \(L_{\rm DC}\) and the ground resistance \(R_{\rm g}\).
+
+The additional common-mode filter inductor on the line side, typically added for EMC issues, results in series with \(L_{\rm f}\) /3. Adopting a split input inductor is mandatory to reduce the \(i_{\rm cm}\), since with a sole input DC inductor its contribution disappears in the common-mode circuit.
+
+## 3 Numerical simulations
+
+The two topologies and SVMs were simulated in
+
+Figure 4: Common-mode circuit in case of CSI with split DC input inductor
+
+Figure 5: Equivalent circuit under zero vector
+
+Matlab-PLECS environment using the same application circuit detailed in Fig. 6.
+
+The PV power source is formed by a varying number of PV modules and the AC side is connected to the grid with a capacitive-inductive filter. Tab. 1 summarizes the parameters of the SHARP ND-RC250 PV module: a worst case scenario of 100 nF/kWp (as indicated in technical information of SMA [17]) was considered for the equivalent parasitic capacitance \(C_{\text{PV}}\), resulting in a value of 25 nF for each module.
+
+The simulations were carried out with strings of 2, 4, 6 and 8 PV modules in MPP operation and consequently with different values of equivalent PV parasitic capacitance and PV power source, see Tab. 2.
+
+The classic maximum power point tracker (MPPT) and the input voltage control with a PI regulator were adopted. No current control is mandatory, as the injected grid current is directly controlled via the duty cycle, see Ref. [8]. For the sake of simplicity the modulation index \(m_{\text{q}}\) was imposed equal to zero: doing so, a small reactive power can flow, determined by the CL filter supplied by the grid. The park transformation \(dq\)-\(\upbeta\) obtained with the measure of the angle of grid voltage vector determines the input of SVM.
+
+The performance comparison was carried out with two topologies and two different SVM modulations:
+
+(1) Traditional CSI with base SVM.
+
+(2) Traditional CSI with alternated SVM.
+
+(3) CSI7 with base SVM.
+
+(4) CSI7 with alternated SVM.
+
+In order to perform a fair comparison between base and alternated SVMs, the switching period \(T_{\text{s}}\) in case of base SVM is halved with respect to alternated SVM one, \(T_{\text{S-basePWM}}=33.33\)\(\upmu\)s and \(T_{\text{S-allPWM}}=66.67\)\(\upmu\)s. Tab. 3 shows all the other parameters.
+
+In this way, the number of hard switching commutations (per unit of time) of the seventh switch S\({}_{7}\) results the same along with the ripple at switching frequency of the injected grid current [8, 16]. In the same works it is possible to see that, in case of CSI7 topology with alternated SVM, the other switches commutate in zero current switching (ZCS).
+
+In order to set the resonance frequency of the equivalent common-mode circuit of Fig. 4 to be always lower than the minimum switching frequency, i.e. \(f_{\text{S-allPWM}}\)=15 kHz, a three-phase AC common-mode inductance was added to all solutions simulated. In actual application a common-mode filter is always used also for EMC issues.
+
+Since a smaller \(C_{\text{PV}}\) value determines an higher resonance frequency, it was considered a minimum value of \(C_{\text{PV}}\), often determined by additional filters added in the power converter for EMI problems, equal to 10 nF. Considering this value, it was chosen \(L_{\text{cm}}=3\times 20\) mH to obtain a resonance frequency still lower to \(f_{\text{S-allPWM}}=15\) kHz. In this scenario the resonance of frequency response \(i_{\text{cm}}\) (j\(\omega\)) results equal to 11 kHz, see Fig. 7.
+
+\begin{table}
+\begin{tabular}{c c c} \hline Name & Value & \\ \hline \(F_{\text{mp}}\)/V & 30.3 & \\ \(I_{\text{mp}}\)/A & 8.24 & \\ \(C_{\text{rr}_{\text{intel}}\text{-equiv}\text{in}\text{F}}\) & 25 & \\ \hline \end{tabular}
+\end{table}
+Table 1: **Nameplate data of the PV module used in simulations**
+
+Figure 6: Test bench for the simulation of different solutions
+
+At first, the performance comparison was carried out with the use of a PV source formed by 4 PV modules. Waveforms of \(v_{\text{cm2C}}\), injected phase current, and \(i_{\text{cm}}\) and their FFT are shown.
+
+In case of CSI7 topology with alternated SVM, when the zero vector is applied, devices S\({}_{1}\)-S\({}_{6}\) are in off-state. As a consequence, there is no connection between the DC link and the grid. Considering real devices, various parasitic capacitances are associated with e.g. Mosfet output capacitance \(C_{\text{oss}}\), diode junction capacitance \(C_{\text{j}}\) and stray PCB capacitance. The value of \(v_{\text{cm2C}}\) during null state is affected by the aforementioned capacitance and the instantaneous values of grid voltage.
+
+Fig. 8 describes the two extreme cases of \(V_{\text{cm2C}}\) values during the zero vector application, i.e. during \(t_{\text{Z}}\)/2.
+
+Two cases are possible:
+
+(1) \(V_{\text{cm2C}}\) remains unchanged to the previous instantaneous value during the application of an active vector.
+
+(2) \(V_{\text{cm2C}}\) reach zero value (in case of negligible parasitic capacitance).
+
+In the present work, simulations of the CSI7 topology were carried out assuming the latter condition (negligible parasitic capacitance). In actual applications, this is related to a low value of output capacitance of the power semiconductors. In this case, the main harmonic content of \(V_{\text{cm2C}}\) is located at 2/\(T_{\text{S}}\). In the first scenario (not considered in simulations) a lower harmonic content would be present and the main harmonic content would be located at 1/\(T_{\text{S}}\). A detailed analysis of this behaviour is beyond the scope of the present paper.
+
+Fig. 9a shows the \(V_{\text{cm2C}}\) waveforms in the four scenarios with null \(C_{\text{PV}}\) value, whereas Fig. 9b shows their spectra. It is possible to see the lower harmonic content of \(v_{\text{cmZC}}\) in case of CSI7 topology, both with base and alternated SVMs. Under the same operating conditions, Fig. (c)c shows the injected grid current in the four scenarios. From Figs. 8 and 11, it is possible to see as the minimum THD of the injected grid current is present in the case of CSI7 topology with alternated SVM, see Ref. [8].
+
+Fig. (a)a and (b)b show the effect of \(C_{\text{PV}}\) in case of four PV modules. It is possible to see a high values of \(i_{\text{cm}}\) in case of traditional CSI topology, which determines an unacceptable THD for the injected grid current in Fig. (c)c. Fig. (b)b shows the spectra of \(i_{\text{cm}}\).
+
+As expected in the case of CSI topology, a significant harmonic content is present also at low frequencies in the spectra of \(v_{\text{cmZC}}\).
+
+The histograms of Figs. 11 and 12 show the THD of the injected grid current in the four scenarios with and without \(C_{\text{PV}}\), in case of varying number of PV panels. Tab. 4 highlights a negligible increase of the THD due to \(C_{\text{PV}}\) in case of CSI7 topology with alternated SVM.
+
+Figure 10: Simulation waveforms in the four scenarios with 4 PV modules with \(C_{\text{PV}}\)=100 nF
+
+Figure 9: Simulation waveforms in the four scenarios with 4 PV modules with null \(C_{\text{PV}}\)
+
+for the additional S\({}_{7}\) switch present in CSI7 topology. This information allows for a proper selection of power switches tailored for the particular topology.
+
+The semiconductor power losses were computed with the support of PLECS thermal models. For the sake of simplicity, the same power switches and diodes were chosen for the four scenarios: IGBT 1 200 V/15 A (IGW15N120H3) and diode 1 200 V/30 A (RHRG30120).
+
+Figs. 14 and 15 show respectively the evolution of semi-conductor conduction and switching power losses for every power switch S\({}_{x}\) of the main full-bridge and for the additional S\({}_{7}\), if present. From these figures, it is important to highlight that, in case of CSI7 with alternated SVM, the switching power losses of every S\({}_{x}\) transistor of the main bridge are almost zero thanks to ZCS commutations, and are independent of the number of PV modules. All the switching power losses are concentrated on the seventh switch in CSI7 topology with alternated SVM: for this reason the use of a Silicon Carbide device for S\({}_{7}\) is advantageous in terms of power losses reduction [18, 9]. Concerning conduction power losses in traditional CSI topology, as expected there is no difference in power losses by varying the number of PV modules in the input string. In case of CSI7 topology, there is a decrease of losses on S\({}_{7}\) when the number of PV modules increases: however the concurrent losses increase on S\({}_{x}\) devices reduces the impact of S\({}_{7}\) on conduction power losses reduction.
+
+Fig. 11: THD of the injected grid current with a null \(C_{PV}\) in four scenarios and different numbers of PV modules
+
+Fig. 12: THD of the injected grid current with \(C_{PV}\) in four scenarios and different numbers of PV modules
+
+Fig. 13: RMS value of \(i_{\text{cm}}\) with different numbers of PVFig. 16 compares the total semiconductor power losses in the four scenarios with different number of PV modules. Even employing the same Si devices for all the transistors, the total power losses are nonetheless lower in the case of CSI7 topology with alternated SVM due to the application of the zero vector with the seventh switch, allowing ZCS for the other \(\text{S}_{x}\) transistors.
+
+## 4 Experimental validation
+
+The experimental validation was carried out with the prototype power converter shown in Fig. 17, according to the operating parameters summarized in Tab. 3. Input DC voltage was set equal to \(V_{\text{DC}}\)=120 V with a \(C_{\text{PV}}\)=100 nF corresponding to the presence of 4 PV modules. Instead of grid tied operation, the experiments were carried out in island operation, with the use of a balanced resistive load (3 \(R_{\text{L}}\)=252 \(\Omega\)). For this reason the phase injected grid current results equal to 0.91 A(RMS) in order to obtain a three-phase output voltage equal to \(V_{\text{grid}}\) (line-to-line)= 400 V(RMS). The additional common-mode inductor \(L_{\text{CM}}\) was not added. Only the two most significant scenarios were experimentally evaluated: traditional CSI topology with base SVM and CSI7 topology with alternated SVM. The goal of the experimental validation is related to the ground leakage analysis between these two solutions. Because of this reason, the THD of the injected grid current is not evaluated, as the difference between the grid impedance and the resistor load would make the comparison not representative of the actual condition.
+
+Figure 16: Total semiconductor power losses in the four scenarios and with a different number of PV modules
+
+Figure 14: Semiconductor conduction losses (S. represents the losses of a single switch of the main full-bridge)
+
+Figure 15: Semiconductor switching power losses in the four scenarios and with a different number of PV modules
+
+[MISSING_PAGE_FAIL:9]
+
+Figs. 27 and 28 show the voltage waveform (\(v_{\rm{CPU}}\)) across the equivalent parasitic capacitance \(C_{\rm{PV}}\) in the two topologies. The results confirm the higher harmonic content of \(V_{\rm{CPU}}\) in case of traditional CSI + base SVM that determined higher \(i_{\rm{cm}}\) RMS and harmonic content.
+
+## 5 Conclusions
+
+This paper thoroughly analyzed two grid-connected current source inverter topologies: traditional CSI with base SVM and CSI7 with alternated SVM. The modified topology CSI7 reduces the semiconductor power losses and THD of the injected phase currents, as already shown in previous literature. In the present work the two CSI topologies were compared against each other in terms of ground leakage current (i.e. common-mode current) considering a varying number of PV modules. Other figures of merit adopted for the sake of comparison include the THD of the injected phase currents, with and without the parasitic capacitance \(C_{\rm{PV}}\), and the switching and conduction semiconductor power losses for every transistor. The most notable results of this comparison are:
+
+(1) The CSI7 topology, when compared against traditional CSI topology, is able to strongly reduce the RMS of \(i_{\rm{cm}}\) both in case of base SVM and alternated SVM.
+
+(2) The CSI7 topology is highly robust to the capacitance variation of the photovoltaic panels.
+
+(3) The CSI7 topology with alternated SVM with respect to the same topology with base SVM presents a lower THD of the injected phase currents.
+
+(4) The CSI7 topology with alternated SVM with respect to the same topology with base SVM presents lower switching semiconductor power losses and all the switching power losses are concentrated in the seventh switch S\({}_{7}\).
+
+In conclusion, CSI7 topology demonstrated lower losses and insensitivity of the ground leakage current versus the number of PV modules adopted. Hence CSI7 with alternated SVM outperforms the CSI in all areas, and it can represent the ideal solution for small grid-tied systems characterized by high voltage transfer ratio.
+

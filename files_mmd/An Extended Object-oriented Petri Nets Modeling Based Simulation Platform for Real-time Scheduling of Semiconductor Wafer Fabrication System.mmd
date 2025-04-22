@@ -1,0 +1,128 @@
+
+
+Department of Industrial Engineering & Management, School of Mechanical Engineering,
+
+
+
+Department of Industrial Engineering & Management, School of Mechanical Engineering,
+
+
+
+Department of Industrial Engineering & Management, School of Mechanical Engineering,
+
+
+
+Department of Industrial Engineering & Management, School of Mechanical Engineering,
+
+
+## 1 Introduction
+
+A semiconductor manufacturing process is comprised of four phases: wafer fabrication, wafer probe, assembly, and final testing [1]. This paper addresses wafer fabrication process, the most capital intensive of the four phases, where the circuitry is built up on the wafer in successive layers. The processing of each layer requires a similar set of unit processes, and thus wafers may visit a given workstation several times, once for each layer of circuitry, creating reentrant product flows. In addition, this process is also characterised by high uncertainties in operations and rapidly changing products and technologies. As a result, the effective real-time scheduling of wafer fabrication system becomes a significant factor in obtaining effective factory performance.
+
+Various real-time scheduling methods have been proposed although some of them are not suggested directly for semiconductor manufacturing system. Among others, scheduling methods based on semi-Markov decision modeling, dynamic programming, rule-based methods, and knowledge-based approached are often employed in previous research on real-time scheduling [2]. Simulation is adopted in our approach although it is generally believed that it takes too long time for real-time application. A simulation-based scheduling system takes an accurate factory status updated and simulates forward in accelerated time. The benefits of using computer simulation are comprehensively documented in simulation-related publications and books. A Petri net-based modeling has been used in simulation of semiconductor wafer fabrication system (SWFS) because Petri nets represent a widely used formalism for modeling the behavior of complex system. However, the traditional Petri net are relatively week in coping with large scale and complex system. Consequently, the extended object-oriented Petri nets (EOPN) modeling approach was proposed by Liu et al in [3]. Based on EOPN modeling, a real-time scheduling simulation(ReS\({}^{2}\)) platform for semiconductor wafer fabrication system is developed, which is to be presented in this paper.
+
+The rest of this paper is organized as follows: In Section 2, the EOPN models of semiconductor wafer fabrication system is described in detail, and the framework and interface of ReS\({}^{2}\) platform are presented in Section 3. In Section 4, a new scheduling algorithm-dynamic bottleneck dispatching (DBD) algorithm is proposed and computational experiments are made to show the performance of the suggested scheduling method. Finally, Section 5 concludes the paper with a short summary and recommendations for further research.
+
+## 2 Modeling procedure
+
+Some specific principles that have driven our work are as follows: (i) the developed modeling methodology should require the smallest possible number of the modeling primitives; (ii) it should permit a high degree of model configurability and customization, in order to accommodate a wide variety of applications; (iii) the resulting models should map naturally onto real fab environments.
+
+The EOPN models of a SWFS is mathematically defined as S= (O, R), in which O is a set of hierarchical objects in the system, and R represents a set of interconnection relations among objects. Detailed definition is decribed in [3].
+
+Constructing the EOPN models of a SWFS consists of four phases, i.e. building the EOPN for each equipment, connecting the EOPN model for the work station level, establishing the EOPN model for the work area level, and integrating the EOPN model for the whole system. In phase 1, all facilities in the SWFS may be sorted into 4 classes, including (i) Machine Class, representing processing machines; (ii) Transporter Class, representing MHS vehicles, which chooses and transports wafer lots; (iii) Buffer Class, representing WIP buffers in each work station; and (iv) Stocker Class, representing input/output stockers at the entrance of each work stations and areas. Consequently, only above 4 main classes need to be modeled, while the EOPN model of each specific physical object in the SWFS is only an instance of its corresponding EOPN class.
+
+Among the above 4 classes, machine class is the most complicated and technically sophisticated one. According to different operation patterns, processing machines in the SWFS are divided into several types, including the single-type processing machine (SPM), batch-type processing machine (BPM), multi-chamber processing machine (MPM), piping processing machine (PPM), and wet-bench processing machine (WPM). Since different types of processing machines may apply different dispatching policies, different EOPN models must be built for each type of processing machines to represent their distinct operation patterns. Figure 1 illustrates the EOPN of a MPM.
+
+In the EOPN of the machine class, preventive maintenance (PM), routine monitor (MR) and unpredictable breakdown (UB) are all taken into consideration. In the above case, PM is based on the number of completed lots, and MR is executed on fixed
+
+Figure 1: EOPN model of MPM
+
+Figure 2: EOPN models of transporter, buffer and stocker
+
+cycle time. The UB is governed by a random switch P\({}_{\lambda}\), and the switch-on probability of P\({}_{\lambda}\) follows the failure rate \(\lambda_{m}\) of this machine [4].
+
+In a similar way, static EOPN models of transporter class, buffer class and stocker class can also be constructed as shown in Figure 2, and their corresponding dynamic timed ones may be achieved by adding time elements of corresponding processing wafer lots. Among them, EOPNs of buffer class and stocker class have output signal places to reflect dynamic storage status, while the EOPN of transporter class only have input signal place to receive real-time dispatching orders.
+
+## 3 Development of the platform
+
+Very little research has focused on the real-time scheduling simulation of semiconductor wafer fabrication system. Most of the prior works in developing simulation systems such as SimPack and C++SIM, which are general-purpose simulation, are used more often for academic and teaching purpose. Even popular commercial simulation packages such as Arena and Alexa don't have the capability to integrate different scheduling policies. One of the major drives of our work to design and develop ReS\({}^{2}\) platform is the flexibility to extend, and to allow extensive customizability of specific scheduling policies and dispatching rules in the simulation platform.
+
+### Framework
+
+The proposed modeling framework as shown in Figure 3 consists of a database, a simulation tool, and a user interface. The input database is used to model input data including model parameters, flow data, machine data, layout data, MHS data, report data and scheduling algorithms. The simulation model is a simulation-based analytical tool that models a virtual SWFS by importing model input from the database. The user interface is the presentation mechanism, where users can initiate a simulation experiment, adjust the system parameters, and conduct real-time performance analysis.
+
+The simulation model is divided into five submodules: a control and monitor module, a manufacturing module, a material handling module, a system reporting module, and a scheduling algorithms module.
+
+The control and monitor module is the back end system of the main control window, while the manufacturing process and material handling modules are core components of the simulation model. The simulation control module is composed of three functions : system configuration, scheduling, and simulation control.
+
+The manufacturing module consists of machine model and buffer model. In this paper, the processing machines of wafer fabrication system can generally be divided into single (S) processing machine, batch (B) processing machine, multi-chamber (M) processing machine, piping (P) processing machine, and wet-bench (W) processing machine. Each machine model contains three operations. (i) Pre-processing: reading the bar code, opening the pod door, and docking. (ii) Processing operations: loading wafers into the machine, processing wafers, and unloading wafers from the machine. (iii) Post-processing: closing the pod door, reading the bar code, undocking, etc.
+
+The material handling system (MHS) module consists of two sub-models: a stocker model and a transporter model. Stockers are modeled with infinite capacity and transporters pick and transport wafer lots from buffer to machines.
+
+The scheduling algorithms module can integrate specific scheduling policies and dispatching rules. The system controller make adaptive dispatching decisions according to local and global real-time processing status and select corresponding scheduling algorithms from the module.
+
+The system reporting module is the back end system of the performance report window, and provides real-time decision-making information. It provides several on-line reports, including WIP information, wafer movement and throughput reports, utilization reports, and cycle time reports. Users can export the data for more advanced performance analysis using off-line statistical tools.
+
+### User interface
+
+To create a user-friendly environment and enable users to understand the software easily, a graphic interface with animation features is developed as the software front-end. The graphic user interface is linked to system simulation through the control interface. Users can use the 'point-click' to easily construct a virtual SWFS, edit system model parameters, give commands to initiate or stop simulations, and select simulation modes based on their
+
+Figure 3: Framework of simulation platform
+
+tasks. Finally, the simulation results will be reported in GUI diagrams.
+
+ReS\({}^{2}\) allows the user to simulate the operation of a semiconductor manufacturing facility. The model is actually a collection of the followings: Equipments, Products, Processes and Operating rules.
+
+Figure 4 is the main interface of the prototype ReS\({}^{2}\) system. It is the control center of simulation and it gives access to all the means of choosing, defining and editing. Use of multiple windows allows to see both input and output screens at the same time. The tree provides the user with detailed information of the fab structure. The interface also creates an avenue for displaying real-time information, such as location wip, location moves, fab wip and daily wafer out.
+
+Figure 5 is the machine attribute window, which allows the equipments to be defined in a great detail. We can edit the parameters and attributes of equipments, such as ID, location, setuptime, and loadtime. The layout window in Figure 6 gives you access to edit the layout of fab according to your demand. Technically, ReS\({}^{2}\) is a discrete-event driven simulator. It simulates physical objects that have finite states between them. A piece of machine in ReS\({}^{2}\), for example, can be 'busy', 'idle', 'PM', 'Monitor' and 'Down'. In this window, colors represent equipments' status. For example, green means 'busy'.
+
+After simulation, the report window (see Figure 7) provides access to existing reports, such as Wafer Fab Daily Key Production Indices Report, Equipment Performance Report Future releases of ReS\({}^{2}\) will continue to add new graphs and charts, giving the users access to even more graphical representation of simulation performance.
+
+## 4 Case study
+
+### DBD algorithm
+
+In the complex SWFS, effective control of bottlenecks may result in better performance for fast and effective production. Sufficient products for bottlenecks may guarantee system throughput, whereas too much WIP lots will lengthen manufacturing cycle time. Traditional bottleneck control policies, such as the starvation avoidance (SA) rule proposed by [5] and the workload regulation (WR) rule proposed by Wein [6], do not address cases involving dynamic changes in the conditions that produce bottlenecks, and also ignored the highly-mixed production environment. However, in contemporary
+
+Figure 4: The main interface of ReS\({}^{2}\) platform
+
+Figure 5: The machine attribute window
+
+Figure 6: The layout window of PHOTO
+
+SWFSs, bottlenecks may be caused by various condition changes, such as sudden machine breakdowns, delay in work progress, nonscheduled machine maintenance, and the changes of product-mixes. Consequently, bottlenecks in the SWFS may dynamically shift, and it is necessary to detect bottlenecks dynamically and make real-time responses. Motivated by above challenges, the DBD algorithm as shown in Figure 8 is designed to detect bottlenecks in a timely way and make adaptive dispatching decisions according to the local and global real-time conditions.
+
+According to constraint scheduling principle, three machine-related state variables are identified. The first state variable is machine's state. The value of this state variable is either '0' or '1', where '0' means that the machine is unavailable, while '1' means available. The second state variable, machine utilization (u\({}_{\text{m}}\)), is measured by the ratio of accumulated processing time to total operating time in any given time interval. The u\({}_{\text{m}}\) is the primary index for identifying constraints resources and the value varies dynamically under different manufacturing conditions. The third state variable is queue length (l\({}_{\text{m}}\)), which denotes the number of lots queuing in front of a machine. A proper buffer of l\({}_{\text{m}}\) is an essential requirement to maximize bottleneck machine utilization. In this paper, the solution is chosen as u\({}_{\text{m}}\)=85% and l\({}_{\text{m}}\)=4*WPH(wafer per hour).
+
+### _Simulation experiments_
+
+To illustrate the usage of the EOPN-based SWFS real-time scheduling simulation platform, and also to evaluate the performance of the proposed DBD algorithm, a virtual SWFS model constructed by EOPNs is set to run. Simulation results are compared against the same model when using singular dispatch policies, i.e. "CR+FIFO(Critical Ratio + First Input First Output)" and "EDD(Early Due Date)" rules, which are widely used in today's wafer fabs. Four different measures, i.e. cycle time (CT), work-in-process (WIP), on-time delivery (OTD), and throughput (TP), are established separately.
+
+The configuration of the virtual SWFS is summarized as follows. (i)There are 10 work areas, including 72 work stations and 323 different types of wafer processing machines. (ii)Each workstation consists of single or multiple identical machines. (iii)There are 3 different processing flow and 6 different product types. (iv)Wafer lots of the same product type have the same process plan. The size (number of wafers) of a lot is 25.(v)The numbers of operations required for the products range from 241 to 279 with an average of 261.(vi)Each product requires 7-15 layers, and processing for each layer requires a loop of operations.
+
+The EOPNs-based real-time simulation platform is set to run for about 6 months with a 2-month warm-up period, and the total simulation time took around 12 minutes using a Pentium 4 PC with a 2.4GHz CPU and 512 MB RAM.
+
+\begin{table}
+\begin{tabular}{c c c c c c} \hline \hline Prod. & Tech. & Step & Total & Static TP \\  & & Number & PT(h) & (Piece/M) \\ \hline A & Tech. 1 & 279 & 317.44 & \begin{tabular}{c} 9000 \\ 4500 \\ \end{tabular} \\ \hline C & Tech. 2 & 263 & 337.96 & \begin{tabular}{c} 6000 \\ 4500 \\ \end{tabular} \\ \hline E & Tech. 3 & 241 & 362.06 & 
+\begin{tabular}{c} 1500 \\ 4500 \\ \end{tabular} \\ \hline \hline \end{tabular}
+\end{table}
+Table 1: Three technology and six products processed in the virtual SWFS
+
+\begin{table}
+\begin{tabular}{c c c c c c c} \hline \hline Area & \multicolumn{2}{c}{Num.} & \multicolumn{3}{c}{Number of machine} & Total \\ \cline{3-6}  & of WS & S & M & B & P & W & \\ \hline WS & 1 & 1 & & & & 1 \\ DIF & 13 & 4 & 41 & 5 & 50 \\ PHOTO & 5 & 16 & & 27 & & 43 \\ ETCH & 12 & 47 & 22 & & 10 & 79 \\ CVD & 10 & 18 & 52 & & & 70 \\ PVD & 15 & 10 & 21 & 9 & 1 & 41 \\ CMP & 8 & 20 & & & & 20 \\ IMP & 5 & 7 & & & 3 & 10 \\ WAT & 1 & 5 & & & & 5 \\ QC & 2 & 4 & & & & 4 \\ \hline Total & 72 & 132 & 95 & 50 & 27 & 19 & 323 \\ \hline \hline \end{tabular}
+\end{table}
+Table 2: Resource configuration of the virtual SWFS
+
+Figure 8: Dynamic bottleneck dispatching algorithm
+
+Steady data were taken between 61st to 120th days to evaluate the system performance. Since the "CR+FIFO" rule is the actual schedule and dispatching policy taken by a wafer fab from which our EOPN models are derived, it was chosen to verify and validate against the real fab's performance measures. The results shown in Table 3 of the virtual SWFS achieved about 91% reliability when compared to the actual fab's performance. This implies that the proposed timed EOPNs-based modeling framework and generated simulation model is a viable representation of a real-life SWFS under similar predefined production assumptions. Then, the proposed DBD algorithm is implemented through the EOPN-based simulation platform.
+
+From the simulation results shown in Table 3, it can be concluded that the DBD algorithm produces statically better performance results than other two singular-criterion dispatching policies for either each type of product or the overall system in all 4 measures. The total average mean cycle time of 'DBD' is improved by 5.54% and 4.41% respectively compared to 'CR+FIFO' and 'EDD', the average WIP-level is reduced by 2.82% and 4.39% respectively, the average TP is enhanced by 3.78% and 2.56% respectively, and the OTP measure is improved by amazing 12.96% and 15.09% respectively. Totally, the proposed DBD algorithm can be recognized as the best scheduling and dispatching rule among the three policies through simulation.
+
+Above simulation experiments help verify the EOPNs-based SWFS modeling approach, and validate the efficiency of the proposed dynamic bottleneck dispatching algorithm. In addition, since the EOPNs modeling mechanism can provide better modularity and reusability, the EOPNs-based real-time simulation platform may be reconfigurable according to changes in the real wafer fabs, which is essential in modern semiconductor industry.
+
+## 5 Conclusions
+
+This paper presented an effective real-time scheduling simulation (ReS\({}^{2}\)) platform for SWFS, on which the proposed dynamic bottleneck dispatching (DBD) algorithm is validated. The results show that it is superior to EDD and CR+FIFO methods. The successful development of ReS\({}^{2}\) platform is encouraging and we intend to develop it further in light of continued experience.
+

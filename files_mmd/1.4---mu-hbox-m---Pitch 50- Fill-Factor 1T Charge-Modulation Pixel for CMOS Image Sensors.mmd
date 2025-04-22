@@ -1,0 +1,62 @@
+
+
+Manuscript received September 25, 2007; revised November 16, 2007. The review of this letter was arranged by Editor P. Yu.A. Tournier is with CMOS Imaging, Silicon Technology Development, Front-End Technology and Manufacturing, STMicroelectronics, 38926 Crolles, France, and also with the Lyon Institute of Nanotechnology (INL), Claude Bernard Lyon 1 University (UCBL), 69622 Villeurbanne, France (e-mail: arnaud.tournier@st.com).F. Roy and B. Deschamps are with STMicroelectronics, 38926 Crolles, France.G.-N. Lu is with the Lyon Institute of Nanotechnology (INL), Claude Bernard Lyon 1 University (UCBL), 69622 Villeurbanne, France (e-mail: guo-neng.lu@univ-lyon1.fr).Color versions of one or more of the figures in this paper are available online at [http://ieecspor.ieee.org.Digital](http://ieecspor.ieee.org.Digital) Object Identifier 10.1109/LED.2007.915290
+
+## I Introduction
+
+Single-transistor (1T) charge-modulation pixel structures for CMOS image sensors require only one single-transistor component [1, 2, 3]. Such pixel architecture is promising for small-size achievement with preservation of fill factor.
+
+We recently designed a 2.2-\(\mu\)m-pitch 46 fill-factor 1T pixel in a 0.13-\(\mu\)m CMOS process [4]. It was a rectangular-gate design for the pixel transistor with a gate area of 1 \(\mu\)m \(\times\) 1 \(\mu\)m. In order to reduce electrical crosstalk, both source and drain areas of the transistor were surrounded with shallow trench isolation (STI). However, the use of STI in the pixel also brings drawbacks. First, it increases the pixel size and reduces the fill factor. Second, it has a large surface leakage current induced by SiO\({}_{2}\)/Si interface states contributing to the pixel dark current. It has been observed that surface leakage current at the depletion edge may be a major dark-current component [5, 6].
+
+On the other hand, the rectangular-gate design is not suitable to minimize tunneling effects (band-to-band tunneling and/or trap-assisted tunneling, impact ionization) in high-doping p-n junction areas. It occurs in the gate-to-drain overlapped surface area where high-doping-profile and high-electric-field conditions are met, causing early drastic increase of pixel dark current.
+
+This letter reports a ring-gate implementation of the IT charge-modulation pixel structure. A ring-gate 1.4-\(\mu\)m-pitch pixel is designed and characterized. Its main characteristics are evaluated and compared with those of a previously designed rectangular-gate 2.2-\(\mu\)m-pitch pixel.
+
+## II Transistor Implementation and Pixel Operation
+
+Fig. 1(a) shows the implemented ring-gate transistor with source at the center and peripheral drain. The floating-body of the transistor is shielded by a deep buried N-type layer and N-peripheral region below the drain. Because the surrounding drain and the nondepleted N-peripheral region underneath also play the role of pixel isolation, there is no need to employ STI. This STI suppression not only avoids large-surface dark-current contribution but also allows pixel-size reduction and/or fill-factor improvement. Fig. 1(b) shows the layout of a 1.4-\(\mu\)m-pitch ring-gate pixel array designed in a 0.13-\(\mu\)m front-end-based CMOS process and 90-nm copper-based process. The pixel has a 50% fill factor.
+
+This 1T charge-modulation pixel operates with three sequences (integration, readout, and reset) that are briefly described as follows.
+
+Fig. 1: (a) Cross-sectional view of the ring-gate 1T charge-modulation pixel. (b) Layout of a 1.4-\(\mu\)m-pitch ring-gate pixel array (\(2\times 2\)) designed in a 0.13-\(\mu\)m front-end-based CMOS process and 90-nm copper-based process.
+
+In the integration phase (\(V_{g}=0.5\) V, \(V_{d}=V_{s}=3.3\) V), the transistor is turned off. The potential profile of its floating-body exhibits a well form for storing holes. When the pixel is under illumination, photogenerated electron-hole pairs in the transistor body are separated due to the built-in electrical field. The electrons are swept away mainly to the drain, while the holes are collected and held in the potential well. The stored positive charge increases the potential of the transistor body, leading to a decrease of the transistor threshold voltage \(V_{\rm th}\)[3].
+
+In the readout phase (\(V_{g}=2\) V, \(V_{d}=3.3\) V, \(V_{s}=\) source follower output), the transistor is switched on and is operated as a source follower with fixed gate and drain voltages. The decrease of \(V_{\rm th}\) reflecting the amount of the stored charge is sensed as an increase of the source voltage \(V_{s}\). In this phase, \(V_{s}\) as the pixel output can be read by double sampling to suppress \(V_{\rm th}\) dispersion and thus to reduce fixed pattern noise (FPN).
+
+For the reset of the pixel (\(V_{g}=V_{d}=V_{s}=3.3\) V), the potential profile of the transistor body becomes monotonic decreasing. The potential well completely disappears, and the stored holes are pushed away to the substrate. This type of reset does not add \(kTC\) noise.
+
+## III Pixel Characteristics
+
+Fig. 2 shows a test chip integrating an array of 1.4-\(\mu\)m-pitch pixels (in video graphics array format), fabricated using a 0.13-\(\mu\)m front-end CMOS process: P-substrate, STI isolation (for peripheral region only), twin well, double gate oxide, and single polygate oxide. The pixel array is not fully salicided for higher integration density. The pixel fabrication process requires only three extra masks for specific implants and is fully compatible with the CMOS digital process. An example of the image taken with this test chip has recently been shown [7].
+
+The measured transfer characteristic of the 1T pixel is plotted in Fig. 3. It exhibits a good linearity for the pixel output signal up to 100 mV. Its slope determines the conversion gain (CG) defined as the pixel output voltage read for each photogenerated and stored hole (in microvolts per h\({}^{+}\)). The saturation level of the curve at 115 mV is limited by the potential barrier height between the floating transistor body and the substrate corresponding to the readout biasing conditions. It determines the charge-handling capability, which is also defined as a full well capacity (FWC).
+
+The CG is a key pixel parameter related to performances such as signal-to-noise ratio. By modeling the device operation, it can be expressed as [8]
+
+\[\text{CG}=\frac{qA_{v}C_{\rm dep}}{C_{\rm ox}C_{B^{\prime}}} \tag{1}\]
+
+where \(A_{v}\) is the gain of the source follower that is slightly lower than unity, \(C_{\rm dep}\) is the depletion capacitance under gate between the floating transistor body node \(B^{\prime}\) and the SiO\({}_{2}\)/Si interface, \(C_{\rm ox}\) is the gate oxide capacitance, and \(C_{B^{\prime}}\) is the total body capacitance between node \(B^{\prime}\) and the ground. Approximately, with simplifying assumption for \(A_{v}\approx 1\) and \(C_{\rm dep}\approx C_{B^{\prime}}\), the CG can be estimated by
+
+\[\text{CG}\approx q/C_{\rm ox}. \tag{2}\]
+
+The FWC is another important parameter corresponding to the maximum amount of charge \(Q_{\rm sat}\) that can be stored in the potential well without spread minus the reset residual charge \(Q_{\rm rst}\) (that may cause image lag). The condition \(\text{FWC}=Q_{\rm sat}\), i.e., \(Q_{\rm rst}=0\), can be ensured by process optimization and applying proper bias voltages.
+
+Table I summarizes the measured characteristics of the 1.4-\(\mu\)m-pitch ring-gate pixel compared with those of the previously designed 2.2-\(\mu\)m-pitch rectangular-gate pixel.
+
+The comparison of results in Table I shows improvements in most aspects (apart from FWC and sensitivity) for the 1.4-\(\mu\)m-pitch ring-gate design. As expected according to scaling law, CG is enhanced while FWC is degraded. Meanwhile, the dark current is reduced by over \(12\)-fold: from 80 aA/pixel (\(500\ \text{h}^{+}/\text{s}\)) to 6.4 aA/pixel (\(39.7\ \text{h}^{+}/\text{s}\)). The explanation for this low dark-current achievement is threefold. First, as the surface generation is the main contributor to \(I_{\rm dark}\), suppressing STI effectively cuts the major surface component. The dark-current intensity of the pixel is thus fivefold lower: 0.33 nA/cm
+
+Fig. 3: Transfer characteristic of the 1.4-\(\mu\)m-pitch 50% fill-factor 1T charge-modulation pixel (\(t_{\rm int}=42\ \mu\)s).
+
+Fig. 2: Microphotograph of a fabricated test chip integrating an array of 1.4-\(\mu\)m-pitch pixels.
+
+for the 1.4-\(\mu\)m-pitch pixel compared to 1.65 nA/cm\({}^{2}\) for the 2.2-\(\mu\)m-pitch pixel. Second, the smooth-shape layout minimizes band-to-band tunneling effect. For the 1.4-\(\mu\)m-pitch pixel, no such effect has been observed for bias voltages up to 3.6 V, whereas for the 2.2-\(\mu\)m-pitch pixel, \(I_{\mathrm{dark}}\) begins to rise sharply at 3.2 V [8]. Finally, smaller pixel size with smaller depletion areas has, accordingly, lower thermally generated dark-current components. Noise aspect including temporal noise and FPN is also significantly improved. One can notice that a larger dynamic range is reached, because the improvement on signal-to-noise ratio outweighs the degradation of FWC. However, the sensitivity, like FWC, is only one third of the 2.2-\(\mu\)m-pitch pixel. This cannot solely be explained by the 44% sensing area. The former has hollow-shape areas for charge collection and storage, while the latter has solid ones. For a given sensing area, the hollow-shape case may have smaller effective charge-collecting and storage areas than the solid-shape one. The resulting differences in sensitivity and FWC between the two cases may be amplified by diffraction effects. We expect to improve FWC and sensitivity by optimizing implants and using thinner polygate.
+
+## IV Conclusion
+
+Ring-gate implementation of the 1T charge-modulation pixel suppresses the need to employ STI for reducing electrical crosstalk. This has allowed us to achieve smaller size and/or higher fill factor in the pixel design. Moreover, dark current has substantially been reduced by minimizing surface component contribution and band-to-band tunneling effect.
+
+## Acknowledgment
+
+The authors would like to thank the Front-End Technology and Manufacturing (FTM) Group, STMicroelectronics for wafer processing. The authors would also like to thank the members of the FTM Imaging Group for their dedicated effort in design, test, and process integration.
+

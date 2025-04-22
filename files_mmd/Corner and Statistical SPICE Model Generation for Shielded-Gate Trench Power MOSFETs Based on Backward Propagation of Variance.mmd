@@ -1,0 +1,160 @@
+Corner and Statistical SPICE Model Generation for Shielded-Gate Trench Power MOSFETs Based on Backward Propagation of Variance
+
+
+
+Email: {yunpeng.xiao, james.victory}@onsemi.com
+
+1Discrete Modeling, ON Semiconductor, Shanghai, China,
+
+2Discrete Modeling, ON Semiconductor, Aschheim, Germany
+
+3Discrete Modeling, ON Semiconductor, Mountain Top, PA, USA
+
+3LV MOSFET Design & Development, ON Semiconductor, Sunnyvale, CA, USA
+
+1Cloud Power Solutions, ON Semiconductor, Sunnyvale, CA, USA
+
+## I Introduction
+
+The modern power electronic industry mandates that discrete devices should have high yield, should have first pass operation through manufacturing, and should be as small as possible. In the power management IC design industry, corner and statistical models are an integral part of CAD design environment used to achieve the aforementioned mandates. Design robustness to semiconductor process variation is critical to ensure high yield of a chip throughout the manufacturing lifetime. The discrete industry has notoriously lagged behind the IC industry in CAD design environments, particularly modeling of the devices for SPICE level circuit simulation. Recent advances in physical discrete modeling has opened the door to develop physically based corner and statistical modeling techniques. Power electronic designers often live and die by device data sheets which historically contain wide uncorrelated parameter ranges that are not representative of the true parameter variation from the manufacturing environment. Thus, designers often over-design (i.e. larger area to meet worst case \(R_{\text{DSon}}\) requirements) in order to ensure high yields.
+
+In this work, techniques to develop SPICE corner and statistical models, representative of the manufacturing process variation, are proposed. With such models, over-design can be eliminated and more competitive power electronic designs can be achieved. The backward propagation of variance (BPV) technique for corner and statistical models has been the IC industry standard physical approach for 20 years [1,2]. Application of the technique to high power discrete devices is not trivial due to the complexity of the devices and their process variation compared to IC devices. This paper advances the state-of-the-art through a first time BPV corner and statistical models for Shielded-Gate (SG) trench MOSFETs. Previous literature on corner and statistical models for power discrete devices was not found.
+
+Section II reviews the SPICE model which is the basis for the corner and statistical methods. Sections III and IV detail the BPV technique and how corner models are generated. A TCAD exercise used to drive the BPV technique is covered in Section V. Section VI presents measured data validation of the models. Section VII introduces circuit related topics.
+
+## II Spice Model Description
+
+The base SPICE model must be physically based and scalable with process and layout parameters for the BPV technique to work. This requirement renders most SPICE models available for discrete power electronic devices not applicable. It is well known that most models for discrete devices are simple and not physically based [3-6]. However, a physically based, scalable model for SG trench MOSFETs has been demonstrated in [7]. The model contains physical equations which capture the sensitivity of the electrical specifications to the process parameters. Table I lists several key SG Trench MOSFET process parameters contained in the model. Fig. 1 displays a SG trench MOSFET cross section with several of the process parameters highlighted along with the base model sub-circuit. Results for ON Semiconductor's 25V SG Technology for the current-voltage, capacitance, and 
+
+[MISSING_PAGE_FAIL:2]
+
+## III Backward Propagation of Variance
+
+BPV relates the variances \(\sigma^{2}\) in the electrical specifications E and model parameters P through the sensitivity matrix. The base equation for the BPV technique is given by Eq. 1:
+
+\[\sigma^{2}_{\delta E_{i}}=\sum_{j}\Bigl{(}\frac{\partial E_{j}}{\partial P_{j}} \Bigr{)}\cdot\sigma^{2}_{\delta P_{j}} \tag{1}\]
+
+where \(\sigma^{2}_{\delta E_{i}}\) is the variance of the change in electrical performance (\(\delta\)E) and \(\sigma^{2}_{\delta P_{j}}\) is the variance of change in model parameter performance (\(\delta\)P). SPICE simulations of E using the device model described in the previous section determine the sensitivity \(\frac{\partial E_{i}}{\partial P_{j}}\) of each E to each P. Proper choice of the Es and Ps is key in order to ensure mathematically observability of P in E through a well-conditioned sensitivity matrix.
+
+The BPV process fails if there are inconsistencies in specification of the statistics, the underlying SPICE models are inaccurate, or the measurements are not selected wisely. The matrix equation will not solve due to situations like negative model parameter variances or an ill conditioned sensitivity matrix. This is not a "garbage in garbage out" process. Models and fab statistics are often cleansed through application of the BPV technique.
+
+Table II lists the chosen E for the SG Trench MOSFET. Note QGS can be used in place of CissV as both parameters isolate the CGS capacitance.
+
+A description of the algorithm to determine the Ps and Es is given here. The algorithm can be simplified into a series of steps to keep track of the system.
+
+_Step 1:_
+
+CissV, Crs0, and QGD is a subsystem that will yield Xipw, Grec, and IPDrec.
+
+_Step 2:_
+
+Vth yields channel doping Nchpk. The Vth also varies with Grec due to the thickening of the Tavg equation as Grec increases.
+
+_Step 3:_
+
+CrsV and BV yield the drift doping Ndr and Epi thickness Epithvariation.
+
+_Step 4:_
+
+Up until now, several process parameters that influence RDSon have been highlighted, namely Xipw, Nchpk, Ndr and Epith. In addition to these parameters, the channel mobility \(\mu_{\text{ch}}\) and drift region mobility \(\mu_{\text{dr}}\) heavily influence RDSon. The two mobilities can be determined through the variation in RDSon at low and high gate voltages, RDSonlo and RDSonhi respectively.
+
+_Step 5:_
+
+Here the goal is to isolate CDS given by
+
+\[C_{DS}=C_{\alpha\beta\alpha\,0}-C_{\alpha\beta\alpha\,0}\,. \tag{2}\]
+
+Physically,
+
+\[C_{DS}=C_{J}+C_{shield} \tag{3}\]
+
+where CJ is the PWell-Epi junction capacitance and Cshield is the MOS capacitance formed by the shield over Epi. Drift doping Ndr and channel doping Nchpk vary CJ. CDS thus gives the missing variation of Cshield which solves for the shield poly recess SHrec.
+
+_Step 6:_
+
+Gate Resistance RG is already influenced by Grec and IPDrec which vary the length of the gate poly. The remaining parameter to be solved for is the poly sheet resistance \(\rho_{\text{poly}}\).
+
+Process parameters within a Step may influence electrical specifications from other Steps. An example is clearly Xipw from Step 1 influences the RDSonin Step 4 though variations in the channel length. The goal of the individual Steps is not to be solved for in isolation but rather as a numerically stable and consistent system. Fig. 3 shows all the dependencies between the model process parameters and the electrical specifications.
+
+Steps 1 through 6 establish a system of 11 unknown BPV parameters and 11 equations. Several physical
+
+Fig. 3: Electrical performance sensitivities to process parameters. Solid line indicates strong sensitivity, dashed line indicates weak sensitivity.
+
+parameters such as T\({}_{\text{org}}\), T\({}_{\text{oxsh}}\), and \(\rho_{\text{m}}\) are often monitored directly in the fab process control monitors. Contribution of such parameters, denoted as forward propagation of variance parameters (FPV), are subtracted from the E variances.
+
+The variation of the Es are ideally provided as the limits given by the fab process control. In IC technologies, PCM (Process Control Monitor) test structures are generally included in the scribe lines or as drop-in dies. The PCMs on every wafer are measured at the wafer probe level and thus abundant and consistent statistical data is available. This is not the case for discrete technologies. Discrete technologies notoriously lag behind IC technologies in terms of process control monitoring, the thus available data for E definition in the BPV technique is often limited. Typically, statistical data for discrete devices comes from two main sources: wafer level and final test (FT) on packaged device measurements. At the wafer level, one can consider the device which is the entire die as the PCM structure. The same can be said for FT. In both cases, Es are collected on one transistor. Wafer level measurements bring a blend of DC and sometimes AC data. However, not all the data is reflective of the real variation. For example, R\({}_{\text{DSon}}\) wafer level data is inexact due to the high contact resistance from the probes relative to the intrinsic device resistance. R\({}_{\text{DSon}}\) is only reliable in FT on packaged devices. AC measurements are not always performed in either wafer or final test in order to save test time and due to the complexity of the measurement equipment.
+
+The output of the BPV solution is the model parameter sigma values \(\sigma_{\text{P}}\) which in combination with the physically based SPICE model, guarantees a match between simulated and measured \(\sigma_{\text{E}}\). The models then enable Monte Carlo SPICE level simulations within a given CAD environment such as Cadence or Mentor. Monte Carlo simulations enable full exploration of the correlated process variation space. The main drawback of Monte Carlo simulations is the large number of simulations required to represent the distribution. As an alternative, many designers opt for corner model simulations to reduce the simulation matrix.
+
+## IV Corner Model Solution
+
+Corner models are derived based on tailored skews of the E to target specific design sensitive process conditions. The BPV technique is reduced to solving for parameter shifts \(\delta\)P needed to achieve the \(\delta\)E corner conditions. The corner solution system is given by
+
+\[\delta E_{i}=\sum_{j}\!\left(\frac{\partial E_{i}}{\partial p}\right)\cdot \delta P_{j} \tag{4}\]
+
+where the sensitivity matrix from the full BPV technique is reused.
+
+In the simplest case, two extreme corners covering worst and best case process conditions are generated given in Table III. The corners must be defined in a physically consistent manner. For example, R\({}_{\text{DSon}}\) and BV should increase or decrease together due to the correlation through the N\({}_{\text{dr}}\) and Epi\({}_{\text{th}}\).
+
+Section VII will introduce advanced corner concepts implemented for specific circuit design figures or merit.
+
+## V TCAD Design of Experiments
+
+For first pass development of the BPV algorithms, a finite-element TCAD design of experiment (DOE) is implemented to determine the Es. Through TCAD we can study the device process sensitivities in a complete and consistent manner, immune to the complications described with the manufacturing data above.
+
+Synopsys T-Supreme4 (TS4) and Medici tools are used to build the finite-element TCAD device model following the exact process steps (e.g. Epi growth, silicon and poly etch, oxide growth, ion implantation, diffusion and furnace annealing, metalization) employed in the fab. Thereafter, a fully coupled Poisson/drift-diffusion framework is employed to solve for electrical parameters (E) like R\({}_{\text{DSon}}\), V\({}_{\text{th}}\), BV, various Q\({}_{\text{G}}\) terms, and capacitances. This is particularly important for sensitivity analysis and providing a solid underpinning for SPICE model development. For example, small variations in the doping density or thickness of the starting material can be easily modeled in the process simulator. In actual production, all these small process variations can yield devices, whose E vary significantly, and consequently cause a sizable range of performance variations in the power electronic system in which such devices are used as switches.
+
+To determine the E variation required for the BPV technique, a 3-level fractional factorial design was adopted for all relevant process parameters. The 3-level DOE was built by perturbing one parameter at a time on both sides of its baseline value. The subsequent variation in the E is recorded. For some particular combination of parameters, where mutual coupling is likely to be strong, two-way interaction matrix was also simulated.
+
+Fig. 4 shows the process parameter effects on QGD as an example take away from the TCAD DOE. It it can be clearly seen parameters like IPD recess, heavy body (HB) depth (which relates to Xjpw), shield poly recess, and Epi resistivity (which relates to Nddr) dominate the QGD variation. A similar plot for CissV is shown in Fig. 5 where it can be seen the Grec, IPDrec, Tcagg, and HB depth dominate. These plots confirm the proper choice of the Table I process parameters P for the BPV solution.
+
+The total E variation was determined through the root-mean-square (RMS) summation of the all the individual variation of E due to each process parameter perturbation. As the TCAD is performed on a unit cell, the layout dependent RG and associated ppoly and pm are excluded from the TCAD driven BPV solution. In addition, all parasitic capacitors associated with termination regions in the layout are commented out of the SPICE model. Table IV lists the input E and output P sigmas from the BPV solution.
+
+## VI Experimental Results And Verification
+
+Experimental results are collected from ON Semiconductor's 25V Shielded-Gate Technology [8]. The model accuracy is investigated and improved based on three forms of experimental data: Split Lots, Production Wafer Level PCM, and Final Test data.
+
+### A: Split Lot Data
+
+Split lots, sometimes referred to as corner lots, are run from a DOE where each lot is processed under a skewed condition according to Table V. The DOE process parameters directly correlate to the model parameters previously described.
+
+Through the split lots, the sensitivities of the relevant E can be studied between the data and model to help understand if the model physics are correct based on real measured data. As stated in section II, the BPV technique only works with physics based models. Fig. 6 shows the simulated and measured CissV and Vth vs. Grec as extracted from lots 1-3. Fig. 7 shows the simulated and measured Ciss0, Ciss0, and RG vs. IPDrec as extracted from lots 1, 4, and 5. Fig. 8 shows the simulated and measured CissV and Ciss0 vs. SHrec as extracted from lots 1, 6, and 7. In all cases, the model accurately predicts the sensitivities seen in the data.
+
+### B: Production Wafer Level PCM Data
+
+Wafer level PCM tests on the discrete devices are performed in the production environment as described in section II. For the given technology, Es in the form of DC (BV, Vth, and RDSon) and AC data (QGS, QGD and QGTotal) is available from 8 Lots. However, the RDSon data is not reliable due to the high contact resistance from the probes as previously discussed.
+
+The model as extracted from the BPV on the TCAD DOE is simulated against the data. The Gaussian distributions in Fig. 9 show that the model captures the spread of the data, though the simulated limits are wider than the data. This implies that the TCAD DOE produced larger spreads than the actual process. Fig. 10 demonstrates the model's ability to capture correlations
+
+Fig. 4: TCAD process parameter influence on of key device performances such as \(\mathrm{Q_{GS}}\) and \(\mathrm{Q_{GD}}\), critical for circuit design to be discussed later in Section VII. The models ability to match the Gaussian distributions and correlations among the measured Es is proof of the physical foundation of the model and BPV technique.
+
+### C: Final Test Data
+
+\(\mathrm{R_{DSon}}\) was not able to be verified in the wafer level tests. A limited set of Final Test \(\mathrm{R_{DSon}}\) data from 2 lots completes the model verification as shown in Fig. 11. The simulated spread is much bigger than the Final Test data as expected since only two lots of data are shown. \(\mathrm{R_{DSon}}\) at \(\mathrm{V_{G}}\)=4.5 is shown to be more sensitive to \(\mathrm{V_{th}}\) than \(\mathrm{R_{DSon}}\) at \(\mathrm{V_{G}}\)=10V as expected due to the dominance of the channel resistance at low \(\mathrm{V_{G}}\). The simulation tracks the trend validating the physical foundation of the model.
+
+## VII Circuit Design Application
+
+The models developed here are implemented in the design flow of ON Semiconductor's next generation Smart Power Stage (SPS) solutions for CPU and memory VRs, server utility rails, and communications infrastructure systems. The 5x6 PQFN multi-chip module combines a driver IC with high side (HS) and low side (LS) trench MOSFETs optimized for high-current, high frequency synchronous buck DC-DC converters as shown in Fig. 12. A typical application using ON Semiconductor's SPS delivers peak currents higher than 70A.
+
+Fig. 8: Split Lot \(\mathrm{C_{iss}}\) and \(\mathrm{C_{ms}}\) vs. \(\mathrm{SH_{rec}}\)
+
+Fig. 6: Split Lot \(\mathrm{C_{iss}}\) and \(\mathrm{V_{th}}\) vs. \(\mathrm{G_{rec}}\)
+
+Fig. 9: Wafer test Gaussian distributions (a) \(\mathrm{Q_{GD}}\) (b) \(\mathrm{Q_{GS}}\) (c) \(\mathrm{V_{th}}\)The simulation environment employs corner model libraries that allow independent uncorrelated variation of the process for each of the three die. A simulation setup is used to check potential causes of overlapping conduction of the MOSFETs, including parasitic coupling of the drain waveform onto the gate of the MOSFET that is supposed to be off. During high dV/dt transients of the output node, a voltage pulse is generated on the off MOSFET's gate. If this voltage reaches the threshold of the MOSFET, very large currents can flow between the MOSFETs.
+
+To emphasize the effect on the LS MOSFET during the rising edge of the output, corner model 3 with the highest C\({}_{\text{GD}}\)/C\({}_{\text{GS}}\) ratio, lowest V\({}_{\text{th}}\), and highest RG is chosen with the inverse corner model 4 chosen for the HS MOSFET. Table VI lists corner models 3 and 4 electrical definitions used to solve for the Table VII process parameter conditions through a BPV corner solution. All parameters not listed in Table VII were left in their nominal conditions.
+
+As shown in Fig. 13, a fairly large peak current is generated through the LS MOSFET. Since at this moment the HS MOSFET is turning on, a shoot through
+
+Fig. 12: Smart Power Stage (SPS) package and circuit schematic
+
+Fig. 10: Wafer test correlation plots (a) V\({}_{\text{Au}}\) vs. Q\({}_{\text{GS}}\) (b) V\({}_{\text{Au}}\) vs. Q\({}_{\text{GD}}\) (c) Q\({}_{\text{GD}}\) vs. Q\({}_{\text{GS}}\), simulation confidence ellipses situation occurs which means drain to source current flows in both switches simultaneously. The LS MOSFET is exposed to a high energy pulse, since its VDS has a high value set by the switching node, and the MOSFET reliability can be affected. The nominal corner 0 for both MOSFETs is also shown where the circuit appears to be running without issues. Standard corner 1 and corner 2 results (not shown), where CISS and CRSS move together, also yield reliable operation. Thus, only under circuit design tailored corners can these suspect circuit conditions be exposed, enabling proper design steps to ensure circuit robustness across all conditions of the process variation.
+
+## VIII Future Work And Conclusion
+
+Modern day power electronic design requires accurate and aggressive electrical specifications to eliminate over design due to unnecessarily wide specifications especially those in datasheets. With the techniques introduced here, circuit designers can rely on SPICE models to accurately represent the real variations of their designs throughout the technology manufacturing lifetime.
+
+The work here also provided a study of the different data sources available in discrete technology to understand how the process varies. The data sources such as wafer level PCM and Final Test can be incomplete for the BPV method, however with solid engineering judgments aided by TCAD, reasonable corner and statistical models can be generated.
+
+The BPV methods described in this work are currently being developed for other discrete technologies such as super-junction MOSFETs, SiC MOSFETs, GaN HEMTs, and Trench IGBTs.
+

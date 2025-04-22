@@ -1,0 +1,107 @@
+Analysis and design of an unconditionally stable common-drain class-B RF power amplifier in 90 nm CMOS technology
+
+
+Mixed-Signal CMOS Circuits, UMIC Research Centre
+
+
+Ph: +49-241-8027763, Fax: +49-241-8022199
+
+Email: abdullah.khan@rwth-aachen.de, kalim@umic.rwth-aachen.de, negra@ieee.org
+
+## I Introduction
+
+Contemporary wireless communication systems including Universal Mobile Telecommunication System (UMTS), Worldwide Interoperability for Microwave Access (WiMAX), Wideband Code Division Multiple Access (WCDMA) and Long Term Evolution (LTE) are utilising envelope-varying signals or spectrum-efficient modulation techniques. The amplitude of these signals are also modulated to encode the information within a limited bandwidth. These systems require linear power amplifiers (PAs) to amplify the input signal linearly. Class-A amplifiers have the lowest signal distortion among the different classes of operation, but exhibit power added efficiency, (PAE), below 50 % [1].
+
+Switching-mode PAs (SMPAs) [2, 3] exhibit high efficiency. However, they suffer from strong inherent nonlinearity. The utilisation of these types of amplifiers has to be considered together with the system architecture in order to ensure optimum performance with respect to efficiency and to meet the linearity requirements of wireless standards. Several advanced transmitter topologies have been developed namely LLinear amplification using Nonlinear Components (LINC) [4], \(\Delta\Sigma\) transmitter [5], Envelope Elimination and Restoration (EER) [6] and polar transmitters [7].
+
+The increasingly crowded spectrum in modern communication systems puts severe constraints on system linearity to avoid interference due to spectral regrowth, intermodulation distortion (_IMD_) and spurious emissions.
+
+Intermodulation distortions may fall in-band and cannot be filtered. Nonlinearity of the device transconductance, \(g_{m}\), and gate-to-source capacitance, \(C_{gs}\), results in high third order intermodulation distortion (_IMD\({}_{3}\)_) [8, 9]. A single-ended class-B amplifier with a bandpass filter can be exploited to obtain improved efficiency, theoretically approaching 78.5 % with high _IMD\({}_{3}\)_ suppression simultaneously [9]. Furthermore, due to strong series-series negative feedback, the common drain topology provides low distortion and is less sensitive to biasing variations. However, the 100 % negative feedback nature of the amplifier reduces gain which has to be further decreased in order to achieve unconditional stability of the circuit. Therefore, it is challenging to maintain adequate gain with unconditional stability.
+
+This work describes the design of a common drain class-B PA in 90 nm CMOS technology. Analysis on the stability of the amplifier has been done to unconditionally stabilise the circuit. The designed PA shows in simulation PAE of more than 43.0 % with output power \(P_{out}\) = 27.2 dBm and \(G\) = 6.1 dB at 2.55 GHz, when operated at 2.5 V.
+
+## II Class-B power amplifier
+
+In class-B PA, the active device is biased at \(V_{th}\), which keeps the device Off half of the RF cycle. Therefore, dissipation in the device diminishes, which results in high efficiency. Obviously, there is a significant degradation in linearity compared to class-A PA. To achieve class-B operation, the device has to be loaded by \(Z_{opt}\) given as:
+
+\[Z_{opt}=\left\{\begin{array}{cc}R_{opt}&\text{\text@underline{@}}f_{0}\\ 0&\text{\text@underline{@}}\text{\text@underline{@}}\text{\text@underline{}} \text{\text@underline{}}\text{\text@underline{}}\text{\text@underline{}} \text{\text@underline{}},\text{ where $n$ = 2,3,4, \ldots}\end{array}\right., \tag{1}\]
+
+where \(n\) = 2,3,4, \(\ldots\).
+where \(R_{opt}\) is the optimum resistance provided at the device output to obtain the desired output power. This leads to a sinusoidal and half sine waves for the voltage and current, respectively, at the device output for an ideal class-B PA.
+
+The _IMD_ in CMOS are mainly due to \(C_{gs}\) and \(g_{m}\) variation. In [8], it has been shown that \(C_{gs}\) affects significantly linearity of the PA compared to \(g_{m}\) for a standard device. From [9], all even-order terms of \(C_{gs}\) contribute to _IMD\({}_{3}\)_, which should be cancelled for best linearity. Thus, for zero _IMD\({}_{3}\)_, \(C_{gs,even}\) must be zero.
+
+\[C_{gs,even}=c_{2}V^{2}+c_{4}V^{4}+\ldots \tag{2}\]
+
+\[C_{gs,even}=0.5(C_{gs}(V_{in})+C_{gs}(-V_{in}))-c_{0}. \tag{3}\]
+
+In theory, class-B operation has zero _IMD\({}_{3}\)_[9, 10].
+
+The linearity can be further improved when class-B is operated in a common drain configuration. A common drain amplifier offers good linearity due to its negative feedback nature. The transfer function of a common drain amplifier is [9]:
+
+\[\frac{\partial V_{out}}{\partial V_{in}}=\frac{R_{L}g_{m}(V_{g})}{1+R_{L}g_{m }(V_{g})}, \tag{4}\]
+
+where \(R_{L}\) is the load resistance of the amplifier. Variation in \(g_{m}\) directly affects the overall transfer function. By making \(g_{m}\) large compared to the load conductance (_i.e._\(g_{m}R_{L}\gg 1\)), the effect of transconductance variation \(g_{m}(V_{g})\) on the amplifier gain is mitigated. The 100 \(\%\) negative feedback from source-to-gate linearises the common-drain amplifier.
+
+However, due to the strong negative feedback and the high degree of instability of this configuration, common drain configurations are typically employed as oscillators at high frequencies [11]. To avoid oscillations, a proper stability network must be designed to obtain an amplifier with unconditional stability and without degrading gain severely.
+
+### _Load transformation network (LTN)_
+
+Fig. 1 shows the schematic of a common drain amplifier. The maximum drain current \(I_{d,max}\), \(R_{opt}\) and the required output power, \(P_{out}\), are related to each other, given by:
+
+\[P_{out}=\frac{V_{dd}^{2}}{R_{opt}} \tag{5}\]
+
+\[I_{d,max}=\frac{2V_{dd}}{R_{opt}} \tag{6}\]
+
+The amplifier was designed with a targeted output power of approximately 0.5 W at 2.55 GHz. The transistor was scaled to deliver the required output power. The width of the transistor used for this design was 2.15 mm and \(R_{opt}=5.2\)\(\Omega\). This leads to a large transformation ratio from \(R_{opt}\) to the 50 \(\Omega\) load. The transistor was finally biased with \(V_{dd}=2.5\) V and \(V_{g}=V_{th}=570\) mV. A deep \(n\)-well device is chosen to eliminate body effects but more importantly to obtain lower \(C_{gs}\), which leads to lower _IMD\({}_{3}\)_[8]. The implemented LTN has a narrowband harmonic tank tuned to the fundamental frequency, \(f_{0}\).
+
+The \(L\)-matching network provides the required impedance transformation to the 50 \(\Omega\) load. The capacitor \(C_{bypass}\), connected at the drain of the transistor, provides the required RF ground. The output impedances of the designed LTN, which are in good agreement with ideal class-B load conditions, are illustrated in Fig. 2.
+
+Simulation results show a power gain, \(G\), of 6.1 dB with a \(P_{out}=27.2\) dBm. Drain efficiency and PAE at the corresponding gain were found to be 61.1 % and 43.0 %, respectively, as shown in Fig. 3. At 3 dB back-off, the designed LTN provides a rejection of -18.0 dBc and -46.0 dBc at the second and third harmonic frequencies, respectively. The simulated time-domain source voltage and current waveforms at an input power of 18 dBm are displayed in Fig. 4. As can be seen, these waveforms approximate ideal class-B output characteristics.
+
+### _Stability analysis_
+
+Stability is an important aspect in any amplifier design. At RF the assumption of device being unilateral (\(S_{12}=0\)
+
+Fig. 1: Schematic of a common drain class-B PA.
+
+Fig. 2: Simulated impedance seen at the drain of the common drain class-B LTN.
+
+does not hold and the feedback makes an amplifier unstable. The common-drain amplifier has serious stability issues due to the effects of \(C_{gs}\) over a wide frequency range as compared to a common-source configuration. The small-signal equivalent circuit of a field effect transistor (FET) in common-source configuration is shown in Fig. 5. The \(Y\)-matrix of a common-source transistor is given in [12]. This can be mapped to obtain the \(Y\)-matrix of a common-drain amplifier, \(Y_{d}\), given in [13].
+
+The instability of a common-drain amplifier is attributed to \(Y_{d,12}\) which is a function of \(R_{i}\) and the nonlinear \(C_{gs}\), and can be written as:
+
+\[Y_{d,12}=-(Y_{11}+Y_{12})=-\left[\frac{R_{i}C_{gs}^{2}\omega^{2}}{D}+j\frac{ \omega C_{gs}}{D}\right], \tag{7}\]
+
+where \(D=1+\omega^{2}C_{gs}^{2}R_{i}^{2}\). From (7) it can be seen that \(Y_{d,12}\) is a function of \(\omega\), \(\omega^{2}\) and the nonlinear \(C_{gs}\). This means, the stability of a common-drain amplifier is not only critical at moderate, but especially at high frequencies.
+
+The stability network used for this design consists of a series \(RC\)-circuit as shown on the input side in Fig. 1. The lossy \(RC\)-network in parallel to \(C_{gs}\) provides low impedance at high frequencies. Hence, it shorts considerable amount of RF input power to ground. Thereby gain of the common-drain amplifier is degraded in order to attain unconditional stability, as illustrated in Fig. 6.
+
+Finally, the input matching network is realised by conjugate matching to maximise gain. It consists of a lowpass filter, composed of \(L_{in}\) and \(C_{in}\) as shown in Fig. 1. The simulated input return loss \(S_{11}=-21.0\) dB at 2.55 GHz.
+
+### _Linearity analysis_
+
+Two-tone tests, with two tones \(f_{1}\) and \(f_{2}\) closely spaced with respect to the bandwidth of the amplifier, are used to evaluate the linearity of the PA by investigating \(\textit{IMD}_{3}\).
+
+Fig. 4: Simulated time-domain source waveforms of the common drain class-B PA.
+
+Fig. 5: Small-signal equivalent circuit model of an FET in common source configuration.
+
+Fig. 3: Simulated drain efficiency, PAE, output power and power gain of the designed common drain class-B PA.
+
+Fig. 6: Stability factor of the designed common drain class-B PA at different input bias voltages.
+
+Simulations predict -32.0 dBc of \(IM_{3}\) suppression at 3 dB back-off as plotted in Fig. 7.
+
+For the same PA design as shown in Fig. 1, gate bias voltage \(V_{g}\) has been varied to obtain class-A, -AB and -C bias and the corresponding \(\mathit{IMD}_{3}\) suppression curves are plotted in Fig. 8. It can be concluded that class-B operation achieves best linearity as the distortion degrades on either side of the class-B bias point.
+
+## III Conclusion
+
+In this paper, design of a single-ended common-drain class-B PA in 90 nm CMOS process has been presented. The strong series-series negative feedback in common-drain configuration provides good linearity performance. However, the topology is very prone to instabilities at high frequencies, and is therefore particularly prone to oscillations. A carefully designed stability network is required to obtain unconditional stability without excessive gain degradation. The \(Y\)-parameter analysis of a common-drain configuration was done and according to this study, a lossy series \(RC\) network was used.
+
+The class-B mode of operation offers better \(IM_{3}\) suppression over a wide range of bias due to linear transfer function and minimum gate-to-source capacitance. The circuit is simulated at 2.55 GHz with 32.0 dBc of \(IM_{3}\) suppression at 3 dB input back-off. The common-drain class-B PA provides 43.0 % PAE for an output power of 27.2 dBm and gain of 6.1 dB, operated from 2.5 V supply. The design presented in this work indicates that common-drain class-B amplifiers have the potential to provide high linearity with adequate efficiency also at RF.
+
+## Acknowledgment
+
+This work has been supported by cluster of excellence on Ultra high-speed Mobile Information and Communication (UMIC) Research Centre, RWTH Aachen University.
+

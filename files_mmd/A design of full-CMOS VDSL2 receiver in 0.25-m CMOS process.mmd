@@ -1,0 +1,82 @@
+
+in 0.25\(\upmu\)m CMOS process
+
+
+HooHyun Cho, DongHyun Ko, and Kang-Yoon Lee
+
+Department of Electronic Engineering,
+
+
+Seoul 143-701, Korea
+
+
+This work was supported by "System IC 2010" project of Korea Ministry of Knowledge Economy.
+
+Tai-Hyung Kim and Joon-Beom Lee
+
+
+
+This work was supported by "System IC 2010" project of Korea Ministry of Knowledge Economy.
+
+## I Introduction
+
+While the VDSL1 standard uses the band plan that defines the spectrum up to 12MHz, the VDSL2 standard defines the band plan and spectrum up to 30MHz. Figure 1 shows the band plan of the DSL.
+
+Thank to the increasing bandwidth, the VDSL2 can provide the total data rate (including up-link and down-link) over 200Mbps at a short loop. The VDSL2 has a superior performance than the VDSL1 in terms of the data rate, improved function such as impulse noise protection and circuit diagnostics.
+
+The VDSL2 can provide the fastest data rate at the distance of 5kft - 6kft as shown in Figure 2.
+
+In this paper, the Receiver PHY IC for VDSL2 application is presented which is implemented with full-CMOS technology as a single chip solution.
+
+## II Receiver Architecture
+
+In this paper, the Receiver PHY IC for VDSL2 application is presented which is implemented with full-CMOS technology as a single chip solution.
+
+## III Receiver Architecture
+
+In this paper, the Receiver PHY IC for VDSL2 application is presented which is implemented with full-CMOS technology as a single chip solution.
+
+### _T
+
+Fig. 1: Band Plan of DSL
+
+Fig. 3: Block diagram of the VDSL2 receiver
+
+Fig. 2: Performance summary of xDSLFigure 3 shows the block diagram of the VDSL2 receiver. The Rx part is composed of the Low-Pass Filter, VGA and ADC. The differential signal from the VDSL2 line is amplified at the VGA. The VGA amplifies the output of the HPF as programmable by the control of the VDSL2 Modem. The ADC is 13bits at the sampling rate of 80Ms/s.
+
+## III Building Blocks
+
+### _Variable Gain Amplifier_
+
+Because the dynamic range of the signal from the VDSL2 line is very large, the VGA is designed to operate as rail-to-rail and its noise should be minimized. The input range is about 0.1V to 2.5V and its noise level is designed to be about 10nV/\(\frac{\mathrm{V}}{\mathrm{d}\mathit{I}\mathit{I}\mathit{I}\mathit{I}}\).
+
+Figure 4 shows the schematic of the variable gain amplifier (VGA). The VGA is designed to have the wide dynamic range and its gain is controllable by 4bits from the modem.
+
+The gain control scheme controlling the resistor value is used in this design. Figure 4 shows the variable-gain amplifier with the DC-offset correction circuit. In previous architectures, resistor, R\({}_{2}\) is connected to the input, V\({}_{\mathrm{in}}\), which makes the impedance seen at the previous stage small. So, the performance of the VGA such as the linearity is degraded. In this design, input to the VGA is connected to the gate of the NMOS transistors. The previous stage sees the only gate capacitance. In this architecture, the linearity can be improved. Gain A\({}_{v}\) is determined by the ratio of R\({}_{1}\) and R\({}_{2}\), so R\({}_{1}\) is composed of resistors and switches to be programmable. Because the gain is controlled by the relative ratio of R\({}_{1}\) and R\({}_{2}\), the variation of the gain is small.
+
+In this design, R\({}_{2}\) is fixed, and R\({}_{1}\) is variable. Since the gain of the VGA is proportional to the ratio of the R\({}_{1}\) and R\({}_{2}\), it can be controlled by changing the R\({}_{1}\). The Gain step of the VGA is 2 dB. Because the gain is controlled digitally by crtl[3:0], it is easy to design the gain range and steps. The switch control signals crtl[3:0] are controlled by the VDSL2 modem. The number of switch and resistor sets is determined by the gain control step and the total gain. The gain of the VGA can be expressed as follows.
+
+\[A_{v}=\frac{V_{\mathit{out}}-V_{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{ \mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{ \mathit{\mathit{\mathit{ \mathitmathitmathitmathit{    \mathitmathitmathitmathitmathitmathitmathit{ }}}}}}}}}}}}}}}}}{ =1}1+\frac{R_{1}}{R_{2}} \tag{1}\]
+
+The DC-offset degrades the signal and can saturate the following stages. Figure 5 shows the DC-offset cancellation method used in this design. The variable-gain amplifier is merged with the DC-offset cancellation circuits. To prevent saturation of the signal, the DC-offset compensation loop filters out the DC component in the input and compensates the internal offset of the VGA.
+
+Since the VGA eliminates the DC-offset measuring the DC-offset (V\({}_{\mathrm{d}\mathit{\mathrm{d}}\mathit{\mathrm{d}}\mathit{\mathrm{d}} \mathit{\mathrm{d}}}\)) at the output of the VGA, the dynamic range of the next stage is not saturated. The output signal can be propagated without attenuation due to capacitor coupling. The DC-offset canceling circuit does not require any external components and occupies a small area. The DC-offset between V\({}_{\mathrm{out}}\) and V\({}_{\mathrm{c}\mathit{\mathrm{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{ \mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathit{\mathitmathit{\mathitmathit{ \mathitmathitmathitmathit{ \mathitmathitmathitmathitmathitmathitmathitmathitmathitmathit{ \mathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathit { \mathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathitmathit { \mathitmathitmathit{ \mathitmathitmathitmathitmathitmathitmathitmathitmathitmathit{ \mathit
+
+[MISSING_PAGE_FAIL:3]
+
+Figure 11 shows the chip layout. This chip is fabricated in CMOS process with a feature size of 0.25 \(\upmu\)m technology, a single poly layer, five layers of metal. The die area is 5mm x 5mm.
+
+The output of the transmitter is connected to the receiver and the SNR of the ADC output is measured. Figure 12 shows the measurement result of the SNR. The SNR is over 40dB when the modulated input is applied, and can meet the VDSL2 specification.
+
+## V Conclusion
+
+This paper presents a full-CMOS single-chip Receiver PHY IC for VDSL2 systems.
+
+In the receiver part, the Low-Pass Filter, VGA, and ADC is designed to have a wide dynamic range and gain control range because the signal from the VDSL2 line is variable depending on the distance.
+
+This chip is fabricated with 0.25\(\upmu\)m CMOS technology, and the die area is 5mm x 5mm. The power consumption is 250mW at 2.5V supply voltage in Rx mode.
+
+## Acknowledgment
+
+This work was supported by "System IC 2010" project of Korea Ministry of Knowledge Economy.
+
