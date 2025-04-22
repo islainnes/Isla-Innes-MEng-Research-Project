@@ -557,11 +557,11 @@ def rewrite_section(section_text: str, improvements: List[str], model_config: Di
 def assess_quality(improved_text: str, original_text: str, referenced_papers: Dict = None, full_report_context: str = None) -> Dict:
     """Perform a quality assessment of the improved text using evaluation metrics."""
     
-    # Calculate metrics for improved version
+    # Calculate metrics for improved version - store ALL metrics, not just combined scores
     metrics = {
         "technical_depth": calculate_technical_depth(improved_text),
         "clarity": calculate_clarity(improved_text),
-        "structure": calculate_structure(full_report_context if full_report_context else improved_text)
+        "structure": calculate_structure(improved_text)
     }
     
     # Add citation accuracy metrics if referenced papers are provided
@@ -702,7 +702,7 @@ def check_metric_thresholds(metrics: Dict) -> Dict[str, bool]:
     
     thresholds = {
         'technical_depth': {
-            'combined_score': 0.7     # Combined score threshold only
+            'combined_score': 0.8     # Combined score threshold only
         },
         'clarity': {
             'combined_score': 0.7     # Combined score threshold only
@@ -735,7 +735,7 @@ def check_metric_thresholds(metrics: Dict) -> Dict[str, bool]:
     # Check technical depth metrics - only use combined score
     tech_metrics = metrics['technical_depth']
     results['technical_depth']['overall'] = (
-        tech_metrics.get('combined_score', 0) >= thresholds['technical_depth']['combined_score']
+        tech_metrics.get('balanced_technical_score', 0) / 100 >= thresholds['technical_depth']['combined_score']
     )
     
     # Check clarity metrics - only use combined score
@@ -1261,7 +1261,7 @@ def main():
                                 status = "no_improvements_applied"
                             
                             # Assess quality with citation accuracy
-                            current_quality_assessment = assess_quality(improved_text, section_content, referenced_papers, "\n\n".join(sections.values()))
+                            current_quality_assessment = assess_quality(improved_text, section_content, referenced_papers)
                             
                             # Store iteration data
                             iteration_data = {
@@ -1332,6 +1332,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
