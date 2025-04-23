@@ -4,22 +4,20 @@
 #SBATCH --gres=gpu:ampere:1
 #SBATCH -p ug-gpu-small
 #SBATCH --qos=normal
-#SBATCH -t 00-20:00:00
+#SBATCH -t 02-00:00:00
 #SBATCH --job-name=ssgg36
 #SBATCH --mem=28G
 
-# Purge existing modules first
 module purge
+# Load CUDA 11.8 with cuDNN 8.7 - specific version to match environment.yml
+module load cuda/11.8-cudnn8.7
 
-# Load necessary modules
-module load cuda
-module load nvidia/cuda
 
 # Initialize conda
 source /home3/ssgg36/anaconda3/etc/profile.d/conda.sh
 
 # Activate your conda environment
-conda activate project_env
+conda activate new_env
 
 # Add these diagnostic lines
 echo "=== Environment Information ==="
@@ -45,7 +43,6 @@ nvidia-debugdump -l || echo "nvidia-debugdump failed"
 echo "======================"
 
 # Run the script with increased CUDA memory settings
-
 python step1.py
 python step2.py
 python step3.py
