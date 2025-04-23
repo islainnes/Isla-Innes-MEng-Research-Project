@@ -6,6 +6,8 @@ import json
 import textstat  # Add this import for Gunning Fog
 from typing import Dict
 import os  # Add this for environment variable access
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
 
 # Hardcoded API key
 api_key = "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"
@@ -19,7 +21,7 @@ def analyze_sentence_complexity_normalized(text, nlp):
         doc = nlp(text)
         
         # Calculate metrics
-        # 1. Tree depth: maximum dependency tree depth across sentences
+        # Tree depth: maximum dependency tree depth across sentences
         depths = []
         for sent in doc.sents:
             tree_depths = []
@@ -38,29 +40,28 @@ def analyze_sentence_complexity_normalized(text, nlp):
             return 0.3  # Default for very short text
         
         avg_max_depth = np.mean(depths)
-        # Normalize: optimal range for technical writing is 5-8 levels deep
+        
+        # More demanding normalization with finer granularity
+        # Optimal range is now narrower (6-7) and harder to achieve
         if avg_max_depth < 3:
-            normalized_depth = 0.3  # Too simple
+            normalized_depth = 0.2  # Too simple
+        elif avg_max_depth < 4:
+            normalized_depth = 0.4  # Somewhat simple
         elif avg_max_depth < 5:
             normalized_depth = 0.6  # Moderate complexity
-        elif avg_max_depth <= 8:
+        elif avg_max_depth < 6:
+            normalized_depth = 0.8  # Good complexity
+        elif avg_max_depth <= 7:
             normalized_depth = 1.0  # Optimal complexity
+        elif avg_max_depth <= 8:
+            normalized_depth = 0.8  # Slightly too complex
+        elif avg_max_depth <= 9:
+            normalized_depth = 0.6  # Too complex
         else:
-            normalized_depth = 0.7  # Too complex
+            normalized_depth = 0.4  # Excessively complex
         
-        # 2. Complex clause usage - count subordinate clauses
-        clause_count = len([token for token in doc if token.dep_ in ('ccomp', 'xcomp', 'advcl')])
-        normalized_clauses = min(clause_count / (len(list(doc.sents)) * 1.5), 1.0)  # Normalize per sentence
-        
-        # Combined score with revised weights:
-        # - Tree depth: 70% (increased from 50%)
-        # - Complex clause usage: 30% (increased from 20%)
-        combined_score = (
-            0.7 * normalized_depth +
-            0.3 * normalized_clauses
-        )
-        
-        return combined_score
+        # Return normalized depth as the final score (100% weighting)
+        return normalized_depth
         
     except Exception as e:
         print(f"Error in syntax analysis: {e}")
@@ -74,23 +75,34 @@ def evaluate_technical_depth_with_llm(text):
         float: Technical depth score (0-1)
     """
     try:
-        # Fixed prompt that includes the text to evaluate
-        prompt = f"""Rigorously evaluate the technical depth of the following text with a highly critical eye. Consider:
-        1. Technical vocabulary and terminology usage
-        2. Concept depth and complexity 
-        3. Explanation of technical concepts
-        4. Appropriate level of detail for the audience
+        # More critical prompt with explicit scoring guidance that discourages high scores unless truly deserved.
+        prompt = f"""Rigorously evaluate the technical depth of the following text with an EXTREMELY critical eye. Be harsh in your assessment and avoid giving high scores unless truly deserved.
+
+Consider:
+        1. Technical vocabulary and terminology usage (Is it using appropriate field-specific terminology accurately?)
+        2. Concept depth and complexity (Does it go beyond surface-level explanations?)
+        3. Technical accuracy (Are technical details correct and precisely described?)
+        4. Sophistication of analysis (Does it show deep understanding or merely superficial knowledge?)
+        5. Use of advanced concepts (Does it incorporate cutting-edge or complex ideas?)
         
         Text to evaluate:
         ```
         {text[:6000]}  # Limiting to first 6000 chars to keep within context window
         ```
         
-        Provide a score from 0.0-1.0 and a brief justification.
+        Scoring guidance:
+        - 0.9-1.0: ONLY for text with exceptional technical depth, equivalent to expert-level scientific publications
+        - 0.7-0.8: Strong technical depth with advanced concepts, but not at publishable research level
+        - 0.5-0.6: Moderate technical depth, appropriate for educated professionals but not specialists
+        - 0.3-0.4: Basic technical content with some field-specific terminology
+        - 0.0-0.2: Minimal technical content, mainly general knowledge
+        
+        BE VERY STRICT AND CRITICAL IN YOUR EVALUATION. Default to lower scores when in doubt. Only award high scores (>0.7) for truly exceptional technical depth.
+        
         Format your response as a JSON object with this structure:
         {{
             "score": <0.0-1.0>,
-            "justification": "brief explanation"
+            "justification": "brief explanation with specific examples of technical content quality"
         }}
         """
         
@@ -133,7 +145,7 @@ def calculate_technical_depth(text):
     """
     # Comprehensive dictionary of semiconductor and electronics terminology
     semiconductor_dictionary = {
-        # Materials
+        # Original Materials
         "silicon", "germanium", "gallium arsenide", "gaas", "gan", "sic", "silicon carbide",
         "semiconductor", "dielectric", "oxide", "nitride", "polysilicon", "silicon dioxide", "sio2",
         "silicon nitride", "si3n4", "high-k", "low-k", "copper", "aluminum", "tungsten", "titanium",
@@ -141,59 +153,75 @@ def calculate_technical_depth(text):
         "heterojunction", "quantum well", "quantum dot", "superlattice", "nanowire", "graphene", 
         "2d materials", "perovskite", "organic semiconductor",
         
-        # Devices
-        "transistor", "mosfet", "fet", "bjt", "igbt", "thyristor", "diode", "led", "photodiode",
-        "phototransistor", "cmos", "nmos", "pmos", "hemt", "mesfet", "jfet", "pin diode", "schottky",
-        "varactor", "solar cell", "pv cell", "memory cell", "capacitor", "resistor", "inductor",
-        "memristor", "sensor", "mems", "nems", "integrated circuit", "ic", "chip", "die",
-        "power device", "logic gate", "amplifier", "oscillator", "flip-flop", "latch", "register",
+        # Additional 2D Materials and Quantum Materials
+        "monolayer", "bilayer", "few-layer", "van der waals", "transition metal dichalcogenide", "tmd",
+        "molybdenum disulfide", "mos2", "tungsten diselenide", "wse2", "topological insulator",
+        "weyl semimetal", "dirac semimetal", "boron nitride", "hbn", "hexagonal boron nitride",
+        "phosphorene", "black phosphorus", "silicene", "germanene", "stanene", "mxene",
+        "metal organic framework", "mof", "covalent organic framework", "cof",
         
-        # Properties & Physics
-        "bandgap", "band gap", "energy band", "conduction band", "valence band", "fermi level",
-        "doping", "dopant", "n-type", "p-type", "carrier", "electron", "hole", "mobility",
-        "conductivity", "resistivity", "junction", "depletion region", "inversion layer",
-        "threshold voltage", "breakdown voltage", "leakage current", "saturation current",
-        "channel", "source", "drain", "gate", "substrate", "body effect", "pinch-off",
-        "avalanche breakdown", "tunneling", "quantum tunneling", "ballistic transport",
-        "scattering", "phonon", "recombination", "generation", "lifetime", "diffusion",
-        "drift", "carrier lifetime", "minority carrier", "majority carrier", "band bending",
-        "work function", "electron affinity", "interface state", "trap", "defect",
+        # Quantum Physics Terms
+        "quantum confinement", "exciton", "trion", "biexciton", "polaron", "polariton",
+        "quantum interference", "coherence", "decoherence", "wavefunction", "superposition",
+        "entanglement", "quantum state", "fermi level", "density of states", "band structure",
+        "brillouin zone", "spin-orbit coupling", "zeeman effect", "quantum hall effect",
+        "integer quantum hall", "fractional quantum hall", "valley polarization", "valley degeneracy",
+        "quantum phase transition", "coulomb blockade", "kondo effect", "casimir effect",
+        "quantum critical point", "quantum fluctuation", "quantum oscillation",
         
-        # Fabrication & Processing
-        "fabrication", "wafer", "epitaxy", "cvd", "pecvd", "mocvd", "mbe", "ald", "pvd",
-        "sputtering", "evaporation", "lithography", "photolithography", "euv", "e-beam",
-        "photoresist", "mask", "stepper", "scanner", "etch", "etching", "wet etch", "dry etch",
-        "rie", "plasma", "implantation", "ion implantation", "diffusion", "oxidation",
-        "annealing", "rta", "chemical mechanical polishing", "cmp", "metallization",
-        "interconnect", "backend", "frontend", "cleaning", "deposition", "thin film",
-        "photomask", "reticle", "alignment", "overlay", "damascene", "dual damascene",
-        "planarization", "sintering", "bonding", "packaging", "dicing", "wire bonding",
-        "flip chip", "passivation", "gettering", "thermal budget",
+        # Optoelectronics and Photonics
+        "photoluminescence", "electroluminescence", "photocurrent", "photoresponse", "photodetector",
+        "plasmon", "plasmonics", "surface plasmon", "localized surface plasmon", "waveguide",
+        "photonic crystal", "metamaterial", "metasurface", "photonic integrated circuit",
+        "optical cavity", "microcavity", "resonator", "quality factor", "finesse", "free spectral range",
+        "group velocity", "phase velocity", "dispersion", "nonlinear optics", "second harmonic generation",
+        "third harmonic generation", "optical parametric oscillation", "stimulated emission",
+        "absorption", "reflection", "transmission", "scattering", "raman scattering",
+        "brillouin scattering", "photonic bandgap", "optical gain", "laser", "maser",
         
-        # Characterization & Testing
-        "characterization", "metrology", "sem", "tem", "afm", "stm", "xrd", "sims", "xps",
-        "ellipsometry", "profilometer", "four-point probe", "hall measurement", "c-v",
-        "capacitance-voltage", "i-v", "current-voltage", "reliability", "lifetime",
-        "failure mechanism", "electromigration", "stress migration", "tddb", "hot carrier",
-        "nbti", "pbti", "testing", "probe", "probe card", "wafer testing", "parametric test",
-        "functional test", "iddq", "burn-in", "yield", "defect density", "statistical analysis",
+        # Energy-related Terms
+        "photovoltaic", "solar cell", "heterojunction solar cell", "bulk heterojunction",
+        "perovskite solar cell", "tandem solar cell", "quantum dot solar cell", "battery",
+        "lithium ion", "sodium ion", "fuel cell", "supercapacitor", "thermoelectric",
+        "seebeck effect", "peltier effect", "thomson effect", "energy harvesting",
+        "power conversion efficiency", "fill factor", "open-circuit voltage", "short-circuit current",
         
-        # Circuits & Design
-        "circuit", "analog", "digital", "mixed-signal", "rf", "microwave", "integrated circuit",
-        "vlsi", "uv", "euv", "layout", "schematic", "netlist", "spice", "simulation", "parasitic",
-        "eda", "cad", "verification", "timing", "power", "leakage", "dynamic power", "static power",
-        "signal integrity", "noise margin", "fan-out", "fan-in", "standard cell", "ip block",
-        "soc", "system-on-chip", "asic", "fpga", "pld", "memory", "ram", "dram", "sram",
-        "flash", "rom", "embedded", "peripherals", "processor", "cpu", "gpu", "dsp",
-        "adc", "dac", "pll", "dlx", "lna", "mixer", "filter",
+        # Characterization Methods
+        "photoemission spectroscopy", "angle-resolved photoemission", "arpes", 
+        "scanning tunneling microscopy", "stm", "atomic force microscopy", "afm",
+        "transmission electron microscopy", "tem", "scanning electron microscopy", "sem",
+        "electron energy loss spectroscopy", "eels", "x-ray diffraction", "xrd",
+        "x-ray photoelectron spectroscopy", "xps", "ultraviolet photoelectron spectroscopy", "ups",
+        "raman spectroscopy", "infrared spectroscopy", "ftir", "nuclear magnetic resonance", "nmr",
+        "hall measurement", "magnetotransport", "photoconductivity", "time-resolved spectroscopy",
+        "pump-probe", "transient absorption", "four-point probe", "kelvin probe",
         
-        # Advanced Topics
-        "quantum computing", "spintronics", "photonics", "silicon photonics", "neuromorphic",
-        "memristor", "reram", "mram", "pram", "feram", "emerging memory", "3d integration",
-        "heterogeneous integration", "chiplet", "tsv", "through-silicon via", "2.5d", "3d ic",
-        "packaging", "fan-out", "embedded die", "wafer-level", "rf-soi", "fd-soi", "finfet",
-        "gaafet", "nanosheet", "nanowire", "negative capacitance", "tunnel fet", "tfet",
-        "wide bandgap", "ultra-wide bandgap", "gan", "sic", "diamond", "uv led"
+        # Quantum Phenomena
+        "spin", "valley", "quantum spin hall", "quantum anomalous hall", "spin wave",
+        "magnon", "phonon", "phonon dispersion", "acoustic phonon", "optical phonon",
+        "magneto-optical", "electro-optical", "kerr effect", "faraday effect", "rashba effect",
+        "dresselhaus effect", "quantum size effect", "quantum capacitance", "quantum resistance",
+        "landau level", "shubnikov-de haas", "de haas-van alphen", "aharonov-bohm",
+        
+        # Transport and Dynamic Properties
+        "carrier lifetime", "recombination", "carrier mobility", "ballistic transport",
+        "diffusive transport", "scattering", "mean free path", "drift", "diffusion",
+        "auger recombination", "shockley-read-hall", "radiative recombination",
+        "nonradiative recombination", "carrier injection", "thermionic emission",
+        "tunneling", "fowler-nordheim tunneling", "direct tunneling", "trap-assisted tunneling",
+        "hopping transport", "percolation", "anderson localization", "quantum capacitance",
+        "interface state", "surface state", "trap state", "deep level", "donor level", "acceptor level",
+        "defect state", "grain boundary", "dislocation", "vacancy", "interstitial",
+        
+        # New Device Concepts
+        "neuromorphic", "memristor", "spintronic", "magnetic tunnel junction", "mtj",
+        "valleytronics", "twistronic", "moiré pattern", "magic angle", "flat band",
+        "correlated insulator", "unconventional superconductivity", "josephson junction",
+        "squid", "single electron transistor", "resonant tunneling diode", "quantum cascade laser",
+        "vertical cavity surface emitting laser", "vcsel", "distributed feedback laser", "dfb",
+        "high electron mobility transistor", "hemt", "light emitting diode", "organic light emitting diode",
+        "quantum light emitting diode", "field effect transistor", "thin film transistor",
+        "lateral heterostructure", "vertical heterostructure", "van der waals heterostructure"
     }
     
     # Create case-insensitive version (convert all to lowercase)
@@ -299,26 +327,32 @@ def calculate_technical_depth(text):
     cdi = total_technical_terms / (max(1, total_words) ** 0.5)  # Divide by square root of total words
     
     # Normalize CDI to 0-1 scale for weighted calculations
-    # Typical CDI ranges: <0.5 (very low), 0.5-1.0 (low), 1.0-2.0 (medium), 2.0-3.0 (high), >3.0 (very high)
-    if cdi >= 3.0:
-        normalized_cdi = 1.0
+    # Using less stringent thresholds to allow for higher scores
+    if cdi >= 5.0:
+        normalized_cdi = 1.0      # Extremely high technical density
+    elif cdi >= 4.0:
+        normalized_cdi = 0.95     # Very high technical density
+    elif cdi >= 3.0:
+        normalized_cdi = 0.9      # High technical density
+    elif cdi >= 2.5:
+        normalized_cdi = 0.85     # Medium-high technical density
     elif cdi >= 2.0:
-        normalized_cdi = 0.9
+        normalized_cdi = 0.8      # Medium technical density
     elif cdi >= 1.5:
-        normalized_cdi = 0.8
+        normalized_cdi = 0.7      # Medium-low technical density
     elif cdi >= 1.0:
-        normalized_cdi = 0.7
+        normalized_cdi = 0.6      # Low technical density
     elif cdi >= 0.5:
-        normalized_cdi = 0.5
+        normalized_cdi = 0.4      # Very low technical density
     else:
-        normalized_cdi = 0.3
+        normalized_cdi = 0.2      # Minimal technical density
     
-    # New component weights with CDI replacing dictionary and NER components
-    cdi_weight = 0.60  # Combined weight of previous dictionary (0.35) and NER (0.25)
-    syntax_weight = 0.15  # Keep the same
-    llm_weight = 0.25  # Keep the same
+    # Adjust weights to reduce CDI weight and increase syntax and LLM weights
+    cdi_weight = 1/3  # Equal weight (1/3)
+    syntax_weight = 1/3  # Equal weight (1/3)
+    llm_weight = 1/3  # Equal weight (1/3)
     
-    # Calculate weighted score with the new components
+    # Calculate weighted score with equal weights
     balanced_technical_score = (
         (cdi_weight * normalized_cdi) + 
         (syntax_weight * syntax_complexity_score) +
@@ -629,6 +663,143 @@ def calculate_clarity(text):
         }
     }
 
+def calculate_structure(text):
+    """
+    Calculate structure metrics for a given text, using topic hierarchy analysis
+    and LLM evaluation with equal weights.
+    
+    Returns:
+        dict: Dictionary containing structure metrics:
+            - coherence: Contains concept_flow with score derived from topic hierarchy analysis
+            - llm_evaluation: LLM-based structure evaluation
+            - combined_score: Equally weighted combination of topic hierarchy and LLM score
+            - component_weights: The weights used for each component
+    """
+    # Get topic hierarchy score (0-1)
+    topic_hierarchy_score = analyze_topic_hierarchy_normalized(text)
+    
+    # Ensure topic_hierarchy_score is a valid number
+    if np.isnan(topic_hierarchy_score):
+        topic_hierarchy_score = 0.5  # Default to neutral score if NaN
+    
+    # Get LLM evaluation for structure
+    llm_evaluation = evaluate_structure_with_llm(text)
+    
+    # Calculate combined score with equal weights (50% each)
+    combined_score = (topic_hierarchy_score + llm_evaluation['score']) / 2.0
+    
+    # Create a coherence object that mimics the format of the original ContextualCoherenceAnalyzer
+    # but uses the topic hierarchy score internally
+    coherence = {
+        'concept_flow': {
+            'flow_score': float(topic_hierarchy_score),  # Use topic hierarchy score as flow score
+            'quality': get_quality_label(topic_hierarchy_score),
+            'details': {
+                'local_coherence': {
+                    'score': float(topic_hierarchy_score),
+                    'assessment': get_quality_label(topic_hierarchy_score)
+                },
+                'progression': {
+                    'score': float(topic_hierarchy_score),
+                    'assessment': get_quality_label(topic_hierarchy_score)
+                }
+            }
+        }
+    }
+    
+    # Return comprehensive results with the original structure
+    return {
+        'coherence': coherence,  # Keep original 'coherence' key for backward compatibility
+        'llm_evaluation': llm_evaluation,
+        'combined_score': combined_score,
+        'component_weights': {
+            'coherence': 0.5,  # Keep original key name for backward compatibility
+            'llm_evaluation': 0.5
+        },
+        # Add new fields without breaking backward compatibility
+        'topic_hierarchy_score': topic_hierarchy_score,
+        'internal_implementation': 'topic_hierarchy'  # Document what's happening internally
+    }
+
+def analyze_topic_hierarchy_normalized(text, num_topics=5):
+    """Uses LDA to identify topic hierarchy levels, with scores normalized to 0-1"""
+    # Preprocess text
+    sentences = text.split('.')
+    
+    # Create document-term matrix
+    vectorizer = CountVectorizer(
+        max_df=0.95,
+        min_df=2,
+        stop_words='english'
+    )
+    
+    # Handle very short texts
+    if len(sentences) < 3:
+        return 0.2  # Very minimal topic structure
+    
+    try:
+        doc_term_matrix = vectorizer.fit_transform(sentences)
+        
+        # Apply LDA
+        lda = LatentDirichletAllocation(
+            n_components=num_topics,
+            random_state=42
+        )
+        lda.fit(doc_term_matrix)
+        
+        # Analyze topic distribution
+        topic_distributions = lda.transform(doc_term_matrix)
+        
+        # Calculate metrics
+        # 1. Topic diversity: measure how evenly topics are distributed across the entire document
+        # Aggregate topic distribution across all sentences
+        global_topic_dist = np.mean(topic_distributions, axis=0)
+        
+        # Calculate entropy (higher = more even distribution)
+        from scipy.stats import entropy
+        topic_evenness = entropy(global_topic_dist)
+        
+        # Normalize to 0-1 scale
+        max_entropy = np.log(num_topics)  # Theoretical maximum entropy
+        normalized_diversity = min(topic_evenness / max_entropy, 1.0)
+        
+        # 2. Topic coherence: measure how distinct the topics are
+        topic_words = []
+        feature_names = vectorizer.get_feature_names_out()
+        for topic_idx, topic in enumerate(lda.components_):
+            top_features_ind = topic.argsort()[:-10 - 1:-1]
+            topic_words.append([feature_names[i] for i in top_features_ind])
+        
+        # Calculate overlap between topics (less overlap = better hierarchy)
+        overlap_sum = 0
+        topic_pairs = 0
+        for i in range(len(topic_words)):
+            for j in range(i+1, len(topic_words)):
+                overlap = len(set(topic_words[i]) & set(topic_words[j]))
+                overlap_sum += overlap
+                topic_pairs += 1
+        
+        avg_overlap = overlap_sum / max(1, topic_pairs)
+        # Normalize: 0 overlap → 1.0 score, 5+ words overlap → 0.0 score
+        normalized_uniqueness = max(0, 1.0 - (avg_overlap / 5.0))
+        
+        # 3. Topic significance: measure how many significant topics there are
+        significant_topics_count = sum(np.max(topic_distributions, axis=1) > 0.5)
+        normalized_significance = min(significant_topics_count / 4.0, 1.0)  # Cap at 4 significant topics
+        
+        # Combined score with weights
+        combined_score = (
+            0.4 * normalized_diversity +
+            0.3 * normalized_uniqueness +
+            0.3 * normalized_significance
+        )
+        
+        return combined_score
+        
+    except Exception as e:
+        print(f"Error in topic analysis: {e}")
+        return 0.3  # Default fallback score
+
 def evaluate_structure_with_llm(text):
     """
     Use LLM to evaluate the structural organization of the text.
@@ -687,44 +858,6 @@ def evaluate_structure_with_llm(text):
             'justification': f"LLM evaluation failed: {str(e)}"
         }
 
-def calculate_structure(text):
-    """
-    Calculate structure metrics for a given text, combining coherence analysis
-    and LLM evaluation with equal weights.
-    
-    Returns:
-        dict: Dictionary containing structure metrics:
-            - coherence: Contextual coherence metrics from ContextualCoherenceAnalyzer
-            - llm_evaluation: LLM-based structure evaluation
-            - combined_score: Equally weighted combination of coherence and LLM score
-            - component_weights: The weights used for each component
-    """
-    # Get coherence metrics
-    coherence_analyzer = ContextualCoherenceAnalyzer()
-    coherence = coherence_analyzer.analyze_contextual_coherence(text)
-    flow_score = coherence.get('concept_flow', {}).get('flow_score', 0.5)
-    
-    # Ensure flow_score is a valid number
-    if np.isnan(flow_score):
-        flow_score = 0.5  # Default to neutral score if NaN
-    
-    # Get LLM evaluation for structure
-    llm_evaluation = evaluate_structure_with_llm(text)
-    
-    # Calculate combined score with equal weights (50% each)
-    combined_score = (flow_score + llm_evaluation['score']) / 2.0
-    
-    # Return comprehensive results
-    return {
-        'coherence': coherence,
-        'llm_evaluation': llm_evaluation,
-        'combined_score': combined_score,
-        'component_weights': {
-            'coherence': 0.5,
-            'llm_evaluation': 0.5
-        }
-    }
-
 def evaluate_citation_accuracy(text: str, referenced_papers: Dict) -> Dict:
     """
     Evaluate factual accuracy by comparing content against reference data.
@@ -764,10 +897,11 @@ REFERENCE DATA:
 {reference_content[:4000]}  # First 4000 chars of reference content
 ```
 
-Please analyze the text's factual accuracy based on the reference data. Consider:
-1. Whether claims in the text are supported by the reference data
-2. If there are any factual errors or misrepresentations
-3. How well the text reflects the information from the references
+Please analyze the text's factual accuracy by DIRECTLY MATCHING in-text citations with their corresponding reference data:
+1. For EACH in-text citation (e.g., [1], [2], etc.) in the text, find the matching reference with the same ID
+2. Compare the claim made when citing that reference against the actual content from that specific reference 
+3. Determine if the claim is supported by the corresponding reference data
+4. Check for any citations that don't have a corresponding reference or vice versa
 
 Format your response as a JSON object with this structure:
 {{
@@ -775,8 +909,9 @@ Format your response as a JSON object with this structure:
     "analysis": [
         {{
             "claim": "specific claim or statement from text",
+            "citation_id": "[X]",  # The exact citation ID used in the text
             "accuracy": <0.0-1.0>,  # Accuracy score for this claim
-            "reference_support": "relevant information from references or 'Not supported'",
+            "reference_support": "relevant information from reference [X] or 'Not supported'",
             "explanation": "brief explanation of accuracy rating"
         }},
         # Additional claims...
@@ -785,12 +920,15 @@ Format your response as a JSON object with this structure:
     "improvement_suggestions": "specific suggestions for improving factual accuracy"
 }}
 
-IMPORTANT: Keep all claims and explanations short and focused.
-Assign a SINGLE score that reflects the OVERALL factual accuracy.
-Analyze at most 3-4 key claims from the text.
+IMPORTANT: 
+- Focus ONLY on claims with explicit citations
+- Match each citation ID in the text to the same ID in the reference data
+- Keep all claims and explanations short and focused
+- Assign a SINGLE score that reflects the OVERALL factual accuracy
+- Analyze ALL claims with citations in the text
 
 Scoring criteria:
-- 1.0: All claims are fully supported by the references
+- 1.0: All claims are fully supported by their corresponding references
 - 0.7-0.9: Most claims are accurate with minor discrepancies
 - 0.4-0.6: Some claims are accurate but others lack support
 - 0.1-0.3: Many claims lack support or contradict references
@@ -871,4 +1009,18 @@ Scoring criteria:
                 "suggestion": "Manual review recommended due to evaluation error"
             }}
         }
+
+# Helper function to get quality labels for scores (mimics the original analyzer)
+def get_quality_label(score):
+    """Get qualitative label for a score"""
+    if score < 0.3:
+        return "poor"
+    elif score < 0.5:
+        return "needs improvement"
+    elif score < 0.7:
+        return "adequate"
+    elif score < 0.85:
+        return "good"
+    else:
+        return "excellent"
 
