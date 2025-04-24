@@ -8,9 +8,13 @@ from typing import Dict
 import os  # Add this for environment variable access
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+from dotenv import load_dotenv  # Add this import for reading .env files
 
-# Hardcoded API key
-api_key = "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"
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the API key from environment variable
+api_key = os.getenv("OPENAI_API_KEY", "")  # Get API key from environment or empty string as fallback
 if not api_key:
     print("Warning: OPENAI_API_KEY environment variable not set")
 openai_client = openai.OpenAI(api_key=api_key)
@@ -1023,4 +1027,6 @@ def get_quality_label(score):
         return "good"
     else:
         return "excellent"
+
+
 
