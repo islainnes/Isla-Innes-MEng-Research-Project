@@ -27,8 +27,8 @@ This step creates relevant markdown files for each chapter and saves them in cha
 
 The overall system can be seen below:
 
-[finalfinal (41).pdf](https://github.com/user-attachments/files/19932539/finalfinal.41.pdf)
 
+<img width="800" alt="finalstep1 (18)" src="https://github.com/user-attachments/assets/1d83b9ff-212a-4ad6-a713-537b292bf4c9" />
 
 
 
