@@ -4,7 +4,6 @@ import json
 import os
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from functools import lru_cache
 from huggingface_hub import login
 from pathlib import Path
 import time
@@ -12,7 +11,7 @@ from types import SimpleNamespace
 from dotenv import load_dotenv
 import re
 import logging
-from final_evaluation import calculate_technical_depth, calculate_clarity, calculate_structure, evaluate_citation_accuracy
+from evaluation_framework import calculate_technical_depth, calculate_clarity, calculate_structure, evaluate_citation_accuracy
 import gc
 import traceback
 from rewrite_function import rewrite_text, load_shared_model, CustomGemmaClient  # Import necessary functions from rewrite_function
@@ -460,7 +459,7 @@ def save_consolidated_output(data: Dict, section_name: str) -> str:
     """Save all output data to a single consolidated JSON file."""
     try:
         # Create output directory
-        output_dir = Path("outputs")
+        output_dir = Path("agent_outputs")
         output_dir.mkdir(exist_ok=True)
         
         # Ensure the data structure includes fact-checking results
@@ -518,8 +517,7 @@ def save_consolidated_output(data: Dict, section_name: str) -> str:
                     }
                 citation_accuracy["citation_summary"] = citation_summary
         
-        timestamp = time.strftime("%Y%m%d_%H%M%S")
-        output_path = output_dir / f"{section_name}_consolidated_{timestamp}.json"
+        output_path = output_dir / f"{section_name}_consolidated.json"
         
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
