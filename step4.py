@@ -176,7 +176,7 @@ def read_markdown_file(file_path):
         return None, None
 
 def generate_concept_diagram(model, tokenizer, title, content):
-    """Generate a Mermaid diagram for key concepts in the content"""
+    """Generate a Mermaid diagram for a key concept in the background knowledge section"""
     try:
         # Truncate content if too long
         max_content_length = 10000  # Increased limit for content length with 80GB GPU
@@ -188,20 +188,29 @@ def generate_concept_diagram(model, tokenizer, title, content):
         logger.info(f"Generating concept diagram for: {title}")
         logger.debug(f"Content length: {len(content)} characters")
         
+        # Extract background knowledge section if it exists
+        background_section = content
+        if "## BACKGROUND KNOWLEDGE" in content:
+            sections = content.split("##")
+            for section in sections:
+                if section.strip().startswith("BACKGROUND KNOWLEDGE"):
+                    background_section = section.strip()
+                    break
+        
         prompt = f"""
-You are an expert in creating visual diagrams. Create ONE concise Mermaid diagram that visualizes the key concepts from the document provided. Focus on creating a useful diagram that helps understand the main topics and their relationships.
+You are an expert in creating visual diagrams. Identify ONE key concept from the background knowledge that would benefit most from visual representation. Then create a focused Mermaid diagram that clearly explains this single concept.
 
 Document title: "{title}"
 
-Content to visualize:
-{content}
+Background knowledge content:
+{background_section}
 
 Guidelines:
-1. Use valid Mermaid syntax (flowchart, mindmap, etc.)
-2. Create a clear, meaningful diagram with real insights from the text
-3. Include 5-10 key concepts from the document with proper relationships
-4. Do NOT return the example diagram from these instructions
-5. Use an appropriate diagram type for this content
+1. First identify a single concept that is complex or central to understanding the material
+2. Use valid Mermaid syntax (flowchart, mindmap, etc.) appropriate for this specific concept
+3. Create a clear, focused diagram that helps explain this one concept thoroughly
+4. Include only elements directly related to this single concept
+5. Use an appropriate diagram type for this specific concept
 6. Exclude any text outside the mermaid code block
 
 Return ONLY the Mermaid code block, nothing else.
@@ -446,5 +455,7 @@ if __name__ == "__main__":
     except Exception as e:
         logger.critical("Fatal error in main program", exc_info=True)
         sys.exit(1)
+
+
 
 
