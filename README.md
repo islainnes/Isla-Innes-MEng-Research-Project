@@ -1,77 +1,35 @@
-# Whole-system-Masters-Project
+## Generation of Electronic Engineering Research Books Using LLMs and Multi Agent Refinement
 
-To run the script required to have hugging face token in env file HUGGINGFACE_TOKEN=TOKEN
+This repo is an application that generates research books with 20 chapters using a database of markdown papers.
 
-Step 1 creates faiss database
-Step 2 writes intial reports
-Step 3 writes and reviews with agent system
-Step 4 creates relevant images
+## Set Up
 
-# Steps
+A conda environment must be set up with the evironment.yml file.
 
-* step 1 = 20 research questions created, report written for each question using papers extracted from faiss database
-* step 2 = Agent systems created feedback for each section and saves to a json 
-* step 3 = Report is rewritten with the feedback
-* step 4 = Smaller model is fine tuned with the reports
-* Evaluation framework 
-  
+In an .env file a hugging face and API token must be set up as  HUGGINGFACE_TOKEN=INSERT_TOKEN and OPENAI_API_KEY=INSERT_TOKEN
 
-# Report Evaluation
+The code is set up to utilise GPUs as shown in the slurm job. This script shows the order to run the scripts in
 
-The metrics calculated are: 
-* Word Count     
-* Flesch Reading Ease Score  
-* Technical Term Count  
-* Defined Terms Count  
-* Example count  
-* Coherence Metrics:  
-* Contextual Coherence: Evaluates how well ideas flow and connect throughout the text using sentence embeddings to measure semantic relationships between paragraphs.  
-* Measures the smooth progression of ideas by analyzing local coherence between adjacent paragraphs and overall thematic consistency.  
-* LLM as a judge for technical depth and clarity
-* Measures how clearly topics are sepearted and how indepth sentences are 
-Weighted Composite Scores:  
+## Scripts
 
-The final evaluation combines these metrics into three main categories with specific weightings:
-Technical Depth (45%): Combines technical term count, concept hierarchy depth, and LLM technical depth assessment.  
-Clarity & Understandability (35%): Incorporates Flesch score, defined terms, examples, and LLM clarity assessment.  
-Structure (20%): Includes coherence flow score  
+# Step 1
+Creates a faiss database from the markdowns. It is stored under embeddings folder after creation.
 
-![image](https://github.com/user-attachments/assets/b1ad2aa7-c1cc-4a69-829b-4ccde9c74a92)
+# Step 2
+Generates chapters using RAG and the created the database and saves them under initial chapters. A repition check takes place and if created chapters are too similar to previous they are rewritten.
+
+# Step 3
+This process involves taking the initial chapters and putting them through the agent reviewing process. After the iterations the final chapters are saved in a markdown file called chapters_markdown
+
+# Step 4
+This step creates relevant markdown files for each chapter and saves them in chapter_diagrams to be rendered outside the system
 
 
-![image](https://github.com/user-attachments/assets/ff800367-c48c-41e6-9cbf-692e40ae1ecf)
+The overall system can be seen below:
+
+[finalfinal (41).pdf](https://github.com/user-attachments/files/19932539/finalfinal.41.pdf)
 
 
-# LLM evaluation
-
-* Golden standard answer from  
-* Cosine similarity and movers distance
-* LLM as a judge 
-
-![image](https://github.com/user-attachments/assets/b923b311-2f07-42c1-80f9-376ac4fcf216)
-
-```mermaid
-
-graph TD
-    A[EV Demand & WBG Adoption] --> B(SiC & GaN Materials);
-    B --> C{Material Science Challenges};
-    C --> D[Defect Engineering];
-    D --> E[Dislocation Formation (Deep Trenches)];
-    D --> F[Impurity Control & Carrier Lifetime];
-    C --> G[Dopant Control];
-    C --> H[Gate Driver Integration];
-    H --> I[High-Temp Stability & Low Inductance];
-    D --> J[Gate Oxide Reliability];
-    A --> K[Scalable Production & Cost Reduction];
-    K --> L{Research Focus};
-    L --> M[Novel Gettering & Annealing];
-    L --> N[Impurity Management];
-    L --> O[Advanced Gate Driver Tech (High-k Dielectrics)];
-    O --> P[Improved Device Performance];
-    P --> K;
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style K fill:#ccf,stroke:#333,stroke-width:2px
-```
 
 
 
